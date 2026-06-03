@@ -1,1 +1,269 @@
 
+<style>
+  .sc-wrap { max-width: 640px; margin: 0 auto; padding: 1rem 0; font-size: 15px; }
+  .sc-header { text-align: center; margin-bottom: 1.5rem; }
+  .sc-title { font-size: 22px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+  .sc-sub { color: var(--color-text-secondary); font-size: 13px; }
+  .sc-form { display: grid; gap: 12px; margin-bottom: 1.25rem; }
+  .sc-field { display: flex; flex-direction: column; gap: 6px; }
+  .sc-label { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); }
+  .sc-btn { margin-top: 4px; width: 100%; padding: 10px; font-size: 15px; font-weight: 500; background: var(--color-background-success); color: var(--color-text-success); border: 0.5px solid var(--color-border-success); border-radius: var(--border-radius-md); cursor: pointer; }
+  .sc-btn:hover { opacity: 0.85; }
+  .sc-result { margin-top: 1.5rem; border-top: 0.5px solid var(--color-border-tertiary); padding-top: 1.25rem; }
+  .sc-meta { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px 14px; font-size: 13px; color: var(--color-text-secondary); margin-bottom: 1rem; line-height: 1.7; }
+  .sc-warn { background: var(--color-background-warning); border: 0.5px solid var(--color-border-warning); color: var(--color-text-warning); border-radius: var(--border-radius-md); padding: 10px 14px; font-size: 13px; margin-bottom: 1rem; line-height: 1.6; }
+  .sc-day { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 16px; margin-bottom: 10px; }
+  .sc-day-title { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 10px; }
+  .sc-rest { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 10px 14px; margin-bottom: 10px; }
+  .sc-rest-title { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 4px; }
+  .sc-rest-text { font-size: 13px; color: var(--color-text-tertiary); }
+  .sc-ex { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13px; color: var(--color-text-primary); padding: 6px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .sc-ex:last-child { border-bottom: none; padding-bottom: 0; }
+  .sc-ex-name { flex: 1; line-height: 1.5; }
+  .sc-vbtn { font-size: 11px; white-space: nowrap; padding: 4px 9px; border-radius: var(--border-radius-md); background: var(--color-background-danger); color: var(--color-text-danger); border: 0.5px solid var(--color-border-danger); text-decoration: none; }
+  .sc-dot { color: var(--color-text-success); margin-right: 6px; }
+  .sc-badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: var(--border-radius-md); background: var(--color-background-info); color: var(--color-text-info); margin-left: 6px; }
+</style>
+
+<div class="sc-wrap">
+  <h2 class="sr-only">SoccerCoach AI – Personalisierter Fußball-Trainingsplaner</h2>
+  <div class="sc-header">
+    <div class="sc-title">SoccerCoach AI</div>
+    <div class="sc-sub">Personalisierter Fußball-Trainingsplan</div>
+  </div>
+
+  <div class="sc-form">
+    <div class="sc-field">
+      <label class="sc-label" for="focus">Trainingsfokus</label>
+      <select id="focus">
+        <option value="ausdauer">Ausdauer & Grundkondition</option>
+        <option value="speed">Antritt & Spritzigkeit</option>
+        <option value="technik">Technik & Ballkontrolle</option>
+        <option value="schiessen">Torschuss & Schusstechnik</option>
+        <option value="kraft">Fußballspezifische Kraft</option>
+      </select>
+    </div>
+    <div class="sc-field">
+      <label class="sc-label" for="status">Fitness-Status</label>
+      <select id="status">
+        <option value="fit">Voll einsatzbereit</option>
+        <option value="injury">Aufbautraining nach Verletzung</option>
+      </select>
+    </div>
+    <div class="sc-field">
+      <label class="sc-label" for="level">Leistungsniveau</label>
+      <select id="level">
+        <option value="kreis">Kreisklasse / Hobby</option>
+        <option value="bezirk">Bezirks- bis Landesliga</option>
+        <option value="pro">Leistungsbereich / Pro</option>
+      </select>
+    </div>
+    <div class="sc-field">
+      <label class="sc-label" for="days">Trainingstage pro Woche</label>
+      <select id="days">
+        <option value="2">2 Tage</option>
+        <option value="3" selected>3 Tage</option>
+        <option value="4">4 Tage</option>
+        <option value="5">5 Tage</option>
+        <option value="6">6 Tage</option>
+      </select>
+    </div>
+    <button class="sc-btn" onclick="generatePlan()">Plan generieren</button>
+  </div>
+
+  <div id="result"></div>
+</div>
+
+<script>
+const db = {
+  ausdauer: {
+    title: "Ausdauer & High-Intensity Cardio",
+    exercises: {
+      kreis: [
+        [{ name:"30 Min. moderater Dauerlauf", v:"grundlagenausdauer+laufen+fussball" }, { name:"Intervalllauf: 5x 1 Min. schnell / 1 Min. gehen", v:"intervalllauf+fussball+anfaenger" }, { name:"Plank-Core-Runde: 3x 45 Sek.", v:"unterarmstuetz+plank+ausfuehrung" }],
+        [{ name:"20 Min. Dauerlauf + 3x Steigerungen (60m)", v:"steigerungslauf+fussball" }, { name:"Seilspringen: 4x 2 Min. (30 Sek. Pause)", v:"seilspringen+kondition+fussball" }, { name:"Dead Bug: 3x 10 Wdh. pro Seite", v:"dead+bug+uebung+core" }],
+        [{ name:"Hügelläufe: 6x 80m Berg rauf, locker runtergehen", v:"bergauflauf+training+fussball" }, { name:"Burpees: 3x 10 Wdh. (60 Sek. Pause)", v:"burpees+richtig+ausfuehren" }, { name:"Seitstütz (Side Plank): 3x 30 Sek. pro Seite", v:"seitstütz+ausfuehrung" }]
+      ],
+      bezirk: [
+        [{ name:"40 Min. Fahrtspiel (Tempowechsel)", v:"fahrtspiel+lauftraining" }, { name:"HIIT-Sprints: 8x 100m (80%), zurückgehen", v:"hiit+sprints+fussball" }, { name:"Tabata (Burpees + Mountain Climber) – 2 Runden", v:"tabata+workout+fussball" }],
+        [{ name:"5x 5 Min. Tempo-Dauerläufe (2 Min. Trabpause)", v:"tempodauerlauf+training" }, { name:"Jumping Jacks + High Knees: 4x 40 Sek. / 20 Sek. Pause", v:"jumping+jacks+high+knees+fussball" }, { name:"L-Sit Hold: 3x 20 Sek.", v:"l+sit+training+core" }],
+        [{ name:"Yoyo-Ausdauertest-Intervalle: 10 Runden", v:"yoyo+ausdauertest+fussball" }, { name:"Shuttle Run: 5x (4x 10m hin-zurück)", v:"shuttle+run+training" }, { name:"Copenhagen Plank: 3x 25 Sek. pro Seite", v:"copenhagen+plank" }]
+      ],
+      pro: [
+        [{ name:"15 Min. Einlaufen + 6x 400m (90% HFmax, 2 Min. Pause)", v:"400m+intervalle+trainieren" }, { name:"Shuttlerun: 10x 20m hin-zurück auf Zeit", v:"shuttle+run+test+fussball" }, { name:"Core-Beinkraft-Zirkel (45s / 15s)", v:"core+beinkraft+zirkeltraining" }],
+        [{ name:"Progressiver Tempodauerlauf: 3x 8 Min. (steigerndes Tempo)", v:"progressiver+tempodauerlauf" }, { name:"Explosive Burpee-Sprints: 6x (3 Burpees + 15m Sprint)", v:"burpee+sprints+explosiv" }, { name:"Dragon Flag: 3x 6 Wdh. kontrolliert", v:"dragon+flag+uebung" }],
+        [{ name:"Intensive Hügelläufe: 8x 100m Berg rauf (Walkpause)", v:"bergauflauf+intensiv+pro" }, { name:"Yo-Yo Level 2 Intervalle: 12+ Stufen", v:"yoyo+level+2+fussball" }, { name:"Hollow Body Hold: 3x 40 Sek.", v:"hollow+body+hold+training" }]
+      ]
+    }
+  },
+  speed: {
+    title: "Schnelligkeit, Antritt & Agilität",
+    exercises: {
+      kreis: [
+        [{ name:"Lauf-ABC: Kniehebelauf + Anfersen (je 2x 20m)", v:"lauf+abc+uebungen" }, { name:"Steigerungsläufe: 5x 50m (Trab bis Maximalsprint)", v:"steigerungslauf+fussball" }, { name:"Zick-Zack-Lauf um Hütchen: 4x 10m", v:"richtungswechsel+huetchen+fussball" }],
+        [{ name:"Seitwärts-Shuffle: 4x 15m hin und zurück", v:"seitwärts+shuffle+fussball" }, { name:"Klatsch-Reaktionssprints: 6x 20m (Start auf Signal)", v:"reaktionssprint+fussball" }, { name:"Einbeinige Hüpfer: 3x 8 pro Bein", v:"einbeinige+spruenge+training" }],
+        [{ name:"Rückwärtslauf: 4x 20m kontrolliert", v:"rückwärtslauf+fussball+training" }, { name:"T-Drill (Hütchen-Formation): 5 Durchläufe", v:"t+drill+fussball+agility" }, { name:"Skipping (hohes Knie, schnell): 4x 20m", v:"skipping+lauf+abc" }]
+      ],
+      bezirk: [
+        [{ name:"Lauf-ABC intensiv + 4x 30m Maximalsprints", v:"sprinttraining+fussball+antritt" }, { name:"Koordinationsleiter: 6 verschiedene Muster", v:"koordinationsleiter+fussball+uebungen" }, { name:"Reaktionssprints aus Bauch-/Rückenlage: 6 Wdh.", v:"reaktionssprint+fussball" }],
+        [{ name:"5-10-5 Yard Shuttle: 6 Durchgänge", v:"5+10+5+agility+drill" }, { name:"Elastizitätssprünge: 4x 8 schnelle Bodenkontakte", v:"elastizitaetsspruenge+sprint+training" }, { name:"Lateral Bounds (Weitsprünge zur Seite): 3x 8 pro Seite", v:"lateral+bounds+training" }],
+        [{ name:"Partner-Reaktionssprints (Schatten-Drill): 8 Runden", v:"schatten+drill+fussball" }, { name:"Medizinball-Sprints: Ball vorwerfen und nachjagen (6x)", v:"medizinball+sprint+drill" }, { name:"Agility-Hürden: Schnelle Übertritte (2x 10 Hürden)", v:"agilityhuerdenlauf+training" }]
+      ],
+      pro: [
+        [{ name:"Aktivierung + 6x 20m Maximalsprints (90 Sek. Pause)", v:"maximalsprint+fussball+pro" }, { name:"Widerstandssprints (Partnerhalten/Fallschirm): 5x 15m", v:"widerstandssprint+fussball" }, { name:"Pro-Agility-Drill 5-10-5: 6 Durchgänge auf Zeit", v:"5+10+5+agility+drill" }],
+        [{ name:"Fliegend-Sprints: 10m Anlauf + 20m Maximalsprint (5x)", v:"fliegend+sprint+training" }, { name:"Reaktions-Agility mit Lichtsignalen/Ballrollen: 8 Serien", v:"reaktions+agility+training+pro" }, { name:"Einbeinige Seitwärts-Bounds: 4x 6 pro Seite", v:"einbeinige+bounds+sprungkraft" }],
+        [{ name:"Resisted Lateral Shuffle (Widerstandsband): 5x 15m", v:"widerstandsband+shuffle+fussball" }, { name:"Beschleunigungs-Drill: 0–10m–0 (Bremsen + Beschleunigen): 8x", v:"beschleunigungs+bremsdrill+fussball" }, { name:"Flying 30: 5x 30m aus max. Tempo Anlauf", v:"flying+30+sprint+training" }]
+      ]
+    }
+  },
+  technik: {
+    title: "Technik, Ballgefühl & First Touch",
+    exercises: {
+      kreis: [
+        [{ name:"Wall-Passing: 50 Pässe re/li (direkt & Mitnahme)", v:"wall+passing+drills+soccer" }, { name:"Dribbling: Achterlauf um 2 Hütchen (Innen-/Außenseite)", v:"achterlauf+dribbling+fussball" }, { name:"Jonglieren: 5 Min. Ball in der Luft halten", v:"jonglieren+lernen+fussball" }],
+        [{ name:"Toe Taps: 3x 45 Sek. auf dem Ball", v:"toe+taps+fussball+ballgefühl" }, { name:"Inside-Outside-Dribbling: 4x 20m hin-zurück", v:"inside+outside+dribbling+fussball" }, { name:"Ball hochwerfen + Brust/Spann-Annahme: 20 Wdh.", v:"ball+annehmen+luft+fussball" }],
+        [{ name:"Cruyff Turn: 10 Wdh. mit je beiden Füßen", v:"cruyff+turn+fussball+technik" }, { name:"Rollenstopp: Ball hinter sich rollen + Richtungswechsel (10x)", v:"rollenstopp+dribbling+fussball" }, { name:"Zielpass gegen Wand: Auf Hütchen aus 6m zielen (40 Pässe)", v:"zielpass+wandpassen+fussball" }]
+      ],
+      bezirk: [
+        [{ name:"Wandarbeit: 40 Direktpässe + 40 offene Mitnahme", v:"first+touch+wall+drill+soccer" }, { name:"Enger Hütchen-Slalom (Richtungswechsel auf kleinstem Raum)", v:"huetchen+slalom+dribbling" }, { name:"Ball hochwerfen + Spann/Brust direkt totlegen", v:"ball+annehmen+luft+fussball" }],
+        [{ name:"L-Shape-Passdrill: Pass + Mitnahme + Rückpass (mit Partner/Wand)", v:"l+shape+passing+drill+soccer" }, { name:"Ronaldo Chop: 10 Wdh. je Fuß aus dem Dribbling", v:"ronaldo+chop+fussball+technik" }, { name:"2-Touch-Kontrolle: Ball hochwerfen – mitnehmen – passen (3 Min.)", v:"two+touch+control+drill+soccer" }],
+        [{ name:"Passdrill mit 3 Hütchen: Dreieck (direkt + offener Kontakt)", v:"dreieck+passdrill+fussball" }, { name:"Roulette/Marseille Turn: 10 Wdh. je Seite", v:"marseille+turn+fussball+technik" }, { name:"Blinder Kontakt: Ball gegen Wand – wegdrehen – annehmen", v:"blind+touch+control+fussball" }]
+      ],
+      pro: [
+        [{ name:"High-Speed Wall Passing: 3 Min. Non-Stop One-Touch", v:"one+touch+wall+passing+pro" }, { name:"Freestyle-Dribbling in 3x3m Box: max. Tempo + Finten", v:"dribbling+box+drill+soccer" }, { name:"Flugball-Annahme: Bälle direkt vom Partner mitnehmen", v:"flugball+annahme+fussball" }],
+        [{ name:"Hochintensives Wall-Passing: 60 Direktkontakte in 90 Sek.", v:"intensive+wall+passing+pro+soccer" }, { name:"Elastico + Doppelpassdrill: 8 Kombinationen", v:"elastico+fussball+technik+trick" }, { name:"First-Touch-Runde: 20 Pässe – jeder Ball mit versch. Körperteil", v:"first+touch+übung+fussball+pro" }],
+        [{ name:"5-Kegel-Dribbling auf Zeit: je Durchgang schneller werden", v:"kegelslalom+auf+zeit+fussball" }, { name:"Rabona-Technikübung: Übersteiger-Kombis (kontrolliert)", v:"rabona+fussball+technik" }, { name:"Wandrondo: 30 Sek. Non-Stop One-Touch (beide Füße)", v:"rondo+wandball+fussball+pro" }]
+      ]
+    }
+  },
+  schiessen: {
+    title: "Torschuss & Schusstechnik",
+    exercises: {
+      kreis: [
+        [{ name:"Innenseite-Präzision: Flachschüsse aus 11m auf Hütchen", v:"schusstechnik+innenseite+fussball" }, { name:"Vollspann-Grundlage: Dropkick aus der Hand aufs Tor", v:"vollspannschuss+lernen+fussball" }, { name:"Slalom + Abschluss: 3 Hütchen, dann gezielter Schuss", v:"dribbling+torschuss+fussball" }],
+        [{ name:"Schwacher Fuß-Pässe: 30 Pässe aus 10m mit dem Schussbein trainieren", v:"schwacher+fuß+training+fussball" }, { name:"Penalty-Training: 10 Schüsse ruhend aus 11m (Ecken anvisieren)", v:"elfmeter+technik+fussball" }, { name:"Mitnahme + Schuss: Ball rollen lassen, mitnehmen, abziehen", v:"ballmitnahme+torschuss" }],
+        [{ name:"Laufender Ball von der Seite: Flankenball direkt verwerten", v:"flankenball+abschluss+fussball" }, { name:"Aufsetzer-Schuss: Ball aufspringen lassen und verwerten", v:"aufsetzer+schuss+fussball" }, { name:"2-Touch-Finish: Ball annehmen, einmal setzen, schießen", v:"two+touch+finish+fussball" }]
+      ],
+      bezirk: [
+        [{ name:"Vollspann aus Bewegung: aus 16m flach/hoch abziehen", v:"vollspann+schuss+aus+bewegung" }, { name:"Schnittschüsse (Curls): Innenseite ins lange Eck (10x pro Fuß)", v:"schuss+mit+effet+kurve+fussball" }, { name:"First-Touch + sofortiger Abschluss", v:"ballmitnahme+torschuss" }],
+        [{ name:"Volley aus der Hüfte: Ball selbst werfen + Direktabnahme", v:"volley+schusstechnik+fussball" }, { name:"Chip-Shot: Untergeschnittener Heber übers Hütchen-Tor (10x)", v:"chip+shot+fussball+technik" }, { name:"Doppelpass + Abschluss: Wand anpassen, Ball zurück, sofort schießen", v:"doppelpass+torschuss+fussball" }],
+        [{ name:"Seitliches Zuspiel + Direktabnahme (Innenseite/Vollspann)", v:"seitliches+zuspiel+abnahme+fussball" }, { name:"Freistoß-Serie: 10 Versuche mit und ohne Mauer (Hütchen)", v:"freistoss+technik+training+fussball" }, { name:"Halbvolley: Ball aufspringen lassen + halbhoch abziehen", v:"halbvolley+schusstechnik+fussball" }]
+      ],
+      pro: [
+        [{ name:"Strafraum-Abschluss unter Druck: Haken + Schuss schwacher Fuß", v:"strafraum+torschuss+schneller+abschluss" }, { name:"Direktabnahme (Volley): zufliegende Bälle verwerten", v:"direktabnahme+volley+fussball" }, { name:"Hochtempostarten + Abschluss ins lange Eck unter Ermüdung", v:"high+speed+shooting+drills+soccer" }],
+        [{ name:"Blind-Schuss: Rückpass aus Rücken-zur-Tor-Position + Drehschuss", v:"drehschuss+fussball+technik+pro" }, { name:"Kombinationsschuss: Doppelpass + Direktabnahme aus 18m", v:"kombinations+torschuss+fussball+pro" }, { name:"Fakeschuss + echte Schusspositionen (Verteidiger irritieren): 10x", v:"fake+shot+fussball+technik" }],
+        [{ name:"Rückwärts-Control + Sofortschuss (Rücken zum Tor): 8 Wdh.", v:"ruecken+tor+control+schuss+fussball" }, { name:"Overhead-Kick-Technik (kontrolliert, auf weiche Matte)", v:"fallrückzieher+technik+fussball" }, { name:"One-Touch-Finish nach Querpass aus dem Dribbling: 12 Serien", v:"one+touch+finish+pro+fussball" }]
+      ]
+    }
+  },
+  kraft: {
+    title: "Fußballspezifische Kraft & Verletzungsprophylaxe",
+    exercises: {
+      kreis: [
+        [{ name:"Kniebeugen (Squats): 3 Sätze à 15 Wdh.", v:"kniebeugen+richtige+ausfuehrung" }, { name:"Ausfallschritte (Lunges): 3 Sätze à 10 Wdh. pro Bein", v:"ausfallschritte+uebung" }, { name:"Liegestütze + Plank: 3 Durchgänge", v:"liegestuetze+lernen" }],
+        [{ name:"Glute Bridge: 3x 15 Wdh. (langsam, kontrolliert)", v:"glute+bridge+uebung" }, { name:"Step-Ups auf Stuhl/Kasten: 3x 12 pro Bein", v:"step+ups+training+fussball" }, { name:"Superman-Übung (Rückenstrecker): 3x 12 Wdh.", v:"superman+uebung+ruecken" }],
+        [{ name:"Wandsitz (Wall Sit): 3x 45 Sek.", v:"wandsitz+uebung+beine" }, { name:"Wadenheben: 3x 20 Wdh. kontrolliert", v:"wadenheben+uebung+stehend" }, { name:"Bird Dog: 3x 10 pro Seite", v:"bird+dog+uebung+core" }]
+      ],
+      bezirk: [
+        [{ name:"Bulgarian Split Squats (erhöhtes Hinterbein): 3x 12 Wdh.", v:"bulgarian+split+squats+deutsch" }, { name:"Nordic Hamstring Curls: 3x 6 Wdh.", v:"nordic+hamstring+curls" }, { name:"Plyometrische Sprünge: 3x 8 Box-Jumps", v:"plyometrisches+training+fussball" }],
+        [{ name:"Romanian Deadlift (einbeinig): 3x 10 pro Bein", v:"romanian+deadlift+einbeinig" }, { name:"Seitstütz mit Beinheben: 3x 10 pro Seite", v:"side+plank+beinheben+uebung" }, { name:"Squat Jump: 3x 8 (maximale Sprunghöhe)", v:"squat+jump+training" }],
+        [{ name:"Schrittfolgen auf Weich-Matte (propriozeptiv): 3x 1 Min.", v:"propriozeptives+training+fussball" }, { name:"Adduktoren-Squeeze (Ball zwischen Knien pressen): 3x 20 Sek.", v:"adduktoren+training+fussball" }, { name:"Einbeinige Hip Bridge: 3x 12 pro Seite", v:"einbeinige+hip+bridge+uebung" }]
+      ],
+      pro: [
+        [{ name:"Einbeinige Kniebeugen (Pistol Squats): 4x 8 Wdh.", v:"pistol+squat+lernen" }, { name:"Jump Lunges (explosiv): 3x 30 Sek.", v:"jump+lunges+ausfuehrung" }, { name:"Copenhagen Plank: 3x 30–45 Sek. pro Seite", v:"copenhagen+plank" }],
+        [{ name:"Single-Leg Romanian Deadlift mit Langhantel: 4x 8 pro Bein", v:"single+leg+rdl+langhantel" }, { name:"Depth Drop + sofortiger Squat Jump: 4x 5 Wdh.", v:"depth+drop+squat+jump" }, { name:"Pallof Press (Widerstandsband): 3x 12 pro Seite", v:"pallof+press+core+training" }],
+        [{ name:"Weighted Nordic Curl (mit Gewicht): 4x 5 Wdh.", v:"weighted+nordic+curl" }, { name:"Skater Squat: 4x 8 pro Bein (sehr langsam)", v:"skater+squat+uebung" }, { name:"Explosive Hip Thrust mit Widerstand: 4x 8 Wdh.", v:"hip+thrust+explosiv+gewicht" }]
+      ]
+    }
+  }
+};
+
+const injuryMods = {
+  ausdauer: [
+    "45 Min. Radfahren (Ergometer) oder Aqua-Jogging",
+    "Leichtes Traben auf weichem Untergrund (nur schmerzfrei)",
+    "Dead Bug Core-Übung: 3x 10 pro Seite"
+  ],
+  speed: [
+    "Lauf-ABC im Gehen / Fußgelenk-Mobilisation",
+    "Koordinationsleiter in langsamem, kontrolliertem Tempo",
+    "Einbeinstand auf Weichboden (Kniestabilität): 3x 40 Sek."
+  ],
+  technik: [
+    "Lockeres Stand-Passen gegen Wand (Kurzdistanz)",
+    "Toe Taps im Stand: 3x 45 Sek.",
+    "Sitzendes Jonglieren (kein Aufstehen nötig)"
+  ],
+  schiessen: [
+    "Sachte Innenseitpässe ins Mini-Tor (kein Vollspann!)",
+    "Ballrollen + Koordinationsübung ohne Belastung",
+    "Trockenübung: Bewegungsablauf Schuss in Zeitlupe (ohne Ball)"
+  ],
+  kraft: [
+    "Isometrische Kniebeugen (Wandsitz): 3x 45 Sek.",
+    "Glute Bridge: 3x 15 Wdh. (Rückseite aktivieren)",
+    "Wadenheben stehend (kontrolliert): 3x 20 Wdh."
+  ]
+};
+
+function ytLink(q) { return "https://www.youtube.com/results?search_query=" + q; }
+
+function generatePlan() {
+  const focus = document.getElementById('focus').value;
+  const status = document.getElementById('status').value;
+  const level = document.getElementById('level').value;
+  const days = parseInt(document.getElementById('days').value);
+  const isInjured = status === 'injury';
+  const data = db[focus];
+  const levelText = { kreis:"Kreisklasse / Hobby", bezirk:"Bezirks- bis Landesliga", pro:"Leistungsbereich / Pro" }[level];
+  const variantSets = isInjured ? null : data.exercises[level];
+
+  let html = '';
+
+  if (isInjured) {
+    html += `<div class="sc-warn"><strong>Aufbautraining-Modus aktiv:</strong> Dieser Plan wurde gelenkschonend angepasst. Stoppe sofort bei Schmerzen und besprich das Training mit deinem Arzt oder Physiotherapeuten.</div>`;
+  }
+
+  html += `<div class="sc-meta">
+    <strong>Fokus:</strong> ${data.title}<br>
+    <strong>Status:</strong> ${isInjured ? "Rehabilitation / Aufbau" : "Voll einsatzbereit"}<br>
+    <strong>Niveau:</strong> ${levelText}
+  </div>`;
+
+  for (let i = 0; i < days; i++) {
+    const variantIdx = i % 3;
+    const exList = isInjured ? injuryMods[focus] : variantSets[variantIdx];
+    const dayLabel = isInjured ? "Schonende Aufbau-Einheit" : "Fokus-Einheit";
+
+    html += `<div class="sc-day">
+      <div class="sc-day-title">Tag ${i + 1}: ${dayLabel}</div>`;
+
+    exList.forEach(ex => {
+      const name = isInjured ? ex : ex.name;
+      const link = isInjured
+        ? ytLink(encodeURIComponent(name.substring(0, 40)))
+        : ytLink(ex.v);
+      html += `<div class="sc-ex">
+        <span class="sc-dot">●</span>
+        <span class="sc-ex-name">${name}</span>
+        <a href="${link}" target="_blank" class="sc-vbtn">▶ Video</a>
+      </div>`;
+    });
+
+    html += `</div>`;
+
+    if (i < days - 1) {
+      html += `<div class="sc-rest">
+        <div class="sc-rest-title">Zwischentag: Regeneration</div>
+        <div class="sc-rest-text">${isInjured
+          ? "Fokus auf Blackroll, leichtes Dehnen und physikalische Therapie. Keine Belastung."
+          : "Faszienrolle, leichtes Dehnen oder kompletter Ruhetag — Muskelkater vorbeugen."
+        }</div>
+      </div>`;
+    }
+  }
+
+  document.getElementById('result').innerHTML = html;
+  document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
