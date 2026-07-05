@@ -439,10 +439,12 @@
   .lp-soon {
     font-family: 'JetBrains Mono', monospace; font-weight: 700;
     font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--edge); background: var(--tint);
-    border: 1px solid var(--key); border-radius: 999px;
-    padding: 0.12rem 0.5rem;
+    color: var(--ktext); background: var(--key);
+    border: none; border-radius: 999px;
+    padding: 0.18rem 0.6rem;
+    box-shadow: 0 2px 0 var(--edge);
   }
+  .lp-name:hover .lp-soon { transform: translateY(1px); box-shadow: 0 1px 0 var(--edge); }
   .lp-goal { font-size: 0.95rem; margin: 0.45rem 0 0.6rem; color: var(--ink); }
   .lp-goal b { color: var(--key); }
 
@@ -608,7 +610,7 @@
       <div class="guide-item">
         <div class="num">2</div>
         <h4>Antippen öffnet die Übung</h4>
-        <p>Ein Klick auf einen Lernpfad führt später zur passenden Übungsseite. Steht noch „folgt", ist sie in Vorbereitung.</p>
+        <p>Ein Klick auf „Lernpfad →" öffnet die passende Übungsseite dieser Woche.</p>
       </div>
       <div class="guide-item">
         <div class="num">3</div>
@@ -674,7 +676,7 @@
       <article class="lp" data-lp="01">
         <div class="lp-key"><div class="lp-week">SJW 1</div><div class="lp-no">01</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="1-halbjahr/lp-01-anmelden-umschauen.html">Anmelden, umschauen, loslegen <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="hallo-computer/01anmelden-umschauen-loslegen.html">Anmelden, umschauen, loslegen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Du meldest dich am Schulrechner an, findest dich auf dem Bildschirm (dem „Schreibtisch"/Desktop) zurecht und bewegst Maus und Zeiger sicher.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -687,7 +689,7 @@
       <article class="lp" data-lp="02">
         <div class="lp-key"><div class="lp-week">SJW 2</div><div class="lp-no">02</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="1-halbjahr/lp-02-eva-prinzip.html">Was steckt drin? Das EVA-Prinzip <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="hallo-computer/02was-steckt-drin-das-eva-prinzip.html">Was steckt drin? Das EVA-Prinzip <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Wie ein Computer arbeitet — Eingabe → Verarbeitung → Ausgabe (EVA). Du benennst die wichtigsten Teile (Bildschirm, Tastatur, „Denk-Chip", Speicher).</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -700,7 +702,7 @@
       <article class="lp" data-lp="03">
         <div class="lp-key"><div class="lp-week">SJW 3</div><div class="lp-no">03</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="1-halbjahr/lp-03-programme-fenster.html">Programme starten &amp; Fenster jonglieren <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="hallo-computer/03programme-starten-und-fenster-jonglieren.html">Programme starten &amp; Fenster jonglieren <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Programme (= Software) öffnen und schließen, mit mehreren Fenstern arbeiten — und: Microsoft Office am PC und Google im Browser sind „Geschwister".</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -725,7 +727,7 @@
       <article class="lp" data-lp="04">
         <div class="lp-key"><div class="lp-week">SJW 4</div><div class="lp-no">04</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="1-halbjahr/lp-04-tastatur-landkarte.html">Die Tastatur-Landkarte <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="tastatur/04die-tastatur-landkarte.html">Die Tastatur-Landkarte <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Alle wichtigen Tasten finden — Buchstaben, Zahlen, Umschalt (Shift), Enter, Rück- und Entf-Taste, Leertaste — und Umlaute, @ und € zaubern.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -738,7 +740,7 @@
       <article class="lp" data-lp="05">
         <div class="lp-key"><div class="lp-week">SJW 5</div><div class="lp-no">05</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="1-halbjahr/lp-05-tastenkombinationen.html">Zaubertasten: Tastenkombinationen <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="tastatur/05zaubertasten-tastenkombinationen.html">Zaubertasten: Tastenkombinationen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Die wichtigsten Tastentricks — Kopieren (Strg+C), Einfügen (Strg+V), Rückgängig (Strg+Z) und Speichern (Strg+S) — und wirst dadurch viel schneller.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -751,7 +753,7 @@
       <article class="lp" data-lp="06">
         <div class="lp-key"><div class="lp-week">SJW 6</div><div class="lp-no">06</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="1-halbjahr/lp-06-schreibtraining.html">Schreiben wie ein Profi <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="tastatur/06schreiben-wie-ein-profi.html">Schreiben wie ein Profi <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Die Grundstellung der Finger (asdf jklö) und dein erstes Schreibtraining — Schritt für Schritt, ohne auf die Tasten zu schauen.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -776,7 +778,7 @@
       <article class="lp" data-lp="07">
         <div class="lp-key"><div class="lp-week">SJW 7</div><div class="lp-no">07</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="1-halbjahr/lp-07-speichern-benennen.html">Speichern, wiederfinden, benennen <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="dateien-sicherheit/07speichern-wiederfinden-benennen.html">Speichern, wiederfinden, benennen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Dateien mit sinnvollen Namen speichern und sicher wiederfinden — „Speichern unter" statt Datei-Chaos.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -789,7 +791,7 @@
       <article class="lp" data-lp="08">
         <div class="lp-key"><div class="lp-week">SJW 8</div><div class="lp-no">08</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="1-halbjahr/lp-08-ordner-struktur.html">Ordner bauen — Struktur schaffen <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="dateien-sicherheit/08ordner-bauen-struktur-schaffen.html">Ordner bauen — Struktur schaffen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Ordner und Unterordner anlegen, Dateien verschieben und kopieren und Dateitypen erkennen (.docx, .pdf, .jpg …).</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -802,7 +804,7 @@
       <article class="lp" data-lp="09">
         <div class="lp-key"><div class="lp-week">SJW 9</div><div class="lp-no">09</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="1-halbjahr/lp-09-lokal-cloud.html">Lokal oder Wolke? Speichern früher &amp; heute <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="dateien-sicherheit/09lokal-oder-wolke-speichern-frueher-und-heute.html">Lokal oder Wolke? Speichern früher &amp; heute <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Der Unterschied zwischen Speichern auf dem Gerät und in der „Cloud" (= Speicher im Internet, z. B. OneDrive/Google Drive) — mit Vor- und Nachteilen.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -815,7 +817,7 @@
       <article class="lp" data-lp="10">
         <div class="lp-key"><div class="lp-week">SJW 10</div><div class="lp-no">10</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="1-halbjahr/lp-10-passwoerter-backup.html">Meine Daten gehören mir — Passwörter &amp; Backups <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="dateien-sicherheit/10meine-daten-gehoeren-mir-passwoerter-und-backups.html">Meine Daten gehören mir — Passwörter &amp; Backups <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Schützenswerte Daten erkennen, starke Passwörter bauen und verstehen, warum eine Sicherungskopie (Backup) Gold wert ist.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -840,7 +842,7 @@
       <article class="lp" data-lp="11">
         <div class="lp-key"><div class="lp-week">SJW 11</div><div class="lp-no">11</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="1-halbjahr/lp-11-text-eingeben.html">Text eingeben &amp; bewegen <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="textverarbeitung/11text-eingeben-und-bewegen.html">Text eingeben &amp; bewegen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Text tippen, clever markieren, löschen und einfügen — in Word und in Google Docs (fast gleich!).</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -853,7 +855,7 @@
       <article class="lp" data-lp="12">
         <div class="lp-key"><div class="lp-week">SJW 12</div><div class="lp-no">12</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="1-halbjahr/lp-12-zeichenformatierung.html">Schrift schön machen <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="textverarbeitung/12schrift-schoen-machen.html">Schrift schön machen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Schriftart, -größe und -farbe ändern und fett, kursiv, unterstrichen nutzen — sparsam und wirkungsvoll.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -866,7 +868,7 @@
       <article class="lp" data-lp="13">
         <div class="lp-key"><div class="lp-week">SJW 13</div><div class="lp-no">13</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="1-halbjahr/lp-13-absaetze-listen.html">Absätze ordnen — Ausrichtung, Abstände, Listen <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="textverarbeitung/13absaetze-ordnen-ausrichtung-abstaende-listen.html">Absätze ordnen — Ausrichtung, Abstände, Listen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Text ausrichten, Zeilenabstände ändern und Aufzählungen sowie nummerierte Listen bauen.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -879,7 +881,7 @@
       <article class="lp" data-lp="14">
         <div class="lp-key"><div class="lp-week">SJW 14</div><div class="lp-no">14</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="1-halbjahr/lp-14-formatvorlagen.html">Überschriften &amp; Formatvorlagen <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="textverarbeitung/14ueberschriften-und-formatvorlagen.html">Überschriften &amp; Formatvorlagen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Formatvorlagen (Überschrift 1, 2 …) nutzen, damit dein Dokument automatisch Struktur bekommt — und verstehen: Software arbeitet mit „Objekten" und „Eigenschaften".</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -892,7 +894,7 @@
       <article class="lp" data-lp="15">
         <div class="lp-key"><div class="lp-week">SJW 15</div><div class="lp-no">15</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="1-halbjahr/lp-15-bilder-tabellen.html">Bilder &amp; Tabellen einfügen <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="textverarbeitung/15bilder-und-tabellen-einfuegen.html">Bilder &amp; Tabellen einfügen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Bilder passend einfügen (Textumbruch) und eine einfache Tabelle im Dokument bauen.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -905,7 +907,7 @@
       <article class="lp" data-lp="16">
         <div class="lp-key"><div class="lp-week">SJW 16</div><div class="lp-no">16</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="1-halbjahr/lp-16-seite-pdf.html">Seite einrichten &amp; als PDF ausgeben <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="textverarbeitung/16seite-einrichten-und-als-pdf-ausgeben.html">Seite einrichten &amp; als PDF ausgeben <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Seitenränder, Kopf- und Fußzeile sowie Seitenzahlen einstellen und dein Dokument als PDF exportieren.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -918,7 +920,7 @@
       <article class="lp" data-lp="17">
         <div class="lp-key"><div class="lp-week">SJW 17</div><div class="lp-no">17</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="1-halbjahr/lp-17-docs-zusammenarbeit.html">Google Docs &amp; gemeinsam schreiben <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="textverarbeitung/17google-docs-und-gemeinsam-schreiben.html">Google Docs &amp; gemeinsam schreiben <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Mit anderen gleichzeitig in Google Docs schreiben, Kommentare und den Versionsverlauf nutzen — und Docs mit Word vergleichen.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -931,7 +933,7 @@
       <article class="lp" data-lp="18">
         <div class="lp-key"><div class="lp-week">SJW 18</div><div class="lp-no">18</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="1-halbjahr/lp-18-meisterdokument.html">Mein Meisterdokument <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="textverarbeitung/18mein-meisterdokument.html">Mein Meisterdokument <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Ein richtiges Dokument erstellen (normgerechter Brief oder Steckbrief) und dabei alle Werkzeuge kombinieren.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -944,7 +946,7 @@
       <article class="lp" data-lp="19">
         <div class="lp-key"><div class="lp-week">SJW 19</div><div class="lp-no">19</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="1-halbjahr/lp-19-halbjahres-check.html">Zeigen &amp; besprechen — Halbjahres-Check <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="textverarbeitung/19zeigen-und-besprechen-halbjahres-check.html">Zeigen &amp; besprechen — Halbjahres-Check <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Dein Dokument vorstellen, faires Feedback geben und selbst einschätzen, was du schon sicher kannst.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -986,7 +988,7 @@
       <article class="lp" data-lp="20">
         <div class="lp-key"><div class="lp-week">SJW 20</div><div class="lp-no">20</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="2-halbjahr/lp-20-tabellen-gitter.html">Das Gitter verstehen — Zellen, Zeilen, Spalten <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="tabellenkalkulation/20das-gitter-verstehen-zellen-zeilen-spalten.html">Das Gitter verstehen — Zellen, Zeilen, Spalten <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Den Aufbau einer Tabelle (Zellen, Zeilen, Spalten, Adresse wie „A1") verstehen und Daten eingeben — in Excel und Google Sheets.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -999,7 +1001,7 @@
       <article class="lp" data-lp="21">
         <div class="lp-key"><div class="lp-week">SJW 21</div><div class="lp-no">21</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="2-halbjahr/lp-21-erste-formeln.html">Der Computer rechnet für dich — erste Formeln <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="tabellenkalkulation/21der-computer-rechnet-fuer-dich-erste-formeln.html">Der Computer rechnet für dich — erste Formeln <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Formeln schreiben mit =, +, −, *, / und mit Zellbezügen rechnen (z. B. =A1+B1).</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -1012,7 +1014,7 @@
       <article class="lp" data-lp="22">
         <div class="lp-key"><div class="lp-week">SJW 22</div><div class="lp-no">22</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="2-halbjahr/lp-22-summe-mittelwert.html">Praktische Funktionen — SUMME &amp; MITTELWERT <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="tabellenkalkulation/22praktische-funktionen-summe-und-mittelwert.html">Praktische Funktionen — SUMME &amp; MITTELWERT <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Funktionen wie SUMME und MITTELWERT über ganze Bereiche (A1:A10) nutzen und clever automatisch ausfüllen.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -1025,7 +1027,7 @@
       <article class="lp" data-lp="23">
         <div class="lp-key"><div class="lp-week">SJW 23</div><div class="lp-no">23</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="2-halbjahr/lp-23-tabellen-formatieren.html">Daten hübsch &amp; übersichtlich <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="tabellenkalkulation/23daten-huebsch-und-uebersichtlich.html">Daten hübsch &amp; übersichtlich <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Zellen formatieren (Rahmen, Farben, Zahlenformate) und Spaltenbreiten anpassen — für saubere, lesbare Tabellen.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -1038,7 +1040,7 @@
       <article class="lp" data-lp="24">
         <div class="lp-key"><div class="lp-week">SJW 24</div><div class="lp-no">24</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="2-halbjahr/lp-24-sortieren-filtern.html">Sortieren, filtern, Ordnung finden <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="tabellenkalkulation/24sortieren-filtern-ordnung-finden.html">Sortieren, filtern, Ordnung finden <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Daten sortieren und mit einem Filter genau das einblenden, was du sehen willst.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -1051,7 +1053,7 @@
       <article class="lp" data-lp="25">
         <div class="lp-key"><div class="lp-week">SJW 25</div><div class="lp-no">25</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="2-halbjahr/lp-25-diagramme.html">Diagramme — Zahlen sichtbar machen <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="tabellenkalkulation/25diagramme-zahlen-sichtbar-machen.html">Diagramme — Zahlen sichtbar machen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Säulen-, Balken- und Kreisdiagramme erstellen und so beschriften, dass jeder sie versteht.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -1064,7 +1066,7 @@
       <article class="lp" data-lp="26">
         <div class="lp-key"><div class="lp-week">SJW 26</div><div class="lp-no">26</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="2-halbjahr/lp-26-datenprojekt.html">Mini-Datenprojekt — meine eigene Auswertung <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="tabellenkalkulation/26mini-datenprojekt-meine-eigene-auswertung.html">Mini-Datenprojekt — meine eigene Auswertung <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Eigene Daten sammeln (z. B. eine kleine Klassen-Umfrage), auswerten und im Diagramm zeigen.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -1089,7 +1091,7 @@
       <article class="lp" data-lp="27">
         <div class="lp-key"><div class="lp-week">SJW 27</div><div class="lp-no">27</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="2-halbjahr/lp-27-erste-folie.html">Die erste Folie — PowerPoint &amp; Google Slides <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="praesentationen/27die-erste-folie-powerpoint-und-google-slides.html">Die erste Folie — PowerPoint &amp; Google Slides <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Folien anlegen, Titel und Inhalt füllen und dich in PowerPoint und Google Slides zurechtfinden.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -1102,7 +1104,7 @@
       <article class="lp" data-lp="28">
         <div class="lp-key"><div class="lp-week">SJW 28</div><div class="lp-no">28</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="2-halbjahr/lp-28-folien-design.html">Weniger ist mehr — gutes Folien-Design <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="praesentationen/28weniger-ist-mehr-gutes-folien-design.html">Weniger ist mehr — gutes Folien-Design <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Folien mit großer Schrift, gutem Kontrast und Bildern statt Textwüsten gestalten — nach klaren Design-Regeln.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -1115,7 +1117,7 @@
       <article class="lp" data-lp="29">
         <div class="lp-key"><div class="lp-week">SJW 29</div><div class="lp-no">29</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="2-halbjahr/lp-29-medien-uebergaenge.html">Bilder, Symbole &amp; Übergänge <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="praesentationen/29bilder-symbole-und-uebergaenge.html">Bilder, Symbole &amp; Übergänge <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Bilder und Symbole einfügen und dezente Übergänge einsetzen — ohne zu übertreiben.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -1128,7 +1130,7 @@
       <article class="lp" data-lp="30">
         <div class="lp-key"><div class="lp-week">SJW 30</div><div class="lp-no">30</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="2-halbjahr/lp-30-vortragen.html">Vom Bildschirm zum Publikum — frei vortragen <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="praesentationen/30vom-bildschirm-zum-publikum-frei-vortragen.html">Vom Bildschirm zum Publikum — frei vortragen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Freies Sprechen mit Notizen, Blickkontakt halten und deinen Vortrag ans Publikum anpassen.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -1141,7 +1143,7 @@
       <article class="lp" data-lp="31">
         <div class="lp-key"><div class="lp-week">SJW 31</div><div class="lp-no">31</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="2-halbjahr/lp-31-praesentations-werkstatt.html">Präsentations-Werkstatt <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="praesentationen/31praesentations-werkstatt.html">Präsentations-Werkstatt <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Ein Thema wählen und eine kleine, überzeugende Präsentation von Anfang bis Ende bauen.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -1166,7 +1168,7 @@
       <article class="lp" data-lp="32">
         <div class="lp-key"><div class="lp-week">SJW 32</div><div class="lp-no">32</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="2-halbjahr/lp-32-suchmaschinen.html">Suchmaschinen gezielt fragen <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="sicher-im-netz/32suchmaschinen-gezielt-fragen.html">Suchmaschinen gezielt fragen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Schneller finden, was du suchst — gute Suchbegriffe wählen, die Suche eingrenzen und clevere Tricks nutzen.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -1179,7 +1181,7 @@
       <article class="lp" data-lp="33">
         <div class="lp-key"><div class="lp-week">SJW 33</div><div class="lp-no">33</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="2-halbjahr/lp-33-quellen-pruefen.html">Stimmt das? Quellen prüfen <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="sicher-im-netz/33stimmt-das-quellen-pruefen.html">Stimmt das? Quellen prüfen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Prüfen, ob eine Info glaubwürdig ist — Wer sagt das? Woher? — und Wikipedia sinnvoll nutzen.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -1192,7 +1194,7 @@
       <article class="lp" data-lp="34">
         <div class="lp-key"><div class="lp-week">SJW 34</div><div class="lp-no">34</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="2-halbjahr/lp-34-netiquette.html">Höflich im Netz — Netiquette &amp; Zusammenarbeit <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="sicher-im-netz/34hoeflich-im-netz-netiquette-und-zusammenarbeit.html">Höflich im Netz — Netiquette &amp; Zusammenarbeit <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Die Regeln für respektvolles Verhalten im Netz (Netiquette) kennen und wissen, was bei Streit oder Mobbing hilft.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -1205,7 +1207,7 @@
       <article class="lp" data-lp="35">
         <div class="lp-key"><div class="lp-week">SJW 35</div><div class="lp-no">35</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="2-halbjahr/lp-35-datenschutz-urheberrecht.html">Meine Spuren im Netz — Datenschutz &amp; Urheberrecht <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="sicher-im-netz/35meine-spuren-im-netz-datenschutz-und-urheberrecht.html">Meine Spuren im Netz — Datenschutz &amp; Urheberrecht <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Persönliche Daten schützen und lernen, welche Bilder und Texte du benutzen darfst (Urheberrecht, freie Inhalte).</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -1230,7 +1232,7 @@
       <article class="lp" data-lp="36">
         <div class="lp-key"><div class="lp-week">SJW 36</div><div class="lp-no">36</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="2-halbjahr/lp-36-projektwoche.html">Projekt-Woche: Text + Tabelle + Folien <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="finale/36projekt-woche-text-tabelle-folien.html">Projekt-Woche: Text + Tabelle + Folien <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Alles kombinieren — ein Thema recherchieren, Daten in einer Tabelle auswerten und eine Präsentation samt Dokument bauen.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
@@ -1243,7 +1245,7 @@
       <article class="lp" data-lp="37">
         <div class="lp-key"><div class="lp-week">SJW 37</div><div class="lp-no">37</div></div>
         <div class="lp-info">
-          <a class="lp-name" href="2-halbjahr/lp-37-jahresabschluss.html">Vorstellen, feiern, zurückblicken <span class="lp-soon">folgt</span> <span class="arrow">→</span></a>
+          <a class="lp-name" href="finale/37vorstellen-feiern-zurueckblicken.html">Vorstellen, feiern, zurückblicken <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
           <p class="lp-goal"><b>Das lernst du:</b> Dein Projekt präsentieren, das Geschaffte feiern und einschätzen, was du in einem Jahr alles gelernt hast — mit Ausblick auf Informatik in Klasse 7.</p>
           <div class="lp-fast">
             <span class="fast-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg>Schnellläufer:in</span>
