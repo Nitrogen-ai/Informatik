@@ -12,6 +12,7 @@
     --key: #37a6f5; --edge: #1f7fce; --tint: #e4f2fe; --ktext: #ffffff;
     --ink: #211a4d; --ink-soft: #4f4880; --bg: #f1f0fb; --card: #fff;
     --line: rgba(33,26,77,0.12); --sun: #ffc23d;
+    --ok: #39b56a; --ok-dk: #248049; --no: #e8607a; --no-dk: #b83a56;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -59,12 +60,8 @@
   .rlp .tag { display: inline-block; background: #e7e5fb; padding: 0.06rem 0.42rem; border-radius: 6px; margin: 0 0.15rem 0.25rem 0; }
   .rlp .tag.neu { background: var(--sun); color: var(--ink); }
 
-  .draft-note {
-    display: flex; align-items: center; gap: 0.6rem;
-    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 12px;
-    padding: 0.7rem 0.9rem; margin: 1.4rem 0; font-size: 0.9rem; font-weight: 700; color: #8a5a00;
-  }
-  .draft-note svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .intro { font-size: 1.05rem; margin: 1.4rem 0 1.6rem; }
+  .intro .eva { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
 
   .block { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 1.4rem 1.5rem; margin-bottom: 1.1rem; }
   .block h2 {
@@ -72,20 +69,87 @@
     display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem;
   }
   .block h2 .dot { width: 14px; height: 14px; border-radius: 5px; background: var(--key); box-shadow: 0 2px 0 var(--edge); flex-shrink: 0; }
-  .todo {
-    border: 2px dashed var(--line); border-radius: 12px; padding: 1rem 1.1rem;
-    color: var(--ink-soft); font-style: italic; background: rgba(91,75,230,0.03);
+  .block p { margin-bottom: 0.6rem; }
+
+  /* figure */
+  .fig { background: var(--tint); border-radius: 14px; padding: 1rem; margin: 0.4rem 0 1rem; }
+  .fig svg { width: 100%; height: auto; display: block; }
+  .fig-cap { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); text-align: center; margin-top: 0.5rem; }
+
+  /* step list */
+  ol.steps { list-style: none; counter-reset: st; }
+  ol.steps li { counter-increment: st; position: relative; padding: 0.55rem 0 0.55rem 2.7rem; border-bottom: 1px dashed var(--line); }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li::before {
+    content: counter(st); position: absolute; left: 0; top: 0.5rem;
+    width: 30px; height: 30px; border-radius: 9px; background: var(--key); color: var(--ktext);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; box-shadow: 0 2px 0 var(--edge);
   }
+  ol.steps b { color: var(--edge); }
+
+  /* exercises + diff chips */
+  .task { border: 1.5px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; margin-bottom: 0.8rem; }
+  .chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.66rem;
+    letter-spacing: 0.05em; padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.5rem; }
+  .chip.basis { background: #e2f6ea; color: var(--ok-dk); border: 1.5px solid var(--ok); }
+  .chip.mittel { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+  .chip.knifflig { background: #fff3d1; color: #8a5a00; border: 1.5px solid var(--sun); }
+  .task ul { margin: 0.4rem 0 0 1.1rem; }
+  .task li { margin-bottom: 0.2rem; }
 
   .block.fast { border-color: var(--sun); background: #fff7e2; }
   .block.fast h2 { color: #8a5a00; }
   .block.fast h2 .rocket { width: 22px; height: 22px; color: #8a5a00; }
-  .fast-text { font-size: 1.02rem; font-weight: 600; }
+  .fast-text { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .fast-list { columns: 2; column-gap: 1.4rem; font-weight: 600; margin: 0.4rem 0 0 1.1rem; }
+  @media (max-width: 520px) { .fast-list { columns: 1; } }
 
-  .selfcheck-wrap {
-    display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem;
-    background: var(--tint); border-radius: 14px; padding: 1rem 1.2rem; margin: 1.4rem 0;
+  /* merksatz */
+  .merk { background: var(--tint); border: 2px solid var(--key); border-left: 8px solid var(--key); border-radius: 14px; padding: 1.1rem 1.3rem; }
+  .merk .eva { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+  .merk b { color: var(--edge); }
+  .secret { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.9rem; padding: 0.7rem 0.9rem;
+    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 10px; font-weight: 700; color: #8a5a00; font-size: 0.95rem; }
+  .secret svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  /* ---- QUIZ ENGINE ---- */
+  .quiz { margin-top: 0.4rem; }
+  .quiz-progress { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.74rem; color: var(--ink-soft); }
+  .pbar { flex: 1; height: 10px; background: #e7e5fb; border-radius: 999px; overflow: hidden; }
+  .pfill { height: 100%; width: 0; background: var(--ok); border-radius: 999px; transition: width 0.3s ease; }
+  .q { margin-bottom: 1.1rem; padding-bottom: 1.1rem; border-bottom: 1px dashed var(--line); }
+  .q:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .q-text { font-weight: 800; margin-bottom: 0.6rem; }
+  .q-text .qn { color: var(--edge); font-family: 'JetBrains Mono', monospace; }
+  .opts { display: grid; gap: 0.5rem; }
+  .opt {
+    display: flex; align-items: center; gap: 0.7rem; width: 100%; text-align: left;
+    font-family: 'Nunito', sans-serif; font-size: 0.98rem; font-weight: 700; color: var(--ink);
+    background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 0.6rem 0.8rem; cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease;
   }
+  .opt:hover:not([disabled]) { border-color: var(--key); transform: translateX(2px); }
+  .opt .lett { flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px; background: var(--tint); color: var(--edge);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; font-size: 0.85rem; }
+  .opt.correct { border-color: var(--ok); background: #e9f8ef; }
+  .opt.correct .lett { background: var(--ok); color: #fff; }
+  .opt.wrong { border-color: var(--no); background: #fdecf0; }
+  .opt.wrong .lett { background: var(--no); color: #fff; }
+  .opt[disabled] { cursor: default; opacity: 0.75; }
+  .opt.correct[disabled], .opt.wrong[disabled] { opacity: 1; }
+  .q-hint { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--no-dk);
+    background: #fdecf0; border-radius: 9px; padding: 0.5rem 0.7rem; display: none; }
+  .q-hint.show { display: block; }
+  .q-done { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--ok-dk); display: none; }
+  .q-done.show { display: block; }
+  .quiz-solved { margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 12px; background: #e9f8ef;
+    border: 2px solid var(--ok); color: var(--ok-dk); font-family: 'Fredoka', sans-serif; font-weight: 600;
+    display: none; align-items: center; gap: 0.6rem; }
+  .quiz-solved.show { display: flex; }
+  .quiz-solved svg { width: 22px; height: 22px; flex-shrink: 0; }
+
+  .selfcheck-wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem;
+    background: var(--tint); border-radius: 14px; padding: 1rem 1.2rem; margin: 1.4rem 0; }
   .sc-label { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 0.98rem; }
   .sc-stars { display: flex; gap: 0.3rem; }
   .sc-star { width: 30px; height: 30px; background: none; border: none; padding: 0; cursor: pointer; color: rgba(33,26,77,0.22); transition: transform 0.12s ease, color 0.12s ease; }
@@ -105,10 +169,8 @@
   .nav-over { background: var(--key); color: var(--ktext); box-shadow: 0 3px 0 var(--edge); }
   .nav-empty { color: rgba(33,26,77,0.28); border: 2px dashed var(--line); }
 
-  footer {
-    text-align: center; margin-top: 2rem; padding: 1.4rem 5vw 0;
-    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); font-weight: 700;
-  }
+  footer { text-align: center; margin-top: 2rem; padding: 1.4rem 5vw 0;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); font-weight: 700; }
   @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 </style>
 </head>
@@ -128,39 +190,282 @@
       <div class="keycap">02</div>
       <h1>Was steckt drin? Das EVA-Prinzip</h1>
     </div>
-    <p class="goal"><b>Das lernst du:</b> Wie ein Computer arbeitet — Eingabe → Verarbeitung → Ausgabe (EVA). Du benennst die wichtigsten Teile (Bildschirm, Tastatur, „Denk-Chip", Speicher).</p>
-    <p class="rlp"><span class="tag">RLP 2.3 · D</span><span class="tag">3.2 EVA-Prinzip</span><span class="tag">2.1 · E</span></p>
+    <p class="goal"><b>Das lernst du:</b> Wie ein Computer arbeitet &mdash; Eingabe &rarr; Verarbeitung &rarr; Ausgabe (EVA). Du benennst die wichtigsten Teile (Bildschirm, Tastatur, &bdquo;Denk-Chip&ldquo;, Speicher).</p>
+    <p class="rlp"><span class="tag">RLP 2.3 · D</span><span class="tag neu">3.2 EVA-Prinzip</span><span class="tag">2.1 · E</span></p>
   </header>
 
-  <div class="draft-note">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
-    <span>Diese Seite ist das Ger&uuml;st f&uuml;r diesen Lernpfad &mdash; Inhalte werden noch erg&auml;nzt.</span>
-  </div>
+  <p class="intro">Dein Computer ist gar nicht so geheimnisvoll. Fast jeder Computer &mdash; und sogar viele Alltagsger&auml;te &mdash; arbeitet nach einem einfachen Dreischritt: Er nimmt etwas auf (<b>Eingabe</b>), verarbeitet es (<b>Verarbeitung</b>) und gibt ein Ergebnis heraus (<b>Ausgabe</b>). Die Anfangsbuchstaben ergeben ein Wort, das du dir gut merken kannst: <span class="eva">EVA</span>. Los geht&rsquo;s!</p>
 
   <main>
+
+    <!-- ===================== VORWISSEN ===================== -->
     <section class="block">
-      <h2><span class="dot"></span>Los geht es &mdash; worum geht es heute?</h2>
-      <div class="todo">Hier kommt der Einstieg hin: eine kurze, spannende Hinf&uuml;hrung zum Thema.</div>
+      <h2><span class="dot"></span>Schau genau hin &mdash; was wei&szlig;t du schon?</h2>
+      <p>Sieh dir die drei Bilder an. Zu jedem Bild geh&ouml;ren vier Fragen. Tippe die richtige Antwort an &mdash; wird sie <b style="color:var(--ok-dk)">gr&uuml;n</b>, ist sie richtig. Bei <b style="color:var(--no-dk)">rot</b> bekommst du einen Tipp.</p>
+
+      <!-- Fig 1 -->
+      <div class="fig"><svg viewBox="0 0 720 330" xmlns="http://www.w3.org/2000/svg" font-family="Nunito, sans-serif" role="img"><rect x="30" y="70" width="170" height="120" rx="16" fill="#e4f2fe" stroke="#37a6f5" stroke-width="3"/><text x="115.0" y="122" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="600" font-size="22" fill="#1f7fce">Eingabe</text><text x="115.0" y="146" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="700" font-size="14" fill="#1f7fce">(Tastatur, Maus)</text><rect x="280" y="70" width="170" height="120" rx="16" fill="#fff3d1" stroke="#ffc23d" stroke-width="3"/><text x="365.0" y="122" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="600" font-size="22" fill="#c8890a">Verarbeitung</text><text x="365.0" y="146" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="700" font-size="14" fill="#c8890a">„Denk-Chip“</text><rect x="530" y="70" width="170" height="120" rx="16" fill="#e2f6ea" stroke="#39b56a" stroke-width="3"/><text x="615.0" y="122" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="600" font-size="22" fill="#248049">Ausgabe</text><text x="615.0" y="146" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="700" font-size="14" fill="#248049">(Bildschirm)</text><line x1="200" y1="130.0" x2="266" y2="130.0" stroke="#211a4d" stroke-width="5" stroke-linecap="round"/><path d="M264,119.0 L280,130.0 L264,141.0 Z" fill="#211a4d"/><line x1="450" y1="130.0" x2="516" y2="130.0" stroke="#211a4d" stroke-width="5" stroke-linecap="round"/><path d="M514,119.0 L530,130.0 L514,141.0 Z" fill="#211a4d"/><rect x="280" y="230" width="170" height="60" rx="16" fill="#eceafb" stroke="#8b7fe6" stroke-width="3"/><text x="365.0" y="268" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="600" font-size="22" fill="#6b5fd6">Speicher</text><line x1="365.0" y1="190" x2="365.0" y2="230" stroke="#211a4d" stroke-width="4" stroke-dasharray="6 6"/><circle cx="50" cy="88" r="17" fill="#37a6f5" stroke="#ffffff" stroke-width="3"/><text x="50" y="88" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><circle cx="300" cy="88" r="17" fill="#c8890a" stroke="#ffffff" stroke-width="3"/><text x="300" y="88" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><circle cx="550" cy="88" r="17" fill="#248049" stroke="#ffffff" stroke-width="3"/><text x="550" y="88" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><circle cx="300" cy="246" r="17" fill="#6b5fd6" stroke="#ffffff" stroke-width="3"/><text x="300" y="246" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text></svg><div class="fig-cap">Bild 1 &middot; Die EVA-Kette</div></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 4 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.1</span> &nbsp;Wof&uuml;r steht das <b>E</b> in EVA (Teil 1)?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Eingabe</button>
+            <button class="opt" data-hint="E steht nicht f&uuml;r das Ende &mdash; es ist der erste Schritt, bei dem etwas hineinkommt.">Ende</button>
+            <button class="opt" data-hint="Elektronik steckt zwar drin, aber das E in EVA meint einen Arbeitsschritt.">Elektronik</button>
+            <button class="opt" data-hint="Das Ergebnis kommt erst am Schluss heraus. Der erste Schritt hei&szlig;t anders.">Ergebnis</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig! Alles beginnt mit der Eingabe.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.2</span> &nbsp;Was passiert bei <b>Teil 2</b> (Verarbeitung)?</div>
+          <div class="opts">
+            <button class="opt" data-hint="Der Bildschirm zeigt nur an &mdash; das ist die Ausgabe, nicht die Verarbeitung.">Der Bildschirm zeigt ein Bild.</button>
+            <button class="opt" data-correct="true">Der &bdquo;Denk-Chip&ldquo; rechnet und verarbeitet die Daten.</button>
+            <button class="opt" data-hint="Tippen ist die Eingabe. Die Verarbeitung passiert danach im Inneren.">Man tippt auf der Tastatur.</button>
+            <button class="opt" data-hint="Ausschalten geh&ouml;rt nicht zur EVA-Kette.">Der Computer schaltet sich aus.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau &mdash; im Denk-Chip wird gerechnet.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.3</span> &nbsp;Bei <b>Teil 3</b> kommt das Ergebnis heraus. Wie hei&szlig;t dieser Schritt?</div>
+          <div class="opts">
+            <button class="opt" data-hint="Das war der erste Schritt. Am Schluss kommt etwas heraus.">Eingabe</button>
+            <button class="opt" data-hint="Das ist der mittlere Schritt. Gesucht ist der letzte.">Verarbeitung</button>
+            <button class="opt" data-correct="true">Ausgabe</button>
+            <button class="opt" data-hint="Anmelden geh&ouml;rt nicht zur EVA-Kette.">Anmeldung</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig &mdash; das A steht f&uuml;r Ausgabe.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.4</span> &nbsp;Wozu dient <b>Teil 4</b>, der Speicher?</div>
+          <div class="opts">
+            <button class="opt" data-hint="Anzeigen macht der Bildschirm. Der Speicher hat eine andere Aufgabe.">Er zeigt Bilder an.</button>
+            <button class="opt" data-hint="Tippen ist Eingabe. Der Speicher tippt nicht.">Man tippt darauf.</button>
+            <button class="opt" data-hint="Ton kommt aus dem Lautsprecher, nicht aus dem Speicher.">Er macht Ger&auml;usche.</button>
+            <button class="opt" data-correct="true">Er merkt sich Daten und bewahrt sie auf.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt &mdash; der Speicher merkt sich alles.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Super &mdash; Bild 1 komplett gel&ouml;st!</div>
+      </div>
+
+      <!-- Fig 2 -->
+      <div class="fig"><svg viewBox="0 0 620 340" xmlns="http://www.w3.org/2000/svg" font-family="Nunito, sans-serif" role="img"><rect x="70" y="40" width="180" height="120" rx="12" fill="#e4f2fe" stroke="#1f7fce" stroke-width="3"/><rect x="86" y="56" width="148" height="88" rx="6" fill="#bfe3fb" stroke="#1f7fce" stroke-width="2"/><rect x="150" y="160" width="20" height="24" fill="#cfe8fb" stroke="#1f7fce" stroke-width="2.5"/><rect x="120" y="184" width="80" height="12" rx="5" fill="#e4f2fe" stroke="#1f7fce" stroke-width="2.5"/><rect x="70" y="230" width="200" height="70" rx="10" fill="#fff3d1" stroke="#1f7fce" stroke-width="3"/><rect x="86" y="242" width="16" height="12" rx="3" fill="#ffffff" stroke="#1f7fce" stroke-width="1.6"/><rect x="111" y="242" width="16" height="12" rx="3" fill="#ffffff" stroke="#1f7fce" stroke-width="1.6"/><rect x="136" y="242" width="16" height="12" rx="3" fill="#ffffff" stroke="#1f7fce" stroke-width="1.6"/><rect x="161" y="242" width="16" height="12" rx="3" fill="#ffffff" stroke="#1f7fce" stroke-width="1.6"/><rect x="186" y="242" width="16" height="12" rx="3" fill="#ffffff" stroke="#1f7fce" stroke-width="1.6"/><rect x="211" y="242" width="16" height="12" rx="3" fill="#ffffff" stroke="#1f7fce" stroke-width="1.6"/><rect x="236" y="242" width="16" height="12" rx="3" fill="#ffffff" stroke="#1f7fce" stroke-width="1.6"/><rect x="86" y="260" width="16" height="12" rx="3" fill="#ffffff" stroke="#1f7fce" stroke-width="1.6"/><rect x="111" y="260" width="16" height="12" rx="3" fill="#ffffff" stroke="#1f7fce" stroke-width="1.6"/><rect x="136" y="260" width="16" height="12" rx="3" fill="#ffffff" stroke="#1f7fce" stroke-width="1.6"/><rect x="161" y="260" width="16" height="12" rx="3" fill="#ffffff" stroke="#1f7fce" stroke-width="1.6"/><rect x="186" y="260" width="16" height="12" rx="3" fill="#ffffff" stroke="#1f7fce" stroke-width="1.6"/><rect x="211" y="260" width="16" height="12" rx="3" fill="#ffffff" stroke="#1f7fce" stroke-width="1.6"/><rect x="236" y="260" width="16" height="12" rx="3" fill="#ffffff" stroke="#1f7fce" stroke-width="1.6"/><rect x="86" y="278" width="16" height="12" rx="3" fill="#ffffff" stroke="#1f7fce" stroke-width="1.6"/><rect x="111" y="278" width="16" height="12" rx="3" fill="#ffffff" stroke="#1f7fce" stroke-width="1.6"/><rect x="136" y="278" width="16" height="12" rx="3" fill="#ffffff" stroke="#1f7fce" stroke-width="1.6"/><rect x="161" y="278" width="16" height="12" rx="3" fill="#ffffff" stroke="#1f7fce" stroke-width="1.6"/><rect x="186" y="278" width="16" height="12" rx="3" fill="#ffffff" stroke="#1f7fce" stroke-width="1.6"/><rect x="211" y="278" width="16" height="12" rx="3" fill="#ffffff" stroke="#1f7fce" stroke-width="1.6"/><rect x="236" y="278" width="16" height="12" rx="3" fill="#ffffff" stroke="#1f7fce" stroke-width="1.6"/><rect x="320" y="235" width="54" height="80" rx="26" fill="#e2f6ea" stroke="#1f7fce" stroke-width="3"/><line x1="347" y1="243" x2="347" y2="269" stroke="#1f7fce" stroke-width="2.5"/><rect x="430" y="100" width="150" height="80" rx="10" fill="#e2f6ea" stroke="#1f7fce" stroke-width="3"/><rect x="460" y="60" width="90" height="55" rx="6" fill="#ffffff" stroke="#1f7fce" stroke-width="2.5"/><rect x="454" y="156" width="102" height="34" rx="6" fill="#ffffff" stroke="#1f7fce" stroke-width="2.5"/><circle cx="558" cy="120" r="5" fill="#39b56a" stroke="#1f7fce" stroke-width="2"/><rect x="440" y="215" width="70" height="100" rx="10" fill="#eceafb" stroke="#1f7fce" stroke-width="3"/><circle cx="475" cy="249" r="18" fill="#ffffff" stroke="#1f7fce" stroke-width="2.5"/><circle cx="475" cy="249" r="7" fill="none" stroke="#1f7fce" stroke-width="2"/><circle cx="475" cy="289" r="9" fill="#ffffff" stroke="#1f7fce" stroke-width="2.5"/><circle cx="240" cy="52" r="17" fill="#37a6f5" stroke="#ffffff" stroke-width="3"/><text x="240" y="52" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><circle cx="258" cy="244" r="17" fill="#c8890a" stroke="#ffffff" stroke-width="3"/><text x="258" y="244" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><circle cx="366" cy="246" r="17" fill="#248049" stroke="#ffffff" stroke-width="3"/><text x="366" y="246" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><circle cx="566" cy="74" r="17" fill="#248049" stroke="#ffffff" stroke-width="3"/><text x="566" y="74" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text><circle cx="498" cy="226" r="17" fill="#248049" stroke="#ffffff" stroke-width="3"/><text x="498" y="226" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">5</text></svg><div class="fig-cap">Bild 2 &middot; Ger&auml;te am Computer-Arbeitsplatz</div></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 4 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.1</span> &nbsp;<b>Teil 1</b> ist der Bildschirm. Zu welchem EVA-Schritt geh&ouml;rt er?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Ausgabe &mdash; er zeigt etwas an.</button>
+            <button class="opt" data-hint="Mit dem Bildschirm gibst du dem Computer nichts ein &mdash; er zeigt dir etwas.">Eingabe</button>
+            <button class="opt" data-hint="Verarbeitung passiert im Inneren, nicht auf dem Bildschirm.">Verarbeitung</button>
+            <button class="opt" data-hint="Der Bildschirm merkt sich nichts dauerhaft.">Speicher</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig &mdash; der Bildschirm ist ein Ausgabeger&auml;t.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.2</span> &nbsp;Womit gibst du Buchstaben ein? (<b>Teil 2</b>)</div>
+          <div class="opts">
+            <button class="opt" data-hint="Das ist die Maus (Teil 3) &mdash; damit zeigst und klickst du.">Maus</button>
+            <button class="opt" data-correct="true">Tastatur</button>
+            <button class="opt" data-hint="Der Drucker gibt etwas aus, du tippst nicht darauf.">Drucker</button>
+            <button class="opt" data-hint="Der Lautsprecher macht T&ouml;ne, du tippst nicht darauf.">Lautsprecher</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau &mdash; die Tastatur ist ein Eingabeger&auml;t.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.3</span> &nbsp;Welche zwei Teile sind <b>Ausgabeger&auml;te</b>?</div>
+          <div class="opts">
+            <button class="opt" data-hint="Tastatur und Maus sind Eingabeger&auml;te.">Tastatur (2) und Maus (3)</button>
+            <button class="opt" data-hint="Die Maus ist ein Eingabeger&auml;t, der Drucker ein Ausgabeger&auml;t &mdash; also gemischt.">Maus (3) und Drucker (4)</button>
+            <button class="opt" data-correct="true">Drucker (4) und Lautsprecher (5)</button>
+            <button class="opt" data-hint="Die Tastatur ist ein Eingabeger&auml;t.">Bildschirm (1) und Tastatur (2)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig &mdash; Drucker und Lautsprecher geben etwas aus.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.4</span> &nbsp;Was ist die <b>Maus</b> (Teil 3)?</div>
+          <div class="opts">
+            <button class="opt" data-hint="Anzeigen macht der Bildschirm.">Ein Ausgabeger&auml;t</button>
+            <button class="opt" data-hint="Der Denk-Chip sitzt im Inneren, nicht in der Maus.">Der Denk-Chip</button>
+            <button class="opt" data-hint="Ein Speicher merkt sich Daten &mdash; das tut die Maus nicht.">Ein Speicher</button>
+            <button class="opt" data-correct="true">Ein Eingabeger&auml;t</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt &mdash; mit der Maus gibst du Befehle ein.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Klasse &mdash; Bild 2 komplett gel&ouml;st!</div>
+      </div>
+
+      <!-- Fig 3 -->
+      <div class="fig"><svg viewBox="0 0 620 320" xmlns="http://www.w3.org/2000/svg" font-family="Nunito, sans-serif" role="img"><rect x="40" y="40" width="540" height="250" rx="16" fill="#e7f4e9" stroke="#1f7fce" stroke-width="3"/><rect x="250" y="120" width="110" height="110" rx="10" fill="#fff3d1" stroke="#1f7fce" stroke-width="3"/><line x1="262" y1="120" x2="262" y2="108" stroke="#1f7fce" stroke-width="2.5"/><line x1="262" y1="230" x2="262" y2="242" stroke="#1f7fce" stroke-width="2.5"/><line x1="279" y1="120" x2="279" y2="108" stroke="#1f7fce" stroke-width="2.5"/><line x1="279" y1="230" x2="279" y2="242" stroke="#1f7fce" stroke-width="2.5"/><line x1="296" y1="120" x2="296" y2="108" stroke="#1f7fce" stroke-width="2.5"/><line x1="296" y1="230" x2="296" y2="242" stroke="#1f7fce" stroke-width="2.5"/><line x1="313" y1="120" x2="313" y2="108" stroke="#1f7fce" stroke-width="2.5"/><line x1="313" y1="230" x2="313" y2="242" stroke="#1f7fce" stroke-width="2.5"/><line x1="330" y1="120" x2="330" y2="108" stroke="#1f7fce" stroke-width="2.5"/><line x1="330" y1="230" x2="330" y2="242" stroke="#1f7fce" stroke-width="2.5"/><line x1="347" y1="120" x2="347" y2="108" stroke="#1f7fce" stroke-width="2.5"/><line x1="347" y1="230" x2="347" y2="242" stroke="#1f7fce" stroke-width="2.5"/><text x="305" y="180" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="16" fill="#c8890a">CPU</text><rect x="100" y="70" width="40" height="170" rx="6" fill="#e4f2fe" stroke="#1f7fce" stroke-width="3"/><line x1="100" y1="98" x2="140" y2="98" stroke="#1f7fce" stroke-width="1.6"/><line x1="100" y1="128" x2="140" y2="128" stroke="#1f7fce" stroke-width="1.6"/><line x1="100" y1="158" x2="140" y2="158" stroke="#1f7fce" stroke-width="1.6"/><line x1="100" y1="188" x2="140" y2="188" stroke="#1f7fce" stroke-width="1.6"/><line x1="100" y1="218" x2="140" y2="218" stroke="#1f7fce" stroke-width="1.6"/><rect x="430" y="110" width="120" height="120" rx="10" fill="#eceafb" stroke="#1f7fce" stroke-width="3"/><circle cx="490" cy="170" r="42" fill="#ffffff" stroke="#1f7fce" stroke-width="2.5"/><circle cx="490" cy="170" r="10" fill="#ffffff" stroke="#1f7fce" stroke-width="2.5"/><line x1="490" y1="170" x2="522" y2="144" stroke="#1f7fce" stroke-width="3" stroke-linecap="round"/><circle cx="305" cy="212" r="17" fill="#c8890a" stroke="#ffffff" stroke-width="3"/><text x="305" y="212" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><circle cx="120" cy="86" r="17" fill="#1f7fce" stroke="#ffffff" stroke-width="3"/><text x="120" y="86" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><circle cx="490" cy="126" r="17" fill="#6b5fd6" stroke="#ffffff" stroke-width="3"/><text x="490" y="126" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><circle cx="70" cy="70" r="17" fill="#248049" stroke="#ffffff" stroke-width="3"/><text x="70" y="70" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text></svg><div class="fig-cap">Bild 3 &middot; Ein Blick ins Innere</div></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 4 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.1</span> &nbsp;<b>Teil 1</b> tr&auml;gt die Aufschrift &bdquo;CPU&ldquo;. Das ist der &hellip;</div>
+          <div class="opts">
+            <button class="opt" data-hint="Der Bildschirm ist ein Ausgabeger&auml;t und sitzt nicht im Inneren.">Bildschirm</button>
+            <button class="opt" data-correct="true">&bdquo;Denk-Chip&ldquo; (Prozessor) &mdash; er verarbeitet.</button>
+            <button class="opt" data-hint="Die Tastatur ist ein Eingabeger&auml;t au&szlig;erhalb des Geh&auml;uses.">Tastatur</button>
+            <button class="opt" data-hint="Ein Lautsprecher macht T&ouml;ne, er rechnet nicht.">Lautsprecher</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig &mdash; die CPU ist der Denk-Chip.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.2</span> &nbsp;<b>Teil 3</b> ist die Festplatte. Wozu ist sie da?</div>
+          <div class="opts">
+            <button class="opt" data-hint="Rechnen macht der Denk-Chip (Teil 1).">Sie rechnet Aufgaben aus.</button>
+            <button class="opt" data-hint="Anzeigen macht der Bildschirm.">Sie zeigt Bilder an.</button>
+            <button class="opt" data-correct="true">Sie speichert Daten dauerhaft.</button>
+            <button class="opt" data-hint="Tippen ist Eingabe &mdash; das macht die Tastatur.">Man tippt darauf.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau &mdash; die Festplatte ist ein Speicher.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.3</span> &nbsp;Welches Bauteil erledigt den Schritt <b>Verarbeitung</b>?</div>
+          <div class="opts">
+            <button class="opt" data-hint="Der Arbeitsspeicher (Teil 2) hilft nur, er ist nicht der Rechner selbst.">Der Arbeitsspeicher (2)</button>
+            <button class="opt" data-hint="Die Festplatte speichert &mdash; sie rechnet nicht.">Die Festplatte (3)</button>
+            <button class="opt" data-hint="Das Mainboard verbindet alles, rechnet aber nicht selbst.">Das Mainboard (4)</button>
+            <button class="opt" data-correct="true">Der Prozessor / Denk-Chip (1)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt &mdash; der Prozessor verarbeitet.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.4</span> &nbsp;All diese Teile stecken meistens &hellip;</div>
+          <div class="opts">
+            <button class="opt" data-hint="Im Bildschirm steckt nur die Anzeige, nicht der Prozessor.">im Bildschirm.</button>
+            <button class="opt" data-hint="In der Tastatur sitzen nur die Tasten.">in der Tastatur.</button>
+            <button class="opt" data-hint="In der Maus steckt nur ein kleiner Sensor.">in der Maus.</button>
+            <button class="opt" data-correct="true">im Geh&auml;use (dem &bdquo;Kasten&ldquo;) des Computers.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig &mdash; im Geh&auml;use des Computers.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Stark &mdash; Bild 3 komplett gel&ouml;st!</div>
+      </div>
     </section>
 
+    <!-- ===================== SCHRITT FÜR SCHRITT ===================== -->
     <section class="block">
-      <h2><span class="dot"></span>Schritt f&uuml;r Schritt</h2>
-      <div class="todo">Hier kommt die Anleitung hin: die einzelnen Arbeitsschritte, gerne mit Screenshots.</div>
+      <h2><span class="dot"></span>Schritt f&uuml;r Schritt &mdash; die EVA-Kette am Rechner</h2>
+      <ol class="steps">
+        <li>Melde dich wie in der letzten Stunde am Schulrechner an und schau dich kurz um.</li>
+        <li>Lege eine Hand auf die <b>Tastatur</b> und eine auf die <b>Maus</b>. Beides sind <b>Eingabeger&auml;te</b> &mdash; damit gibst du dem Computer etwas.</li>
+        <li>&Ouml;ffne das Schreibprogramm (z.&nbsp;B. den <b>Editor</b> oder WordPad) und tippe deinen Vornamen.</li>
+        <li>Beobachte genau: Der <b>Denk-Chip</b> verarbeitet deinen Tastendruck, und der Buchstabe erscheint auf dem <b>Bildschirm</b> &mdash; das ist die <b>Ausgabe</b>.</li>
+        <li>&Ouml;ffne <b>Paint</b> und male mit der <b>Maus</b> eine Linie. Wieder gilt: Eingabe (Maus) &rarr; Verarbeitung &rarr; Ausgabe (Bildschirm).</li>
+        <li>Klicke auf <b>Speichern</b>. Jetzt merkt sich der <b>Speicher</b> dein Bild &mdash; auch dann, wenn der Computer ausgeschaltet wird.</li>
+        <li>Wenn du <b>Kopfh&ouml;rer</b> hast: Ein Ton ist ebenfalls eine <b>Ausgabe</b>.</li>
+        <li>Zum Schluss nicht vergessen: wieder <b>abmelden</b>.</li>
+      </ol>
     </section>
 
+    <!-- ===================== ÜBUNGEN ===================== -->
     <section class="block">
       <h2><span class="dot"></span>&Uuml;bungsaufgaben</h2>
-      <div class="todo">Hier kommen die Aufgaben hin &mdash; mit klarer Differenzierung (Basis &middot; mittel &middot; knifflig).</div>
+      <div class="task">
+        <span class="chip basis">Basis</span>
+        <p>Ordne die Ger&auml;te in zwei Gruppen. Schreibe jedes Ger&auml;t unter <b>Eingabe</b> oder <b>Ausgabe</b>:</p>
+        <p style="font-weight:700; color:var(--edge)">Tastatur &middot; Bildschirm &middot; Maus &middot; Drucker &middot; Mikrofon &middot; Lautsprecher</p>
+      </div>
+      <div class="task">
+        <span class="chip mittel">mittel</span>
+        <p>Ein Foto wird gedruckt. Schreibe zu jedem Schritt, ob es <b>E</b> (Eingabe), <b>V</b> (Verarbeitung) oder <b>A</b> (Ausgabe) ist:</p>
+        <ul>
+          <li>Die Kamera nimmt ein Foto auf. &rarr; ____</li>
+          <li>Der Computer bereitet das Bild auf. &rarr; ____</li>
+          <li>Der Drucker druckt das Foto auf Papier. &rarr; ____</li>
+        </ul>
+      </div>
+      <div class="task">
+        <span class="chip knifflig">knifflig</span>
+        <p>Ein <b>Geldautomat</b> arbeitet auch nach dem EVA-Prinzip. Finde je ein Beispiel:</p>
+        <ul>
+          <li>Eingabe: ________________________</li>
+          <li>Verarbeitung: ________________________</li>
+          <li>Ausgabe: ________________________</li>
+        </ul>
+      </div>
     </section>
 
+    <!-- ===================== SCHNELLLÄUFER ===================== -->
     <section class="block fast">
       <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnelll&auml;ufer:innen-Mission</h2>
-      <p class="fast-text">Ordne zehn Alltagsgeräte (Taschenrechner, Ampel, Waschmaschine …) dem EVA-Prinzip zu.</p>
+      <p class="fast-text">Du bist fertig? Nimm dir diese zehn Alltagsger&auml;te vor. Nenne zu jedem: Was ist die <b>Eingabe</b>, was die <b>Verarbeitung</b>, was die <b>Ausgabe</b>?</p>
+      <ol class="fast-list">
+        <li>Taschenrechner</li>
+        <li>Ampel</li>
+        <li>Waschmaschine</li>
+        <li>Mikrowelle</li>
+        <li>Fernbedienung</li>
+        <li>Digitalkamera</li>
+        <li>Fahrkartenautomat</li>
+        <li>T&uuml;rklingel</li>
+        <li>Taschenlampe mit Schalter</li>
+        <li>Roboter-Staubsauger</li>
+      </ol>
     </section>
 
+    <!-- ===================== SICHERUNG ===================== -->
+    <section class="block">
+      <h2><span class="dot"></span>Das kann ich jetzt &mdash; kurzer Check</h2>
+      <p>Vier Fragen zum Abschluss. Wieder gilt: <b style="color:var(--ok-dk)">gr&uuml;n</b> = richtig, <b style="color:var(--no-dk)">rot</b> = Tipp.</p>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 4 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.1</span> &nbsp;In welcher Reihenfolge arbeitet ein Computer?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Eingabe &rarr; Verarbeitung &rarr; Ausgabe</button>
+            <button class="opt" data-hint="Fast &mdash; aber zuerst muss etwas hineinkommen (Eingabe).">Verarbeitung &rarr; Eingabe &rarr; Ausgabe</button>
+            <button class="opt" data-hint="Die Ausgabe kommt zum Schluss, nicht am Anfang.">Ausgabe &rarr; Eingabe &rarr; Verarbeitung</button>
+            <button class="opt" data-hint="Denk an das Wort EVA &mdash; E, dann V, dann A.">Eingabe &rarr; Ausgabe &rarr; Verarbeitung</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig &mdash; genau in dieser Reihenfolge: E, V, A.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.2</span> &nbsp;Welches Ger&auml;t ist ein <b>Eingabeger&auml;t</b>?</div>
+          <div class="opts">
+            <button class="opt" data-hint="Der Bildschirm zeigt etwas an &mdash; das ist Ausgabe.">Bildschirm</button>
+            <button class="opt" data-correct="true">Tastatur</button>
+            <button class="opt" data-hint="Der Drucker gibt etwas aus &mdash; das ist Ausgabe.">Drucker</button>
+            <button class="opt" data-hint="Der Lautsprecher gibt Ton aus &mdash; das ist Ausgabe.">Lautsprecher</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt &mdash; mit der Tastatur gibst du etwas ein.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.3</span> &nbsp;Wer erledigt die <b>Verarbeitung</b>?</div>
+          <div class="opts">
+            <button class="opt" data-hint="Die Maus ist ein Eingabeger&auml;t.">Die Maus</button>
+            <button class="opt" data-hint="Der Bildschirm zeigt nur an.">Der Bildschirm</button>
+            <button class="opt" data-correct="true">Der &bdquo;Denk-Chip&ldquo; (Prozessor)</button>
+            <button class="opt" data-hint="Der Drucker geh&ouml;rt zur Ausgabe.">Der Drucker</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau &mdash; der Denk-Chip verarbeitet die Daten.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.4</span> &nbsp;Warum kannst du morgen dein gespeichertes Bild wieder &ouml;ffnen?</div>
+          <div class="opts">
+            <button class="opt" data-hint="Der Bildschirm zeigt nur an &mdash; er merkt sich nichts.">Weil der Bildschirm es sich merkt.</button>
+            <button class="opt" data-hint="Die Maus speichert keine Daten.">Weil die Maus es sich merkt.</button>
+            <button class="opt" data-hint="Die Tastatur speichert keine Daten.">Weil die Tastatur es sich merkt.</button>
+            <button class="opt" data-correct="true">Weil der Speicher die Daten aufbewahrt.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig &mdash; der Speicher bewahrt deine Daten auf.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Perfekt &mdash; du hast das EVA-Prinzip drauf!</div>
+      </div>
+    </section>
+
+    <!-- ===================== MERKSATZ ===================== -->
     <section class="block">
       <h2><span class="dot"></span>Das nehme ich mit</h2>
-      <div class="todo">Hier kommt der Merksatz / die Zusammenfassung hin.</div>
+      <div class="merk">
+        <p>Ein Computer arbeitet nach dem <span class="eva">E&#8209;V&#8209;A&#8209;Prinzip</span>: Zuerst kommt die <b>Eingabe</b> (z.&nbsp;B. &uuml;ber Tastatur und Maus), dann die <b>Verarbeitung</b> im &bdquo;Denk&#8209;Chip&ldquo;, und zum Schluss die <b>Ausgabe</b> (z.&nbsp;B. auf dem Bildschirm). Der <b>Speicher</b> merkt sich dabei die Daten.</p>
+        <div class="secret">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12c.5.5 1 1.2 1 2h6c0-.8.5-1.5 1-2a7 7 0 0 0-4-12z"/></svg>
+          <span>Merk&#8209;Trick: <b>E&#8209;V&#8209;A</b> klingt wie der Name <b>Eva</b>! Eingabe, Verarbeitung, Ausgabe &mdash; in genau dieser Reihenfolge.</span>
+        </div>
+      </div>
     </section>
 
     <div class="selfcheck-wrap">
@@ -180,9 +485,61 @@
 </div>
 
 <script>
+  /* ---------- Quiz-Engine ---------- */
+  (function(){
+    var LETTERS = ['A','B','C','D','E','F'];
+    var quizzes = document.querySelectorAll('[data-quiz]');
+    quizzes.forEach(function(quiz){
+      var questions = quiz.querySelectorAll('.q');
+      var total = questions.length;
+      var solved = 0;
+      var pcount = quiz.querySelector('.pcount');
+      var pfill = quiz.querySelector('.pfill');
+      var doneBox = quiz.querySelector('.quiz-solved');
+      function updateProgress(){
+        if (pcount) pcount.textContent = solved + ' / ' + total + ' richtig';
+        if (pfill) pfill.style.width = (total ? (solved/total*100) : 0) + '%';
+        if (doneBox && solved === total) doneBox.classList.add('show');
+      }
+      questions.forEach(function(q){
+        var opts = q.querySelectorAll('.opt');
+        var hint = q.querySelector('.q-hint');
+        var done = q.querySelector('.q-done');
+        var answered = false;
+        opts.forEach(function(opt, i){
+          var lett = document.createElement('span');
+          lett.className = 'lett';
+          lett.textContent = LETTERS[i];
+          opt.insertBefore(lett, opt.firstChild);
+          opt.addEventListener('click', function(){
+            if (answered) return;
+            if (opt.getAttribute('data-correct') === 'true') {
+              answered = true;
+              opt.classList.add('correct');
+              opts.forEach(function(o){ o.setAttribute('disabled','disabled'); });
+              if (hint) hint.classList.remove('show');
+              if (done) done.classList.add('show');
+              solved++;
+              updateProgress();
+            } else {
+              opt.classList.add('wrong');
+              opt.setAttribute('disabled','disabled');
+              if (hint) {
+                hint.textContent = opt.getAttribute('data-hint') || 'Nicht ganz — versuch es nochmal.';
+                hint.classList.add('show');
+              }
+            }
+          });
+        });
+      });
+      updateProgress();
+    });
+  })();
+
+  /* ---------- Selbsteinschätzung (Sterne, localStorage) ---------- */
   (function(){
     var key = 'itg_lp_02';
-    var msgs = {1:'Ganz frisch \u2014 \u00dcben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf \u2014 super!'};
+    var msgs = {1:'Ganz frisch — Üben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf — super!'};
     var svg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 18.9 6.1 21l1.2-6.5L2.5 9.9l6.6-.9z"/></svg>';
     var wrap = document.getElementById('stars'); var fb = document.getElementById('fb'); var stars = [];
     for (var n = 1; n <= 4; n++) { var b = document.createElement('button'); b.className = 'sc-star'; b.type = 'button'; b.innerHTML = svg; b.setAttribute('aria-label', 'Stufe ' + n); wrap.appendChild(b); stars.push(b); }

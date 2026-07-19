@@ -12,6 +12,7 @@
     --key: #7c5cf0; --edge: #5a39cf; --tint: #ece7fe; --ktext: #ffffff;
     --ink: #211a4d; --ink-soft: #4f4880; --bg: #f1f0fb; --card: #fff;
     --line: rgba(33,26,77,0.12); --sun: #ffc23d;
+    --ok: #39b56a; --ok-dk: #248049; --no: #e8607a; --no-dk: #b83a56;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -59,12 +60,8 @@
   .rlp .tag { display: inline-block; background: #e7e5fb; padding: 0.06rem 0.42rem; border-radius: 6px; margin: 0 0.15rem 0.25rem 0; }
   .rlp .tag.neu { background: var(--sun); color: var(--ink); }
 
-  .draft-note {
-    display: flex; align-items: center; gap: 0.6rem;
-    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 12px;
-    padding: 0.7rem 0.9rem; margin: 1.4rem 0; font-size: 0.9rem; font-weight: 700; color: #8a5a00;
-  }
-  .draft-note svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .intro { font-size: 1.05rem; margin: 1.4rem 0 1.6rem; }
+  .intro .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
 
   .block { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 1.4rem 1.5rem; margin-bottom: 1.1rem; }
   .block h2 {
@@ -72,15 +69,85 @@
     display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem;
   }
   .block h2 .dot { width: 14px; height: 14px; border-radius: 5px; background: var(--key); box-shadow: 0 2px 0 var(--edge); flex-shrink: 0; }
-  .todo {
-    border: 2px dashed var(--line); border-radius: 12px; padding: 1rem 1.1rem;
-    color: var(--ink-soft); font-style: italic; background: rgba(91,75,230,0.03);
+  .block p { margin-bottom: 0.6rem; }
+
+  /* figure */
+  .fig { background: var(--tint); border-radius: 14px; padding: 1rem; margin: 0.4rem 0 1rem; }
+  .fig svg { width: 100%; height: auto; display: block; }
+  .fig-cap { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); text-align: center; margin-top: 0.5rem; }
+
+  /* step list */
+  ol.steps { list-style: none; counter-reset: st; }
+  ol.steps li { counter-increment: st; position: relative; padding: 0.55rem 0 0.55rem 2.7rem; border-bottom: 1px dashed var(--line); }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li::before {
+    content: counter(st); position: absolute; left: 0; top: 0.5rem;
+    width: 30px; height: 30px; border-radius: 9px; background: var(--key); color: var(--ktext);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; box-shadow: 0 2px 0 var(--edge);
   }
+  ol.steps b { color: var(--edge); }
+
+  /* exercises + diff chips */
+  .task { border: 1.5px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; margin-bottom: 0.8rem; }
+  .chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.66rem;
+    letter-spacing: 0.05em; padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.5rem; }
+  .chip.basis { background: #e2f6ea; color: var(--ok-dk); border: 1.5px solid var(--ok); }
+  .chip.mittel { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+  .chip.knifflig { background: #fff3d1; color: #8a5a00; border: 1.5px solid var(--sun); }
+  .task ul { margin: 0.4rem 0 0 1.1rem; }
+  .task li { margin-bottom: 0.2rem; }
 
   .block.fast { border-color: var(--sun); background: #fff7e2; }
   .block.fast h2 { color: #8a5a00; }
   .block.fast h2 .rocket { width: 22px; height: 22px; color: #8a5a00; }
-  .fast-text { font-size: 1.02rem; font-weight: 600; }
+  .fast-text { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .fast-list { margin: 0.4rem 0 0.8rem 1.1rem; }
+  .fast-list li { margin-bottom: 0.3rem; }
+  .fast-extra { font-size: 0.95rem; font-weight: 600; background: #fff; border-radius: 10px; padding: 0.7rem 0.9rem; border: 1.5px dashed var(--sun); }
+
+  /* merksatz */
+  .merk { background: var(--tint); border: 2px solid var(--key); border-left: 8px solid var(--key); border-radius: 14px; padding: 1.1rem 1.3rem; }
+  .merk .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+  .merk b { color: var(--edge); }
+  .secret { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.9rem; padding: 0.7rem 0.9rem;
+    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 10px; font-weight: 700; color: #8a5a00; font-size: 0.95rem; }
+  .secret svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  /* ---- QUIZ ENGINE ---- */
+  .quiz { margin-top: 0.4rem; }
+  .quiz-progress { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.74rem; color: var(--ink-soft); }
+  .pbar { flex: 1; height: 10px; background: #e7e5fb; border-radius: 999px; overflow: hidden; }
+  .pfill { height: 100%; width: 0; background: var(--ok); border-radius: 999px; transition: width 0.3s ease; }
+  .q { margin-bottom: 1.1rem; padding-bottom: 1.1rem; border-bottom: 1px dashed var(--line); }
+  .q:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .q-text { font-weight: 800; margin-bottom: 0.6rem; }
+  .q-text .qn { color: var(--edge); font-family: 'JetBrains Mono', monospace; }
+  .opts { display: grid; gap: 0.5rem; }
+  .opt {
+    display: flex; align-items: center; gap: 0.7rem; width: 100%; text-align: left;
+    font-family: 'Nunito', sans-serif; font-size: 0.98rem; font-weight: 700; color: var(--ink);
+    background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 0.6rem 0.8rem; cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .opt:hover:not([disabled]) { border-color: var(--key); transform: translateX(2px); }
+  .opt .lett { flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px; background: var(--tint); color: var(--edge);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; font-size: 0.85rem; }
+  .opt.correct { border-color: var(--ok); background: #e9f8ef; }
+  .opt.correct .lett { background: var(--ok); color: #fff; }
+  .opt.wrong { border-color: var(--no); background: #fdecf0; }
+  .opt.wrong .lett { background: var(--no); color: #fff; }
+  .opt[disabled] { cursor: default; opacity: 0.75; }
+  .opt.correct[disabled], .opt.wrong[disabled] { opacity: 1; }
+  .q-hint { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--no-dk);
+    background: #fdecf0; border-radius: 9px; padding: 0.5rem 0.7rem; display: none; }
+  .q-hint.show { display: block; }
+  .q-done { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--ok-dk); display: none; }
+  .q-done.show { display: block; }
+  .quiz-solved { margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 12px; background: #e9f8ef;
+    border: 2px solid var(--ok); color: var(--ok-dk); font-family: 'Fredoka', sans-serif; font-weight: 600;
+    display: none; align-items: center; gap: 0.6rem; }
+  .quiz-solved.show { display: flex; }
+  .quiz-solved svg { width: 22px; height: 22px; flex-shrink: 0; }
 
   .selfcheck-wrap {
     display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem;
@@ -132,35 +199,271 @@
     <p class="rlp"><span class="tag neu">neu · Tastaturbedienung</span><span class="tag">3.2</span></p>
   </header>
 
-  <div class="draft-note">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
-    <span>Diese Seite ist das Ger&uuml;st f&uuml;r diesen Lernpfad &mdash; Inhalte werden noch erg&auml;nzt.</span>
-  </div>
+  <p class="intro">Eine Tastatur ist wie eine <span class="hl">Landkarte</span>: Jeder Bereich hat seinen festen Platz und seine eigene Aufgabe — der Buchstabenblock in der Mitte, die Zahlenreihe darüber, der Nummernblock rechts. Dazu kommen wichtige Einzeltasten wie Leertaste, Shift und Enter. Und mit einer Zaubertaste namens <b>AltGr</b> holst du sogar Umlaute, @ und € aus der Tastatur hervor. Los geht&rsquo;s!</p>
 
   <main>
+
+    <!-- ===================== VORWISSEN ===================== -->
     <section class="block">
-      <h2><span class="dot"></span>Los geht es &mdash; worum geht es heute?</h2>
-      <div class="todo">Hier kommt der Einstieg hin: eine kurze, spannende Hinf&uuml;hrung zum Thema.</div>
+      <h2><span class="dot"></span>Schau genau hin &mdash; was wei&szlig;t du schon?</h2>
+      <p>Sieh dir die drei Bilder an. Zu jedem Bild geh&ouml;ren einige Fragen. Tippe die richtige Antwort an &mdash; wird sie <b style="color:var(--ok-dk)">gr&uuml;n</b>, ist sie richtig. Bei <b style="color:var(--no-dk)">rot</b> bekommst du einen Tipp.</p>
+
+      <!-- Fig 1 -->
+      <div class="fig"><svg viewBox="0 0 700 370" xmlns="http://www.w3.org/2000/svg" font-family="Nunito, sans-serif" role="img"><rect x="20" y="20" width="660" height="330" rx="18" fill="#f6f4fe" stroke="#5a39cf" stroke-width="3"/><rect x="44" y="42" width="336" height="46" rx="10" fill="#fff3d1" stroke="#5a39cf" stroke-width="2"/><rect x="52" y="50" width="24" height="30" rx="3" fill="#ffc23d" stroke="#5a39cf" stroke-width="1.4"/><rect x="82" y="50" width="24" height="30" rx="3" fill="#ffc23d" stroke="#5a39cf" stroke-width="1.4"/><rect x="112" y="50" width="24" height="30" rx="3" fill="#ffc23d" stroke="#5a39cf" stroke-width="1.4"/><rect x="142" y="50" width="24" height="30" rx="3" fill="#ffc23d" stroke="#5a39cf" stroke-width="1.4"/><rect x="172" y="50" width="24" height="30" rx="3" fill="#ffc23d" stroke="#5a39cf" stroke-width="1.4"/><rect x="202" y="50" width="24" height="30" rx="3" fill="#ffc23d" stroke="#5a39cf" stroke-width="1.4"/><rect x="232" y="50" width="24" height="30" rx="3" fill="#ffc23d" stroke="#5a39cf" stroke-width="1.4"/><rect x="262" y="50" width="24" height="30" rx="3" fill="#ffc23d" stroke="#5a39cf" stroke-width="1.4"/><rect x="292" y="50" width="24" height="30" rx="3" fill="#ffc23d" stroke="#5a39cf" stroke-width="1.4"/><rect x="322" y="50" width="24" height="30" rx="3" fill="#ffc23d" stroke="#5a39cf" stroke-width="1.4"/><rect x="44" y="112" width="336" height="176" rx="10" fill="#ece7fe" stroke="#5a39cf" stroke-width="2"/><rect x="52" y="120" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="88" y="120" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="124" y="120" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="160" y="120" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="196" y="120" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="232" y="120" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="268" y="120" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="304" y="120" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="340" y="120" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="52" y="158" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="88" y="158" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="124" y="158" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="160" y="158" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="196" y="158" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="232" y="158" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="268" y="158" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="304" y="158" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="340" y="158" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="52" y="196" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="88" y="196" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="124" y="196" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="160" y="196" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="196" y="196" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="232" y="196" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="268" y="196" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="304" y="196" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="340" y="196" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="52" y="234" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="88" y="234" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="124" y="234" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="160" y="234" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="196" y="234" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="232" y="234" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="268" y="234" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="304" y="234" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="340" y="234" width="30" height="32" rx="3" fill="#7c5cf0" stroke="#5a39cf" stroke-width="1.4"/><rect x="430" y="236" width="40" height="40" rx="8" fill="#fde3e9" stroke="#5a39cf" stroke-width="2.5"/><g transform="translate(450,256) rotate(0)"><path d="M0,-6 L7,6 L-7,6 Z" fill="#5a39cf"/></g><rect x="430" y="280" width="40" height="40" rx="8" fill="#fde3e9" stroke="#5a39cf" stroke-width="2.5"/><g transform="translate(450,300) rotate(180)"><path d="M0,-6 L7,6 L-7,6 Z" fill="#5a39cf"/></g><rect x="386" y="280" width="40" height="40" rx="8" fill="#fde3e9" stroke="#5a39cf" stroke-width="2.5"/><g transform="translate(406,300) rotate(270)"><path d="M0,-6 L7,6 L-7,6 Z" fill="#5a39cf"/></g><rect x="474" y="280" width="40" height="40" rx="8" fill="#fde3e9" stroke="#5a39cf" stroke-width="2.5"/><g transform="translate(494,300) rotate(90)"><path d="M0,-6 L7,6 L-7,6 Z" fill="#5a39cf"/></g><rect x="532" y="42" width="140" height="286" rx="10" fill="#e2f6ea" stroke="#5a39cf" stroke-width="2"/><rect x="540" y="50" width="36" height="40" rx="3" fill="#39b56a" stroke="#5a39cf" stroke-width="1.4"/><rect x="582" y="50" width="36" height="40" rx="3" fill="#39b56a" stroke="#5a39cf" stroke-width="1.4"/><rect x="624" y="50" width="36" height="40" rx="3" fill="#39b56a" stroke="#5a39cf" stroke-width="1.4"/><rect x="540" y="96" width="36" height="40" rx="3" fill="#39b56a" stroke="#5a39cf" stroke-width="1.4"/><rect x="582" y="96" width="36" height="40" rx="3" fill="#39b56a" stroke="#5a39cf" stroke-width="1.4"/><rect x="624" y="96" width="36" height="40" rx="3" fill="#39b56a" stroke="#5a39cf" stroke-width="1.4"/><rect x="540" y="142" width="36" height="40" rx="3" fill="#39b56a" stroke="#5a39cf" stroke-width="1.4"/><rect x="582" y="142" width="36" height="40" rx="3" fill="#39b56a" stroke="#5a39cf" stroke-width="1.4"/><rect x="624" y="142" width="36" height="40" rx="3" fill="#39b56a" stroke="#5a39cf" stroke-width="1.4"/><rect x="540" y="188" width="36" height="40" rx="3" fill="#39b56a" stroke="#5a39cf" stroke-width="1.4"/><rect x="582" y="188" width="36" height="40" rx="3" fill="#39b56a" stroke="#5a39cf" stroke-width="1.4"/><rect x="624" y="188" width="36" height="40" rx="3" fill="#39b56a" stroke="#5a39cf" stroke-width="1.4"/><rect x="540" y="234" width="124" height="40" rx="6" fill="#39b56a" stroke="#5a39cf" stroke-width="2.5"/><circle cx="212" cy="112" r="17" fill="#7c5cf0" stroke="#ffffff" stroke-width="3"/><text x="212" y="112" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><circle cx="212" cy="42" r="17" fill="#c8890a" stroke="#ffffff" stroke-width="3"/><text x="212" y="42" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><circle cx="664" cy="42" r="17" fill="#248049" stroke="#ffffff" stroke-width="3"/><text x="664" y="42" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><circle cx="450" cy="222" r="17" fill="#b83a56" stroke="#ffffff" stroke-width="3"/><text x="450" y="222" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text></svg><div class="fig-cap">Bild 1 &middot; Die gro&szlig;en Bereiche</div></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 4 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.1</span> &nbsp;Wie hei&szlig;t <b>Teil 1</b>, der gro&szlig;e Bereich in der Mitte mit den Buchstaben?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Buchstabenblock</button>
+            <button class="opt" data-hint="Die Zahlenreihe liegt &uuml;ber dem Buchstabenblock, nicht mittig darin.">Zahlenreihe</button>
+            <button class="opt" data-hint="Der Nummernblock liegt ganz rechts, nicht in der Mitte.">Nummernblock</button>
+            <button class="opt" data-hint="Die Pfeiltasten liegen rechts neben dem Buchstabenblock.">Pfeiltasten</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig &mdash; der Buchstabenblock ist das gr&ouml;&szlig;te Tastenfeld.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.2</span> &nbsp;Wo findest du <b>Teil 2</b>, die Zahlenreihe?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">&uuml;ber dem Buchstabenblock, in einer Reihe</button>
+            <button class="opt" data-hint="Das ist der Nummernblock (Teil 3), nicht die Zahlenreihe.">ganz rechts als eigener Block</button>
+            <button class="opt" data-hint="Unten liegt die Leertaste, keine Zahlen.">unten neben der Leertaste</button>
+            <button class="opt" data-hint="Links au&szlig;en liegen Tab und Feststelltaste, keine Zahlenreihe.">links au&szlig;en</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau &mdash; die Zahlenreihe liegt direkt &uuml;ber den Buchstaben.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.3</span> &nbsp;Wozu dient <b>Teil 3</b>, der Nummernblock?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">schnelles Eintippen von Zahlen mit einer Hand</button>
+            <button class="opt" data-hint="Buchstaben schreibst du im Buchstabenblock (Teil 1).">Buchstaben schreiben</button>
+            <button class="opt" data-hint="Den Mauszeiger bewegst du mit der Maus, nicht mit dem Nummernblock.">den Mauszeiger bewegen</button>
+            <button class="opt" data-hint="Zum Fensterwechsel nutzt du Alt+Tab, nicht den Nummernblock.">das Fenster wechseln</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt &mdash; wie ein Taschenrechner, ideal f&uuml;r viele Zahlen.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.4</span> &nbsp;Wozu dienen die Pfeiltasten (<b>Teil 4</b>)?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">um den Cursor (die Schreibmarke) hoch, runter, links oder rechts zu bewegen</button>
+            <button class="opt" data-hint="Zahlen gibst du &uuml;ber die Zahlenreihe oder den Nummernblock ein.">um Zahlen einzugeben</button>
+            <button class="opt" data-hint="Zum Schlie&szlig;en brauchst du das &times; im Fenster, nicht die Pfeiltasten.">um das Programm zu schlie&szlig;en</button>
+            <button class="opt" data-hint="Gro&szlig;buchstaben schreibst du mit der Umschalttaste (Shift).">um Gro&szlig;buchstaben zu schreiben</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig &mdash; die Pfeiltasten bewegen den Cursor im Text.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Super &mdash; Bild 1 komplett gel&ouml;st!</div>
+      </div>
+
+      <!-- Fig 2 -->
+      <div class="fig"><svg viewBox="0 0 700 370" xmlns="http://www.w3.org/2000/svg" font-family="Nunito, sans-serif" role="img"><rect x="20" y="20" width="660" height="330" rx="18" fill="#f6f4fe" stroke="#5a39cf" stroke-width="3"/><rect x="48" y="52" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="83" y="52" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="118" y="52" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="153" y="52" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="188" y="52" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="223" y="52" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="258" y="52" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="293" y="52" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="328" y="52" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="363" y="52" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="398" y="52" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="433" y="52" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="468" y="52" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="48" y="87" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="83" y="87" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="118" y="87" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="153" y="87" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="188" y="87" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="223" y="87" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="258" y="87" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="293" y="87" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="328" y="87" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="363" y="87" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="398" y="87" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="433" y="87" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="468" y="87" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="470" y="52" width="140" height="42" rx="8" fill="#fde3e9" stroke="#5a39cf" stroke-width="2.5"/><path d="M500,73 l14,-10 v6 h20 v8 h-20 v6 z" fill="#5a39cf"/><text x="565" y="79" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="13" fill="#5a39cf">R&#252;ck</text><rect x="470" y="104" width="140" height="90" rx="8" fill="#e2f6ea" stroke="#5a39cf" stroke-width="2.5"/><path d="M515,138 h22 v22 h-8 l12,14 l12,-14 h-8 v-30 h-30 z" fill="#5a39cf"/><text x="540" y="186" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="16" fill="#5a39cf">Enter</text><rect x="48" y="104" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="83" y="104" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="118" y="104" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="153" y="104" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="188" y="104" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="223" y="104" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="258" y="104" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="293" y="104" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="328" y="104" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="363" y="104" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="398" y="104" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="433" y="104" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="48" y="139" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="83" y="139" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="118" y="139" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="153" y="139" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="188" y="139" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="223" y="139" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="258" y="139" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="293" y="139" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="328" y="139" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="363" y="139" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="398" y="139" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="433" y="139" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="48" y="206" width="150" height="42" rx="8" fill="#fff3d1" stroke="#5a39cf" stroke-width="2.5"/><path d="M68,232 v-8 h-6 l11,-12 l11,12 h-6 v8 z" fill="#5a39cf"/><text x="133" y="233" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="18" fill="#5a39cf">Shift</text><rect x="210" y="206" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="245" y="206" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="280" y="206" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="315" y="206" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="350" y="206" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="385" y="206" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="420" y="206" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="455" y="206" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="490" y="206" width="30" height="30" rx="3" fill="#eceafb" stroke="#c9c2f5" stroke-width="1.4"/><rect x="140" y="264" width="340" height="44" rx="10" fill="#7c5cf0" stroke="#5a39cf" stroke-width="2.5"/><text x="310" y="293" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="16" fill="#ffffff">Leertaste</text><rect x="624" y="52" width="48" height="42" rx="8" fill="#e9e6fb" stroke="#5a39cf" stroke-width="2.5"/><text x="648" y="79" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#5a39cf">Entf</text><circle cx="480" cy="264" r="17" fill="#7c5cf0" stroke="#ffffff" stroke-width="3"/><text x="480" y="264" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><circle cx="48" cy="206" r="17" fill="#c8890a" stroke="#ffffff" stroke-width="3"/><text x="48" y="206" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><circle cx="610" cy="104" r="17" fill="#248049" stroke="#ffffff" stroke-width="3"/><text x="610" y="104" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><circle cx="610" cy="52" r="17" fill="#b83a56" stroke="#ffffff" stroke-width="3"/><text x="610" y="52" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text><circle cx="672" cy="52" r="17" fill="#5b64ae" stroke="#ffffff" stroke-width="3"/><text x="672" y="52" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">5</text></svg><div class="fig-cap">Bild 2 &middot; Wichtige Einzeltasten</div></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 5 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.1</span> &nbsp;Wozu dient <b>Teil 1</b>, die Leertaste?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">um ein Leerzeichen zwischen zwei W&ouml;rtern einzuf&uuml;gen</button>
+            <button class="opt" data-hint="Eine neue Zeile beginnst du mit der Eingabetaste (Enter).">um eine neue Zeile zu beginnen</button>
+            <button class="opt" data-hint="L&ouml;schen erledigt die R&uuml;cktaste oder die Entf-Taste.">um einen Buchstaben zu l&ouml;schen</button>
+            <button class="opt" data-hint="F&uuml;r Gro&szlig;buchstaben brauchst du die Umschalttaste.">um Gro&szlig;buchstaben zu schreiben</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig &mdash; die l&auml;ngste Taste auf der Tastatur.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.2</span> &nbsp;Was passiert, wenn du <b>Teil 2</b> (Umschalttaste/Shift) gedr&uuml;ckt h&auml;ltst?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Du schreibst Gro&szlig;buchstaben oder das obere Zeichen einer Taste.</button>
+            <button class="opt" data-hint="Zum Ausschalten nutzt du das Startmen&uuml;.">Der Computer schaltet sich aus.</button>
+            <button class="opt" data-hint="Ein neues Fenster &ouml;ffnest du &uuml;ber ein Programm-Symbol, nicht mit Shift.">Ein neues Fenster &ouml;ffnet sich.</button>
+            <button class="opt" data-hint="L&ouml;schen macht die R&uuml;cktaste oder Entf, nicht Shift.">Der Text wird gel&ouml;scht.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau &mdash; Shift schaltet auf Gro&szlig;buchstaben um.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.3</span> &nbsp;Wozu dient <b>Teil 3</b>, die Eingabetaste (Enter)?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">um eine neue Zeile zu beginnen oder eine Eingabe zu best&auml;tigen</button>
+            <button class="opt" data-hint="Markieren machst du mit der Maus oder Shift+Pfeiltasten.">um ein Wort zu markieren</button>
+            <button class="opt" data-hint="L&ouml;schen macht die R&uuml;cktaste oder Entf.">um ein Zeichen zu l&ouml;schen</button>
+            <button class="opt" data-hint="Den Bildschirm drehst du nicht mit einer Taste.">um den Bildschirm zu drehen</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt &mdash; Enter beginnt eine neue Zeile oder best&auml;tigt.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.4</span> &nbsp;Was macht <b>Teil 4</b>, die R&uuml;cktaste?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Sie l&ouml;scht das Zeichen links vom Cursor.</button>
+            <button class="opt" data-hint="Das rechte Zeichen l&ouml;scht die Entf-Taste (Teil 5).">Sie l&ouml;scht das Zeichen rechts vom Cursor.</button>
+            <button class="opt" data-hint="Ein Leerzeichen f&uuml;gt die Leertaste ein.">Sie f&uuml;gt ein Leerzeichen ein.</button>
+            <button class="opt" data-hint="Speichern geschieht &uuml;ber ein Men&uuml; oder Strg+S.">Sie speichert das Dokument.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig &mdash; sie l&ouml;scht r&uuml;ckw&auml;rts, nach links.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.5</span> &nbsp;Was macht <b>Teil 5</b>, die Entf-Taste?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Sie l&ouml;scht das Zeichen rechts vom Cursor.</button>
+            <button class="opt" data-hint="Das linke Zeichen l&ouml;scht die R&uuml;cktaste (Teil 4).">Sie l&ouml;scht das Zeichen links vom Cursor.</button>
+            <button class="opt" data-hint="Gro&szlig;buchstaben schreibst du mit Shift.">Sie schreibt einen Gro&szlig;buchstaben.</button>
+            <button class="opt" data-hint="Programme &ouml;ffnest du &uuml;ber das Startmen&uuml;.">Sie &ouml;ffnet ein neues Programm.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau &mdash; Entf l&ouml;scht nach vorne, nach rechts.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Klasse &mdash; Bild 2 komplett gel&ouml;st!</div>
+      </div>
+
+      <!-- Fig 3 -->
+      <div class="fig"><svg viewBox="0 0 700 370" xmlns="http://www.w3.org/2000/svg" font-family="Nunito, sans-serif" role="img"><rect x="20" y="20" width="660" height="330" rx="18" fill="#f6f4fe" stroke="#5a39cf" stroke-width="3"/><rect x="90" y="54" width="64" height="60" rx="8" fill="#fff3d1" stroke="#5a39cf" stroke-width="2.5"/><text x="122" y="92" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="24" fill="#5a39cf">&#196;</text><circle cx="112" cy="70" r="2.4" fill="#c8890a"/><circle cx="132" cy="70" r="2.4" fill="#c8890a"/><rect x="170" y="54" width="64" height="60" rx="8" fill="#fff3d1" stroke="#5a39cf" stroke-width="2.5"/><text x="202" y="92" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="24" fill="#5a39cf">&#214;</text><circle cx="192" cy="70" r="2.4" fill="#c8890a"/><circle cx="212" cy="70" r="2.4" fill="#c8890a"/><rect x="250" y="54" width="64" height="60" rx="8" fill="#fff3d1" stroke="#5a39cf" stroke-width="2.5"/><text x="282" y="92" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="24" fill="#5a39cf">&#220;</text><circle cx="272" cy="70" r="2.4" fill="#c8890a"/><circle cx="292" cy="70" r="2.4" fill="#c8890a"/><rect x="110" y="180" width="80" height="80" rx="8" fill="#ece7fe" stroke="#5a39cf" stroke-width="2.5"/><text x="140" y="218" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="26" fill="#5a39cf">Q</text><text x="168" y="244" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#248049">@</text><rect x="230" y="180" width="80" height="80" rx="8" fill="#ece7fe" stroke="#5a39cf" stroke-width="2.5"/><text x="260" y="218" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="26" fill="#5a39cf">E</text><text x="288" y="244" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#248049">&#8364;</text><rect x="110" y="300" width="200" height="44" rx="8" fill="#ffc23d" stroke="#5a39cf" stroke-width="2.5"/><text x="210" y="329" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="18" fill="#5a39cf">AltGr</text><path d="M150,300 L150,260" stroke="#5a39cf" stroke-width="1.6" stroke-dasharray="4,4" fill="none"/><path d="M250,300 L270,260" stroke="#5a39cf" stroke-width="1.6" stroke-dasharray="4,4" fill="none"/><text x="136.0" y="280.0" font-family="Nunito, sans-serif" font-weight="800" font-size="18" fill="#5a39cf">+</text><text x="268.0" y="280.0" font-family="Nunito, sans-serif" font-weight="800" font-size="18" fill="#5a39cf">+</text><rect x="420" y="150" width="220" height="150" rx="12" fill="#ffffff" stroke="#5a39cf" stroke-width="2.4" stroke-dasharray="6,4"/><text x="530" y="200" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="18" fill="#5a39cf">AltGr + Q = @</text><text x="530" y="250" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="18" fill="#5a39cf">AltGr + E = &#8364;</text><circle cx="122" cy="54" r="17" fill="#c8890a" stroke="#ffffff" stroke-width="3"/><text x="122" y="54" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><circle cx="310" cy="300" r="17" fill="#c8890a" stroke="#ffffff" stroke-width="3"/><text x="310" y="300" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><circle cx="190" cy="180" r="17" fill="#248049" stroke="#ffffff" stroke-width="3"/><text x="190" y="180" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><circle cx="310" cy="180" r="17" fill="#248049" stroke="#ffffff" stroke-width="3"/><text x="310" y="180" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text></svg><div class="fig-cap">Bild 3 &middot; Sonderzeichen zaubern</div></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 4 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.1</span> &nbsp;Wie hei&szlig;en die Tasten mit den Punkten bei <b>Teil 1</b>?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">die Umlaut-Tasten</button>
+            <button class="opt" data-hint="Die Zahlenreihe zeigt Ziffern, keine Punkte &uuml;ber Buchstaben.">die Zahlenreihe</button>
+            <button class="opt" data-hint="Pfeiltasten haben Pfeilsymbole, keine Punkte.">die Pfeiltasten</button>
+            <button class="opt" data-hint="Der Nummernblock liegt an anderer Stelle und zeigt Ziffern.">der Nummernblock</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig &mdash; &Auml; &Ouml; &Uuml; haben ihre eigenen Tasten.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.2</span> &nbsp;Wozu dient <b>Teil 2</b>, die AltGr-Taste?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Zusammen mit einer anderen Taste zaubert sie ein drittes Zeichen, z.&nbsp;B. @ oder &euro;.</button>
+            <button class="opt" data-hint="L&ouml;schen geschieht mit R&uuml;cktaste oder Entf.">Sie l&ouml;scht den ganzen Text.</button>
+            <button class="opt" data-hint="Programme startest du &uuml;ber das Startmen&uuml;.">Sie startet ein Programm.</button>
+            <button class="opt" data-hint="F&uuml;r Gro&szlig;buchstaben brauchst du die Umschalttaste (Shift).">Sie schreibt automatisch Gro&szlig;buchstaben.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau &mdash; AltGr ist die Zauberer-Taste f&uuml;r Sonderzeichen.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.3</span> &nbsp;Wie zauberst du mit <b>Teil 3</b> das @-Zeichen?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">AltGr gedr&uuml;ckt halten und gleichzeitig Q dr&uuml;cken.</button>
+            <button class="opt" data-hint="Ohne AltGr schreibt die Q-Taste nur den Buchstaben q.">Nur die Q-Taste dr&uuml;cken.</button>
+            <button class="opt" data-hint="Shift+Q ergibt ein gro&szlig;es Q, kein @.">Shift gedr&uuml;ckt halten und Q dr&uuml;cken.</button>
+            <button class="opt" data-hint="Zweimal Q ergibt „qq“, kein @.">Zweimal hintereinander Q dr&uuml;cken.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt &mdash; AltGr+Q ergibt das @-Zeichen.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.4</span> &nbsp;Wie zauberst du mit <b>Teil 4</b> das &euro;-Zeichen?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">AltGr gedr&uuml;ckt halten und gleichzeitig E dr&uuml;cken.</button>
+            <button class="opt" data-hint="Ohne AltGr schreibt die E-Taste nur den Buchstaben e.">Nur die E-Taste dr&uuml;cken.</button>
+            <button class="opt" data-hint="Strg+E ist kein Zeichen-K&uuml;rzel f&uuml;r &euro;.">Strg gedr&uuml;ckt halten und E dr&uuml;cken.</button>
+            <button class="opt" data-hint="Entf l&ouml;scht ein Zeichen, erzeugt aber kein &euro;.">Die Entf-Taste dr&uuml;cken.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig &mdash; AltGr+E ergibt das &euro;-Zeichen.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Stark &mdash; Bild 3 komplett gel&ouml;st!</div>
+      </div>
     </section>
 
+    <!-- ===================== SCHRITT FÜR SCHRITT ===================== -->
     <section class="block">
-      <h2><span class="dot"></span>Schritt f&uuml;r Schritt</h2>
-      <div class="todo">Hier kommt die Anleitung hin: die einzelnen Arbeitsschritte, gerne mit Screenshots.</div>
+      <h2><span class="dot"></span>Schritt f&uuml;r Schritt &mdash; am Rechner</h2>
+      <ol class="steps">
+        <li><b>Finger bereit.</b> Lege beide H&auml;nde locker auf die Grundreihe (A S D F &middot; J K L &Ouml;).</li>
+        <li><b>Buchstaben tippen.</b> Schreibe deinen Vornamen im Buchstabenblock.</li>
+        <li><b>Gro&szlig;buchstaben.</b> Halte die Umschalttaste (Shift) gedr&uuml;ckt und tippe einen Buchstaben &mdash; er erscheint gro&szlig;.</li>
+        <li><b>Leerzeichen setzen.</b> Dr&uuml;cke die Leertaste zwischen zwei W&ouml;rtern.</li>
+        <li><b>Neue Zeile.</b> Dr&uuml;cke die Eingabetaste (Enter), um eine neue Zeile zu beginnen.</li>
+        <li><b>L&ouml;schen &uuml;ben.</b> L&ouml;sche mit der R&uuml;cktaste (&larr;&#9003;) ein Zeichen links vom Cursor &mdash; und mit der Entf-Taste eines rechts davon.</li>
+        <li><b>Zahlen eingeben.</b> Tippe eine Zahl &uuml;ber die Zahlenreihe oder den Nummernblock ein.</li>
+        <li><b>Sonderzeichen zaubern.</b> Halte AltGr gedr&uuml;ckt und tippe Q f&uuml;r @ bzw. E f&uuml;r &euro;.</li>
+      </ol>
     </section>
 
+    <!-- ===================== ÜBUNGEN ===================== -->
     <section class="block">
       <h2><span class="dot"></span>&Uuml;bungsaufgaben</h2>
-      <div class="todo">Hier kommen die Aufgaben hin &mdash; mit klarer Differenzierung (Basis &middot; mittel &middot; knifflig).</div>
+      <div class="task">
+        <span class="chip basis">Basis</span>
+        <p>&Ouml;ffne den Editor (oder ein Textprogramm) und tippe deinen vollst&auml;ndigen Namen &mdash; einmal klein, einmal mit Shift in GRO&Szlig;BUCHSTABEN.</p>
+      </div>
+      <div class="task">
+        <span class="chip mittel">mittel</span>
+        <p>Schreibe eine E-Mail-Adresse mit dem @-Zeichen (z.&nbsp;B. <code>deinname@schule.de</code>). Schreibe danach mit dem &euro;-Zeichen den Satz: &bdquo;Der Taschenrechner kostet 5&euro;.&ldquo;</p>
+      </div>
+      <div class="task">
+        <span class="chip knifflig">knifflig</span>
+        <p>Schreibe drei S&auml;tze mit mindestens einem Umlaut (&auml;, &ouml;, &uuml;) und einem &szlig;. L&ouml;sche danach absichtlich ein falsches Wort mit der R&uuml;cktaste und ein anderes mit der Entf-Taste &mdash; erkl&auml;re einer Partnerin oder einem Partner den Unterschied.</p>
+      </div>
     </section>
 
+    <!-- ===================== SCHNELLLÄUFER ===================== -->
     <section class="block fast">
       <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnelll&auml;ufer:innen-Mission</h2>
-      <p class="fast-text">Finde heraus, wozu die Tasten „Tab", „Esc" und die Windows-Taste gut sind — und stelle sie der Gruppe vor.</p>
+      <p class="fast-text">Du bist fertig? Finde heraus, wozu die Tasten &bdquo;Tab&ldquo;, &bdquo;Esc&ldquo; und die Windows-Taste gut sind:</p>
+      <ul class="fast-list">
+        <li><b>Tab-Taste:</b> springt zum n&auml;chsten Eingabefeld (z.&nbsp;B. in einem Formular) oder r&uuml;ckt Text ein.</li>
+        <li><b>Esc-Taste:</b> bricht eine Aktion ab oder schlie&szlig;t ein Men&uuml;/Fenster, ohne etwas zu speichern.</li>
+        <li><b>Windows-Taste:</b> &ouml;ffnet blitzschnell das Startmen&uuml;, egal was gerade auf dem Bildschirm ist.</li>
+      </ul>
+      <p class="fast-extra"><b>Extra:</b> Finde eine vierte &bdquo;geheime&ldquo; Taste, die dir noch niemand gezeigt hat, probiere sie vorsichtig aus und erkl&auml;re der Klasse, was sie tut.</p>
     </section>
 
+    <!-- ===================== SICHERUNG ===================== -->
+    <section class="block">
+      <h2><span class="dot"></span>Das kann ich jetzt &mdash; kurzer Check</h2>
+      <p>Vier Fragen zum Abschluss. Wieder gilt: <b style="color:var(--ok-dk)">gr&uuml;n</b> = richtig, <b style="color:var(--no-dk)">rot</b> = Tipp.</p>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 4 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.1</span> &nbsp;Wo liegt der Buchstabenblock auf der Tastatur?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">in der Mitte, das gr&ouml;&szlig;te Tastenfeld</button>
+            <button class="opt" data-hint="Rechts au&szlig;en liegt der Nummernblock.">ganz rechts au&szlig;en</button>
+            <button class="opt" data-hint="Oben liegt die Zahlenreihe, nicht der Buchstabenblock.">ganz oben in einer einzelnen Reihe</button>
+            <button class="opt" data-hint="Unten liegt nur die Leertaste selbst.">unten neben der Leertaste</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig &mdash; der Buchstabenblock ist das gr&ouml;&szlig;te Feld in der Mitte.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.2</span> &nbsp;Wie schreibst du einen Gro&szlig;buchstaben?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Umschalttaste (Shift) gedr&uuml;ckt halten und die Buchstabentaste dr&uuml;cken.</button>
+            <button class="opt" data-hint="Enter beginnt eine neue Zeile, macht keine Gro&szlig;buchstaben.">Enter dr&uuml;cken.</button>
+            <button class="opt" data-hint="AltGr zaubert ein drittes Zeichen, keine Gro&szlig;buchstaben.">AltGr gedr&uuml;ckt halten.</button>
+            <button class="opt" data-hint="Die Leertaste f&uuml;gt nur ein Leerzeichen ein.">Die Leertaste doppelt dr&uuml;cken.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau &mdash; Shift macht aus Klein- Gro&szlig;buchstaben.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.3</span> &nbsp;Wie tippst du das @-Zeichen?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">AltGr + Q</button>
+            <button class="opt" data-hint="Das ergibt ein gro&szlig;es Q, kein @.">Shift + Q</button>
+            <button class="opt" data-hint="Strg+Q ist keine Zeichen-Kombination f&uuml;r @.">Strg + Q</button>
+            <button class="opt" data-hint="Enter beginnt nur eine neue Zeile.">Enter + Q</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt &mdash; AltGr+Q zaubert das @-Zeichen.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.4</span> &nbsp;Was ist der Unterschied zwischen R&uuml;cktaste und Entf-Taste?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">R&uuml;cktaste l&ouml;scht links vom Cursor, Entf l&ouml;scht rechts vom Cursor.</button>
+            <button class="opt" data-hint="Sie l&ouml;schen in unterschiedliche Richtungen.">Beide l&ouml;schen genau dasselbe.</button>
+            <button class="opt" data-hint="Das ist genau vertauscht.">R&uuml;cktaste l&ouml;scht rechts, Entf l&ouml;scht links.</button>
+            <button class="opt" data-hint="Auch die R&uuml;cktaste l&ouml;scht ein Zeichen.">Nur die Entf-Taste l&ouml;scht wirklich etwas.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig &mdash; links vs. rechts vom Cursor.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Perfekt &mdash; du kennst jetzt die Tastatur-Landkarte!</div>
+      </div>
+    </section>
+
+    <!-- ===================== MERKSATZ ===================== -->
     <section class="block">
       <h2><span class="dot"></span>Das nehme ich mit</h2>
-      <div class="todo">Hier kommt der Merksatz / die Zusammenfassung hin.</div>
+      <div class="merk">
+        <p>Die Tastatur hat eine <b>Landkarte</b>: der <b>Buchstabenblock</b> in der Mitte, die <b>Zahlenreihe</b> dar&uuml;ber, der <b>Nummernblock</b> rechts und die <b>Pfeiltasten</b> daneben. Mit <b>Shift</b> schreibst du gro&szlig;, mit <b>Enter</b> beginnst du eine neue Zeile, mit <b>R&uuml;cktaste</b> und <b>Entf</b> l&ouml;schst du Zeichen.</p>
+        <div class="secret">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12c.5.5 1 1.2 1 2h6c0-.8.5-1.5 1-2a7 7 0 0 0-4-12z"/></svg>
+          <span>Merk&#8209;Trick: <b>AltGr</b> ist die &bdquo;Zauberer-Taste&ldquo; &mdash; sie holt das dritte Zeichen einer Taste hervor. Du erkennst es unten rechts auf der Taste: <b>AltGr+Q = @</b> und <b>AltGr+E = &euro;</b>.</span>
+        </div>
+      </div>
     </section>
 
     <div class="selfcheck-wrap">
@@ -180,9 +483,61 @@
 </div>
 
 <script>
+  /* ---------- Quiz-Engine ---------- */
+  (function(){
+    var LETTERS = ['A','B','C','D','E','F'];
+    var quizzes = document.querySelectorAll('[data-quiz]');
+    quizzes.forEach(function(quiz){
+      var questions = quiz.querySelectorAll('.q');
+      var total = questions.length;
+      var solved = 0;
+      var pcount = quiz.querySelector('.pcount');
+      var pfill = quiz.querySelector('.pfill');
+      var doneBox = quiz.querySelector('.quiz-solved');
+      function updateProgress(){
+        if (pcount) pcount.textContent = solved + ' / ' + total + ' richtig';
+        if (pfill) pfill.style.width = (total ? (solved/total*100) : 0) + '%';
+        if (doneBox && solved === total) doneBox.classList.add('show');
+      }
+      questions.forEach(function(q){
+        var opts = q.querySelectorAll('.opt');
+        var hint = q.querySelector('.q-hint');
+        var done = q.querySelector('.q-done');
+        var answered = false;
+        opts.forEach(function(opt, i){
+          var lett = document.createElement('span');
+          lett.className = 'lett';
+          lett.textContent = LETTERS[i];
+          opt.insertBefore(lett, opt.firstChild);
+          opt.addEventListener('click', function(){
+            if (answered) return;
+            if (opt.getAttribute('data-correct') === 'true') {
+              answered = true;
+              opt.classList.add('correct');
+              opts.forEach(function(o){ o.setAttribute('disabled','disabled'); });
+              if (hint) hint.classList.remove('show');
+              if (done) done.classList.add('show');
+              solved++;
+              updateProgress();
+            } else {
+              opt.classList.add('wrong');
+              opt.setAttribute('disabled','disabled');
+              if (hint) {
+                hint.textContent = opt.getAttribute('data-hint') || 'Nicht ganz — versuch es nochmal.';
+                hint.classList.add('show');
+              }
+            }
+          });
+        });
+      });
+      updateProgress();
+    });
+  })();
+
+  /* ---------- Selbsteinschätzung (Sterne, localStorage) ---------- */
   (function(){
     var key = 'itg_lp_04';
-    var msgs = {1:'Ganz frisch \u2014 \u00dcben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf \u2014 super!'};
+    var msgs = {1:'Ganz frisch — Üben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf — super!'};
     var svg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 18.9 6.1 21l1.2-6.5L2.5 9.9l6.6-.9z"/></svg>';
     var wrap = document.getElementById('stars'); var fb = document.getElementById('fb'); var stars = [];
     for (var n = 1; n <= 4; n++) { var b = document.createElement('button'); b.className = 'sc-star'; b.type = 'button'; b.innerHTML = svg; b.setAttribute('aria-label', 'Stufe ' + n); wrap.appendChild(b); stars.push(b); }

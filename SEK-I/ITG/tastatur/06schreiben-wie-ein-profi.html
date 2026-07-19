@@ -12,6 +12,7 @@
     --key: #7c5cf0; --edge: #5a39cf; --tint: #ece7fe; --ktext: #ffffff;
     --ink: #211a4d; --ink-soft: #4f4880; --bg: #f1f0fb; --card: #fff;
     --line: rgba(33,26,77,0.12); --sun: #ffc23d;
+    --ok: #39b56a; --ok-dk: #248049; --no: #e8607a; --no-dk: #b83a56;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -59,12 +60,8 @@
   .rlp .tag { display: inline-block; background: #e7e5fb; padding: 0.06rem 0.42rem; border-radius: 6px; margin: 0 0.15rem 0.25rem 0; }
   .rlp .tag.neu { background: var(--sun); color: var(--ink); }
 
-  .draft-note {
-    display: flex; align-items: center; gap: 0.6rem;
-    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 12px;
-    padding: 0.7rem 0.9rem; margin: 1.4rem 0; font-size: 0.9rem; font-weight: 700; color: #8a5a00;
-  }
-  .draft-note svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .intro { font-size: 1.05rem; margin: 1.4rem 0 1.6rem; }
+  .intro .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
 
   .block { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 1.4rem 1.5rem; margin-bottom: 1.1rem; }
   .block h2 {
@@ -72,15 +69,85 @@
     display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem;
   }
   .block h2 .dot { width: 14px; height: 14px; border-radius: 5px; background: var(--key); box-shadow: 0 2px 0 var(--edge); flex-shrink: 0; }
-  .todo {
-    border: 2px dashed var(--line); border-radius: 12px; padding: 1rem 1.1rem;
-    color: var(--ink-soft); font-style: italic; background: rgba(91,75,230,0.03);
+  .block p { margin-bottom: 0.6rem; }
+
+  /* figure */
+  .fig { background: var(--tint); border-radius: 14px; padding: 1rem; margin: 0.4rem 0 1rem; }
+  .fig svg { width: 100%; height: auto; display: block; }
+  .fig-cap { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); text-align: center; margin-top: 0.5rem; }
+
+  /* step list */
+  ol.steps { list-style: none; counter-reset: st; }
+  ol.steps li { counter-increment: st; position: relative; padding: 0.55rem 0 0.55rem 2.7rem; border-bottom: 1px dashed var(--line); }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li::before {
+    content: counter(st); position: absolute; left: 0; top: 0.5rem;
+    width: 30px; height: 30px; border-radius: 9px; background: var(--key); color: var(--ktext);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; box-shadow: 0 2px 0 var(--edge);
   }
+  ol.steps b { color: var(--edge); }
+
+  /* exercises + diff chips */
+  .task { border: 1.5px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; margin-bottom: 0.8rem; }
+  .chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.66rem;
+    letter-spacing: 0.05em; padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.5rem; }
+  .chip.basis { background: #e2f6ea; color: var(--ok-dk); border: 1.5px solid var(--ok); }
+  .chip.mittel { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+  .chip.knifflig { background: #fff3d1; color: #8a5a00; border: 1.5px solid var(--sun); }
+  .task ul { margin: 0.4rem 0 0 1.1rem; }
+  .task li { margin-bottom: 0.2rem; }
 
   .block.fast { border-color: var(--sun); background: #fff7e2; }
   .block.fast h2 { color: #8a5a00; }
   .block.fast h2 .rocket { width: 22px; height: 22px; color: #8a5a00; }
-  .fast-text { font-size: 1.02rem; font-weight: 600; }
+  .fast-text { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .fast-list { margin: 0.4rem 0 0.8rem 1.1rem; }
+  .fast-list li { margin-bottom: 0.3rem; }
+  .fast-extra { font-size: 0.95rem; font-weight: 600; background: #fff; border-radius: 10px; padding: 0.7rem 0.9rem; border: 1.5px dashed var(--sun); }
+
+  /* merksatz */
+  .merk { background: var(--tint); border: 2px solid var(--key); border-left: 8px solid var(--key); border-radius: 14px; padding: 1.1rem 1.3rem; }
+  .merk .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+  .merk b { color: var(--edge); }
+  .secret { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.9rem; padding: 0.7rem 0.9rem;
+    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 10px; font-weight: 700; color: #8a5a00; font-size: 0.95rem; }
+  .secret svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  /* ---- QUIZ ENGINE ---- */
+  .quiz { margin-top: 0.4rem; }
+  .quiz-progress { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.74rem; color: var(--ink-soft); }
+  .pbar { flex: 1; height: 10px; background: #e7e5fb; border-radius: 999px; overflow: hidden; }
+  .pfill { height: 100%; width: 0; background: var(--ok); border-radius: 999px; transition: width 0.3s ease; }
+  .q { margin-bottom: 1.1rem; padding-bottom: 1.1rem; border-bottom: 1px dashed var(--line); }
+  .q:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .q-text { font-weight: 800; margin-bottom: 0.6rem; }
+  .q-text .qn { color: var(--edge); font-family: 'JetBrains Mono', monospace; }
+  .opts { display: grid; gap: 0.5rem; }
+  .opt {
+    display: flex; align-items: center; gap: 0.7rem; width: 100%; text-align: left;
+    font-family: 'Nunito', sans-serif; font-size: 0.98rem; font-weight: 700; color: var(--ink);
+    background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 0.6rem 0.8rem; cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .opt:hover:not([disabled]) { border-color: var(--key); transform: translateX(2px); }
+  .opt .lett { flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px; background: var(--tint); color: var(--edge);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; font-size: 0.85rem; }
+  .opt.correct { border-color: var(--ok); background: #e9f8ef; }
+  .opt.correct .lett { background: var(--ok); color: #fff; }
+  .opt.wrong { border-color: var(--no); background: #fdecf0; }
+  .opt.wrong .lett { background: var(--no); color: #fff; }
+  .opt[disabled] { cursor: default; opacity: 0.75; }
+  .opt.correct[disabled], .opt.wrong[disabled] { opacity: 1; }
+  .q-hint { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--no-dk);
+    background: #fdecf0; border-radius: 9px; padding: 0.5rem 0.7rem; display: none; }
+  .q-hint.show { display: block; }
+  .q-done { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--ok-dk); display: none; }
+  .q-done.show { display: block; }
+  .quiz-solved { margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 12px; background: #e9f8ef;
+    border: 2px solid var(--ok); color: var(--ok-dk); font-family: 'Fredoka', sans-serif; font-weight: 600;
+    display: none; align-items: center; gap: 0.6rem; }
+  .quiz-solved.show { display: flex; }
+  .quiz-solved svg { width: 22px; height: 22px; flex-shrink: 0; }
 
   .selfcheck-wrap {
     display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem;
@@ -132,35 +199,252 @@
     <p class="rlp"><span class="tag neu">neu · 10-Finger-Schreiben</span></p>
   </header>
 
-  <div class="draft-note">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
-    <span>Diese Seite ist das Ger&uuml;st f&uuml;r diesen Lernpfad &mdash; Inhalte werden noch erg&auml;nzt.</span>
-  </div>
+  <p class="intro">Profis schauen beim Schreiben nicht auf die Tastatur &mdash; ihre Finger finden die Tasten von allein. Das schaffst du auch, wenn du immer von derselben <span class="hl">Grundstellung</span> aus startest: linke Hand auf <b>A S D F</b>, rechte Hand auf <b>J K L &Ouml;</b>. Zwei kleine Noppen helfen dir dabei, die Position zu ertasten, ohne hinzuschauen. Los geht&rsquo;s!</p>
 
   <main>
+
+    <!-- ===================== VORWISSEN ===================== -->
     <section class="block">
-      <h2><span class="dot"></span>Los geht es &mdash; worum geht es heute?</h2>
-      <div class="todo">Hier kommt der Einstieg hin: eine kurze, spannende Hinf&uuml;hrung zum Thema.</div>
+      <h2><span class="dot"></span>Schau genau hin &mdash; was wei&szlig;t du schon?</h2>
+      <p>Sieh dir die drei Bilder an. Zu jedem Bild geh&ouml;ren einige Fragen. Tippe die richtige Antwort an &mdash; wird sie <b style="color:var(--ok-dk)">gr&uuml;n</b>, ist sie richtig. Bei <b style="color:var(--no-dk)">rot</b> bekommst du einen Tipp.</p>
+
+      <!-- Fig 1 -->
+      <div class="fig"><svg viewBox="0 0 700 370" xmlns="http://www.w3.org/2000/svg" font-family="Nunito, sans-serif" role="img"><rect x="20" y="20" width="660" height="330" rx="18" fill="#f6f4fe" stroke="#5a39cf" stroke-width="3"/><rect x="60" y="90" width="60" height="60" rx="10" fill="#7c5cf0" stroke="#5a39cf" stroke-width="2.5"/><text x="90.0" y="128.0" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="26" fill="#ffffff">A</text><rect x="128" y="90" width="60" height="60" rx="10" fill="#7c5cf0" stroke="#5a39cf" stroke-width="2.5"/><text x="158.0" y="128.0" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="26" fill="#ffffff">S</text><rect x="196" y="90" width="60" height="60" rx="10" fill="#7c5cf0" stroke="#5a39cf" stroke-width="2.5"/><text x="226.0" y="128.0" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="26" fill="#ffffff">D</text><rect x="264" y="90" width="60" height="60" rx="10" fill="#7c5cf0" stroke="#5a39cf" stroke-width="2.5"/><text x="294.0" y="128.0" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="26" fill="#ffffff">F</text><rect x="364" y="90" width="60" height="60" rx="10" fill="#39b56a" stroke="#5a39cf" stroke-width="2.5"/><text x="394.0" y="128.0" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="26" fill="#ffffff">J</text><rect x="432" y="90" width="60" height="60" rx="10" fill="#39b56a" stroke="#5a39cf" stroke-width="2.5"/><text x="462.0" y="128.0" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="26" fill="#ffffff">K</text><rect x="500" y="90" width="60" height="60" rx="10" fill="#39b56a" stroke="#5a39cf" stroke-width="2.5"/><text x="530.0" y="128.0" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="26" fill="#ffffff">L</text><rect x="568" y="90" width="60" height="60" rx="10" fill="#39b56a" stroke="#5a39cf" stroke-width="2.5"/><text x="598.0" y="128.0" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="26" fill="#ffffff">&Ouml;</text><rect x="100" y="230" width="480" height="50" rx="10" fill="#ffc23d" stroke="#5a39cf" stroke-width="2.5"/><text x="340.0" y="262.0" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="20" fill="#5a39cf">Leertaste</text><circle cx="192.0" cy="68" r="17" fill="#7c5cf0" stroke="#ffffff" stroke-width="3"/><text x="192.0" y="68" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><circle cx="496.0" cy="68" r="17" fill="#c8890a" stroke="#ffffff" stroke-width="3"/><text x="496.0" y="68" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><circle cx="340.0" cy="205" r="17" fill="#248049" stroke="#ffffff" stroke-width="3"/><text x="340.0" y="205" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text></svg><div class="fig-cap">Bild 1 &middot; Die Grundstellung</div></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 4 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.1</span> &nbsp;Welche vier Tasten liegen unter den Fingern der <b>linken Hand</b> (Teil 1) in der Grundstellung?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">A S D F</button>
+            <button class="opt" data-hint="J K L &Ouml; liegen unter der rechten Hand, nicht der linken.">J K L &Ouml;</button>
+            <button class="opt" data-hint="Q W E R liegen in der oberen Buchstabenreihe, nicht in der Grundreihe.">Q W E R</button>
+            <button class="opt" data-hint="Y X C V liegen in der unteren Buchstabenreihe, nicht in der Grundreihe.">Y X C V</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig &mdash; A S D F ist die Grundstellung der linken Hand.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.2</span> &nbsp;Welche vier Tasten liegen unter den Fingern der <b>rechten Hand</b> (Teil 2) in der Grundstellung?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">J K L &Ouml;</button>
+            <button class="opt" data-hint="A S D F liegen unter der linken Hand, nicht der rechten.">A S D F</button>
+            <button class="opt" data-hint="G H T Z liegen nicht alle in der Grundstellung der rechten Hand.">G H T Z</button>
+            <button class="opt" data-hint="M N B U liegen nicht in der Grundreihe.">M N B U</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau &mdash; J K L &Ouml; ist die Grundstellung der rechten Hand.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.3</span> &nbsp;Was machen die Daumen (Teil 3) in der Grundstellung?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Sie liegen entspannt auf der Leertaste.</button>
+            <button class="opt" data-hint="Die Umschalttaste bedienst du mit dem kleinen Finger, nicht mit dem Daumen.">Sie liegen auf der Umschalttaste.</button>
+            <button class="opt" data-hint="Die Enter-Taste liegt weit rechts, nicht unter den Daumen.">Sie liegen auf der Enter-Taste.</button>
+            <button class="opt" data-hint="Der Nummernblock liegt ganz rechts au&szlig;en.">Sie liegen auf dem Nummernblock.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt &mdash; beide Daumen ruhen locker auf der Leertaste.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.4</span> &nbsp;Wohin kehren deine Finger nach <b>jedem</b> Tastendruck zur&uuml;ck?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Zur Grundstellung &mdash; zur eigenen Ausgangstaste.</button>
+            <button class="opt" data-hint="Nur die Daumen liegen auf der Leertaste, nicht alle Finger.">Immer zur Leertaste.</button>
+            <button class="opt" data-hint="Jeder Finger hat seine eigene Ausgangstaste, nicht alle dieselbe.">Immer zur gleichen Taste wie vorher.</button>
+            <button class="opt" data-hint="Ohne feste Grundstellung findest du die Tasten nicht blind.">Das ist egal, Hauptsache irgendeine Taste.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig &mdash; so findest du jede Taste, ohne hinzuschauen.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Super &mdash; Bild 1 komplett gel&ouml;st!</div>
+      </div>
+
+      <!-- Fig 2 -->
+      <div class="fig"><svg viewBox="0 0 700 370" xmlns="http://www.w3.org/2000/svg" font-family="Nunito, sans-serif" role="img"><rect x="20" y="20" width="660" height="330" rx="18" fill="#f6f4fe" stroke="#5a39cf" stroke-width="3"/><rect x="100" y="90" width="180" height="180" rx="16" fill="#ece7fe" stroke="#5a39cf" stroke-width="3"/><text x="190" y="185" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="64" fill="#5a39cf">F</text><ellipse cx="190" cy="240" rx="26" ry="8" fill="#5a39cf"/><path d="M220,240 L305,270" stroke="#5a39cf" stroke-width="1.6" stroke-dasharray="3,3" fill="none"/><rect x="420" y="90" width="180" height="180" rx="16" fill="#e2f6ea" stroke="#5a39cf" stroke-width="3"/><text x="510" y="185" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="64" fill="#5a39cf">J</text><ellipse cx="510" cy="240" rx="26" ry="8" fill="#5a39cf"/><path d="M540,240 L625,270" stroke="#5a39cf" stroke-width="1.6" stroke-dasharray="3,3" fill="none"/><text x="330" y="266" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="17" fill="#5a39cf">Noppe</text><text x="650" y="266" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="17" fill="#5a39cf">Noppe</text><text x="190" y="300" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="700" font-size="16" fill="#5a39cf">linker Zeigefinger</text><text x="510" y="300" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="700" font-size="16" fill="#5a39cf">rechter Zeigefinger</text><circle cx="100" cy="70" r="17" fill="#7c5cf0" stroke="#ffffff" stroke-width="3"/><text x="100" y="70" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><circle cx="420" cy="70" r="17" fill="#c8890a" stroke="#ffffff" stroke-width="3"/><text x="420" y="70" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text></svg><div class="fig-cap">Bild 2 &middot; Die Tastknubbel</div></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.1</span> &nbsp;Welche zwei Tasten haben eine kleine tastbare Erhebung, die Noppe (<b>Teile 1 und 2</b>)?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">F und J</button>
+            <button class="opt" data-hint="A und &Ouml; liegen au&szlig;en in der Grundreihe, haben aber keine Noppe.">A und &Ouml;</button>
+            <button class="opt" data-hint="S und L haben keine tastbare Noppe.">S und L</button>
+            <button class="opt" data-hint="D und K haben keine tastbare Noppe.">D und K</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig &mdash; F und J tragen die Noppen.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.2</span> &nbsp;Wozu dienen die Noppen auf F und J?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Damit du die Grundstellung ertasten kannst, ohne hinzuschauen.</button>
+            <button class="opt" data-hint="Die Noppen ver&auml;ndern nicht die Lautst&auml;rke der Tasten.">Damit die Tasten lauter klicken.</button>
+            <button class="opt" data-hint="Die Noppen dienen nicht der Reinigung.">Damit die Tasten leichter zu reinigen sind.</button>
+            <button class="opt" data-hint="Am Bildschirm siehst du, was du geschrieben hast, nicht an der Noppe.">Damit du siehst, welche Taste gerade gedr&uuml;ckt wurde.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau &mdash; die Noppen sind deine Orientierung ohne Hinschauen.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.3</span> &nbsp;Welcher Finger liegt auf der Taste mit der Noppe links, also auf <b>F</b> (Teil 1)?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Der linke Zeigefinger.</button>
+            <button class="opt" data-hint="Der Daumen liegt auf der Leertaste, nicht auf F.">Der linke Daumen.</button>
+            <button class="opt" data-hint="Der rechte Zeigefinger liegt auf J, nicht auf F.">Der rechte Zeigefinger.</button>
+            <button class="opt" data-hint="Der kleine Finger links liegt auf A, nicht auf F.">Der kleine Finger links.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt &mdash; der linke Zeigefinger ertastet die Noppe auf F.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Klasse &mdash; Bild 2 komplett gel&ouml;st!</div>
+      </div>
+
+      <!-- Fig 3 -->
+      <div class="fig"><svg viewBox="0 0 700 370" xmlns="http://www.w3.org/2000/svg" font-family="Nunito, sans-serif" role="img"><rect x="20" y="20" width="660" height="330" rx="18" fill="#f6f4fe" stroke="#5a39cf" stroke-width="3"/><rect x="78" y="150" width="18" height="118" rx="6" fill="#e9e6fb" stroke="#5a39cf" stroke-width="2"/><rect x="80" y="252" width="90" height="16" rx="4" fill="#e9e6fb" stroke="#5a39cf" stroke-width="2"/><circle cx="170" cy="138" r="22" fill="#fde3e9" stroke="#5a39cf" stroke-width="2.6"/><rect x="150" y="160" width="40" height="92" rx="16" fill="#7c5cf0" stroke="#5a39cf" stroke-width="2.6"/><path d="M188,190 Q 240,210 275,248" stroke="#5a39cf" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M160,252 L160,275" stroke="#5a39cf" stroke-width="6" stroke-linecap="round"/><path d="M180,252 L180,275" stroke="#5a39cf" stroke-width="6" stroke-linecap="round"/><rect x="250" y="260" width="340" height="14" rx="3" fill="#e2f6ea" stroke="#5a39cf" stroke-width="2"/><rect x="268" y="244" width="90" height="20" rx="4" fill="#fff3d1" stroke="#5a39cf" stroke-width="2"/><rect x="430" y="90" width="160" height="110" rx="10" fill="#ece7fe" stroke="#5a39cf" stroke-width="2.6"/><rect x="495" y="200" width="30" height="20" rx="3" fill="#ece7fe" stroke="#5a39cf" stroke-width="2"/><rect x="475" y="218" width="70" height="10" rx="4" fill="#ece7fe" stroke="#5a39cf" stroke-width="2"/><line x1="192" y1="138" x2="430" y2="138" stroke="#5a39cf" stroke-width="1.6" stroke-dasharray="5,4"/><line x1="192" y1="320" x2="428" y2="320" stroke="#5a39cf" stroke-width="1.8"/><path d="M192,320 L202,314 M192,320 L202,326" stroke="#5a39cf" stroke-width="1.8" fill="none"/><path d="M428,320 L418,314 M428,320 L418,326" stroke="#5a39cf" stroke-width="1.8" fill="none"/><text x="310" y="340" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#5a39cf">ca. eine Arml&auml;nge</text><circle cx="132" cy="175" r="17" fill="#7c5cf0" stroke="#ffffff" stroke-width="3"/><text x="132" y="175" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><circle cx="350" cy="118" r="17" fill="#c8890a" stroke="#ffffff" stroke-width="3"/><text x="350" y="118" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><circle cx="278" cy="232" r="17" fill="#248049" stroke="#ffffff" stroke-width="3"/><text x="278" y="232" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text></svg><div class="fig-cap">Bild 3 &middot; Richtig sitzen</div></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 4 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.1</span> &nbsp;Wie solltest du beim Tippen sitzen (<b>Teil 1</b>)?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Aufrecht, mit geradem R&uuml;cken.</button>
+            <button class="opt" data-hint="Ein runder R&uuml;cken belastet auf Dauer den K&ouml;rper.">Zusammengesunken, mit rundem R&uuml;cken.</button>
+            <button class="opt" data-hint="Auf der Stuhlkante balancieren ist nicht bequem und nicht gesund.">Nur auf der Stuhlkante balancierend.</button>
+            <button class="opt" data-hint="Die Sitzhaltung ist wichtig f&uuml;r deine Gesundheit.">Das spielt keine Rolle.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig &mdash; ein gerader R&uuml;cken ist die Basis f&uuml;r gutes Sitzen.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.2</span> &nbsp;Wie weit sollte der Bildschirm etwa entfernt stehen und wo sollte die Oberkante sein (<b>Teil 2</b>)?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Etwa eine Arml&auml;nge entfernt, Oberkante auf Augenh&ouml;he.</button>
+            <button class="opt" data-hint="Zu nah am Bildschirm strengt die Augen unn&ouml;tig an.">Direkt vor der Nase, so nah wie m&ouml;glich.</button>
+            <button class="opt" data-hint="Zu weit weg kannst du den Bildschirm nur schwer erkennen.">Ganz am Rand des Tisches, weit weg.</button>
+            <button class="opt" data-hint="Abstand und H&ouml;he sind wichtig f&uuml;r deine Augen.">Das spielt keine Rolle, Hauptsache er l&auml;uft.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau &mdash; so bleiben deine Augen entspannt.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.3</span> &nbsp;Wie sollten deine Handgelenke beim Tippen sein (<b>Teil 3</b>)?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Gerade, nicht nach oben oder unten abgeknickt.</button>
+            <button class="opt" data-hint="Stark abgeknickte Handgelenke k&ouml;nnen auf Dauer wehtun.">Stark nach oben abgeknickt.</button>
+            <button class="opt" data-hint="Stark abgeknickte Handgelenke k&ouml;nnen auf Dauer wehtun.">Stark nach unten abgeknickt.</button>
+            <button class="opt" data-hint="Die Handgelenke sollten locker bleiben, nicht gepresst.">Fest auf die Tischkante gepresst.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt &mdash; gerade Handgelenke schonen deine Gelenke.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.4</span> &nbsp;Warum ist eine gute Sitzhaltung beim Tippen wichtig?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Damit du lange ohne Verspannungen oder Schmerzen schreiben kannst.</button>
+            <button class="opt" data-hint="Die Sitzhaltung ver&auml;ndert nicht dein Tipptempo direkt.">Damit du schneller tippen kannst.</button>
+            <button class="opt" data-hint="Die Haltbarkeit der Tastatur h&auml;ngt nicht von deiner Sitzhaltung ab.">Damit die Tastatur l&auml;nger h&auml;lt.</button>
+            <button class="opt" data-hint="Flackern hat mit dem Bildschirm zu tun, nicht mit deiner Haltung.">Damit der Bildschirm nicht flackert.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig &mdash; gute Haltung sch&uuml;tzt deinen K&ouml;rper.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Stark &mdash; Bild 3 komplett gel&ouml;st!</div>
+      </div>
     </section>
 
+    <!-- ===================== SCHRITT FÜR SCHRITT ===================== -->
     <section class="block">
-      <h2><span class="dot"></span>Schritt f&uuml;r Schritt</h2>
-      <div class="todo">Hier kommt die Anleitung hin: die einzelnen Arbeitsschritte, gerne mit Screenshots.</div>
+      <h2><span class="dot"></span>Schritt f&uuml;r Schritt &mdash; am Rechner</h2>
+      <ol class="steps">
+        <li><b>Aufrecht sitzen.</b> Setz dich aufrecht hin, mit geradem R&uuml;cken.</li>
+        <li><b>Bildschirm einrichten.</b> Er steht etwa eine Arml&auml;nge entfernt, die Oberkante auf Augenh&ouml;he.</li>
+        <li><b>Grundstellung finden.</b> Leg die linke Hand auf A S D F und die rechte Hand auf J K L &Ouml;.</li>
+        <li><b>Noppen ertasten.</b> Ertaste die Noppen auf F und J, ohne hinzuschauen.</li>
+        <li><b>Daumen ablegen.</b> Leg beide Daumen locker auf die Leertaste.</li>
+        <li><b>Handgelenke pr&uuml;fen.</b> Sie sollten gerade sein, nicht nach oben oder unten abgeknickt.</li>
+        <li><b>Linke Hand &uuml;ben.</b> Tippe abwechselnd a s d f, ohne auf die Tastatur zu schauen.</li>
+        <li><b>Rechte Hand &uuml;ben.</b> Tippe abwechselnd j k l &ouml;, ohne auf die Tastatur zu schauen.</li>
+        <li><b>Zur&uuml;ckkehren.</b> Kehre nach jedem Tastendruck mit dem Finger zur Grundstellung zur&uuml;ck.</li>
+      </ol>
     </section>
 
+    <!-- ===================== ÜBUNGEN ===================== -->
     <section class="block">
       <h2><span class="dot"></span>&Uuml;bungsaufgaben</h2>
-      <div class="todo">Hier kommen die Aufgaben hin &mdash; mit klarer Differenzierung (Basis &middot; mittel &middot; knifflig).</div>
+      <div class="task">
+        <span class="chip basis">Basis</span>
+        <p>Tippe zehnmal hintereinander „asdf jkl&ouml;&ldquo;, ohne auf die Tastatur zu schauen.</p>
+      </div>
+      <div class="task">
+        <span class="chip mittel">mittel</span>
+        <p>Tippe „asdf jkl&ouml;&ldquo; f&uuml;nfmal hintereinander &mdash; werde dabei jedes Mal etwas schneller, aber ohne Fehler.</p>
+      </div>
+      <div class="task">
+        <span class="chip knifflig">knifflig</span>
+        <p>Schau bewusst weg und ertaste nur mit dem Gef&uuml;hl die Noppen auf F und J. Tippe danach &mdash; ohne hinzuschauen &mdash; dreimal „asdf jkl&ouml;&ldquo; hintereinander. Vergleiche mit einer Partnerin oder einem Partner, wer weniger oft nachschauen musste.</p>
+      </div>
     </section>
 
+    <!-- ===================== SCHNELLLÄUFER ===================== -->
     <section class="block fast">
       <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnelll&auml;ufer:innen-Mission</h2>
-      <p class="fast-text">Schreib-Challenge: Erreiche eine höhere Genauigkeit als beim letzten Versuch. Tempo kommt später ganz von allein.</p>
+      <p class="fast-text">Schreib-Challenge: Erreiche eine h&ouml;here Genauigkeit als beim letzten Versuch. Tempo kommt sp&auml;ter ganz von allein.</p>
+      <ul class="fast-list">
+        <li>Nutze einen Schreibtrainer oder eine &Uuml;bungsseite und wiederhole die Grundreihen-&Uuml;bung.</li>
+        <li>Achte auf die Fehlerzahl, nicht nur auf die Zeit.</li>
+        <li>Vergleiche dein Ergebnis nur mit dir selbst, nicht mit anderen.</li>
+      </ul>
+      <p class="fast-extra"><b>Extra:</b> Trainiere t&auml;glich f&uuml;nf Minuten die Grundreihe &mdash; das bringt langfristig mehr, als einmal lange zu &uuml;ben.</p>
     </section>
 
+    <!-- ===================== SICHERUNG ===================== -->
+    <section class="block">
+      <h2><span class="dot"></span>Das kann ich jetzt &mdash; kurzer Check</h2>
+      <p>Vier Fragen zum Abschluss. Wieder gilt: <b style="color:var(--ok-dk)">gr&uuml;n</b> = richtig, <b style="color:var(--no-dk)">rot</b> = Tipp.</p>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 4 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.1</span> &nbsp;Welche Tasten liegen unter der linken Hand in der Grundstellung?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">A S D F</button>
+            <button class="opt" data-hint="J K L &Ouml; geh&ouml;ren zur rechten Hand.">J K L &Ouml;</button>
+            <button class="opt" data-hint="Q W E R liegen in der oberen Reihe.">Q W E R</button>
+            <button class="opt" data-hint="Y X C V liegen in der unteren Reihe.">Y X C V</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig &mdash; A S D F ist die linke Grundstellung.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.2</span> &nbsp;Welche Tasten liegen unter der rechten Hand in der Grundstellung?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">J K L &Ouml;</button>
+            <button class="opt" data-hint="A S D F geh&ouml;ren zur linken Hand.">A S D F</button>
+            <button class="opt" data-hint="G H T Z liegen nicht alle in der rechten Grundstellung.">G H T Z</button>
+            <button class="opt" data-hint="M N B U liegen nicht in der Grundreihe.">M N B U</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau &mdash; J K L &Ouml; ist die rechte Grundstellung.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.3</span> &nbsp;Welche zwei Tasten haben eine tastbare Noppe?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">F und J</button>
+            <button class="opt" data-hint="A und &Ouml; haben keine Noppe.">A und &Ouml;</button>
+            <button class="opt" data-hint="S und K haben keine Noppe.">S und K</button>
+            <button class="opt" data-hint="D und L haben keine Noppe.">D und L</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt &mdash; F und J tragen die Noppen.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.4</span> &nbsp;Wie sollten deine Handgelenke beim Tippen sein?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Gerade, nicht abgeknickt.</button>
+            <button class="opt" data-hint="Stark abgeknickte Handgelenke k&ouml;nnen wehtun.">Stark nach oben abgeknickt.</button>
+            <button class="opt" data-hint="Stark abgeknickte Handgelenke k&ouml;nnen wehtun.">Stark nach unten abgeknickt.</button>
+            <button class="opt" data-hint="Die Handgelenke sollten locker bleiben.">Auf die Tischkante gepresst.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig &mdash; gerade Handgelenke schonen deine Gelenke.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Perfekt &mdash; du kennst jetzt deine Grundstellung!</div>
+      </div>
+    </section>
+
+    <!-- ===================== MERKSATZ ===================== -->
     <section class="block">
       <h2><span class="dot"></span>Das nehme ich mit</h2>
-      <div class="todo">Hier kommt der Merksatz / die Zusammenfassung hin.</div>
+      <div class="merk">
+        <p>Die <b>Grundstellung</b>: linke Hand auf <b>A S D F</b>, rechte Hand auf <b>J K L &Ouml;</b>, Daumen auf der <b>Leertaste</b>. Die <b>Noppen</b> auf F und J helfen dir, die Grundstellung zu ertasten, ohne hinzuschauen. Nach jedem Tastendruck kehrt der Finger zur Grundstellung zur&uuml;ck &mdash; und beim Tippen sitzt du aufrecht, mit geraden Handgelenken.</p>
+        <div class="secret">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12c.5.5 1 1.2 1 2h6c0-.8.5-1.5 1-2a7 7 0 0 0-4-12z"/></svg>
+          <span>Merk&#8209;Trick: &Uuml;bung macht den Meister &mdash; lieber jeden Tag f&uuml;nf Minuten &uuml;ben als einmal eine ganze Stunde. Genauigkeit zuerst, Tempo kommt von ganz allein.</span>
+        </div>
+      </div>
     </section>
 
     <div class="selfcheck-wrap">
@@ -180,9 +464,61 @@
 </div>
 
 <script>
+  /* ---------- Quiz-Engine ---------- */
+  (function(){
+    var LETTERS = ['A','B','C','D','E','F'];
+    var quizzes = document.querySelectorAll('[data-quiz]');
+    quizzes.forEach(function(quiz){
+      var questions = quiz.querySelectorAll('.q');
+      var total = questions.length;
+      var solved = 0;
+      var pcount = quiz.querySelector('.pcount');
+      var pfill = quiz.querySelector('.pfill');
+      var doneBox = quiz.querySelector('.quiz-solved');
+      function updateProgress(){
+        if (pcount) pcount.textContent = solved + ' / ' + total + ' richtig';
+        if (pfill) pfill.style.width = (total ? (solved/total*100) : 0) + '%';
+        if (doneBox && solved === total) doneBox.classList.add('show');
+      }
+      questions.forEach(function(q){
+        var opts = q.querySelectorAll('.opt');
+        var hint = q.querySelector('.q-hint');
+        var done = q.querySelector('.q-done');
+        var answered = false;
+        opts.forEach(function(opt, i){
+          var lett = document.createElement('span');
+          lett.className = 'lett';
+          lett.textContent = LETTERS[i];
+          opt.insertBefore(lett, opt.firstChild);
+          opt.addEventListener('click', function(){
+            if (answered) return;
+            if (opt.getAttribute('data-correct') === 'true') {
+              answered = true;
+              opt.classList.add('correct');
+              opts.forEach(function(o){ o.setAttribute('disabled','disabled'); });
+              if (hint) hint.classList.remove('show');
+              if (done) done.classList.add('show');
+              solved++;
+              updateProgress();
+            } else {
+              opt.classList.add('wrong');
+              opt.setAttribute('disabled','disabled');
+              if (hint) {
+                hint.textContent = opt.getAttribute('data-hint') || 'Nicht ganz — versuch es nochmal.';
+                hint.classList.add('show');
+              }
+            }
+          });
+        });
+      });
+      updateProgress();
+    });
+  })();
+
+  /* ---------- Selbsteinschätzung (Sterne, localStorage) ---------- */
   (function(){
     var key = 'itg_lp_06';
-    var msgs = {1:'Ganz frisch \u2014 \u00dcben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf \u2014 super!'};
+    var msgs = {1:'Ganz frisch — Üben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf — super!'};
     var svg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 18.9 6.1 21l1.2-6.5L2.5 9.9l6.6-.9z"/></svg>';
     var wrap = document.getElementById('stars'); var fb = document.getElementById('fb'); var stars = [];
     for (var n = 1; n <= 4; n++) { var b = document.createElement('button'); b.className = 'sc-star'; b.type = 'button'; b.innerHTML = svg; b.setAttribute('aria-label', 'Stufe ' + n); wrap.appendChild(b); stars.push(b); }

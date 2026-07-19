@@ -1,0 +1,200 @@
+QUIZ-ROHMATERIAL · LP 04-LP 06 · Einheit 02 "Die Tastatur wird dein Freund" · ITG Klasse 6
+Google-Forms-Massenimport (copy-pastable)
+==========================================================================
+
+FORMAT PRO FRAGE
+  Frage?
+  Richtige Antwort (immer zuerst!)
+  Falsche Antwort
+  Falsche Antwort
+  Falsche Antwort
+
+  Leerzeile trennt die Fragen. Nach dem Import in Google Forms: Fragetyp auf
+  "Multiple Choice" stellen, "als Quiz" aktivieren, die erste Antwortzeile als
+  richtig markieren, danach einmal "Antworten mischen" (Shuffle) aktivieren,
+  damit die Lösung nicht immer an erster Stelle steht.
+
+MEHRFACHAUSWAHL-FRAGEN
+  Erkennbar am Zusatz "(mehrere richtig — N Antworten)" im Fragetext. Die
+  ersten N Antwortzeilen sind korrekt, die übrigen falsch. Fragetyp in Google
+  Forms auf "Kontrollkästchen" (Checkboxes) stellen und alle N Zeilen als
+  richtig markieren.
+
+SCHWIERIGE FRAGEN (Absatz-Fragen)
+  Mit "[MANUELL BEWERTEN]" gekennzeichnet. Fragetyp in Google Forms auf
+  "Absatz" (Paragraph) stellen — keine Autobewertung möglich. Die eckige
+  Klammer danach nennt die erwarteten Kernpunkte für die manuelle Korrektur;
+  diesen Hinweistext NICHT mit in den Google-Forms-Fragetext übernehmen,
+  sondern nur als Bewertungshilfe für die Lehrkraft nutzen.
+
+ANTWORT-KONVENTIONEN IN DIESER DATEI
+  - Erklärender Antworttext: durchgängig klein geschrieben.
+  - Tasten- und Eigennamen (Strg, Shift, Enter, Leertaste, einzelne
+    Tastenbuchstaben wie A S D F, Eva-Prinzip) bleiben in ihrer festen
+    Schreibweise stehen — sie zählen als Eigennamen-Ausnahme.
+  - Echte Umlaute/ß bleiben erhalten (ä ö ü ß), keine Transliteration.
+  - Keine typografischen (gebogenen) Anführungszeichen — falls nötig, nur gerade Anführungszeichen verwenden.
+  - Da ausschließlich Multiple-Choice- und Mehrfachauswahl-Fragen verwendet
+    werden, entfällt die Kurzantwort-Varianten-Regel (kein Freitext-Feld,
+    daher kein Auto-Bewertungsrisiko durch Groß-/Kleinschreibung o. Ä.).
+
+INHALTLICHE LEITPLANKEN
+  Keine Schülernamen, keine veraltenden Jahreszahlen, keine software-
+  versionsspezifischen Details. Fokus auf Konzeptverständnis, nicht auf
+  Faktenmemorieren.
+
+
+==========================================================================
+LP04 — Die Tastatur-Landkarte
+==========================================================================
+
+Wie heißt der große Bereich in der Mitte der Tastatur mit den Buchstaben?
+Buchstabenblock
+Zahlenreihe
+Nummernblock
+Pfeiltasten
+
+Wo liegt die Zahlenreihe auf der Tastatur?
+über dem Buchstabenblock, in einer eigenen Reihe
+ganz rechts als eigener Block
+unten neben der Leertaste
+links außen
+
+Wozu dient der Nummernblock?
+schnelles Eintippen von Zahlen mit einer Hand
+Buchstaben schreiben
+den Mauszeiger bewegen
+das Fenster wechseln
+
+Wozu dienen die Pfeiltasten?
+um den Cursor hoch, runter, links oder rechts zu bewegen
+um Zahlen einzugeben
+um das Programm zu schließen
+um Großbuchstaben zu schreiben
+
+Was passiert, wenn du die Umschalttaste (Shift) gedrückt hältst und eine Buchstabentaste drückst?
+du schreibst einen Großbuchstaben oder das obere Zeichen der Taste
+der Computer schaltet sich aus
+ein neues Fenster öffnet sich
+der Text wird gelöscht
+
+Welche der folgenden Tasten löschen ein Zeichen? (mehrere richtig — 2 Antworten)
+Rücktaste
+Entf-Taste
+Leertaste
+Enter
+
+Was ist der Unterschied zwischen Rücktaste und Entf-Taste?
+Rücktaste löscht links vom Cursor, Entf-Taste löscht rechts vom Cursor
+beide löschen genau dasselbe
+Rücktaste löscht rechts, Entf-Taste löscht links
+nur die Entf-Taste löscht wirklich etwas
+
+Erkläre in zwei bis drei Sätzen, wie du mit der AltGr-Taste ein Sonderzeichen wie @ oder € erzeugst, und warum das eine sinnvolle Lösung ist, wenn eine Taste mehr als zwei Zeichen bereitstellen soll. [MANUELL BEWERTEN — erwartete Kernpunkte: AltGr gleichzeitig mit einer Buchstabentaste drücken (z. B. Q für @, E für €); so kann eine einzelne Taste ein drittes Zeichen liefern, ohne dass die Tastatur mehr Tasten braucht.]
+
+[40% leicht | 40% mittel | 20% schwierig (manuell)]
+[Quellen: Vorwissen-Bilder 1-3 (Die großen Bereiche, Wichtige Einzeltasten, Sonderzeichen zaubern) und Sicherung-Quiz im HTML-Lernpfad]
+
+
+==========================================================================
+LP05 — Zaubertasten & Tastenkombinationen
+==========================================================================
+
+Welche Tastenkombination kopiert markierten Text?
+Strg+C
+Strg+V
+Strg+X
+Strg+Z
+
+Welche Tastenkombination fügt den kopierten oder ausgeschnittenen Inhalt ein?
+Strg+V
+Strg+C
+Strg+S
+Strg+A
+
+Welche Tastenkombination macht die letzte Aktion rückgängig?
+Strg+Z
+Strg+Y
+Strg+X
+Strg+F
+
+Welche Tastenkombination speichert dein Dokument?
+Strg+S
+Strg+A
+Strg+V
+Strg+C
+
+Was musst du immer zuerst tun, damit Strg+C oder Strg+X überhaupt etwas kopieren oder ausschneiden können?
+den Text oder das Objekt markieren
+das Dokument speichern
+den Rechner neu starten
+Strg+V drücken
+
+Welche der folgenden Tastenkombinationen beginnen mit Strg? (mehrere richtig — 2 Antworten)
+Strg+Z
+Strg+A
+Alt+F4
+Umschalt+Entf
+
+Du willst den gesamten Text auf einmal kopieren. Welche zwei Tastenkombinationen brauchst du nacheinander?
+erst Strg+A, dann Strg+C
+erst Strg+C, dann Strg+A
+erst Strg+S, dann Strg+V
+erst Strg+F, dann Strg+X
+
+Erkläre in zwei bis drei Sätzen den Unterschied zwischen Kopieren (Strg+C) und Ausschneiden (Strg+X), und beschreibe eine Situation, in der du Ausschneiden statt Kopieren verwenden würdest. [MANUELL BEWERTEN — erwartete Kernpunkte: beim Kopieren bleibt das Original erhalten, beim Ausschneiden verschwindet es; Ausschneiden eignet sich, wenn man etwas an eine andere Stelle verschieben statt verdoppeln möchte.]
+
+[40% leicht | 40% mittel | 20% schwierig (manuell)]
+[Quellen: Vorwissen-Bilder 1-3 (Kopieren/Ausschneiden/Einfügen, Rückgängig/Wiederholen, Speichern/Alles markieren/Suchen) und Sicherung-Quiz im HTML-Lernpfad]
+
+
+==========================================================================
+LP06 — Schreiben wie ein Profi
+==========================================================================
+
+Welche Tasten liegen unter der linken Hand in der Grundstellung?
+A S D F
+J K L Ö
+Q W E R
+Y X C V
+
+Welche Tasten liegen unter der rechten Hand in der Grundstellung?
+J K L Ö
+A S D F
+G H T Z
+M N B U
+
+Welche zwei Tasten haben eine tastbare Noppe?
+F und J
+A und Ö
+S und K
+D und L
+
+Wie sollten deine Handgelenke beim Tippen sein?
+gerade, nicht abgeknickt
+stark nach oben abgeknickt
+stark nach unten abgeknickt
+auf die Tischkante gepresst
+
+Wozu dienen die Noppen auf F und J?
+damit du die Grundstellung ertasten kannst, ohne hinzuschauen
+damit die Tasten lauter klicken
+damit die Tasten leichter zu reinigen sind
+damit du siehst, welche Taste gerade gedrückt wurde
+
+Welche der folgenden gehören zu einer guten Sitzhaltung beim Tippen? (mehrere richtig — 2 Antworten)
+gerader Rücken
+Bildschirm auf Augenhöhe
+abgeknickte Handgelenke
+zusammengesunkener Rücken
+
+Wohin kehren deine Finger nach jedem Tastendruck zurück?
+zur Grundstellung, zur eigenen Ausgangstaste
+immer zur Leertaste
+immer zur gleichen Taste wie vorher
+das ist egal, Hauptsache irgendeine Taste
+
+Erkläre in zwei bis drei Sätzen, warum dir die Grundstellung (A S D F / J K L Ö) hilft, schneller zu schreiben, ohne auf die Tastatur zu schauen. [MANUELL BEWERTEN — erwartete Kernpunkte: jeder Finger hat eine feste Ausgangstaste; die Noppen auf F und J ermöglichen Ertasten ohne Hinsehen; von der festen Grundstellung aus findet man alle anderen Tasten über kurze, immer gleiche Bewegungen.]
+
+[40% leicht | 40% mittel | 20% schwierig (manuell)]
+[Quellen: Vorwissen-Bilder 1-3 (Die Grundstellung, Die Tastknubbel, Richtig sitzen) und Sicherung-Quiz im HTML-Lernpfad]

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LP 01 · Anmelden, umschauen, loslegen — ITG Klasse 6</title>
+<title>LP 01 &middot; Anmelden, umschauen, loslegen &mdash; ITG Klasse 6</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -12,6 +12,7 @@
     --key: #37a6f5; --edge: #1f7fce; --tint: #e4f2fe; --ktext: #ffffff;
     --ink: #211a4d; --ink-soft: #4f4880; --bg: #f1f0fb; --card: #fff;
     --line: rgba(33,26,77,0.12); --sun: #ffc23d;
+    --ok: #39b56a; --ok-ink: #1c7a45; --no: #e8607a; --no-ink: #b13350;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -36,7 +37,7 @@
   }
   .back:hover { text-decoration: underline; }
 
-  .lp-hero { padding: 2.4rem 0 1.8rem; }
+  .lp-hero { padding: 2.4rem 0 1.4rem; }
   .badges { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
   .b-sjw, .b-unit {
     font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.68rem;
@@ -59,12 +60,9 @@
   .rlp .tag { display: inline-block; background: #e7e5fb; padding: 0.06rem 0.42rem; border-radius: 6px; margin: 0 0.15rem 0.25rem 0; }
   .rlp .tag.neu { background: var(--sun); color: var(--ink); }
 
-  .draft-note {
-    display: flex; align-items: center; gap: 0.6rem;
-    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 12px;
-    padding: 0.7rem 0.9rem; margin: 1.4rem 0; font-size: 0.9rem; font-weight: 700; color: #8a5a00;
-  }
-  .draft-note svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .intro { font-size: 1.06rem; margin: 1.3rem 0 0.4rem; }
+  .intro p { margin-bottom: 0.6rem; }
+  .intro b { color: var(--edge); }
 
   .block { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 1.4rem 1.5rem; margin-bottom: 1.1rem; }
   .block h2 {
@@ -72,20 +70,72 @@
     display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem;
   }
   .block h2 .dot { width: 14px; height: 14px; border-radius: 5px; background: var(--key); box-shadow: 0 2px 0 var(--edge); flex-shrink: 0; }
-  .todo {
-    border: 2px dashed var(--line); border-radius: 12px; padding: 1rem 1.1rem;
-    color: var(--ink-soft); font-style: italic; background: rgba(91,75,230,0.03);
-  }
+
+  .figbox { border: 2px solid var(--line); border-radius: 16px; padding: 0.8rem; margin-bottom: 1.1rem; background: #fbfcff; }
+  .figbox svg { width: 100%; height: auto; display: block; animation: floaty 7s ease-in-out infinite; }
+  .figcap { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 700; color: var(--ink-soft); text-align: center; margin-top: 0.5rem; }
+
+  .num-ring { display: inline-grid; place-items: center; width: 1.5em; height: 1.5em; border-radius: 50%; background: var(--key); color: #fff; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 0.82em; vertical-align: -0.3em; box-shadow: 0 2px 0 var(--edge); margin: 0 0.1em; }
+
+  .quiz-intro { display: flex; gap: 0.5rem; align-items: center; font-weight: 700; color: var(--ink-soft); font-size: 0.92rem; margin-bottom: 1rem; }
+  .quiz-intro .qi { width: 20px; height: 20px; color: var(--key); flex-shrink: 0; }
+
+  .q { border: 2px solid var(--line); border-radius: 14px; padding: 1rem 1.1rem; margin-bottom: 0.9rem; background: #fbfbff; transition: border-color 0.15s ease, background 0.15s ease; }
+  .q.solved { border-color: var(--ok); background: #f0fbf4; }
+  .q-text { font-weight: 700; font-size: 1.02rem; margin-bottom: 0.8rem; line-height: 1.5; }
+  .q-text .qnum { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.64rem; font-weight: 700; letter-spacing: 0.06em; color: var(--edge); background: var(--tint); padding: 0.14rem 0.5rem; border-radius: 999px; margin-right: 0.5rem; vertical-align: middle; }
+  .opts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
+  .opt { display: flex; align-items: center; gap: 0.6rem; text-align: left; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--ink); background: var(--card); border: 2px solid var(--line); border-radius: 11px; padding: 0.6rem 0.7rem; cursor: pointer; transition: transform 0.1s ease, border-color 0.1s ease, background 0.1s ease; }
+  .opt:hover:not(:disabled) { border-color: var(--key); transform: translateY(-1px); }
+  .opt .lt { flex-shrink: 0; width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.82rem; background: var(--tint); color: var(--edge); }
+  .opt.correct { border-color: var(--ok); background: #e9fbf0; color: var(--ok-ink); }
+  .opt.correct .lt { background: var(--ok); color: #fff; }
+  .opt.wrong { border-color: var(--no); background: #fdeef1; color: var(--no-ink); }
+  .opt.wrong .lt { background: var(--no); color: #fff; }
+  .opt:disabled { cursor: default; }
+  .q-fb { min-height: 1.3rem; margin-top: 0.7rem; font-weight: 700; font-size: 0.9rem; }
+  .q-fb.ok { color: var(--ok-ink); }
+  .q-fb.no { color: var(--no-ink); }
+  .quiz-progress { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--ink-soft); margin-top: 0.6rem; }
+  @media (max-width: 520px) { .opts { grid-template-columns: 1fr; } }
+
+  .steps { list-style: none; counter-reset: step; display: grid; gap: 0.8rem; }
+  .steps li { display: flex; gap: 0.85rem; align-items: flex-start; }
+  .steps li::before { counter-increment: step; content: counter(step); flex-shrink: 0; width: 34px; height: 34px; border-radius: 10px; background: var(--key); color: #fff; box-shadow: 0 3px 0 var(--edge); font-family: 'Fredoka', sans-serif; font-weight: 700; display: grid; place-items: center; }
+  .steps .st-body { padding-top: 0.1rem; }
+  .steps b { color: var(--edge); }
+  .safe-note { display: flex; gap: 0.6rem; align-items: center; background: #fff7e2; border: 1.5px solid var(--sun); border-radius: 12px; padding: 0.7rem 0.9rem; margin-top: 1rem; font-weight: 700; color: #8a5a00; font-size: 0.92rem; }
+  .safe-note svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  .exset { display: grid; gap: 0.8rem; }
+  .ex { border: 2px solid var(--line); border-radius: 14px; padding: 0.9rem 1.05rem; background: #fbfcff; }
+  .chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em; padding: 0.2rem 0.55rem; border-radius: 999px; margin-bottom: 0.5rem; }
+  .chip.basis { background: #e9fbf0; color: var(--ok-ink); }
+  .chip.mittel { background: var(--tint); color: var(--edge); }
+  .chip.knifflig { background: #fff0d6; color: #8a5a00; }
+  .ex p { font-weight: 600; }
+  .ex p b { color: var(--edge); }
 
   .block.fast { border-color: var(--sun); background: #fff7e2; }
   .block.fast h2 { color: #8a5a00; }
   .block.fast h2 .rocket { width: 22px; height: 22px; color: #8a5a00; }
-  .fast-text { font-size: 1.02rem; font-weight: 600; }
+  .fast-text { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.4rem; }
+  .fast-list { list-style: none; display: grid; gap: 0.55rem; margin-top: 0.8rem; }
+  .fast-list li { display: flex; gap: 0.6rem; font-weight: 600; font-size: 0.98rem; }
+  .fast-list .tk { flex-shrink: 0; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #8a5a00; }
+  .fast-list b { color: #8a5a00; }
+  .fast-challenge { margin-top: 0.9rem; font-weight: 700; color: #8a5a00; }
 
-  .selfcheck-wrap {
-    display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem;
-    background: var(--tint); border-radius: 14px; padding: 1rem 1.2rem; margin: 1.4rem 0;
-  }
+  .merk { background: var(--key); color: #fff; border-radius: 18px; padding: 1.5rem 1.6rem; box-shadow: 0 5px 0 var(--edge); margin-bottom: 1.1rem; }
+  .merk h2 { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 1.3rem; margin-bottom: 0.9rem; display: flex; gap: 0.6rem; align-items: center; }
+  .merk h2 svg { width: 24px; height: 24px; }
+  .merk .chain { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(1.1rem, 3.4vw, 1.5rem); line-height: 1.35; margin-bottom: 1rem; }
+  .merk ol { margin: 0 0 0.5rem 1.25rem; }
+  .merk li { font-weight: 600; margin-bottom: 0.25rem; }
+  .merk .secret { display: inline-flex; gap: 0.45rem; align-items: center; background: rgba(255,255,255,0.2); border-radius: 10px; padding: 0.45rem 0.8rem; font-weight: 800; margin-top: 0.6rem; }
+  .merk .secret svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+  .selfcheck-wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem; background: var(--tint); border-radius: 14px; padding: 1rem 1.2rem; margin: 1.4rem 0; }
   .sc-label { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 0.98rem; }
   .sc-stars { display: flex; gap: 0.3rem; }
   .sc-star { width: 30px; height: 30px; background: none; border: none; padding: 0; cursor: pointer; color: rgba(33,26,77,0.22); transition: transform 0.12s ease, color 0.12s ease; }
@@ -96,19 +146,15 @@
   .sc-feedback.show { opacity: 1; }
 
   .lp-nav { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; margin-top: 1.6rem; flex-wrap: wrap; }
-  .lp-nav a, .lp-nav span.nav-empty {
-    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.78rem;
-    text-decoration: none; padding: 0.6rem 0.9rem; border-radius: 10px;
-  }
+  .lp-nav a, .lp-nav span.nav-empty { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.78rem; text-decoration: none; padding: 0.6rem 0.9rem; border-radius: 10px; }
   .nav-prev, .nav-next { background: var(--card); border: 2px solid var(--key); color: var(--edge); box-shadow: 0 3px 0 var(--edge); transition: transform 0.12s ease, box-shadow 0.12s ease; }
   .nav-prev:hover, .nav-next:hover { transform: translateY(2px); box-shadow: 0 1px 0 var(--edge); }
   .nav-over { background: var(--key); color: var(--ktext); box-shadow: 0 3px 0 var(--edge); }
   .nav-empty { color: rgba(33,26,77,0.28); border: 2px dashed var(--line); }
 
-  footer {
-    text-align: center; margin-top: 2rem; padding: 1.4rem 5vw 0;
-    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); font-weight: 700;
-  }
+  footer { text-align: center; margin-top: 2rem; padding: 1.4rem 5vw 0; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); font-weight: 700; }
+
+  @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
   @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 </style>
 </head>
@@ -122,45 +168,448 @@
   <header class="lp-hero">
     <div class="badges">
       <span class="b-sjw">SJW 1</span>
-      <span class="b-unit">Einheit 01 · Hallo, Computer!</span>
+      <span class="b-unit">Einheit 01 &middot; Hallo, Computer!</span>
     </div>
     <div class="hero-row">
       <div class="keycap">01</div>
       <h1>Anmelden, umschauen, loslegen</h1>
     </div>
-    <p class="goal"><b>Das lernst du:</b> Du meldest dich am Schulrechner an, findest dich auf dem Bildschirm (dem „Schreibtisch"/Desktop) zurecht und bewegst Maus und Zeiger sicher.</p>
-    <p class="rlp"><span class="tag">RLP 2.3 · D</span><span class="tag">3.2 Informatiksysteme</span><span class="tag neu">neu · Bedienung</span></p>
+    <p class="goal"><b>Das lernst du:</b> Du meldest dich am Schulrechner an, findest dich auf dem Bildschirm (dem &bdquo;Schreibtisch&ldquo;/Desktop) zurecht und bewegst Maus und Zeiger sicher.</p>
+    <p class="rlp"><span class="tag">RLP 2.3 &middot; D</span><span class="tag">3.2 Informatiksysteme</span><span class="tag neu">neu &middot; Bedienung</span></p>
   </header>
 
-  <div class="draft-note">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
-    <span>Diese Seite ist das Ger&uuml;st f&uuml;r diesen Lernpfad &mdash; Inhalte werden noch erg&auml;nzt.</span>
-  </div>
-
   <main>
-    <section class="block">
-      <h2><span class="dot"></span>Los geht es &mdash; worum geht es heute?</h2>
-      <div class="todo">Hier kommt der Einstieg hin: eine kurze, spannende Hinf&uuml;hrung zum Thema.</div>
+    <section class="intro">
+      <p>Heute arbeitest du zum ersten Mal an einem <b>Schulrechner</b>. Drei Dinge brauchst du daf&uuml;r: dich <b>anmelden</b>, dich auf dem Bildschirm <b>umschauen</b> und die <b>Maus</b> sicher bewegen.</p>
+      <p>Zuerst schauen wir mit ein paar schnellen Fragen, welche W&ouml;rter du schon kennst. Danach probierst du alles selbst am Rechner aus.</p>
     </section>
 
+    <section class="intro" style="margin-top:0.4rem">
+      <p style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.15rem;color:var(--edge);margin-bottom:0.2rem">Los geht es &mdash; was kennst du schon?</p>
+    </section>
+    <section class="block quizblock">
+      <h2><span class="dot"></span>Vorwissen-Quiz &middot; Teil 1: Geräte am Schreibtisch</h2>
+      <div class="figbox">
+        <svg viewBox="0 0 700 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schreibtisch mit vier nummerierten Geraeten: Bildschirm, Desktop-Rechner, Maus, Tastatur">
+  <!-- floor -->
+  <line x1="20" y1="374" x2="680" y2="374" stroke="#c3d3e6" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- ===== Tower / Desktop-Rechner (2) ===== -->
+  <rect x="40" y="168" width="72" height="204" rx="12" fill="#eef3f8" stroke="#b9cfe6" stroke-width="3"/>
+  <circle cx="76" cy="196" r="9" fill="#ffffff" stroke="#37a6f5" stroke-width="3"/>
+  <path d="M76 191.5 v9" stroke="#37a6f5" stroke-width="2.4" stroke-linecap="round"/>
+  <rect x="56" y="220" width="40" height="6" rx="3" fill="#dbe6f2"/>
+  <rect x="56" y="232" width="40" height="6" rx="3" fill="#dbe6f2"/>
+  <line x1="56" y1="300" x2="96" y2="300" stroke="#cddcec" stroke-width="3" stroke-linecap="round"/>
+  <line x1="56" y1="312" x2="96" y2="312" stroke="#cddcec" stroke-width="3" stroke-linecap="round"/>
+  <line x1="56" y1="324" x2="96" y2="324" stroke="#cddcec" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- ===== Desk ===== -->
+  <rect x="150" y="276" width="430" height="15" rx="4" fill="#cddcec"/>
+  <rect x="150" y="250" width="430" height="28" rx="8" fill="#dfe9f4" stroke="#b9cfe6" stroke-width="2.5"/>
+  <rect x="176" y="290" width="16" height="84" rx="4" fill="#cddcec"/>
+  <rect x="540" y="290" width="16" height="84" rx="4" fill="#cddcec"/>
+
+  <!-- ===== Monitor (1) ===== -->
+  <ellipse cx="365" cy="250" rx="52" ry="9" fill="#c3d3e6"/>
+  <rect x="356" y="205" width="18" height="48" rx="4" fill="#c3d3e6"/>
+  <rect x="250" y="60" width="230" height="150" rx="16" fill="#2a2350"/>
+  <rect x="263" y="73" width="204" height="124" rx="9" fill="#e4f2fe"/>
+  <rect x="263" y="73" width="204" height="20" rx="9" fill="#37a6f5"/>
+  <rect x="263" y="84" width="204" height="9" fill="#37a6f5"/>
+  <circle cx="276" cy="83" r="3.2" fill="#ffffff"/>
+  <circle cx="287" cy="83" r="3.2" fill="#ffffff"/>
+  <circle cx="298" cy="83" r="3.2" fill="#ffffff"/>
+  <circle cx="338" cy="132" r="6" fill="#211a4d"/>
+  <circle cx="392" cy="132" r="6" fill="#211a4d"/>
+  <path d="M332 150 q33 26 66 0" fill="none" stroke="#211a4d" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- ===== Keyboard (4) ===== -->
+  <rect x="298" y="254" width="176" height="26" rx="6" fill="#ffffff" stroke="#b9cfe6" stroke-width="2.5"/>
+  <g fill="#e4f2fe" stroke="#cddcec" stroke-width="1">
+    <rect x="305" y="258" width="12" height="6" rx="2"/><rect x="320" y="258" width="12" height="6" rx="2"/><rect x="335" y="258" width="12" height="6" rx="2"/><rect x="350" y="258" width="12" height="6" rx="2"/><rect x="365" y="258" width="12" height="6" rx="2"/><rect x="380" y="258" width="12" height="6" rx="2"/><rect x="395" y="258" width="12" height="6" rx="2"/><rect x="410" y="258" width="12" height="6" rx="2"/><rect x="425" y="258" width="12" height="6" rx="2"/><rect x="440" y="258" width="12" height="6" rx="2"/><rect x="455" y="258" width="12" height="6" rx="2"/>
+    <rect x="305" y="267" width="12" height="6" rx="2"/><rect x="320" y="267" width="12" height="6" rx="2"/><rect x="335" y="267" width="12" height="6" rx="2"/><rect x="350" y="267" width="12" height="6" rx="2"/>
+    <rect x="365" y="267" width="49" height="6" rx="2"/>
+    <rect x="420" y="267" width="12" height="6" rx="2"/><rect x="440" y="267" width="12" height="6" rx="2"/><rect x="455" y="267" width="12" height="6" rx="2"/>
+  </g>
+
+  <!-- ===== Mouse (3) ===== -->
+  <path d="M508 250 c-14 0 -22 10 -22 24 c0 12 8 20 22 20 c14 0 22 -8 22 -20 c0 -14 -8 -24 -22 -24 z" fill="#ffffff" stroke="#b9cfe6" stroke-width="2.5"/>
+  <path d="M508 250 v20" stroke="#b9cfe6" stroke-width="2"/>
+  <rect x="505.5" y="255" width="5" height="9" rx="2.5" fill="#37a6f5"/>
+
+  <!-- ===== Number badges ===== -->
+  <g font-family="Fredoka, Nunito, sans-serif" font-weight="700" font-size="19" fill="#ffffff" text-anchor="middle">
+    <!-- 1 : monitor -->
+    <circle cx="256" cy="66" r="17" fill="#1f7fce"/><circle cx="256" cy="63" r="17" fill="#37a6f5" stroke="#ffffff" stroke-width="2.5"/><text x="256" y="70">1</text>
+    <!-- 2 : tower -->
+    <circle cx="58" cy="163" r="17" fill="#1f7fce"/><circle cx="58" cy="160" r="17" fill="#37a6f5" stroke="#ffffff" stroke-width="2.5"/><text x="58" y="167">2</text>
+    <!-- 3 : mouse -->
+    <circle cx="547" cy="248" r="17" fill="#1f7fce"/><circle cx="547" cy="245" r="17" fill="#37a6f5" stroke="#ffffff" stroke-width="2.5"/><text x="547" y="252">3</text>
+    <!-- 4 : keyboard -->
+    <circle cx="288" cy="270" r="17" fill="#1f7fce"/><circle cx="288" cy="267" r="17" fill="#37a6f5" stroke="#ffffff" stroke-width="2.5"/><text x="288" y="274">4</text>
+  </g>
+</svg>
+        <p class="figcap">Ein Schreibtisch mit vier Geräten &mdash; welches ist welches?</p>
+      </div>
+      <p class="quiz-intro"><svg class="qi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1.9-1.1 1.8"/><path d="M12 17h.01"/></svg>Tippe auf die Antwort, die passt. Gr&uuml;n = richtig. Falsch? Einfach nochmal versuchen!</p>
+      <div class="q" data-hint="Ger&auml;t 1 zeigt Bilder an, aber du siehst dich darin nicht &mdash; es ist kein Spiegel.">
+        <p class="q-text"><span class="qnum">Frage 1</span>Wie hei&szlig;t Ger&auml;t <span class="num-ring">1</span>?</p>
+        <div class="opts">
+        <button class="opt" data-correct="true">Bildschirm</button>
+        <button class="opt">Spiegel</button>
+        <button class="opt">Bilderrahmen</button>
+        <button class="opt">Fernseher</button>
+        </div>
+        <p class="q-fb" role="status" aria-live="polite"></p>
+      </div>
+      <div class="q" data-hint="Ger&auml;t 2 steht fest und l&auml;sst sich nicht zuklappen wie ein Laptop.">
+        <p class="q-text"><span class="qnum">Frage 2</span>Wie hei&szlig;t Ger&auml;t <span class="num-ring">2</span>?</p>
+        <div class="opts">
+        <button class="opt">K&uuml;hlschrank</button>
+        <button class="opt">Laptop</button>
+        <button class="opt" data-correct="true">Schreibtischrechner (Desktop)</button>
+        <button class="opt">Router</button>
+        </div>
+        <p class="q-fb" role="status" aria-live="polite"></p>
+      </div>
+      <div class="q" data-hint="Ger&auml;t 3 passt in die Hand und hat Tasten zum Klicken &mdash; kein Tier!">
+        <p class="q-text"><span class="qnum">Frage 3</span>Wie hei&szlig;t Ger&auml;t <span class="num-ring">3</span>?</p>
+        <div class="opts">
+        <button class="opt">Hamster</button>
+        <button class="opt" data-correct="true">Maus</button>
+        <button class="opt">Seife</button>
+        <button class="opt">Fernbedienung</button>
+        </div>
+        <p class="q-fb" role="status" aria-live="polite"></p>
+      </div>
+      <div class="q" data-hint="Ger&auml;t 4 hat viele Tasten mit Buchstaben und Zahlen zum Schreiben.">
+        <p class="q-text"><span class="qnum">Frage 4</span>Wie hei&szlig;t Ger&auml;t <span class="num-ring">4</span>?</p>
+        <div class="opts">
+        <button class="opt">Taschenrechner</button>
+        <button class="opt">Klavier</button>
+        <button class="opt">Flie&szlig;band</button>
+        <button class="opt" data-correct="true">Tastatur</button>
+        </div>
+        <p class="q-fb" role="status" aria-live="polite"></p>
+      </div>
+      <p class="quiz-progress"></p>
+    </section>    <section class="block quizblock">
+      <h2><span class="dot"></span>Vorwissen-Quiz &middot; Teil 2: Der Anmeldebildschirm</h2>
+      <div class="figbox">
+        <svg viewBox="0 0 700 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Anmeldebildschirm mit Mauszeiger, Anmeldebereich, Benutzernamenfeld und Passwortfeld">
+  <!-- stand -->
+  <ellipse cx="350" cy="420" rx="72" ry="12" fill="#c3d3e6"/>
+  <rect x="341" y="388" width="18" height="30" fill="#c3d3e6"/>
+  <!-- screen frame -->
+  <rect x="60" y="40" width="580" height="352" rx="18" fill="#2a2350"/>
+  <!-- wallpaper -->
+  <rect x="74" y="54" width="552" height="324" rx="10" fill="#4a90d9"/>
+  <!-- top bar + clock + desktop icons -->
+  <rect x="74" y="54" width="552" height="24" rx="10" fill="#ffffff" opacity="0.18"/>
+  <rect x="74" y="66" width="552" height="12" fill="#ffffff" opacity="0.18"/>
+  <text x="606" y="71" text-anchor="end" font-family="Nunito, sans-serif" font-weight="700" font-size="13" fill="#ffffff">8:00</text>
+  <rect x="92" y="94" width="34" height="34" rx="8" fill="#ffffff" opacity="0.85"/>
+  <rect x="92" y="140" width="34" height="34" rx="8" fill="#ffffff" opacity="0.85"/>
+
+  <!-- ===== Login card (2 = Anmeldebereich) ===== -->
+  <rect x="110" y="148" width="330" height="222" rx="16" fill="#ffffff" stroke="#dfe9f4" stroke-width="2"/>
+  <!-- avatar -->
+  <circle cx="275" cy="185" r="24" fill="#e4f2fe" stroke="#37a6f5" stroke-width="2.5"/>
+  <circle cx="275" cy="178" r="8" fill="#37a6f5"/>
+  <path d="M261 199 q14 -16 28 0" fill="#37a6f5"/>
+  <text x="275" y="230" text-anchor="middle" font-family="Fredoka, Nunito, sans-serif" font-weight="600" font-size="19" fill="#211a4d">Anmelden</text>
+
+  <!-- username field (3) -->
+  <rect x="140" y="244" width="270" height="34" rx="8" fill="#f1f0fb" stroke="#b9cfe6" stroke-width="2"/>
+  <circle cx="160" cy="261" r="6" fill="none" stroke="#8f9bc0" stroke-width="2"/>
+  <circle cx="160" cy="258.5" r="2.4" fill="#8f9bc0"/>
+  <path d="M154 266 q6 -6 12 0" fill="none" stroke="#8f9bc0" stroke-width="2"/>
+  <text x="178" y="266" font-family="Nunito, sans-serif" font-weight="700" font-size="14" fill="#8f9bc0">Benutzername</text>
+
+  <!-- password field (4) -->
+  <rect x="140" y="290" width="270" height="34" rx="8" fill="#f1f0fb" stroke="#b9cfe6" stroke-width="2"/>
+  <rect x="154" y="303" width="12" height="10" rx="2" fill="none" stroke="#8f9bc0" stroke-width="2"/>
+  <path d="M156.5 303 v-3 a3.5 3.5 0 0 1 7 0 v3" fill="none" stroke="#8f9bc0" stroke-width="2"/>
+  <g fill="#8f9bc0"><circle cx="182" cy="307" r="3.4"/><circle cx="196" cy="307" r="3.4"/><circle cx="210" cy="307" r="3.4"/><circle cx="224" cy="307" r="3.4"/><circle cx="238" cy="307" r="3.4"/><circle cx="252" cy="307" r="3.4"/></g>
+
+  <!-- login button -->
+  <rect x="140" y="334" width="270" height="30" rx="8" fill="#37a6f5"/>
+  <text x="275" y="354" text-anchor="middle" font-family="Fredoka, Nunito, sans-serif" font-weight="600" font-size="15" fill="#ffffff">Anmelden</text>
+
+  <!-- ===== cursor (1) ===== -->
+  <path d="M515 92 L515 128 L525 118 L532 133 L540 130 L533 115 L546 115 Z" fill="#ffffff" stroke="#211a4d" stroke-width="2.5" stroke-linejoin="round"/>
+
+  <!-- ===== Number badges ===== -->
+  <g font-family="Fredoka, Nunito, sans-serif" font-weight="700" font-size="19" fill="#ffffff" text-anchor="middle">
+    <!-- 1 cursor -->
+    <circle cx="556" cy="101" r="17" fill="#1f7fce"/><circle cx="556" cy="98" r="17" fill="#37a6f5" stroke="#ffffff" stroke-width="2.5"/><text x="556" y="105">1</text>
+    <!-- 2 login area -->
+    <circle cx="112" cy="151" r="17" fill="#1f7fce"/><circle cx="112" cy="148" r="17" fill="#37a6f5" stroke="#ffffff" stroke-width="2.5"/><text x="112" y="155">2</text>
+    <!-- 3 username -->
+    <circle cx="470" cy="264" r="17" fill="#1f7fce"/><circle cx="470" cy="261" r="17" fill="#37a6f5" stroke="#ffffff" stroke-width="2.5"/><text x="470" y="268">3</text>
+    <line x1="453" y1="261" x2="412" y2="261" stroke="#37a6f5" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- 4 password -->
+    <circle cx="470" cy="310" r="17" fill="#1f7fce"/><circle cx="470" cy="307" r="17" fill="#37a6f5" stroke="#ffffff" stroke-width="2.5"/><text x="470" y="314">4</text>
+    <line x1="453" y1="307" x2="412" y2="307" stroke="#37a6f5" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+</svg>
+        <p class="figcap">Ein Anmeldebildschirm &mdash; erkennst du die vier Stellen?</p>
+      </div>
+      <p class="quiz-intro"><svg class="qi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1.9-1.1 1.8"/><path d="M12 17h.01"/></svg>Tippe auf die Antwort, die passt. Gr&uuml;n = richtig. Falsch? Einfach nochmal versuchen!</p>
+      <div class="q" data-hint="Element 1 bewegt sich mit der Maus &uuml;ber den Bildschirm.">
+        <p class="q-text"><span class="qnum">Frage 5</span>Was ist <span class="num-ring">1</span> (der kleine Pfeil)?</p>
+        <div class="opts">
+        <button class="opt">Kompassnadel</button>
+        <button class="opt" data-correct="true">Mauszeiger (Cursor)</button>
+        <button class="opt">Papierflieger</button>
+        <button class="opt">Blitz-Symbol</button>
+        </div>
+        <p class="q-fb" role="status" aria-live="polite"></p>
+      </div>
+      <div class="q" data-hint="In Bereich 2 gibst du deine Anmelde-Daten ein.">
+        <p class="q-text"><span class="qnum">Frage 6</span>Was ist <span class="num-ring">2</span> (der ganze Kasten)?</p>
+        <div class="opts">
+        <button class="opt">Werbebanner</button>
+        <button class="opt">Suchmaschine</button>
+        <button class="opt" data-correct="true">Anmeldebereich</button>
+        <button class="opt">Papierkorb</button>
+        </div>
+        <p class="q-fb" role="status" aria-live="polite"></p>
+      </div>
+      <div class="q" data-hint="In Feld 3 kommt dein Name &mdash; nicht dein geheimes Passwort.">
+        <p class="q-text"><span class="qnum">Frage 7</span>Was ist <span class="num-ring">3</span>?</p>
+        <div class="opts">
+        <button class="opt" data-correct="true">Benutzernamenfeld</button>
+        <button class="opt">Uhrzeit-Anzeige</button>
+        <button class="opt">Lautst&auml;rke-Regler</button>
+        <button class="opt">Chatfenster</button>
+        </div>
+        <p class="q-fb" role="status" aria-live="polite"></p>
+      </div>
+      <div class="q" data-hint="Feld 4 zeigt Punkte statt Buchstaben, damit niemand dein Geheimnis sieht.">
+        <p class="q-text"><span class="qnum">Frage 8</span>Was ist <span class="num-ring">4</span> (mit den Punkten &bull;&bull;&bull;&bull;)?</p>
+        <div class="opts">
+        <button class="opt">Wetteranzeige</button>
+        <button class="opt">Rechenaufgabe</button>
+        <button class="opt">Ladebalken</button>
+        <button class="opt" data-correct="true">Passwortfeld</button>
+        </div>
+        <p class="q-fb" role="status" aria-live="polite"></p>
+      </div>
+      <p class="quiz-progress"></p>
+    </section>    <section class="block quizblock">
+      <h2><span class="dot"></span>Vorwissen-Quiz &middot; Teil 3: Die Maus von beiden Seiten</h2>
+      <div class="figbox">
+        <svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Maus von oben und unten mit Linksklick, Rechtsklick, Bewegungssensor, Mauspad und Verbindung">
+  <!-- ================= LEFT: top view (Draufsicht) ================= -->
+  <!-- cable -->
+  <path d="M200 96 C200 58 236 48 268 48" fill="none" stroke="#8f9bc0" stroke-width="4" stroke-linecap="round"/>
+  <!-- USB plug -->
+  <rect x="262" y="38" width="34" height="20" rx="3" fill="#cbd6e6" stroke="#8f9bc0" stroke-width="2"/>
+  <rect x="270" y="44" width="20" height="8" rx="1.5" fill="#ffffff"/>
+  <!-- bluetooth glyph -->
+  <g transform="translate(338,48)" stroke="#37a6f5" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 -13 L0 13 L9 5 L-9 -5 M-9 5 L9 -5 L0 -13"/>
+  </g>
+
+  <!-- mouse body top view -->
+  <path d="M200 96 C156 96 140 138 140 196 C140 256 166 286 200 286 C234 286 260 256 260 196 C260 138 244 96 200 96 Z" fill="#ffffff" stroke="#b9cfe6" stroke-width="3"/>
+  <!-- button split -->
+  <line x1="200" y1="98" x2="200" y2="170" stroke="#b9cfe6" stroke-width="2.5"/>
+  <path d="M140 172 h120" fill="none" stroke="#e4ecf5" stroke-width="2"/>
+  <!-- scroll wheel -->
+  <rect x="193" y="126" width="14" height="30" rx="7" fill="#37a6f5"/>
+  <text x="200" y="308" text-anchor="middle" font-family="Fredoka, Nunito, sans-serif" font-weight="600" font-size="16" fill="#4f4880">Draufsicht</text>
+
+  <!-- ================= RIGHT: bottom view (Unterseite) ================= -->
+  <!-- mousepad (4) -->
+  <rect x="386" y="150" width="214" height="150" rx="16" fill="#e4f2fe" stroke="#b9cfe6" stroke-width="2.5"/>
+  <rect x="398" y="162" width="190" height="126" rx="10" fill="none" stroke="#cfe3f7" stroke-width="2"/>
+  <!-- mouse body bottom view -->
+  <path d="M490 96 C446 96 430 138 430 196 C430 256 456 286 490 286 C524 286 550 256 550 196 C550 138 534 96 490 96 Z" fill="#f3f5fa" stroke="#b9cfe6" stroke-width="3"/>
+  <!-- glide feet -->
+  <rect x="452" y="112" width="22" height="11" rx="5" fill="#dfe9f4"/>
+  <rect x="506" y="112" width="22" height="11" rx="5" fill="#dfe9f4"/>
+  <rect x="466" y="266" width="48" height="11" rx="5" fill="#dfe9f4"/>
+  <!-- sensor (3) -->
+  <circle cx="490" cy="205" r="19" fill="#ffd9d9"/>
+  <circle cx="490" cy="205" r="11" fill="none" stroke="#ff5a5a" stroke-width="3.4"/>
+  <circle cx="490" cy="205" r="5" fill="#ff5a5a"/>
+  <text x="490" y="332" text-anchor="middle" font-family="Fredoka, Nunito, sans-serif" font-weight="600" font-size="16" fill="#4f4880">Unterseite</text>
+
+  <!-- ================= Number badges ================= -->
+  <g font-family="Fredoka, Nunito, sans-serif" font-weight="700" font-size="19" fill="#ffffff" text-anchor="middle">
+    <!-- 1 left click -->
+    <circle cx="168" cy="138" r="17" fill="#1f7fce"/><circle cx="168" cy="135" r="17" fill="#37a6f5" stroke="#ffffff" stroke-width="2.5"/><text x="168" y="142">1</text>
+    <!-- 2 right click -->
+    <circle cx="232" cy="138" r="17" fill="#1f7fce"/><circle cx="232" cy="135" r="17" fill="#37a6f5" stroke="#ffffff" stroke-width="2.5"/><text x="232" y="142">2</text>
+    <!-- 5 connection -->
+    <circle cx="372" cy="88" r="17" fill="#1f7fce"/><circle cx="372" cy="85" r="17" fill="#37a6f5" stroke="#ffffff" stroke-width="2.5"/><text x="372" y="92">5</text>
+    <line x1="360" y1="73" x2="344" y2="58" stroke="#37a6f5" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- 3 sensor -->
+    <circle cx="542" cy="180" r="17" fill="#1f7fce"/><circle cx="542" cy="177" r="17" fill="#37a6f5" stroke="#ffffff" stroke-width="2.5"/><text x="542" y="184">3</text>
+    <line x1="525" y1="182" x2="507" y2="197" stroke="#37a6f5" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- 4 mousepad -->
+    <circle cx="402" cy="166" r="17" fill="#1f7fce"/><circle cx="402" cy="163" r="17" fill="#37a6f5" stroke="#ffffff" stroke-width="2.5"/><text x="402" y="170">4</text>
+  </g>
+</svg>
+        <p class="figcap">Eine Maus von oben und unten &mdash; fünf wichtige Teile.</p>
+      </div>
+      <p class="quiz-intro"><svg class="qi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1.9-1.1 1.8"/><path d="M12 17h.01"/></svg>Tippe auf die Antwort, die passt. Gr&uuml;n = richtig. Falsch? Einfach nochmal versuchen!</p>
+      <div class="q" data-hint="Taste 1 ist links &mdash; damit w&auml;hlst du aus und &ouml;ffnest.">
+        <p class="q-text"><span class="qnum">Frage 9</span>Was ist <span class="num-ring">1</span>?</p>
+        <div class="opts">
+        <button class="opt">Rechtsklick-Taste</button>
+        <button class="opt">Leertaste</button>
+        <button class="opt" data-correct="true">Linksklick-Taste</button>
+        <button class="opt">Auswurf-Knopf</button>
+        </div>
+        <p class="q-fb" role="status" aria-live="polite"></p>
+      </div>
+      <div class="q" data-hint="Taste 2 ist rechts &mdash; damit &ouml;ffnest du ein Men&uuml;.">
+        <p class="q-text"><span class="qnum">Frage 10</span>Was ist <span class="num-ring">2</span>?</p>
+        <div class="opts">
+        <button class="opt" data-correct="true">Rechtsklick-Taste</button>
+        <button class="opt">Lautst&auml;rke-Taste</button>
+        <button class="opt">Enter-Taste</button>
+        <button class="opt">Reset-Knopf</button>
+        </div>
+        <p class="q-fb" role="status" aria-live="polite"></p>
+      </div>
+      <div class="q" data-hint="Teil 3 &bdquo;sieht&ldquo; die Bewegung und leuchtet oft rot.">
+        <p class="q-text"><span class="qnum">Frage 11</span>Was befindet sich an der Unterseite <span class="num-ring">3</span>?</p>
+        <div class="opts">
+        <button class="opt">Batteriefach</button>
+        <button class="opt">Lautsprecher</button>
+        <button class="opt">Kamera</button>
+        <button class="opt" data-correct="true">Bewegungssensor</button>
+        </div>
+        <p class="q-fb" role="status" aria-live="polite"></p>
+      </div>
+      <div class="q" data-hint="Teil 4 ist die flache, glatte Unterlage unter der Maus.">
+        <p class="q-text"><span class="qnum">Frage 12</span>Worauf gleitet die Maus am besten <span class="num-ring">4</span>?</p>
+        <div class="opts">
+        <button class="opt">Fu&szlig;matte</button>
+        <button class="opt" data-correct="true">Mauspad</button>
+        <button class="opt">Bilderrahmen</button>
+        <button class="opt">Wasserglas</button>
+        </div>
+        <p class="q-fb" role="status" aria-live="polite"></p>
+      </div>
+      <div class="q" data-hint="Verbindung 5 geht per Kabel (USB) oder ohne Kabel per Funk (Bluetooth).">
+        <p class="q-text"><span class="qnum">Frage 13</span>Wie ist die Maus mit dem Rechner verbunden <span class="num-ring">5</span>?</p>
+        <div class="opts">
+        <button class="opt">mit einer Wasserleitung</button>
+        <button class="opt">mit Klebeband</button>
+        <button class="opt" data-correct="true">&uuml;ber USB-Kabel oder Bluetooth (Funk)</button>
+        <button class="opt">mit einer Zugschnur</button>
+        </div>
+        <p class="q-fb" role="status" aria-live="polite"></p>
+      </div>
+      <p class="quiz-progress"></p>
+    </section>
     <section class="block">
-      <h2><span class="dot"></span>Schritt f&uuml;r Schritt</h2>
-      <div class="todo">Hier kommt die Anleitung hin: die einzelnen Arbeitsschritte, gerne mit Screenshots.</div>
+      <h2><span class="dot"></span>Schritt f&uuml;r Schritt &mdash; am Rechner</h2>
+      <ol class="steps">
+        <li><div class="st-body"><b>Einschalten.</b> Dr&uuml;cke einmal kurz den Power-Knopf (&#9211;) am Schreibtischrechner. Warte, bis der Anmeldebildschirm erscheint.</div></li>
+        <li><div class="st-body"><b>Anmelden.</b> Klicke mit einem <b>Linksklick</b> ins Benutzernamenfeld und tippe deinen Benutzernamen. Klicke dann ins Passwortfeld und tippe dein Passwort. Klicke auf &bdquo;Anmelden&ldquo;.</div></li>
+        <li><div class="st-body"><b>Umschauen.</b> Jetzt siehst du den <b>Desktop</b> (den &bdquo;Schreibtisch&ldquo;). Hier liegen Symbole (Icons) f&uuml;r Programme. Unten ist meist eine Leiste.</div></li>
+        <li><div class="st-body"><b>Mit der Maus navigieren.</b> Bewege den Mauszeiger. <b>Linksklick</b> = ausw&auml;hlen, <b>Doppelklick</b> (zweimal schnell links) = &ouml;ffnen, <b>Rechtsklick</b> = kleines Men&uuml; &ouml;ffnen.</div></li>
+        <li><div class="st-body"><b>Browser &ouml;ffnen.</b> Suche das Browser-Symbol (Firefox, Chrome oder Edge) und &ouml;ffne es mit einem Doppelklick. Der Browser ist dein Fenster ins Internet.</div></li>
+        <li><div class="st-body"><b>Am Ende abmelden.</b> Melde dich zum Schluss wieder ab, damit niemand unter deinem Namen weiterarbeitet.</div></li>
+      </ol>
+      <div class="safe-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        <span>Dein Passwort ist geheim. Niemand darf es sehen oder mitschreiben &mdash; auch keine Freundin und kein Freund.</span>
+      </div>
     </section>
 
     <section class="block">
       <h2><span class="dot"></span>&Uuml;bungsaufgaben</h2>
-      <div class="todo">Hier kommen die Aufgaben hin &mdash; mit klarer Differenzierung (Basis &middot; mittel &middot; knifflig).</div>
+      <div class="exset">
+        <div class="ex">
+          <span class="chip basis">Basis</span>
+          <p><b>1.</b> Fahre den Rechner hoch und melde dich mit deinem Benutzernamen und Passwort an. <b>2.</b> Bewege den Mauszeiger in alle vier Ecken des Bildschirms.</p>
+        </div>
+        <div class="ex">
+          <span class="chip mittel">mittel</span>
+          <p><b>3.</b> &Ouml;ffne einen Browser mit einem Doppelklick und schlie&szlig;e ihn wieder (Klick auf das &times; oben rechts). &Ouml;ffne ihn danach noch einmal. <b>4.</b> &Uuml;be den Doppelklick, bis er sicher sitzt.</p>
+        </div>
+        <div class="ex">
+          <span class="chip knifflig">knifflig</span>
+          <p><b>5.</b> Mache einen <b>Rechtsklick</b> auf den leeren Desktop. Welches Men&uuml; erscheint? Merke dir <b>einen</b> Men&uuml;punkt, den du gefunden hast.</p>
+        </div>
+      </div>
     </section>
 
     <section class="block fast">
       <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnelll&auml;ufer:innen-Mission</h2>
-      <p class="fast-text">Richte deinen Desktop klug ein und entdecke drei versteckte Maus-Tricks (z. B. das Rechtsklick-Menü).</p>
+      <p class="fast-text">Richte deinen Desktop klug ein und entdecke <b>drei versteckte Maus-Tricks</b>.</p>
+      <ul class="fast-list">
+        <li><span class="tk">1&middot;</span><span><b>Rechtsklick-Men&uuml;:</b> Rechtsklick auf den Desktop &ouml;ffnet ein Men&uuml;. Probiere &bdquo;Ansicht&ldquo; oder &bdquo;Sortieren nach&ldquo;.</span></li>
+        <li><span class="tk">2&middot;</span><span><b>Ziehen (Drag &amp; Drop):</b> Klicke ein Symbol mit gehaltener linker Taste an und ziehe es an eine neue Stelle.</span></li>
+        <li><span class="tk">3&middot;</span><span><b>Scrollrad:</b> Drehe das Rad in der Mitte der Maus &mdash; damit rollst du eine Seite nach oben und unten.</span></li>
+      </ul>
+      <p class="fast-challenge">Extra: Ordne mindestens drei Symbole ordentlich an und erkl&auml;re einer Mitsch&uuml;lerin oder einem Mitsch&uuml;ler einen deiner Tricks.</p>
+    </section>
+    <section class="block quizblock">
+      <h2><span class="dot"></span>Sicherung &mdash; kann ich es jetzt?</h2>
+      <p class="quiz-intro"><svg class="qi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Nach dem Ausprobieren am Rechner: Zeig, dass du den Ablauf sicher kennst.</p>
+      <div class="q" data-hint="Zuerst muss der Rechner an sein &mdash; Power-Knopf dr&uuml;cken!">
+        <p class="q-text"><span class="qnum">Frage 14</span>Was machst du ganz zuerst?</p>
+        <div class="opts">
+        <button class="opt">das Passwort l&ouml;schen</button>
+        <button class="opt" data-correct="true">den Rechner einschalten (hochfahren)</button>
+        <button class="opt">den Bildschirm abwischen</button>
+        <button class="opt">die Maus ausstecken</button>
+        </div>
+        <p class="q-fb" role="status" aria-live="polite"></p>
+      </div>
+      <div class="q" data-hint="Im Anmeldebereich mit Benutzernamenfeld und Passwortfeld.">
+        <p class="q-text"><span class="qnum">Frage 15</span>Wo gibst du Benutzername und Passwort ein?</p>
+        <div class="opts">
+        <button class="opt">im Suchfeld einer Suchmaschine</button>
+        <button class="opt">auf der R&uuml;ckseite der Tastatur</button>
+        <button class="opt">im Papierkorb</button>
+        <button class="opt" data-correct="true">im Anmeldebereich</button>
+        </div>
+        <p class="q-fb" role="status" aria-live="polite"></p>
+      </div>
+      <div class="q" data-hint="Zweimal schnell die linke Taste = Doppelklick.">
+        <p class="q-text"><span class="qnum">Frage 16</span>Wie &ouml;ffnest du meistens ein Programm?</p>
+        <div class="opts">
+        <button class="opt" data-correct="true">mit einem Linksklick, oft als Doppelklick</button>
+        <button class="opt">mit einem kr&auml;ftigen Schlag</button>
+        <button class="opt">gar nicht &mdash; es &ouml;ffnet sich von allein</button>
+        <button class="opt">mit gehaltener rechter Taste</button>
+        </div>
+        <p class="q-fb" role="status" aria-live="polite"></p>
+      </div>
+      <div class="q" data-hint="Der Browser ist dein Fenster ins Internet.">
+        <p class="q-text"><span class="qnum">Frage 17</span>Womit &ouml;ffnest du eine Webseite im Internet?</p>
+        <div class="opts">
+        <button class="opt">mit dem Passwortfeld</button>
+        <button class="opt">mit dem Taschenrechner</button>
+        <button class="opt" data-correct="true">mit einem Browser (Firefox, Chrome, Edge)</button>
+        <button class="opt">mit dem Mauspad</button>
+        </div>
+        <p class="q-fb" role="status" aria-live="polite"></p>
+      </div>
+      <p class="quiz-progress"></p>
     </section>
 
-    <section class="block">
-      <h2><span class="dot"></span>Das nehme ich mit</h2>
-      <div class="todo">Hier kommt der Merksatz / die Zusammenfassung hin.</div>
+    <section class="merk">
+      <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5c.6.6 1 1.3 1 2.5h6c0-1.2.4-1.9 1-2.5A6 6 0 0 0 12 3z"/></svg>Das nehme ich mit</h2>
+      <p class="chain">Einschalten &rarr; Anmelden &rarr; Umschauen &rarr; Klicken &rarr; Browser auf!</p>
+      <ol>
+        <li>Rechner mit dem Power-Knopf <b>einschalten</b>.</li>
+        <li>Im <b>Anmeldebereich</b> Benutzername und Passwort eingeben.</li>
+        <li>Auf dem <b>Desktop</b> umschauen.</li>
+        <li>Mit der <b>Maus</b> klicken: links = ausw&auml;hlen/&ouml;ffnen, rechts = Men&uuml;.</li>
+        <li>Einen <b>Browser</b> &ouml;ffnen &rarr; ab ins Internet.</li>
+      </ol>
+      <span class="secret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Mein Passwort bleibt geheim.</span>
     </section>
 
     <div class="selfcheck-wrap">
@@ -176,17 +625,50 @@
     </nav>
   </main>
 
-  <footer>ITG &middot; Klasse 6 &middot; Schuljahr 2026/27 &middot; Einheit 01 · Hallo, Computer!</footer>
+  <footer>ITG &middot; Klasse 6 &middot; Schuljahr 2026/27 &middot; Einheit 01 &middot; Hallo, Computer!</footer>
 </div>
 
 <script>
   (function(){
+    var letters = ['A','B','C','D'];
+    function updateProgress(){
+      document.querySelectorAll('.quizblock').forEach(function(b){
+        var total = b.querySelectorAll('.q').length;
+        var solved = b.querySelectorAll('.q.solved').length;
+        var p = b.querySelector('.quiz-progress');
+        if(!p) return;
+        p.textContent = (solved === total && total > 0) ? ('Super! Alle ' + total + ' gel\u00f6st \u2605') : ('Gel\u00f6st: ' + solved + ' / ' + total);
+      });
+    }
+    document.querySelectorAll('.q').forEach(function(q){
+      var opts = Array.prototype.slice.call(q.querySelectorAll('.opt'));
+      var fb = q.querySelector('.q-fb');
+      opts.forEach(function(opt, i){
+        var lt = document.createElement('span'); lt.className = 'lt'; lt.textContent = letters[i];
+        opt.insertBefore(lt, opt.firstChild);
+        opt.addEventListener('click', function(){
+          if(q.classList.contains('solved')) return;
+          if(opt.getAttribute('data-correct') === 'true'){
+            opt.classList.add('correct');
+            opts.forEach(function(o){ o.disabled = true; });
+            q.classList.add('solved');
+            fb.textContent = '\u2713 Richtig!'; fb.className = 'q-fb ok';
+            updateProgress();
+          } else {
+            opt.classList.add('wrong'); opt.disabled = true;
+            fb.textContent = '\u2717 ' + (q.getAttribute('data-hint') || 'Versuch es noch einmal.'); fb.className = 'q-fb no';
+          }
+        });
+      });
+    });
+    updateProgress();
+
     var key = 'itg_lp_01';
     var msgs = {1:'Ganz frisch \u2014 \u00dcben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf \u2014 super!'};
     var svg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 18.9 6.1 21l1.2-6.5L2.5 9.9l6.6-.9z"/></svg>';
-    var wrap = document.getElementById('stars'); var fb = document.getElementById('fb'); var stars = [];
+    var wrap = document.getElementById('stars'); var fb2 = document.getElementById('fb'); var stars = [];
     for (var n = 1; n <= 4; n++) { var b = document.createElement('button'); b.className = 'sc-star'; b.type = 'button'; b.innerHTML = svg; b.setAttribute('aria-label', 'Stufe ' + n); wrap.appendChild(b); stars.push(b); }
-    function paint(l){ stars.forEach(function(s,i){ if(i<l) s.classList.add('on'); else s.classList.remove('on'); }); if(l>0){ fb.textContent = msgs[l]; fb.classList.add('show'); } else { fb.textContent=''; fb.classList.remove('show'); } }
+    function paint(l){ stars.forEach(function(s,i){ if(i<l) s.classList.add('on'); else s.classList.remove('on'); }); if(l>0){ fb2.textContent = msgs[l]; fb2.classList.add('show'); } else { fb2.textContent=''; fb2.classList.remove('show'); } }
     var saved = 0; try { saved = parseInt(localStorage.getItem(key), 10) || 0; } catch(e) {} paint(saved);
     stars.forEach(function(st,i){ st.addEventListener('click', function(){ var l=i+1; var last = stars[i].classList.contains('on') && (i===stars.length-1 || !stars[i+1].classList.contains('on')); if(last){ paint(0); try{ localStorage.removeItem(key); }catch(e){} } else { paint(l); try{ localStorage.setItem(key,l); }catch(e){} } }); });
   })();
