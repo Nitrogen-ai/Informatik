@@ -1,0 +1,202 @@
+QUIZ-ROHMATERIAL · LP 01-LP 03 · Einheit 01 "Hallo, Computer!" · ITG Klasse 6
+Google-Forms-Massenimport (copy-pastable)
+==========================================================================
+
+FORMAT PRO FRAGE
+  Frage?
+  Richtige Antwort (immer zuerst!)
+  Falsche Antwort
+  Falsche Antwort
+  Falsche Antwort
+
+  Leerzeile trennt die Fragen. Nach dem Import in Google Forms: Fragetyp auf
+  "Multiple Choice" stellen, "als Quiz" aktivieren, die erste Antwortzeile als
+  richtig markieren, danach einmal "Antworten mischen" (Shuffle) aktivieren,
+  damit die Lösung nicht immer an erster Stelle steht.
+
+MEHRFACHAUSWAHL-FRAGEN
+  Erkennbar am Zusatz "(mehrere richtig — N Antworten)" im Fragetext. Die
+  ersten N Antwortzeilen sind korrekt, die übrigen falsch. Fragetyp in Google
+  Forms auf "Kontrollkästchen" (Checkboxes) stellen und alle N Zeilen als
+  richtig markieren.
+
+SCHWIERIGE FRAGEN (Absatz-Fragen)
+  Mit "[MANUELL BEWERTEN]" gekennzeichnet. Fragetyp in Google Forms auf
+  "Absatz" (Paragraph) stellen — keine Autobewertung möglich. Die eckige
+  Klammer danach nennt die erwarteten Kernpunkte für die manuelle Korrektur;
+  diesen Hinweistext NICHT mit in den Google-Forms-Fragetext übernehmen,
+  sondern nur als Bewertungshilfe für die Lehrkraft nutzen.
+
+ANTWORT-KONVENTIONEN IN DIESER DATEI
+  - Erklärender Antworttext: durchgängig klein geschrieben.
+  - Technische Fachbegriffe und feste Bezeichnungen (Startmenü, Taskleiste,
+    Titelleiste, Desktop, Browser, Alt+Tab, EVA, Denk-Chip, CPU, Eva-Prinzip)
+    bleiben in ihrer festen Schreibweise stehen — sie zählen als
+    Eigennamen-Ausnahme.
+  - Echte Umlaute/ß bleiben erhalten (ä ö ü ß), keine Transliteration.
+  - Keine typografischen (gebogenen) Anführungszeichen — falls nötig, nur
+    gerade Anführungszeichen verwenden.
+  - Da ausschließlich Multiple-Choice- und Mehrfachauswahl-Fragen verwendet
+    werden, entfällt die Kurzantwort-Varianten-Regel (kein Freitext-Feld,
+    daher kein Auto-Bewertungsrisiko durch Groß-/Kleinschreibung o. Ä.).
+
+INHALTLICHE LEITPLANKEN
+  Keine Schülernamen, keine veraltenden Jahreszahlen, keine software-
+  versionsspezifischen Details. Fokus auf Konzeptverständnis, nicht auf
+  Faktenmemorieren.
+
+
+==========================================================================
+LP01 — Anmelden, umschauen, loslegen
+==========================================================================
+
+Wie heißt das Gerät, das Bilder anzeigt?
+Bildschirm
+Tastatur
+Maus
+Lautsprecher
+
+Womit gibst du Buchstaben und Zahlen ein?
+Tastatur
+Bildschirm
+Maus
+Drucker
+
+Was gibst du im Anmeldebereich ein?
+Benutzername und Passwort
+nur deinen Vornamen
+die Uhrzeit
+eine Webseite
+
+Wie öffnest du ein Programm meistens?
+mit einem Doppelklick (Linksklick)
+mit einem Rechtsklick
+mit dem Scrollrad
+gar nicht, es öffnet sich von allein
+
+Was macht ein Rechtsklick?
+öffnet ein kleines Menü
+wählt etwas aus und öffnet es
+öffnet immer ein neues Programm
+schaltet den Rechner aus
+
+Welche zwei Maustasten liegen auf der Oberseite der Maus? (mehrere richtig — 2 Antworten)
+Linksklick-Taste
+Rechtsklick-Taste
+Scrollrad
+Bewegungssensor
+
+Was ist der Unterschied zwischen einem einfachen Klick und einem Doppelklick?
+ein einfacher Klick wählt aus, ein Doppelklick öffnet meistens etwas
+beide machen genau dasselbe
+ein Doppelklick schließt, ein einfacher Klick öffnet
+ein Doppelklick braucht die rechte Maustaste
+
+Erkläre in zwei bis drei Sätzen, warum du dein Passwort geheim halten solltest, und was im Anmeldebereich passiert, wenn du dich mit Benutzername und Passwort anmeldest. [MANUELL BEWERTEN — erwartete Kernpunkte: das Passwort schützt den eigenen Zugang und die eigenen Daten vor anderen Personen; im Anmeldebereich prüft der Rechner, ob Benutzername und Passwort zusammenpassen, und lässt einen nur dann auf den Desktop.]
+
+[40% leicht | 40% mittel | 20% schwierig (manuell)]
+[Quellen: Vorwissen-Quiz Teil 1-3 (Geräte am Schreibtisch, Der Anmeldebildschirm, Die Maus von beiden Seiten), Schritt-für-Schritt und Sicherung-Quiz im HTML-Lernpfad]
+
+
+==========================================================================
+LP02 — Was steckt drin? Das EVA-Prinzip
+==========================================================================
+
+Wofür steht das E in EVA?
+Eingabe
+Ende
+Elektronik
+Ergebnis
+
+Wofür steht das A in EVA?
+Ausgabe
+Anmeldung
+Anfang
+Antwort
+
+Welches Gerät ist ein Eingabegerät?
+Tastatur
+Bildschirm
+Drucker
+Lautsprecher
+
+Welches Gerät ist ein Ausgabegerät?
+Bildschirm
+Maus
+Tastatur
+Mikrofon
+
+Wer erledigt die Verarbeitung im Computer?
+der Denk-Chip (Prozessor/CPU)
+die Maus
+der Bildschirm
+der Drucker
+
+Welche der folgenden sind Ausgabegeräte? (mehrere richtig — 2 Antworten)
+Drucker
+Lautsprecher
+Tastatur
+Maus
+
+Wozu dient der Speicher (zum Beispiel die Festplatte) im Computer?
+er bewahrt Daten dauerhaft auf
+er rechnet Aufgaben aus
+er zeigt Bilder an
+er nimmt Eingaben entgegen
+
+Erkläre in zwei bis drei Sätzen anhand eines Alltagsgeräts deiner Wahl (zum Beispiel ein Taschenrechner oder eine Waschmaschine), was bei diesem Gerät die Eingabe, die Verarbeitung und die Ausgabe ist. [MANUELL BEWERTEN — erwartete Kernpunkte: ein konkretes Beispielgerät nennen; Eingabe = was hineingegeben wird (z. B. Tasten drücken, Programm wählen); Verarbeitung = was das Gerät intern damit macht; Ausgabe = was am Ende herauskommt oder passiert.]
+
+[40% leicht | 40% mittel | 20% schwierig (manuell)]
+[Quellen: Vorwissen-Quiz Bild 1-3 (Die EVA-Kette, Geräte am Computer-Arbeitsplatz, Ein Blick ins Innere) und Sicherung-Quiz im HTML-Lernpfad]
+
+
+==========================================================================
+LP03 — Programme starten & Fenster jonglieren
+==========================================================================
+
+Wie startest du ein Programm meistens?
+über das Startmenü oder ein Desktop-Symbol (Doppelklick)
+über die Ecke unten rechts
+über das Passwortfeld
+über den Lautsprecher
+
+Was zeigt die Titelleiste eines Fensters?
+den Namen des Programms
+die Uhrzeit
+das Passwort
+den Namen des Rechners
+
+Was passiert beim Minimieren eines Fensters?
+es verschwindet in die Taskleiste, läuft aber weiter
+es wird sofort geschlossen und beendet
+es wird größer
+es wird gelöscht
+
+Wie wechselst du schnell zwischen zwei offenen Fenstern?
+mit Alt+Tab oder per Klick in der Taskleiste
+mit einem Rechtsklick auf den Desktop
+mit der Leertaste
+mit dem Lautstärkeregler
+
+Was macht der Button zum Maximieren eines Fensters?
+lässt das Fenster den ganzen Bildschirm ausfüllen
+schließt das Fenster
+öffnet ein neues Programm
+speichert das Fenster
+
+Welche der folgenden gehören zu einem Fenster? (mehrere richtig — 2 Antworten)
+Titelleiste
+Schließen-Button (x)
+Suchfeld
+Startmenü-Button
+
+Was haben ein Programm auf dem PC und eine Webseite im Browser gemeinsam?
+beide laufen in einem eigenen Fenster
+beide brauchen keinen Bildschirm
+beide speichern nichts
+beide haben keine Titelleiste
+
+Erkläre in zwei bis drei Sätzen den Unterschied zwischen Minimieren und Schließen eines Fensters, und warum dieser Unterschied wichtig ist, wenn du mit mehreren Programmen gleichzeitig arbeitest. [MANUELL BEWERTEN — erwartete Kernpunkte: Minimieren räumt das Fenster nur weg, das Programm läuft im Hintergrund weiter und lässt sich über die Taskleiste zurückholen; Schließen beendet das Programm vollständig; der Unterschied ist wichtig, um mehrere Programme geöffnet zu lassen, ohne den Bildschirm vollzustellen.]
+
+[40% leicht | 40% mittel | 20% schwierig (manuell)]
+[Quellen: Vorwissen-Quiz Bild 1-3 (Ein Programm starten, Ein Fenster, Mehrere Fenster jonglieren) und Sicherung-Quiz im HTML-Lernpfad]
