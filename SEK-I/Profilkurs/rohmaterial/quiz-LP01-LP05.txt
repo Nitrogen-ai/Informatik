@@ -1,0 +1,312 @@
+QUIZ-ROHMATERIAL · LP01-LP05 · Profil Informatik Klasse 9 · Einheit 01+02
+Google-Forms-Massenimport (copy-pastable)
+==========================================================================
+
+FORMAT PRO FRAGE
+  Frage?
+  Richtige Antwort (immer zuerst!)
+  Falsche Antwort
+  Falsche Antwort
+  Falsche Antwort
+
+  Leerzeile trennt die Fragen. Nach dem Import in Google Forms: Fragetyp auf
+  "Multiple Choice" stellen, "als Quiz" aktivieren, die erste Antwortzeile als
+  richtig markieren, danach einmal "Antworten mischen" (Shuffle) aktivieren,
+  damit die Lösung nicht immer an erster Stelle steht.
+
+MEHRFACHAUSWAHL-FRAGEN
+  Erkennbar am Zusatz "(mehrere richtig — N Antworten)" im Fragetext. Die
+  ersten N Antwortzeilen sind korrekt, die übrigen falsch. Fragetyp in Google
+  Forms auf "Kontrollkästchen" (Checkboxes) stellen und alle N Zeilen als
+  richtig markieren.
+
+SCHWIERIGE FRAGEN (Absatz-Fragen)
+  Mit "[MANUELL BEWERTEN]" gekennzeichnet. Fragetyp in Google Forms auf
+  "Absatz" (Paragraph) stellen — keine Autobewertung möglich. Die eckige
+  Klammer danach nennt die erwarteten Kernpunkte für die manuelle Korrektur;
+  diesen Hinweistext NICHT mit in den Google-Forms-Fragetext übernehmen,
+  sondern nur als Bewertungshilfe für die Lehrkraft nutzen.
+
+ANTWORT-KONVENTIONEN IN DIESER DATEI
+  - Erklärender Antworttext: durchgängig klein geschrieben.
+  - Fachbegriffe und feste Bezeichnungen (EVA, Scratch, Makey Makey, Sprite,
+    EARTH, SJW, Backup, Cloud/USB) bleiben in ihrer festen Schreibweise
+    stehen — sie zählen als Eigennamen-Ausnahme.
+  - Echte Umlaute/ß bleiben erhalten (ä ö ü ß), keine Transliteration.
+  - Keine typografischen (gebogenen) Anführungszeichen — falls nötig, nur
+    gerade Anführungszeichen verwenden.
+  - Da ausschließlich Multiple-Choice- und Mehrfachauswahl-Fragen verwendet
+    werden, entfällt die Kurzantwort-Varianten-Regel (kein Freitext-Feld,
+    daher kein Auto-Bewertungsrisiko durch Groß-/Kleinschreibung o. Ä.).
+
+INHALTLICHE LEITPLANKEN
+  Keine Schülernamen, keine veraltenden Jahreszahlen, keine software-
+  versionsspezifischen Details. Fokus auf Konzeptverständnis, nicht auf
+  Faktenmemorieren.
+
+HINWEIS ZUR EINORDNUNG
+  Dieses Abschlussquiz ist eine eigenständige, zusammenfassende Prüfung für
+  LP01-05 (z. B. für eine Leistungsanerkennung). Es ist bewusst nicht
+  identisch mit dem interaktiven "Wissens-Check" auf den Lernpfad-Seiten
+  selbst — einige leichte Fragen überschneiden sich thematisch, die
+  mittleren und schwierigen Fragen gehen darüber hinaus.
+
+
+==========================================================================
+LP01 — Boot-Sequenz: Kurslandkarte & digitale Werkzeugkiste
+==========================================================================
+
+Wie lautet die Backup-Regel für diesen Kurs?
+am Stundenende alles sichern — lokal UND in der Cloud/USB
+nur am Ende des Halbjahres sichern
+nur lokal auf dem Rechner sichern
+Backups sind bei diesem Kurs nicht nötig
+
+Wie viele Lernpfade umfasst der gesamte Kurs?
+37
+12
+20
+52
+
+Wann wird die Musterlösung eines Lernpfads freigeschaltet?
+automatisch zu einem festgelegten Datum
+sofort beim ersten Öffnen der Seite
+nie, sie bleibt dauerhaft verborgen
+nur auf Anfrage per E-Mail
+
+Welche Ordnerstruktur legst du zu Beginn des Kurses an?
+Informatik mit den Unterordnern HJ1, HJ2 und _backups
+nur einen einzigen Ordner ohne Unterordner
+einen Ordner pro Mitschüler:in
+keine, Dateien bleiben auf dem Desktop verstreut
+
+Warum sind zwei Speicherorte (Rechner UND Cloud/USB) für Backups sinnvoll?
+falls einer der beiden Orte ausfällt oder verloren geht, bleibt die andere Kopie erhalten
+zwei Kopien sehen ordentlicher aus
+die Cloud braucht immer eine zweite Kopie zur Bestätigung
+das ist nicht sinnvoll, ein Ort reicht völlig aus
+
+Welche der folgenden gehören zur Kursübersicht-Seite? (mehrere richtig — 2 Antworten)
+Sterne zur Selbsteinschätzung
+Schloss-Symbole für die Freischaltung der Lösung
+eine Chatfunktion mit der Lehrkraft
+ein Notenspiegel
+
+Was bedeutet ein 🔒-Symbol bei einem Lernpfad?
+die Musterlösung ist noch nicht freigeschaltet
+der Lernpfad ist komplett gesperrt und nicht zugänglich
+der Lernpfad wurde gelöscht
+du hast diesen Lernpfad bereits abgeschlossen
+
+Beschreibe in zwei bis drei Sätzen, wie das Zusammenspiel aus Schuljahreswochen (SJW), Lernpfaden und automatisch freigeschalteten Musterlösungen den Ablauf des Kurses organisiert. [MANUELL BEWERTEN — erwartete Kernpunkte: jede Schuljahreswoche entspricht einer Kursstunde bzw. einem Lernpfad; die Musterlösung zu jedem Lernpfad wird automatisch zu einem festen Datum sichtbar; so kann man selbstständig prüfen, ohne die Lösung vorzeitig zu sehen.]
+
+[40% leicht | 40% mittel | 20% schwierig (manuell)]
+[Quellen: Ziel, Aufgaben und Musterlösung von LP01 im HTML-Lernpfad]
+
+
+==========================================================================
+LP02 — EVA & Algorithmus: wie ein Computer denkt
+==========================================================================
+
+Wofür steht EVA?
+Eingabe, Verarbeitung, Ausgabe
+Entwicklung, Verifikation, Anwendung
+Eingabe, Verschlüsselung, Ausgabe
+Einheit, Verzweigung, Algorithmus
+
+Was ist ein Algorithmus?
+eine eindeutige, endliche Schrittfolge zur Lösung eines Problems
+ein beliebiger Name für ein Programm
+nur eine Schleife ohne Bedingung
+ein Gerät zur Dateneingabe
+
+Was macht eine Verzweigung in einem Algorithmus?
+sie trifft abhängig von einer Bedingung eine Entscheidung (wenn ... dann ... sonst)
+sie wiederholt einen Schritt immer wieder
+sie beendet den Algorithmus sofort
+sie speichert Daten dauerhaft
+
+Was macht eine Schleife in einem Algorithmus?
+sie wiederholt einen oder mehrere Schritte
+sie trifft eine einmalige Entscheidung
+sie ist nur die Eingabe eines Algorithmus
+sie hat in Algorithmen keine Funktion
+
+Bei einer Ampel: was ist in diesem Beispiel die Verarbeitung?
+die Steuerlogik, die entscheidet, wann welche Farbe leuchtet
+die Lichtsignale selbst
+die Sensoren bzw. der Zeitgeber
+der Strommast
+
+Welche zwei Bausteine gehören neben der Sequenz zu den Grundbausteinen eines Algorithmus? (mehrere richtig — 2 Antworten)
+Verzweigung
+Schleife
+Eingabe
+Ausgabe
+
+Warum eignet sich eine Ampel gut, um das EVA-Prinzip zu erklären?
+weil sich Eingabe (Sensor/Zeit), Verarbeitung (Steuerlogik) und Ausgabe (Lichtsignal) klar trennen lassen
+weil Ampeln keine Verarbeitung benötigen
+weil Ampeln nur Ausgabe, aber keine Eingabe haben
+weil Ampeln nichts mit Informatik zu tun haben
+
+Wähle ein Alltagsgerät deiner Wahl (nicht die Ampel) und beschreibe in zwei bis drei Sätzen, was dort Eingabe, Verarbeitung und Ausgabe ist. Nenne außerdem, ob ein Algorithmus darin eher eine Schleife oder eine Verzweigung nutzt. [MANUELL BEWERTEN — erwartete Kernpunkte: konkretes, plausibles Gerät gewählt; korrekte Zuordnung von Eingabe/Verarbeitung/Ausgabe; sinnvolle Begründung, ob Schleife (wiederholter Ablauf) oder Verzweigung (Bedingung/Entscheidung) zutrifft.]
+
+[40% leicht | 40% mittel | 20% schwierig (manuell)]
+[Quellen: Ziel, Aufgaben und Musterlösung von LP02 im HTML-Lernpfad]
+
+
+==========================================================================
+LP03 — Scratch-Grundlagen: Bühne, Figuren, Ereignisse
+==========================================================================
+
+Womit startest du typischerweise eine Scratch-Sequenz?
+mit einem Ereignisblock wie "Wenn Flagge geklickt"
+mit einem Schleifenblock
+nur durch Drücken der Leertaste
+Scratch startet nie automatisch
+
+Was ist eine Sequenz in Scratch?
+Blöcke in fester Reihenfolge, die wie Puzzleteile verbunden sind
+ein einzelner, isolierter Block
+eine Datei-Endung
+ein Werkzeug zum Zeichnen
+
+Wie exportierst du dein Scratch-Projekt?
+als .sb3-Datei über Datei → "Auf deinen Computer herunterladen"
+als .exe-Datei
+es lässt sich nicht exportieren
+nur als Bildschirmfoto
+
+Wie kann ein zweites Sprite auf ein erstes reagieren?
+über Nachrichten senden und empfangen
+das ist in Scratch nicht möglich
+nur durch Zufall
+nur wenn beide Sprites exakt gleich aussehen
+
+Was passiert, wenn du im Editor einen Bewegungsblock unter einen Ereignisblock ziehst?
+der Bewegungsblock wird Teil der Sequenz und läuft nach dem Ereignis
+nichts, Blöcke lassen sich nicht verbinden
+das Sprite verschwindet sofort
+Scratch stürzt ab
+
+Welche drei Kategorien werden laut Aufgabenstellung zu einer kleinen Szene kombiniert?
+Bewegung, Aussehen und Klang
+nur Bewegung
+nur Klang und Text
+Variablen und Listen
+
+Wozu dient der Export als .sb3-Datei besonders?
+zur Ergebnissicherung (Backup) des eigenen Projekts
+um das Projekt zu löschen
+um es auf Papier auszudrucken
+um Scratch zu deinstallieren
+
+Beschreibe in zwei bis drei Sätzen ein einfaches Szenario (zum Beispiel eine Figur, die über die Bühne läuft und dabei einen Ton abspielt), und erkläre, welche Ereignis-, Bewegungs- und Klangblöcke du dafür kombinieren würdest. [MANUELL BEWERTEN — erwartete Kernpunkte: nennt einen Ereignisblock als Start (z. B. Flagge geklickt); nennt mindestens einen Bewegungsblock (z. B. gehe X Schritte); nennt einen Klangblock (z. B. spiele Ton ab); Blöcke sind sinnvoll zu einer Sequenz kombiniert.]
+
+[40% leicht | 40% mittel | 20% schwierig (manuell)]
+[Quellen: Ziel, Aufgaben und Musterlösung von LP03 im HTML-Lernpfad]
+
+
+==========================================================================
+LP04 — Schleifen & Verzweigungen: ein Mini-Spiel
+==========================================================================
+
+Wozu dient eine Endlosschleife beim Abfragen der Tastatur?
+damit ständig geprüft wird, ob eine Taste gedrückt wurde
+damit das Programm nach einem Tastendruck sofort endet
+damit die Tastatur ausgeschaltet wird
+sie hat damit nichts zu tun
+
+Was passiert bei der Verzweigung "falls Figur berührt Rand"?
+die Figur reagiert (z. B. dreht ab), wenn die Bedingung erfüllt ist
+die Figur verschwindet immer sofort
+das Spiel startet automatisch neu
+nichts, Verzweigungen wirken nicht auf Figuren
+
+Wozu dient eine Variable wie "Punkte" in einem Spiel?
+sie speichert einen Zustand (den Punktestand), der sich über die Zeit verändert
+sie zeichnet nur die Spielfigur
+sie ist nur für die Farbe der Bühne zuständig
+Variablen werden in Scratch nicht benötigt
+
+Womit erkennst du eine Kollision zwischen zwei Figuren?
+mit einem "wird berührt?"-Block als Bedingung
+nur durch genaues Hinschauen ohne Code
+mit einer Endlosschleife allein
+das ist in Scratch nicht möglich
+
+Was unterscheidet eine Schleife von einer Verzweigung grundsätzlich?
+eine Schleife wiederholt, eine Verzweigung entscheidet einmalig zwischen Möglichkeiten
+beide machen exakt dasselbe
+eine Verzweigung wiederholt, eine Schleife entscheidet
+keins von beidem hat mit Kontrollstrukturen zu tun
+
+Welche zwei Dinge braucht ein einfaches Fangspiel typischerweise? (mehrere richtig — 2 Antworten)
+eine Schleife zur ständigen Steuerung
+eine Bedingung zur Kollisionserkennung
+eine Textdatei zur Speicherung
+einen Drucker
+
+Warum sollte die Schwierigkeit (z. B. die Geschwindigkeit) erst mit steigender Punktzahl zunehmen?
+damit das Spiel zu Beginn fair und spielbar bleibt und erst später fordernder wird
+damit das Spiel von Anfang an unspielbar ist
+Schwierigkeit hat nichts mit der Punktzahl zu tun
+damit die Punktzahl nie steigen kann
+
+Beschreibe in zwei bis drei Sätzen, wie du in einem Mini-Spiel eine Schleife UND eine Verzweigung gemeinsam einsetzt, um zu erkennen, ob die Spielfigur getroffen wurde, und was dann passieren soll. [MANUELL BEWERTEN — erwartete Kernpunkte: eine (Endlos-)Schleife läuft ständig und prüft wiederholt die Bedingung; eine Verzweigung ("falls ... dann") reagiert, sobald die Kollisionsbedingung ("wird berührt?") erfüllt ist; eine sinnvolle Folge-Aktion wird beschrieben (z. B. Punkte erhöhen, Ton abspielen).]
+
+[40% leicht | 40% mittel | 20% schwierig (manuell)]
+[Quellen: Ziel, Aufgaben und Musterlösung von LP04 im HTML-Lernpfad]
+
+
+==========================================================================
+LP05 — Makey Makey: die Welt wird zum Controller
+==========================================================================
+
+Was ersetzt Makey Makey im Grunde?
+Signale von Tastatur und Maus
+den gesamten Computer
+die Scratch-Software
+den Bildschirm
+
+Wodurch entsteht ein "Tastendruck" bei Makey Makey?
+durch einen geschlossenen Stromkreis, z. B. über den eigenen Körper
+durch lautes Klopfen auf den Tisch
+durch eine WLAN-Verbindung
+nur durch Drücken einer echten Computertaste
+
+Welche Alltagsgegenstände eignen sich als leitfähige "Tasten"?
+Bananen, Alufolie oder Wasser
+nur Holz und Papier
+nur Glas
+gar keine, es braucht spezielle Hardware
+
+Zu welchem Teil des EVA-Prinzips gehört Makey Makey vor allem?
+zur Eingabe
+zur Verarbeitung
+zur Ausgabe
+zu keinem der drei Schritte
+
+Wozu dient der EARTH-Anschluss bei Makey Makey?
+er schließt den Stromkreis, meist indem man ihn selbst berührt (Erdung über den Körper)
+er lädt das Gerät auf
+er verbindet Makey Makey mit dem Internet
+er hat keine erkennbare Funktion
+
+Welche zwei Eigenschaften muss ein Gegenstand haben, damit er als Makey-Makey-Taste funktioniert? (mehrere richtig — 2 Antworten)
+er muss leitfähig sein
+er muss mit einem Krokodilklemmen-Kabel verbunden sein
+er muss aus Metall bestehen
+er muss teuer sein
+
+Was passiert, wenn ein Gegenstand NICHT leitfähig ist (z. B. ein Radiergummi)?
+er schließt den Stromkreis nicht, Makey Makey erkennt keinen Tastendruck
+er funktioniert trotzdem einwandfrei
+er beschädigt das Gerät dauerhaft
+er ersetzt die EARTH-Verbindung
+
+Erkläre in zwei bis drei Sätzen, warum Makey Makey ein gutes Beispiel dafür ist, dass "Eingabe" beim EVA-Prinzip nicht zwingend über Tastatur oder Maus erfolgen muss. [MANUELL BEWERTEN — erwartete Kernpunkte: Eingabe bedeutet allgemein, dass Signale bzw. Daten in ein System gelangen; Makey Makey zeigt, dass auch alltägliche, leitfähige Gegenstände (Banane, Alufolie, Wasser) als Eingabesignal dienen können, solange ein Stromkreis geschlossen wird; das macht "Eingabe" als Konzept greifbar und verallgemeinerbar über die klassische Tastatur/Maus hinaus.]
+
+[40% leicht | 40% mittel | 20% schwierig (manuell)]
+[Quellen: Ziel, Aufgaben und Musterlösung von LP05 im HTML-Lernpfad]
