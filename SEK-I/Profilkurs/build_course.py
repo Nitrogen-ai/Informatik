@@ -48,6 +48,32 @@ T = {
   "bincalc": ("Windows-Rechner (Programmierer-Modus)", "https://support.microsoft.com/de-de/windows/rechner-app-9b8ff34a-e3ff-9c5f-b0b0-a52a5b23c7a4"),
 }
 
+# ---------------------------------------------------------------- Vorwissen-Figuren (SVG)
+# lp-Nummer -> Ordner mit typst/figN.svg (color-Variante, vollständig beschriftet)
+LESSON_DIRS = {
+  1: "01 Systemstart - Was ist Informatik",
+  2: "02 EVA & Algorithmus - wie ein Computer denkt",
+  3: "03 Scratch-Grundlagen - Bühne, Figuren, Ereignisse",
+  4: "04 Schleifen & Verzweigungen - ein Mini-Spiel",
+  5: "05 Makey Makey - die Welt wird zum Controller",
+  6: "06 Tinkercad Circuits - Stromkreis simulieren",
+  7: "07 Der Mikrocontroller - Arduino Uno kennenlernen",
+  8: "08 Erster Sketch - die interne LED blinkt",
+  9: "09 Steuerstrukturen im Sketch - das Ampelprogramm",
+  10: "10 Objektorientierung entdecken - Attribute & Methoden",
+  11: "11 Mini-Projekt Arduino - Ergebnissicherung",
+}
+
+def load_svg(lp_no, fig):
+    folder = LESSON_DIRS.get(lp_no)
+    if not folder:
+        return ""
+    path = os.path.join(BASE, folder, "typst", fig + ".svg")
+    if not os.path.exists(path):
+        return ""
+    with open(path, "r", encoding="utf-8") as f:
+        return f.read()
+
 # ---------------------------------------------------------------- Kursinhalt
 # Jedes LP: no, sjw, title, goal, tasks[], tools[keys], fast, rlp[], solution[], kind
 UNITS = [
@@ -63,6 +89,76 @@ UNITS = [
              tools=["ref"],
              fast="Erkunde die Referenz-Anwendung (Verb-Trainer) und notiere drei Dinge, die dir am Interface auffallen.",
              rlp=["RLP 2.3 · Bedienung", "3.2 Informatiksysteme", "neu · Orga & Backup"],
+             vorwissen=[
+               dict(fig="fig1", cap="Bild 1 · Was ist Informatik?", quiz=[
+                 dict(q="Was gehört zu Teil 1, der Hardware?",
+                      done="Richtig — das sind physische Bauteile.",
+                      opts=[
+                        ("physische Bauteile eines Computers (z. B. Prozessor, Bildschirm, Tastatur)", True, None),
+                        ("Programme und Apps, die auf dem Computer laufen", False, "Das ist Software, nicht Hardware."),
+                        ("Zahlen und Zeichen, die verarbeitet werden", False, "Das sind Daten, kein Bauteil."),
+                        ("Schrittfolgen zur Lösung eines Problems", False, "Das beschreibt einen Algorithmus, kein Bauteil."),
+                      ]),
+                 dict(q="Was gehört zu Teil 2, der Software?",
+                      done="Genau — das sind Programme und Apps.",
+                      opts=[
+                        ("Programme und Apps, die auf der Hardware laufen", True, None),
+                        ("die physischen Bauteile eines Computers", False, "Das ist Hardware, nicht Software."),
+                        ("nur das Internet allgemein", False, "Software ist viel mehr als nur das Internet."),
+                        ("nur Daten ohne jede Verarbeitung", False, "Das beschreibt Daten, nicht Software."),
+                      ]),
+                 dict(q="Was verbindet Teil 3, Daten und Algorithmen?",
+                      done="Stimmt — Algorithmen verarbeiten Daten.",
+                      opts=[
+                        ("Algorithmen verarbeiten Daten nach klaren, festgelegten Schritten", True, None),
+                        ("Daten und Algorithmen haben nichts miteinander zu tun", False, "Algorithmen arbeiten gerade mit Daten — sie hängen eng zusammen."),
+                        ("Algorithmen sind nur ein anderes Wort für Hardware", False, "Algorithmen sind Schrittfolgen, keine Bauteile."),
+                        ("Daten sind nur Fotos und Videos", False, "Daten umfassen viel mehr, z. B. auch Text und Zahlen."),
+                      ]),
+                 dict(q="Was ist Informatik als Wissenschaft?",
+                      done="Richtig — genau das ist Informatik.",
+                      opts=[
+                        ("die Wissenschaft von der systematischen Darstellung, Speicherung und Verarbeitung von Informationen mit Computern", True, None),
+                        ("nur das Reparieren von Computern", False, "Das wäre reine Hardware-Wartung, nicht die Wissenschaft dahinter."),
+                        ("nur das Programmieren von Spielen", False, "Programmieren ist nur ein Teilbereich der Informatik."),
+                        ("ein Teilgebiet der Mathematik ohne eigene Methoden", False, "Informatik hat eigene Methoden und ist ein eigenständiges Fach."),
+                      ]),
+               ]),
+               dict(fig="fig2", cap="Bild 2 · Kursorganisation", quiz=[
+                 dict(q="Wie heißt Teil 1, die Ordnerstruktur für diesen Kurs?",
+                      done="Richtig — genau diese drei Ordner.",
+                      opts=[
+                        ("Informatik mit den Unterordnern HJ1, HJ2 und _backups", True, None),
+                        ("nur ein einziger Ordner ohne Unterordner", False, "Ohne Unterordner verlierst du schnell den Überblick."),
+                        ("ein Ordner pro Mitschüler:in", False, "Die Struktur ist nach Halbjahren geordnet, nicht nach Personen."),
+                        ("keine feste Struktur, Dateien bleiben verstreut", False, "Genau das soll die feste Ordnerstruktur verhindern."),
+                      ]),
+                 dict(q="Wie lautet die Backup-Regel zu Teil 2?",
+                      done="Genau — zwei Orte, jede Stunde.",
+                      opts=[
+                        ("am Stundenende alles an zwei Orten sichern — Rechner UND Cloud/USB", True, None),
+                        ("nur am Ende des Halbjahres sichern", False, "Das wäre viel zu selten — nach jeder Stunde sichern."),
+                        ("nur lokal auf dem Rechner sichern", False, "Ohne zweiten Ort ist die Sicherung bei einem Defekt weg."),
+                        ("Backups sind nicht nötig", False, "Ergebnissicherung ist fester Bestandteil jeder Stunde."),
+                      ]),
+                 dict(q="Was passiert bei Teil 3, wenn das Freischalt-Datum erreicht ist?",
+                      done="Stimmt — automatische Freischaltung.",
+                      opts=[
+                        ("die Musterlösung wird automatisch sichtbar", True, None),
+                        ("der Lernpfad wird gelöscht", False, "Der Lernpfad bleibt erhalten, nur die Lösung wird sichtbar."),
+                        ("die Aufgabe wird automatisch als erledigt markiert", False, "Das Datum steuert nur die Lösungssichtbarkeit, nicht den Bearbeitungsstatus."),
+                        ("nichts, man muss die Lehrkraft fragen", False, "Die Freischaltung passiert automatisch, ganz ohne Nachfrage."),
+                      ]),
+                 dict(q="Warum sind zwei Speicherorte für Backups sinnvoll?",
+                      done="Richtig — Sicherheit durch eine zweite Kopie.",
+                      opts=[
+                        ("falls einer der beiden Orte ausfällt oder verloren geht, bleibt die andere Kopie erhalten", True, None),
+                        ("zwei Kopien sehen ordentlicher aus", False, "Es geht um Sicherheit, nicht um Optik."),
+                        ("das ist nicht sinnvoll, ein Ort reicht aus", False, "Ein einzelner Ort ist ein Risiko, falls er ausfällt."),
+                        ("die Cloud braucht immer eine Bestätigung vom zweiten Ort", False, "Die beiden Orte sind unabhängige Kopien, keine gegenseitige Bestätigung."),
+                      ]),
+               ]),
+             ],
              quiz=[
                dict(q="Wie lautet die Backup-Regel für diesen Kurs?",
                     done="Richtig — zwei Orte, jede Stunde.",
@@ -107,6 +203,144 @@ UNITS = [
              tools=[],
              fast="Formuliere den Algorithmus „Zähne putzen“ so präzise, dass ein Roboter ihn ausführen könnte — inklusive Abbruchbedingung.",
              rlp=["RLP 2.1 · Modellieren", "3.2 EVA-Prinzip", "2.2 Algorithmen"],
+             vorwissen=[
+               dict(fig="fig1", cap="Bild 1 · Die EVA-Kette", quiz=[
+                 dict(q="Wofür steht das E in EVA (Teil 1)?",
+                      done="Richtig — Eingabe.",
+                      opts=[
+                        ("Eingabe", True, None),
+                        ("Ergebnis", False, "Das Ergebnis kommt am Ende bei der Ausgabe heraus."),
+                        ("Ende", False, "EVA beschreibt einen Ablauf, kein Ende."),
+                        ("Elektronik", False, "EVA steht für die drei Verarbeitungsschritte, nicht für Bauteile."),
+                      ]),
+                 dict(q="Bei Teil 3 kommt das Ergebnis heraus. Wie heißt dieser Schritt?",
+                      done="Genau — Ausgabe.",
+                      opts=[
+                        ("Ausgabe", True, None),
+                        ("Verarbeitung", False, "Verarbeitung ist der mittlere Schritt, nicht das Herauskommen des Ergebnisses."),
+                        ("Eingabe", False, "Eingabe ist der erste Schritt, nicht der letzte."),
+                        ("Anmeldung", False, "Anmeldung gehört nicht zur EVA-Kette."),
+                      ]),
+                 dict(q="Was passiert bei Teil 2 (Verarbeitung)?",
+                      done="Stimmt — der Denk-Chip rechnet.",
+                      opts=[
+                        ("Der Denk-Chip rechnet und verarbeitet die Daten.", True, None),
+                        ("Der Bildschirm zeigt ein Bild.", False, "Das ist Ausgabe, nicht Verarbeitung."),
+                        ("Man tippt auf der Tastatur.", False, "Das ist Eingabe, nicht Verarbeitung."),
+                        ("Der Computer schaltet sich aus.", False, "Das hat mit Verarbeitung nichts zu tun."),
+                      ]),
+                 dict(q="Wozu dient Teil 4, der Speicher?",
+                      done="Richtig — er bewahrt Daten dauerhaft auf.",
+                      opts=[
+                        ("Er merkt sich Daten und bewahrt sie dauerhaft auf.", True, None),
+                        ("Er zeigt Bilder an.", False, "Das ist die Aufgabe der Ausgabe, nicht des Speichers."),
+                        ("Er macht Geräusche.", False, "Das wäre ein Ausgabegerät wie ein Lautsprecher."),
+                        ("Man tippt darauf.", False, "Das beschreibt die Tastatur, nicht den Speicher."),
+                      ]),
+               ]),
+               dict(fig="fig2", cap="Bild 2 · Geräte am Arbeitsplatz", quiz=[
+                 dict(q="Gerät 1 ist der Bildschirm. Zu welchem EVA-Schritt gehört er?",
+                      done="Richtig — Ausgabe.",
+                      opts=[
+                        ("Ausgabe — er zeigt etwas an.", True, None),
+                        ("Eingabe — er filmt die Benutzenden.", False, "Ein normaler Bildschirm nimmt nichts auf, er zeigt nur an."),
+                        ("Verarbeitung — er rechnet mit den Daten.", False, "Gerechnet wird im Prozessor, nicht im Bildschirm."),
+                        ("Speicher — er speichert die eingegebenen Daten.", False, "Der Bildschirm speichert nichts dauerhaft."),
+                      ]),
+                 dict(q="Womit gibst du Buchstaben ein (Teil 2)?",
+                      done="Genau — mit der Tastatur.",
+                      opts=[
+                        ("Tastatur", True, None),
+                        ("Maus", False, "Die Maus steuert den Zeiger, sie tippt keine Buchstaben."),
+                        ("Drucker", False, "Der Drucker ist ein Ausgabegerät."),
+                        ("Lautsprecher", False, "Der Lautsprecher gibt nur Ton aus."),
+                      ]),
+                 dict(q="Welche zwei Geräte sind Ausgabegeräte?",
+                      done="Stimmt — Bildschirm und Drucker.",
+                      opts=[
+                        ("Bildschirm und Drucker", True, None),
+                        ("Tastatur und Maus", False, "Das sind beides Eingabegeräte."),
+                        ("Maus und Drucker", False, "Die Maus ist ein Eingabegerät, der Drucker ein Ausgabegerät."),
+                        ("Bildschirm und Tastatur", False, "Die Tastatur ist ein Eingabegerät, kein Ausgabegerät."),
+                      ]),
+                 dict(q="Was ist die Maus (Teil 3)?",
+                      done="Richtig — ein Eingabegerät.",
+                      opts=[
+                        ("ein Eingabegerät", True, None),
+                        ("ein Ausgabegerät", False, "Ausgabegeräte zeigen oder erzeugen etwas, die Maus steuert nur."),
+                        ("der Denk-Chip", False, "Der Denk-Chip ist der Prozessor im Inneren, nicht die Maus."),
+                        ("ein Speicher", False, "Die Maus speichert keine Daten dauerhaft."),
+                      ]),
+               ]),
+               dict(fig="fig3", cap="Bild 3 · Blick ins Innere", quiz=[
+                 dict(q='Teil 1 trägt die Aufschrift "CPU". Das ist ...',
+                      done="Richtig — der Denk-Chip.",
+                      opts=[
+                        ("der Denk-Chip / Prozessor", True, None),
+                        ("der Bildschirm", False, "Der Bildschirm sitzt außerhalb des Gehäuses und zeigt nur an."),
+                        ("die Tastatur", False, "Die Tastatur ist ein externes Eingabegerät."),
+                        ("der Lautsprecher", False, "Der Lautsprecher gibt nur Ton aus, er rechnet nicht."),
+                      ]),
+                 dict(q="Teil 3 ist die Festplatte. Wozu ist sie da?",
+                      done="Genau — sie speichert Daten dauerhaft.",
+                      opts=[
+                        ("sie speichert Daten dauerhaft", True, None),
+                        ("sie rechnet Aufgaben aus", False, "Das Rechnen übernimmt die CPU, nicht die Festplatte."),
+                        ("sie zeigt Bilder an", False, "Bilder zeigt der Bildschirm, nicht die Festplatte."),
+                        ("man tippt darauf", False, "Getippt wird auf der Tastatur, nicht auf der Festplatte."),
+                      ]),
+                 dict(q="Welches Bauteil erledigt den Schritt Verarbeitung?",
+                      done="Stimmt — der Prozessor.",
+                      opts=[
+                        ("der Prozessor / Denk-Chip (CPU)", True, None),
+                        ("der Arbeitsspeicher (RAM)", False, "RAM hält Daten kurzfristig bereit, gerechnet wird in der CPU."),
+                        ("die Festplatte (HD)", False, "Die Festplatte speichert dauerhaft, sie rechnet nicht."),
+                        ("das Gehäuse", False, "Das Gehäuse ist nur die Hülle, kein Rechenbauteil."),
+                      ]),
+                 dict(q="Wo stecken all diese Teile meistens?",
+                      done="Richtig — im Gehäuse.",
+                      opts=[
+                        ("im Gehäuse", True, None),
+                        ("im Bildschirm", False, "Der Bildschirm ist meist ein eigenes, externes Gerät."),
+                        ("in der Tastatur", False, "Die Tastatur enthält nur ihre eigene Elektronik."),
+                        ("in der Maus", False, "Die Maus enthält keine CPU oder Festplatte."),
+                      ]),
+               ]),
+               dict(fig="fig4", cap="Bild 4 · Algorithmus-Bausteine", quiz=[
+                 dict(q="Was ist Teil 1, die Sequenz?",
+                      done="Richtig — feste Reihenfolge.",
+                      opts=[
+                        ("Schritte, die in fester Reihenfolge ausgeführt werden", True, None),
+                        ("eine Entscheidung mit Bedingung", False, "Das beschreibt die Verzweigung, nicht die Sequenz."),
+                        ("eine Wiederholung", False, "Das beschreibt die Schleife, nicht die Sequenz."),
+                        ("ein Eingabegerät", False, "Das gehört zum EVA-Prinzip, nicht zu Algorithmus-Bausteinen."),
+                      ]),
+                 dict(q="Was macht Teil 2, die Verzweigung?",
+                      done="Genau — sie entscheidet abhängig von einer Bedingung.",
+                      opts=[
+                        ("sie trifft abhängig von einer Bedingung eine Entscheidung (wenn ... dann ... sonst)", True, None),
+                        ("sie wiederholt einen Schritt immer wieder", False, "Das ist die Aufgabe der Schleife, nicht der Verzweigung."),
+                        ("sie beendet den Algorithmus sofort", False, "Eine Verzweigung entscheidet, sie beendet nicht automatisch alles."),
+                        ("sie speichert Daten", False, "Speichern ist keine Aufgabe der Verzweigung."),
+                      ]),
+                 dict(q="Was macht Teil 3, die Schleife?",
+                      done="Stimmt — sie wiederholt, bis eine Bedingung erfüllt ist.",
+                      opts=[
+                        ("sie wiederholt einen oder mehrere Schritte, bis eine Bedingung erfüllt ist", True, None),
+                        ("sie trifft eine einmalige Entscheidung", False, "Das ist die Aufgabe der Verzweigung, nicht der Schleife."),
+                        ("sie ist nur die Eingabe eines Algorithmus", False, "Die Schleife ist eine Kontrollstruktur, kein Eingabeschritt."),
+                        ("sie hat in Algorithmen keine Funktion", False, "Die Schleife ist einer der zentralen Algorithmus-Bausteine."),
+                      ]),
+                 dict(q="Worin unterscheiden sich Verzweigung und Schleife grundsätzlich?",
+                      done="Richtig — einmalig entscheiden vs. wiederholen.",
+                      opts=[
+                        ("die Verzweigung entscheidet einmalig, die Schleife wiederholt", True, None),
+                        ("beide machen exakt dasselbe", False, "Sie erfüllen unterschiedliche Aufgaben im Algorithmus."),
+                        ("die Schleife entscheidet, die Verzweigung wiederholt", False, "Das ist genau vertauscht."),
+                        ("keins von beidem hat mit Algorithmen zu tun", False, "Beide sind zentrale Algorithmus-Bausteine."),
+                      ]),
+               ]),
+             ],
              quiz=[
                dict(q="Wofür steht EVA?",
                     done="Richtig — genau in dieser Reihenfolge: E, V, A.",
@@ -156,6 +390,76 @@ UNITS = [
              tools=["scratch"],
              fast="Baue ein zweites Sprite, das auf das erste reagiert (z. B. per Nachricht senden/empfangen).",
              rlp=["RLP 2.2 · Algorithmen", "3.3 Blockbasierte Programmierung", "neu · Scratch"],
+             vorwissen=[
+               dict(fig="fig1", cap="Bild 1 · Die Scratch-Oberfläche", quiz=[
+                 dict(q="Wie heißt Teil 1, der Bereich mit den sortierten Block-Kategorien?",
+                      done="Richtig — die Blockpalette.",
+                      opts=[
+                        ("Blockpalette", True, None),
+                        ("Skriptbereich", False, "Dort werden die Blöcke zusammengesetzt, nicht sortiert angeboten."),
+                        ("Bühne", False, "Die Bühne zeigt das laufende Programm, keine Block-Kategorien."),
+                        ("Figurenliste", False, "Dort wählst du Sprites aus, keine Blöcke."),
+                      ]),
+                 dict(q="Wozu dient Teil 2, der Skriptbereich?",
+                      done="Genau — hier entsteht das Programm.",
+                      opts=[
+                        ("Hier werden Blöcke zu einem Programm zusammengesetzt.", True, None),
+                        ("Hier läuft das fertige Programm ab.", False, "Das passiert auf der Bühne, nicht im Skriptbereich."),
+                        ("Hier wählst du die Sprites aus.", False, "Das übernimmt die Figurenliste."),
+                        ("Hier speicherst du dein Projekt.", False, "Gespeichert wird über das Datei-Menü, nicht im Skriptbereich."),
+                      ]),
+                 dict(q="Was zeigt Teil 3, die Bühne?",
+                      done="Stimmt — das laufende Programm.",
+                      opts=[
+                        ("das laufende Programm mit der Figur", True, None),
+                        ("die verfügbaren Blockkategorien", False, "Das zeigt die Blockpalette, nicht die Bühne."),
+                        ("die Liste aller Sprites", False, "Das zeigt die Figurenliste, nicht die Bühne."),
+                        ("den Programmcode als Text", False, "Scratch zeigt Code als Blöcke, nicht als Text."),
+                      ]),
+                 dict(q="Wozu dient Teil 4, die Figurenliste?",
+                      done="Richtig — zum Wechseln zwischen Sprites.",
+                      opts=[
+                        ("um zwischen den Sprites (Figuren) im Projekt zu wechseln", True, None),
+                        ("um Blöcke zu suchen", False, "Blöcke suchst du in der Blockpalette."),
+                        ("um das Programm zu starten", False, "Gestartet wird meist über die grüne Flagge über der Bühne."),
+                        ("um das Projekt zu exportieren", False, "Der Export läuft über das Datei-Menü."),
+                      ]),
+               ]),
+               dict(fig="fig2", cap="Bild 2 · Vom Ereignis zum fertigen Projekt", quiz=[
+                 dict(q='Wozu dient Teil 1, der Ereignisblock (z. B. "wenn Flagge geklickt")?',
+                      done="Richtig — er startet die Sequenz.",
+                      opts=[
+                        ("Er startet die darunter angehängte Sequenz von Blöcken.", True, None),
+                        ("Er speichert das Projekt.", False, "Gespeichert wird über das Datei-Menü, nicht durch einen Ereignisblock."),
+                        ("Er löscht alle Blöcke.", False, "Ein Ereignisblock startet Blöcke, er löscht nichts."),
+                        ("Er öffnet die Blockpalette.", False, "Die Blockpalette ist immer sichtbar, dafür braucht es keinen Ereignisblock."),
+                      ]),
+                 dict(q="Was passiert bei Teil 2, der Sequenz aus Blöcken?",
+                      done="Genau — feste Reihenfolge.",
+                      opts=[
+                        ("Die Blöcke werden in fester Reihenfolge nacheinander abgearbeitet.", True, None),
+                        ("Die Blöcke laufen alle gleichzeitig, in beliebiger Reihenfolge.", False, "Eine Sequenz läuft geordnet ab, nicht gleichzeitig."),
+                        ("Nur der letzte Block wird ausgeführt.", False, "Alle Blöcke der Sequenz werden ausgeführt, nicht nur der letzte."),
+                        ("Die Reihenfolge der Blöcke spielt keine Rolle.", False, "Die Reihenfolge ist bei einer Sequenz entscheidend."),
+                      ]),
+                 dict(q="Wie sicherst du dein fertiges Projekt (Teil 3)?",
+                      done="Stimmt — als .sb3-Datei.",
+                      opts=[
+                        ("als .sb3-Datei über „Auf deinen Computer herunterladen“", True, None),
+                        ("als .exe-Datei", False, "Scratch-Projekte werden im .sb3-Format gespeichert, nicht als .exe."),
+                        ("gar nicht, Scratch speichert nichts", False, "Scratch bietet einen expliziten Speicher-/Download-Befehl."),
+                        ("nur als Bildschirmfoto", False, "Ein Screenshot sichert kein lauffähiges Projekt."),
+                      ]),
+                 dict(q="Was haben Ereignisblock und Sequenz gemeinsam?",
+                      done="Richtig — zusammen ein startbares Mini-Programm.",
+                      opts=[
+                        ("Zusammen bilden sie ein vollständiges, startbares Mini-Programm.", True, None),
+                        ("Beide brauchen keine Bühne.", False, "Das Ergebnis wird immer auf der Bühne angezeigt."),
+                        ("Beide speichern automatisch jede Sekunde.", False, "Gespeichert wird nur manuell über den Download-Befehl."),
+                        ("Keins von beidem lässt sich exportieren.", False, "Das gesamte Projekt lässt sich als .sb3 exportieren."),
+                      ]),
+               ]),
+             ],
              quiz=[
                dict(q="Womit startest du typischerweise eine Scratch-Sequenz?",
                     done="Richtig — ein Ereignisblock startet die Sequenz.",
@@ -201,6 +505,76 @@ UNITS = [
              tools=["scratch"],
              fast="Füge einen Schwierigkeitsgrad hinzu: Das Spiel wird mit steigender Punktzahl schneller.",
              rlp=["RLP 2.2 · Kontrollstrukturen", "3.3 Schleife & Verzweigung"],
+             vorwissen=[
+               dict(fig="fig1", cap="Bild 1 · Endlosschleife + Tastaturabfrage", quiz=[
+                 dict(q='Wozu dient Teil 1, die Endlosschleife ("wiederhole fortlaufend")?',
+                      done="Richtig — sie prüft ständig.",
+                      opts=[
+                        ("Sie prüft ständig, ohne von selbst zu enden, ob eine Bedingung eingetreten ist.", True, None),
+                        ("Sie prüft die Bedingung genau einmal.", False, "Das würde eine einmalige Verzweigung tun, keine Endlosschleife."),
+                        ("Sie beendet das Programm sofort.", False, "Eine Endlosschleife läuft weiter, sie beendet nichts."),
+                        ("Sie speichert nur Daten, ohne etwas zu prüfen.", False, "Speichern ist keine Aufgabe einer Schleife."),
+                      ]),
+                 dict(q='Was passiert bei Teil 2, wenn die Bedingung "Taste links?" erfüllt ist?',
+                      done="Genau — die Aktion wird ausgeführt.",
+                      opts=[
+                        ("Die angehängte Aktion wird ausgeführt (z. B. Bewegung nach links).", True, None),
+                        ("Das ganze Programm stoppt.", False, "Eine erfüllte Bedingung löst die Aktion aus, sie stoppt nicht das Programm."),
+                        ("Die Schleife wird beendet.", False, "Die Endlosschleife läuft weiter, nur die Aktion wird einmal ausgeführt."),
+                        ("Nichts, Verzweigungen lösen keine Aktionen aus.", False, "Genau das ist die Aufgabe einer Verzweigung."),
+                      ]),
+                 dict(q="Was passiert bei Teil 3, wenn die Bedingung NICHT erfüllt ist?",
+                      done="Stimmt — die Aktion wird übersprungen.",
+                      opts=[
+                        ("Die Aktion wird übersprungen, die Schleife läuft weiter.", True, None),
+                        ("Das Programm stürzt ab.", False, "Eine nicht erfüllte Bedingung führt zu keinem Absturz."),
+                        ("Die Aktion wird trotzdem ausgeführt.", False, "Ohne erfüllte Bedingung wird die Aktion gerade nicht ausgeführt."),
+                        ("Die Schleife startet von vorne bei Frage 1.", False, "Die Schleife läuft einfach weiter, sie springt nicht zurück."),
+                      ]),
+                 dict(q="Warum steckt die Verzweigung INNERHALB der Schleife und nicht davor?",
+                      done="Richtig — ständige Neuprüfung.",
+                      opts=[
+                        ("Damit die Bedingung ständig neu geprüft wird, solange das Spiel läuft.", True, None),
+                        ("Das spielt keine Rolle, beide Anordnungen sind identisch.", False, "Außerhalb der Schleife würde die Bedingung nur einmal geprüft."),
+                        ("Damit die Bedingung nur einmal beim Start geprüft wird.", False, "Genau das würde passieren, wenn sie AUSSERHALB stünde — nicht gewollt."),
+                        ("Damit das Programm schneller läuft.", False, "Die Position hat nichts mit der Geschwindigkeit zu tun."),
+                      ]),
+               ]),
+               dict(fig="fig2", cap="Bild 2 · Punktevariable + Kollision", quiz=[
+                 dict(q='Wozu dient Teil 1, die Variable "Punkte"?',
+                      done="Richtig — sie speichert den Punktestand.",
+                      opts=[
+                        ("Sie speichert einen Zustand (den Punktestand), der sich über die Zeit verändert.", True, None),
+                        ("Sie zeichnet die Spielfigur.", False, "Zeichnen übernimmt das Kostüm des Sprites, nicht die Variable."),
+                        ("Sie steuert die Bühnenfarbe.", False, "Die Bühnenfarbe wird nicht über eine Punkte-Variable gesteuert."),
+                        ("Variablen werden in Scratch nicht benötigt.", False, "Variablen sind ein zentraler Baustein in Scratch."),
+                      ]),
+                 dict(q="Womit erkennst du eine Kollision (Teil 2)?",
+                      done='Genau — mit "wird … berührt?".',
+                      opts=[
+                        ('mit einem "wird … berührt?"-Block als Bedingung', True, None),
+                        ("nur durch genaues Hinschauen ohne Code", False, "Scratch bietet dafür einen eigenen Berührungs-Block."),
+                        ("mit einer Endlosschleife allein", False, "Die Schleife wiederholt nur die Prüfung, sie erkennt selbst keine Berührung."),
+                        ("das ist in Scratch nicht möglich", False, "Scratch hat einen eingebauten Berührungs-Block."),
+                      ]),
+                 dict(q='Was macht Teil 3, "ändere Punkte um 1"?',
+                      done="Stimmt — der Wert steigt um 1.",
+                      opts=[
+                        ("Es erhöht den Wert der Variable Punkte bei jedem Durchlauf um 1.", True, None),
+                        ("Es setzt die Variable auf genau 1 zurück.", False, "Das würde „setze Punkte auf 1“ tun, nicht „ändere um 1“."),
+                        ("Es löscht die Variable.", False, "Die Variable bleibt erhalten, ihr Wert wird nur erhöht."),
+                        ("Es hat keinen Effekt ohne Bildschirmaktualisierung.", False, "Der Wert ändert sich unabhängig von der Anzeige."),
+                      ]),
+                 dict(q='Warum sollte "ändere Punkte um 1" INNERHALB der Kollisions-Verzweigung stehen?',
+                      done="Richtig — nur bei echtem Treffer.",
+                      opts=[
+                        ("Damit der Punktestand nur bei einem echten Treffer steigt.", True, None),
+                        ("Damit der Punktestand jede Sekunde automatisch steigt.", False, "Das würde passieren, wenn der Block außerhalb der Verzweigung stünde."),
+                        ("Das spielt keine Rolle, die Position ist beliebig.", False, "Innerhalb der Verzweigung zählt nur ein echter Treffer."),
+                        ("Damit die Variable gelöscht wird.", False, "Der Block erhöht die Variable, er löscht sie nicht."),
+                      ]),
+               ]),
+             ],
              quiz=[
                dict(q="Wozu dient eine Endlosschleife beim Abfragen der Tastatur?",
                     done="Richtig — sie fragt ständig ab.",
@@ -246,6 +620,76 @@ UNITS = [
              tools=["makey", "scratch"],
              fast="Baue ein „Banana-Piano“ mit fünf Tönen und erkläre, warum ein geschlossener Stromkreis nötig ist.",
              rlp=["RLP 2.3 · Informatiksysteme", "3.2 Ein-/Ausgabe", "neu · Physical Computing"],
+             vorwissen=[
+               dict(fig="fig1", cap="Bild 1 · Das Makey-Makey-Board", quiz=[
+                 dict(q="Wozu dient Teil 1, der EARTH-Anschluss?",
+                      done="Richtig — er schließt den Stromkreis.",
+                      opts=[
+                        ("Er schließt den Stromkreis, meist indem man ihn selbst berührt (Erdung).", True, None),
+                        ("Er lädt das Gerät auf.", False, "Makey Makey wird über USB versorgt, nicht über EARTH."),
+                        ("Er verbindet Makey Makey mit dem Internet.", False, "EARTH hat mit einer Internetverbindung nichts zu tun."),
+                        ("Er hat keine erkennbare Funktion.", False, "EARTH ist für den geschlossenen Stromkreis unverzichtbar."),
+                      ]),
+                 dict(q="Wofür stehen die Pins bei Teil 2?",
+                      done="Genau — die Pfeiltasten.",
+                      opts=[
+                        ("für die vier Pfeiltasten (up, down, left, right)", True, None),
+                        ("für Lautstärke und Helligkeit", False, "Dafür hat Makey Makey keine eigenen Pins."),
+                        ("für den Ein-/Ausschalter", False, "Makey Makey hat keinen separaten Ein-/Ausschalter-Pin."),
+                        ("für die Internetverbindung", False, "Makey Makey verbindet sich nicht mit dem Internet."),
+                      ]),
+                 dict(q="Wofür steht der Pin bei Teil 3?",
+                      done="Stimmt — für die Leertaste.",
+                      opts=[
+                        ("für die Leertaste", True, None),
+                        ("für die Eingabetaste (Enter)", False, "Dafür gibt es keinen eigenen Pin bei Makey Makey."),
+                        ("für den Mauszeiger", False, "Makey Makey simuliert Tastendrücke, keine Mausbewegung."),
+                        ("für die Umschalttaste", False, "Dafür ist kein eigener Pin vorgesehen."),
+                      ]),
+                 dict(q="Wozu dient Teil 4, das USB-Kabel?",
+                      done="Richtig — es überträgt die Signale.",
+                      opts=[
+                        ("es verbindet Makey Makey mit dem Computer und überträgt die Signale", True, None),
+                        ("es lädt nur den Akku auf", False, "Makey Makey hat keinen eigenen Akku."),
+                        ("es verbindet zwei Makey-Makey-Boards miteinander", False, "Das USB-Kabel geht zum Computer, nicht zu einem zweiten Board."),
+                        ("es hat keine Funktion beim Spielen", False, "Ohne USB-Verbindung erreichen die Signale den Computer nicht."),
+                      ]),
+               ]),
+               dict(fig="fig2", cap="Bild 2 · Der Stromkreis", quiz=[
+                 dict(q="Was ist Teil 1, das violette Board?",
+                      done="Richtig — Makey Makey.",
+                      opts=[
+                        ("Makey Makey — es erkennt den geschlossenen Stromkreis.", True, None),
+                        ("der Computer", False, "Der Computer empfängt nur die Signale von Makey Makey."),
+                        ("die Banane", False, "Die Banane ist das leitfähige Objekt, nicht das Board."),
+                        ("die Person", False, "Die Person schließt den Kreis, ist aber nicht das Board."),
+                      ]),
+                 dict(q="Was ist Teil 2, der leitfähige Gegenstand?",
+                      done="Genau — die Banane.",
+                      opts=[
+                        ("die Banane, verbunden über eine Krokodilklemme", True, None),
+                        ("ein Radiergummi", False, "Radiergummi leitet keinen Strom."),
+                        ("ein Stück Holz", False, "Holz ist nicht leitfähig."),
+                        ("eine Fensterscheibe", False, "Glas leitet keinen Strom."),
+                      ]),
+                 dict(q="Was macht Teil 3, die Person?",
+                      done="Stimmt — sie schließt den Stromkreis.",
+                      opts=[
+                        ("Sie schließt den Stromkreis, indem sie Banane UND EARTH gleichzeitig berührt.", True, None),
+                        ("Sie lädt das Makey-Makey-Board auf.", False, "Das Board wird über USB versorgt, nicht über die Person."),
+                        ("Sie programmiert das Scratch-Skript.", False, "Das Skript wurde vorher am Rechner erstellt."),
+                        ("Sie hat keine Funktion im Stromkreis.", False, "Ohne die Person bleibt der Stromkreis offen."),
+                      ]),
+                 dict(q="Was passiert bei Teil 4, wenn der Kreis geschlossen ist?",
+                      done="Richtig — der Computer erkennt ein Signal.",
+                      opts=[
+                        ("der Computer erkennt ein Signal, so als wäre eine Taste gedrückt worden", True, None),
+                        ("der Computer schaltet sich aus", False, "Ein geschlossener Kreis simuliert nur einen Tastendruck."),
+                        ("nichts, es passiert nichts Sichtbares", False, "Im Scratch-Projekt löst das Signal eine Reaktion aus."),
+                        ("die Banane wird beschädigt", False, "Die schwachen USB-Ströme schaden der Banane nicht."),
+                      ]),
+               ]),
+             ],
              quiz=[
                dict(q="Was ersetzt Makey Makey im Grunde?",
                     done="Richtig — Tastatur-/Maus-Signale.",
@@ -295,6 +739,102 @@ UNITS = [
              tools=["tinker"],
              fast="Schalte drei LEDs parallel und vergleiche mit einer Reihenschaltung — was passiert mit der Helligkeit?",
              rlp=["RLP 2.3 · Informatiksysteme", "3.2 Hardware", "neu · Schaltungssimulation"],
+             vorwissen=[
+               dict(fig="fig1", cap="Bild 1 · Stromkreis-Aufbau", quiz=[
+                 dict(q="Was ist Teil 1?",
+                      done="Richtig — die Batterie.",
+                      opts=[
+                        ("die Batterie (Stromquelle, 9V)", True, None),
+                        ("der Widerstand", False, "Der Widerstand ist das Zickzack-Symbol, nicht die Batterie."),
+                        ("die LED", False, "Die LED ist das Dreieck-Symbol weiter rechts."),
+                        ("die Steckplatine", False, "Die Steckplatine ist das Raster im Hintergrund."),
+                      ]),
+                 dict(q="Wofür steht Teil 2, das Zickzack-Symbol?",
+                      done="Genau — der Widerstand.",
+                      opts=[
+                        ("der Widerstand — er begrenzt den Strom", True, None),
+                        ("die Batterie", False, "Die Batterie ist das Symbol mit den zwei parallelen Linien."),
+                        ("die LED", False, "Die LED ist das Dreieck-Symbol, nicht das Zickzack."),
+                        ("das USB-Kabel", False, "Diese Schaltung hat gar kein USB-Kabel."),
+                      ]),
+                 dict(q="Was ist Teil 3, das Dreieck-Symbol?",
+                      done="Stimmt — die LED.",
+                      opts=[
+                        ("die LED — das lange Beinchen ist die Anode, das kurze die Kathode", True, None),
+                        ("der Widerstand", False, "Der Widerstand ist das Zickzack-Symbol."),
+                        ("die Steckplatine", False, "Die Steckplatine ist das Hintergrundraster."),
+                        ("der Schalter", False, "Diese Schaltung enthält keinen eigenen Schalter."),
+                      ]),
+                 dict(q="Wozu dient Teil 4, die Steckplatine?",
+                      done="Richtig — sie verbindet Bauteile ohne Löten.",
+                      opts=[
+                        ("sie verbindet Bauteile elektrisch, ohne dass gelötet werden muss", True, None),
+                        ("sie speichert Strom wie ein Akku", False, "Eine Steckplatine speichert keine Energie."),
+                        ("sie zeigt den Simulationsstatus an", False, "Der Status wird in Tinkercad separat angezeigt, nicht auf der Platine."),
+                        ("sie hat keine erkennbare Funktion", False, "Sie verbindet die Bauteile elektrisch — das ist ihre Hauptfunktion."),
+                      ]),
+               ]),
+               dict(fig="fig2", cap="Bild 2 · Widerstand als Schutz", quiz=[
+                 dict(q="Was passiert bei Fall 1, ohne Widerstand?",
+                      done="Richtig — zu viel Strom, LED brennt durch.",
+                      opts=[
+                        ("Es fließt zu viel Strom, die LED brennt durch.", True, None),
+                        ("Die LED leuchtet besonders lange.", False, "Ohne Schutz brennt sie eher schnell durch, statt lange zu halten."),
+                        ("Nichts, das ist unproblematisch.", False, "Zu viel Strom beschädigt die LED dauerhaft."),
+                        ("Die Batterie lädt sich auf.", False, "Batterien laden sich dadurch nicht auf."),
+                      ]),
+                 dict(q="Was passiert bei Fall 2, mit 220 Ω Widerstand?",
+                      done="Genau — normale Helligkeit.",
+                      opts=[
+                        ("Die LED leuchtet normal und ist geschützt.", True, None),
+                        ("Die LED brennt sofort durch.", False, "Der passende Widerstand schützt gerade davor."),
+                        ("Die LED leuchtet gar nicht.", False, "Mit passendem Widerstand fließt genug Strom zum Leuchten."),
+                        ("Der Widerstand hat keine Wirkung.", False, "Der Widerstand begrenzt den Strom spürbar."),
+                      ]),
+                 dict(q="Was passiert bei Fall 3, mit 1 kΩ Widerstand?",
+                      done="Stimmt — weniger Strom, dunkler.",
+                      opts=[
+                        ("Weniger Strom fließt, die LED leuchtet dunkler.", True, None),
+                        ("Die LED leuchtet heller als bei 220 Ω.", False, "Ein größerer Widerstand lässt weniger Strom fließen, nicht mehr."),
+                        ("Die LED brennt durch.", False, "Ein höherer Widerstand schützt die LED noch stärker."),
+                        ("Es ändert sich nichts gegenüber 220 Ω.", False, "Der höhere Widerstandswert verändert die Helligkeit spürbar."),
+                      ]),
+               ]),
+             ],
+             quiz=[
+               dict(q="Wozu dient der Vorwiderstand in einem LED-Stromkreis?",
+                    done="Richtig — er schützt die LED.",
+                    opts=[
+                      ("Er begrenzt den Strom und schützt die LED vor dem Durchbrennen.", True, None),
+                      ("Er macht die LED heller.", False, "Ein Widerstand begrenzt den Strom, er verstärkt ihn nicht."),
+                      ("Er speichert Energie für später.", False, "Das wäre die Aufgabe eines Kondensators oder Akkus, nicht eines Widerstands."),
+                      ("Er hat keine Funktion, ist nur Deko.", False, "Ohne Widerstand brennt die LED durch — er hat eine echte Schutzfunktion."),
+                    ]),
+               dict(q="Was passiert ohne Vorwiderstand?",
+                    done="Genau — zu viel Strom zerstört die LED.",
+                    opts=[
+                      ("Es fließt zu viel Strom, die LED brennt durch.", True, None),
+                      ("Die LED leuchtet gar nicht.", False, "Ohne Widerstand leuchtet sie zunächst sogar sehr hell, bevor sie durchbrennt."),
+                      ("Nichts, das ist unproblematisch.", False, "Zu viel Strom beschädigt die LED dauerhaft."),
+                      ("Die Batterie lädt sich automatisch auf.", False, "Batterien laden sich dadurch nicht auf."),
+                    ]),
+               dict(q="Wie erkennst du Anode und Kathode an einer LED?",
+                    done="Stimmt — am langen bzw. kurzen Beinchen.",
+                    opts=[
+                      ("am langen (Anode) und kurzen (Kathode) Beinchen", True, None),
+                      ("an der Farbe des Gehäuses", False, "Die Gehäusefarbe zeigt die Leuchtfarbe, nicht die Polung."),
+                      ("am Gewicht", False, "Das Gewicht einer LED verrät nichts über die Polung."),
+                      ("das ist bei jeder LED zufällig", False, "Die Beinchenlänge kennzeichnet die Polung zuverlässig."),
+                    ]),
+               dict(q="Was passiert, wenn du mehrere LEDs parallel statt in Reihe schaltest?",
+                    done="Richtig — parallel bleiben sie gleich hell.",
+                    opts=[
+                      ("Sie leuchten alle etwa gleich hell.", True, None),
+                      ("Sie werden alle dunkler, da sich die Spannung aufteilt.", False, "Das passiert bei einer Reihenschaltung, nicht bei einer Parallelschaltung."),
+                      ("Sie funktionieren gar nicht.", False, "Parallelschaltung ist eine gängige, funktionierende Schaltungsart."),
+                      ("Die Reihenfolge spielt keine Rolle.", False, "Reihen- vs. Parallelschaltung macht einen deutlichen Unterschied in der Helligkeit."),
+                    ]),
+             ],
              solution=["Ohne Vorwiderstand fließt zu viel Strom → LED brennt durch.",
                        "Steckplatine verbindet Reihen elektrisch; lange/kurze LED-Beinchen = Anode/Kathode.",
                        "Parallel: gleich hell; Reihe: dunkler, da Spannung sich aufteilt."]),
@@ -306,6 +846,110 @@ UNITS = [
              tools=["tinker", "arduino"],
              fast="Recherchiere den Unterschied zwischen digitalen und analogen Pins und nenne je ein Beispiel-Bauteil.",
              rlp=["RLP 2.3 · Informatiksysteme", "3.2 Mikrocontroller"],
+             vorwissen=[
+               dict(fig="fig1", cap="Bild 1 · Das Arduino-Board", quiz=[
+                 dict(q="Was ist Teil 1, der violette Chip?",
+                      done="Richtig — der Mikrocontroller.",
+                      opts=[
+                        ("der Mikrocontroller — das „Gehirn“ des Boards", True, None),
+                        ("der USB-Anschluss", False, "Der USB-Anschluss sitzt am Rand des Boards, nicht mittig als Chip."),
+                        ("ein Widerstand", False, "Ein Widerstand ist ein winziges Einzelbauteil, kein zentraler Chip."),
+                        ("die Steckplatine", False, "Die Steckplatine ist ein separates Bauteil, kein Teil des Arduino-Boards."),
+                      ]),
+                 dict(q="Wofür stehen die Pins bei Teil 2?",
+                      done="Genau — die Digitalpins.",
+                      opts=[
+                        ("für die Digitalpins (0-13), sie kennen nur HIGH oder LOW", True, None),
+                        ("für die Analogpins, sie messen Zwischenwerte", False, "Analogpins sind separat beschriftet (A0-A5), das ist Teil 3."),
+                        ("für den Stromanschluss", False, "Die Stromversorgung ist ein eigener Bereich (5V/GND)."),
+                        ("für den Reset-Knopf", False, "Der Reset-Knopf ist kein Pin und hier nicht markiert."),
+                      ]),
+                 dict(q="Wofür stehen die Pins bei Teil 3?",
+                      done="Stimmt — die Analogpins.",
+                      opts=[
+                        ("für die Analogpins (A0-A5), sie können Zwischenwerte messen", True, None),
+                        ("für die Digitalpins, sie kennen nur an/aus", False, "Die Digitalpins sind die nummerierte Reihe 0-13, Teil 2."),
+                        ("für den USB-Anschluss", False, "Der USB-Anschluss ist ein eigenes Bauteil am Rand des Boards."),
+                        ("für den Mikrocontroller-Chip", False, "Der Chip ist Teil 1, nicht die Pin-Reihe."),
+                      ]),
+                 dict(q="Wozu dienen die Pins bei Teil 4?",
+                      done="Richtig — Stromversorgung.",
+                      opts=[
+                        ("zur Stromversorgung — 5V und GND (Minuspol)", True, None),
+                        ("zum Programmieren über USB", False, "Programmiert wird über den USB-Anschluss, nicht über 5V/GND."),
+                        ("zur drahtlosen Datenübertragung", False, "Ein Arduino Uno hat serienmäßig kein WLAN."),
+                        ("sie haben keine erkennbare Funktion", False, "5V und GND versorgen die Schaltung mit Strom — eine zentrale Funktion."),
+                      ]),
+               ]),
+               dict(fig="fig2", cap="Bild 2 · Vom Digitalpin zur LED", quiz=[
+                 dict(q="Was ist Teil 1, der violette Chip links im Bild?",
+                      done="Richtig — der Mikrocontroller.",
+                      opts=[
+                        ("der Mikrocontroller — er gibt das Signal am Digitalpin aus", True, None),
+                        ("die LED", False, "Die LED ist das Dreieck-Symbol rechts im Bild."),
+                        ("der Widerstand", False, "Der Widerstand ist das Zickzack-Symbol in der Mitte."),
+                        ("die Steckplatine", False, "Die Steckplatine ist das Hintergrundraster."),
+                      ]),
+                 dict(q="Wozu dient Teil 2, das Zickzack-Symbol?",
+                      done="Genau — der Widerstand.",
+                      opts=[
+                        ("der Widerstand — er begrenzt den Strom und schützt die LED", True, None),
+                        ("die Batterie", False, "Diese Schaltung wird vom Mikrocontroller-Pin gespeist, nicht von einer Batterie."),
+                        ("der Mikrocontroller", False, "Der Mikrocontroller ist der Chip links im Bild."),
+                        ("das USB-Kabel", False, "Diese Schaltung zeigt kein USB-Kabel."),
+                      ]),
+                 dict(q="Was ist Teil 3, das Dreieck-Symbol?",
+                      done="Stimmt — die LED.",
+                      opts=[
+                        ("die LED", True, None),
+                        ("der Widerstand", False, "Der Widerstand ist das Zickzack-Symbol."),
+                        ("die Steckplatine", False, "Die Steckplatine ist das Hintergrundraster, kein Symbol im Stromkreis."),
+                        ("der Mikrocontroller", False, "Der Mikrocontroller ist der Chip links im Bild."),
+                      ]),
+                 dict(q="Wozu dient Teil 4, die Steckplatine?",
+                      done="Richtig — Bauteile ohne Löten verbinden.",
+                      opts=[
+                        ("sie verbindet die Bauteile elektrisch, ohne dass gelötet werden muss", True, None),
+                        ("sie speichert das Arduino-Programm", False, "Das Programm wird im Speicher des Mikrocontrollers abgelegt, nicht auf der Platine."),
+                        ("sie ersetzt den GND-Anschluss", False, "GND ist ein eigener Pin am Board, die Platine ersetzt ihn nicht."),
+                        ("sie hat keine erkennbare Funktion", False, "Sie verbindet die Bauteile elektrisch — das ist ihre Hauptfunktion."),
+                      ]),
+               ]),
+             ],
+             quiz=[
+               dict(q="In welcher Reihenfolge ist eine einfache LED-Schaltung aufgebaut?",
+                    done="Richtig — LED, Widerstand, Mikrocontroller, Steckplatine.",
+                    opts=[
+                      ("LED, Widerstand, Mikrocontroller, Steckplatine", True, None),
+                      ("Steckplatine, Mikrocontroller, LED, Widerstand", False, "Das ist nicht die übliche Bauteil-Reihenfolge im Stromkreis."),
+                      ("nur LED und Mikrocontroller, ohne Widerstand", False, "Ohne Widerstand würde die LED durchbrennen."),
+                      ("die Reihenfolge ist beliebig", False, "Die Bauteile stehen in einer festen, sinnvollen Reihenfolge im Stromkreis."),
+                    ]),
+               dict(q="Wozu muss eine LED mit GND (Minuspol) verbunden sein?",
+                    done="Genau — sonst fließt kein Strom.",
+                    opts=[
+                      ("damit der Stromkreis geschlossen ist und Strom fließen kann", True, None),
+                      ("damit sie heller leuchtet", False, "Die Helligkeit hängt vom Widerstand ab, nicht von GND allein."),
+                      ("GND wird für LEDs nicht benötigt", False, "Ohne GND-Verbindung ist der Stromkreis nicht geschlossen."),
+                      ("damit sie vor Wasser geschützt ist", False, "GND hat nichts mit Wasserschutz zu tun."),
+                    ]),
+               dict(q="Was können Digitalpins am Arduino Uno?",
+                    done="Stimmt — nur HIGH oder LOW.",
+                    opts=[
+                      ("nur HIGH oder LOW (an/aus) erkennen bzw. ausgeben", True, None),
+                      ("beliebige Zwischenwerte messen", False, "Das können Analogpins, nicht die digitalen Pins."),
+                      ("nur Ton ausgeben", False, "Digitalpins sind nicht auf Toncodierung beschränkt."),
+                      ("nur WLAN-Signale senden", False, "Der Arduino Uno hat serienmäßig kein WLAN."),
+                    ]),
+               dict(q="Was können Analogpins, was Digitalpins nicht können?",
+                    done="Richtig — Zwischenwerte messen.",
+                    opts=[
+                      ("Zwischenwerte (nicht nur an/aus) messen", True, None),
+                      ("nur HIGH/LOW erkennen", False, "Das ist die Einschränkung der Digitalpins, nicht die Fähigkeit der Analogpins."),
+                      ("den Arduino aufladen", False, "Analogpins dienen dem Messen/Ausgeben von Werten, nicht dem Aufladen."),
+                      ("Programme speichern", False, "Programme werden im Speicher des Mikrocontrollers abgelegt, nicht über Analogpins."),
+                    ]),
+             ],
              solution=["Reihenfolge: LED, Widerstand, Mikrocontroller, Steckplatine.",
                        "LEDs benötigen Stromkreisschluss zum Minuspol (GND).",
                        "Digitalpins kennen nur HIGH/LOW, Analogpins messen Zwischenwerte."]),
@@ -317,6 +961,102 @@ UNITS = [
              tools=["arduino", "tinker"],
              fast="Lass die LED ein Morsezeichen (z. B. SOS) blinken, indem du die delay-Zeiten variierst.",
              rlp=["RLP 2.2 · Algorithmen", "3.3 Textbasierte Steuerung", "neu · Arduino-Sketch"],
+             vorwissen=[
+               dict(fig="fig1", cap="Bild 1 · Sketch-Struktur", quiz=[
+                 dict(q="Was passiert im Block bei Teil 1, setup()?",
+                      done="Richtig — setup() läuft nur einmal.",
+                      opts=[
+                        ("Der Code darin läuft genau einmal beim Start.", True, None),
+                        ("Der Code darin läuft endlos.", False, "Das ist die Aufgabe von loop(), nicht von setup()."),
+                        ("setup() wird nie ausgeführt.", False, "setup() wird beim Start immer einmal ausgeführt."),
+                        ("setup() pausiert das Programm.", False, "Pausieren übernimmt delay(), nicht setup() selbst."),
+                      ]),
+                 dict(q="Wozu dient die Zeile bei Teil 2, pinMode(13, OUTPUT)?",
+                      done="Genau — Pin 13 wird zum Ausgang.",
+                      opts=[
+                        ("Sie legt fest, dass Pin 13 ein Ausgang ist.", True, None),
+                        ("Sie liest einen Sensorwert an Pin 13.", False, "Das würde digitalRead() erledigen, nicht pinMode()."),
+                        ("Sie schaltet Pin 13 sofort ein.", False, "Das übernimmt digitalWrite(), nicht pinMode()."),
+                        ("Sie hat keine Wirkung im Sketch.", False, "Ohne pinMode() weiß der Pin nicht, ob er Ein- oder Ausgang ist."),
+                      ]),
+                 dict(q="Was passiert im Block bei Teil 3, loop()?",
+                      done="Stimmt — loop() wiederholt sich endlos.",
+                      opts=[
+                        ("Der Code darin wiederholt sich endlos.", True, None),
+                        ("Der Code darin läuft nur einmal.", False, "Das ist die Aufgabe von setup(), nicht von loop()."),
+                        ("loop() wird nur bei Fehlern ausgeführt.", False, "loop() läuft immer wieder, unabhängig von Fehlern."),
+                        ("loop() startet den Computer neu.", False, "loop() betrifft nur den Arduino-Sketch, nicht den Computer."),
+                      ]),
+                 dict(q="Was bewirkt die Sequenz bei Teil 4?",
+                      done="Richtig — LED blinkt im Sekundentakt.",
+                      opts=[
+                        ("Sie schaltet die LED abwechselnd 1 Sekunde an und 1 Sekunde aus.", True, None),
+                        ("Sie schaltet die LED dauerhaft ein.", False, "Die delay-Befehle sorgen für einen Wechsel zwischen an und aus."),
+                        ("Sie liest einen Tasterzustand.", False, "Das würde digitalRead() erledigen, hier wird nur geschrieben."),
+                        ("Sie hat keine sichtbare Wirkung.", False, "Die LED blinkt dadurch sichtbar im Sekundentakt."),
+                      ]),
+               ]),
+               dict(fig="fig2", cap="Bild 2 · LED-Blink-Ablauf", quiz=[
+                 dict(q="Was passiert bei Schritt 1?",
+                      done="Richtig — die LED wird eingeschaltet.",
+                      opts=[
+                        ("digitalWrite(13,HIGH) — die LED wird eingeschaltet.", True, None),
+                        ("delay(1000) — das Programm wartet.", False, "Das Warten ist Schritt 2, nicht Schritt 1."),
+                        ("digitalWrite(13,LOW) — die LED wird ausgeschaltet.", False, "Das Ausschalten ist Schritt 3, nicht Schritt 1."),
+                        ("Das Programm startet neu.", False, "Der Ablauf beginnt mit dem Einschalten der LED, nicht mit einem Neustart."),
+                      ]),
+                 dict(q="Was passiert bei Schritt 2?",
+                      done="Genau — 1 Sekunde Pause.",
+                      opts=[
+                        ("delay(1000) — das Programm pausiert für 1 Sekunde.", True, None),
+                        ("Die LED wird sofort ausgeschaltet.", False, "Das Ausschalten kommt erst danach, in Schritt 3."),
+                        ("Der Sketch wird beendet.", False, "Der Sketch läuft in loop() endlos weiter."),
+                        ("Pin 13 wird neu konfiguriert.", False, "Die Pin-Konfiguration passiert nur einmal in setup()."),
+                      ]),
+                 dict(q="Was passiert bei Schritt 3?",
+                      done="Stimmt — die LED wird ausgeschaltet.",
+                      opts=[
+                        ("digitalWrite(13,LOW) — die LED wird ausgeschaltet.", True, None),
+                        ("digitalWrite(13,HIGH) — die LED wird eingeschaltet.", False, "Das Einschalten ist Schritt 1, nicht Schritt 3."),
+                        ("Das Programm wartet 1 Sekunde.", False, "Das Warten nach dem Ausschalten ist Schritt 4."),
+                        ("loop() wird verlassen.", False, "loop() wiederholt sich endlos, sie wird nicht verlassen."),
+                      ]),
+               ]),
+             ],
+             quiz=[
+               dict(q="Was passiert im Block setup()?",
+                    done="Richtig — setup() läuft nur einmal.",
+                    opts=[
+                      ("Der Code darin läuft genau einmal beim Start.", True, None),
+                      ("Der Code darin läuft endlos.", False, "Das ist die Aufgabe von loop(), nicht von setup()."),
+                      ("setup() wird nie ausgeführt.", False, "setup() wird beim Start immer einmal ausgeführt."),
+                      ("setup() pausiert das Programm.", False, "Pausieren übernimmt delay(), nicht setup() selbst."),
+                    ]),
+               dict(q="Was passiert im Block loop()?",
+                    done="Genau — loop() wiederholt sich endlos.",
+                    opts=[
+                      ("Der Code darin wiederholt sich endlos.", True, None),
+                      ("Der Code darin läuft nur einmal.", False, "Das ist die Aufgabe von setup(), nicht von loop()."),
+                      ("loop() wird nur bei Fehlern ausgeführt.", False, "loop() läuft immer wieder, unabhängig von Fehlern."),
+                      ("loop() startet den Computer neu.", False, "loop() betrifft nur den Arduino-Sketch, nicht den Computer."),
+                    ]),
+               dict(q="Wozu dient digitalWrite(13, HIGH)?",
+                    done="Stimmt — es schaltet Pin 13 ein.",
+                    opts=[
+                      ("Es schaltet Pin 13 (z. B. eine LED) ein.", True, None),
+                      ("Es liest einen Sensorwert an Pin 13.", False, "Das würde digitalRead() oder analogRead() erledigen, nicht digitalWrite()."),
+                      ("Es wartet eine Sekunde.", False, "Das Warten übernimmt delay(1000), nicht digitalWrite()."),
+                      ("Es startet das Programm neu.", False, "digitalWrite() schaltet nur einen Pin, startet kein Programm neu."),
+                    ]),
+               dict(q="Wozu dient delay(1000)?",
+                    done="Richtig — eine Sekunde Pause.",
+                    opts=[
+                      ("Das Programm pausiert für 1000 Millisekunden (1 Sekunde).", True, None),
+                      ("Das Programm läuft 1000-mal schneller.", False, "delay() verlangsamt den Ablauf durch eine Pause, es beschleunigt nicht."),
+                      ("Es schaltet eine LED aus.", False, "Das Schalten übernimmt digitalWrite(), delay() nur das Warten."),
+                      ("Es hat keine Wirkung im Sketch.", False, "delay() blockiert den Ablauf tatsächlich für die angegebene Zeit."),
+                    ]),
+             ],
              solution=["<code>pinMode(13, OUTPUT);</code> in setup(); in loop(): <code>digitalWrite(13,HIGH); delay(1000); digitalWrite(13,LOW); delay(1000);</code>",
                        "<code>loop()</code> sorgt für die Dauerschleife (Wiederholung).",
                        "<code>delay(ms)</code> pausiert das Programm für Millisekunden."]),
@@ -328,6 +1068,102 @@ UNITS = [
              tools=["arduino", "tinker"],
              fast="Ergänze eine zweite, um 90° versetzte Kreuzungsampel, die niemals gleichzeitig grün zeigt.",
              rlp=["RLP 2.2 · Kontrollstrukturen", "3.3 Verzweigung & Schleife"],
+             vorwissen=[
+               dict(fig="fig1", cap="Bild 1 · Ampelphasen als Sequenz", quiz=[
+                 dict(q="Welche Phase zeigt Teil 1?",
+                      done="Richtig — Rot.",
+                      opts=[
+                        ("Rot — die Ampel steht auf Halt.", True, None),
+                        ("Gelb — Achtung, es wechselt gleich.", False, "Gelb ist Teil 2, das mittlere Feld."),
+                        ("Grün — freie Fahrt.", False, "Grün ist Teil 3, das letzte Feld der Sequenz."),
+                        ("Der Taster wird ausgewertet.", False, "Der Taster kommt erst in der nächsten Stunde vor, nicht in diesem Bild."),
+                      ]),
+                 dict(q="Welche Phase zeigt Teil 3?",
+                      done="Genau — Grün.",
+                      opts=[
+                        ("Grün — freie Fahrt.", True, None),
+                        ("Rot — die Ampel steht auf Halt.", False, "Rot ist Teil 1, das erste Feld."),
+                        ("Gelb — Achtung, es wechselt gleich.", False, "Gelb ist Teil 2, das mittlere Feld."),
+                        ("Der Sketch startet neu.", False, "Das Bild zeigt eine Ampelphase, keinen Neustart."),
+                      ]),
+                 dict(q="Wie heißt die Steuerstruktur bei Teil 4, die das Ganze wiederholt?",
+                      done="Stimmt — die Dauerschleife.",
+                      opts=[
+                        ("die Dauerschleife (loop())", True, None),
+                        ("eine einmalige Verzweigung", False, "Eine Verzweigung entscheidet einmalig, sie wiederholt nichts von selbst."),
+                        ("eine Variable", False, "Eine Variable speichert nur einen Wert, sie wiederholt keine Abläufe."),
+                        ("ein Kommentar im Code", False, "Kommentare haben keine Auswirkung auf den Programmablauf."),
+                      ]),
+                 dict(q="Warum müssen die drei Phasen ausgerechnet in loop() stehen?",
+                      done="Richtig — sie sollen sich wiederholen.",
+                      opts=[
+                        ("Weil sie sich wiederholen sollen, solange die Ampel läuft.", True, None),
+                        ("Weil sie nur einmal beim Start gebraucht werden.", False, "Genau das wäre die Aufgabe von setup(), nicht von loop()."),
+                        ("Weil setup() dafür zu langsam ist.", False, "Geschwindigkeit ist nicht der Grund — es geht um Wiederholung."),
+                        ("Das ist egal, sie könnten auch in setup() stehen.", False, "In setup() würden die Phasen nur einmal ablaufen, nicht wiederholt."),
+                      ]),
+               ]),
+               dict(fig="fig2", cap="Bild 2 · Taster als Verzweigung", quiz=[
+                 dict(q="Was ist Teil 1?",
+                      done="Richtig — der Taster.",
+                      opts=[
+                        ("der Taster — er liefert HIGH oder LOW", True, None),
+                        ("der Mikrocontroller", False, "Der Mikrocontroller ist der violette Chip, Teil 2."),
+                        ("die Verzweigung", False, "Die Verzweigung ist die Raute weiter unten, Teil 3."),
+                        ("eine LED", False, "In diesem Bild ist keine LED als eigenes Bauteil markiert."),
+                      ]),
+                 dict(q="Was ist Teil 2, der violette Chip?",
+                      done="Genau — der Mikrocontroller.",
+                      opts=[
+                        ("der Mikrocontroller — er liest den Tasterzustand ein", True, None),
+                        ("der Taster", False, "Der Taster ist das Bauteil links im Bild, Teil 1."),
+                        ("die Steckplatine", False, "Eine Steckplatine ist in diesem Schaubild nicht eigens markiert."),
+                        ("das USB-Kabel", False, "Ein USB-Kabel ist in diesem Bild nicht dargestellt."),
+                      ]),
+                 dict(q="Was ist Teil 3, die Raute?",
+                      done="Stimmt — die Verzweigung.",
+                      opts=[
+                        ("die Verzweigung (if) — sie prüft den Tasterzustand", True, None),
+                        ("die Dauerschleife", False, "Die Dauerschleife ist keine Raute, sie steckt im loop()-Block."),
+                        ("eine Variable", False, "Eine Variable würde man nicht als Raute darstellen."),
+                        ("der Mikrocontroller", False, "Der Mikrocontroller ist der Chip weiter oben, Teil 2."),
+                      ]),
+               ]),
+             ],
+             quiz=[
+               dict(q="Welche Steuerstruktur sorgt dafür, dass sich die Ampelphasen ständig wiederholen?",
+                    done="Richtig — die Dauerschleife.",
+                    opts=[
+                      ("die Dauerschleife (loop())", True, None),
+                      ("eine einmalige Verzweigung", False, "Eine Verzweigung entscheidet einmalig, sie wiederholt nichts von selbst."),
+                      ("eine Variable", False, "Eine Variable speichert nur einen Wert, sie wiederholt keine Abläufe."),
+                      ("ein Kommentar im Code", False, "Kommentare haben keine Auswirkung auf den Programmablauf."),
+                    ]),
+               dict(q="Wie liest man einen Taster im Arduino-Sketch aus?",
+                    done="Genau — als HIGH/LOW-Signal.",
+                    opts=[
+                      ("als HIGH- oder LOW-Signal, meist mit einer Verzweigung (if) abgefragt", True, None),
+                      ("nur als Text", False, "Taster liefern elektrische Zustände (HIGH/LOW), keinen Text."),
+                      ("er kann nicht ausgelesen werden", False, "Taster lassen sich sehr wohl über einen Digitalpin auslesen."),
+                      ("nur über WLAN", False, "Ein einfacher Taster wird über ein Kabel am Digitalpin ausgelesen, nicht über WLAN."),
+                    ]),
+               dict(q="Wozu dient eine Verzweigung (if) beim Taster?",
+                    done="Stimmt — sie entscheidet abhängig vom Tasterzustand.",
+                    opts=[
+                      ("um abhängig vom Tasterzustand zu entscheiden, was als Nächstes passiert (z. B. Fußgängeranforderung)", True, None),
+                      ("um die Ampel dauerhaft auszuschalten", False, "Eine Verzweigung schaltet nicht automatisch alles aus, sie trifft eine Entscheidung."),
+                      ("um die Schleife zu beenden", False, "Die Dauerschleife läuft weiter, die Verzweigung entscheidet nur über die nächste Aktion."),
+                      ("um Strom zu sparen", False, "Das ist nicht die Funktion einer Verzweigung im Code."),
+                    ]),
+               dict(q="Wie setzt man die Reihenfolge Rot-Gelb-Grün typischerweise um?",
+                    done="Richtig — als feste Sequenz mit digitalWrite und delay.",
+                    opts=[
+                      ("als Sequenz aus digitalWrite- und delay-Befehlen in fester Reihenfolge", True, None),
+                      ("als zufällige Reihenfolge", False, "Eine Ampel muss eine feste, vorhersagbare Reihenfolge einhalten."),
+                      ("nur mit einer einzigen LED", False, "Für Rot-Gelb-Grün braucht es mindestens drei separate LEDs."),
+                      ("ganz ohne delay-Befehle", False, "Ohne delay() würden die Phasen nicht sichtbar lange anhalten."),
+                    ]),
+             ],
              solution=["Die Ampel wiederholt sich → Dauerschleife (<code>loop()</code>).",
                        "Taster liefert HIGH/LOW → Verzweigung mit <code>if</code>.",
                        "Phasen über <code>digitalWrite</code> + <code>delay</code> nacheinander."]),
@@ -339,6 +1175,102 @@ UNITS = [
              tools=[],
              fast="Modelliere das Objekt „Spielfigur“ mit drei Attributen und drei Methoden auf Papier.",
              rlp=["RLP 2.1 · Modellieren", "3.4 Objektorientierung", "neu · OOP-Einstieg"],
+             vorwissen=[
+               dict(fig="fig1", cap="Bild 1 · Klasse Ampel", quiz=[
+                 dict(q="Was ist Teil 1?",
+                      done="Richtig — der Klassenname.",
+                      opts=[
+                        ("der Klassenname (Ampel) — der Bauplan", True, None),
+                        ("ein Attribut", False, "Attribute stehen im mittleren Bereich der Klassenbox, nicht im Kopf."),
+                        ("eine Methode", False, "Methoden stehen im unteren Bereich der Klassenbox."),
+                        ("ein konkretes Objekt", False, "Das konkrete Objekt ist die separate Box rechts im Bild."),
+                      ]),
+                 dict(q="Was zeigt Teil 3, der untere Bereich der Klassenbox?",
+                      done="Genau — die Methoden.",
+                      opts=[
+                        ("die Methoden — ausführbare Aktionen wie naechstePhase()", True, None),
+                        ("die Attribute — Eigenschaften wie aktuellePhase", False, "Attribute stehen im mittleren Bereich, nicht im unteren."),
+                        ("den Klassennamen", False, "Der Klassenname steht ganz oben in der Box."),
+                        ("ein konkretes Objekt", False, "Das konkrete Objekt ist eine eigene Box rechts im Bild."),
+                      ]),
+                 dict(q="Was ist Teil 4, die Box rechts?",
+                      done="Stimmt — ein konkretes Objekt.",
+                      opts=[
+                        ("ein konkretes Objekt (meineAmpel) mit eigenen Werten", True, None),
+                        ("die Klasse selbst", False, "Die Klasse ist die linke Box, der Bauplan."),
+                        ("eine Methode", False, "Methoden stehen innerhalb einer Klassenbox, nicht als eigene Box."),
+                        ("ein Attribut ohne Wert", False, "Die Werte rechts sind konkret gefüllt, nicht leer."),
+                      ]),
+                 dict(q='Warum hat das Objekt rechts konkrete Werte wie "rot" oder 3000?',
+                      done="Richtig — ein Objekt ist eine Instanz mit echten Werten.",
+                      opts=[
+                        ("Weil ein Objekt eine Instanz der Klasse mit eigenen, echten Werten ist.", True, None),
+                        ("Weil die Klasse ihre Attribute verliert, sobald ein Objekt entsteht.", False, "Die Klasse bleibt unverändert der Bauplan für beliebig viele Objekte."),
+                        ("Weil Methoden automatisch Werte erzeugen.", False, "Die Werte kommen aus der konkreten Instanz, nicht automatisch aus Methoden."),
+                        ("Das ist Zufall, es hat keine Bedeutung.", False, "Die konkreten Werte sind der ganze Sinn eines Objekts."),
+                      ]),
+               ]),
+               dict(fig="fig2", cap="Bild 2 · Fachbegriffe im Code", quiz=[
+                 dict(q="Wie heißt der Codeabschnitt 1?",
+                      done="Richtig — die Dauerschleife.",
+                      opts=[
+                        ("die Dauerschleife — sie wiederholt sich endlos", True, None),
+                        ("die Fallunterscheidung", False, "Die Fallunterscheidung ist der if/else-Abschnitt weiter unten."),
+                        ("das Attribut", False, "Das Attribut ist die einzelne Variablenzeile ganz oben."),
+                        ("die Methode", False, "Die Methode ist der Abschnitt mit dem Funktionskopf darüber."),
+                      ]),
+                 dict(q="Wie heißt der Codeabschnitt 2?",
+                      done="Genau — die Fallunterscheidung.",
+                      opts=[
+                        ("die Fallunterscheidung — sie prüft eine Bedingung mit if/else", True, None),
+                        ("die Dauerschleife", False, "Die Dauerschleife ist der loop()-Abschnitt darüber."),
+                        ("das Attribut", False, "Das Attribut ist die einzelne Variablenzeile ganz oben."),
+                        ("die Methode", False, "Die Methode hat einen eigenen Funktionskopf, keine if/else-Struktur."),
+                      ]),
+                 dict(q="Wie heißt der Codeabschnitt 3?",
+                      done="Stimmt — das Attribut.",
+                      opts=[
+                        ("das Attribut — eine gespeicherte Eigenschaft", True, None),
+                        ("die Methode", False, "Die Methode hat einen Funktionskopf mit Klammern, das Attribut nicht."),
+                        ("die Dauerschleife", False, "Die Dauerschleife ist der loop()-Abschnitt."),
+                        ("die Fallunterscheidung", False, "Die Fallunterscheidung ist der if/else-Abschnitt."),
+                      ]),
+               ]),
+             ],
+             quiz=[
+               dict(q="Was ist ein Attribut in der Objektorientierung?",
+                    done="Richtig — eine Eigenschaft bzw. ein Zustand.",
+                    opts=[
+                      ("eine Eigenschaft bzw. ein Zustand eines Objekts (z. B. farbe)", True, None),
+                      ("eine ausführbare Aktion", False, "Das beschreibt eine Methode, kein Attribut."),
+                      ("eine Dauerschleife", False, "Eine Dauerschleife ist eine Kontrollstruktur, kein Attribut."),
+                      ("ein Kommentar im Code", False, "Kommentare sind reine Erklärtexte, keine Objekteigenschaften."),
+                    ]),
+               dict(q="Was ist eine Methode in der Objektorientierung?",
+                    done="Genau — eine ausführbare Aktion.",
+                    opts=[
+                      ("eine ausführbare Aktion eines Objekts (z. B. schalteUm())", True, None),
+                      ("eine Eigenschaft eines Objekts", False, "Das beschreibt ein Attribut, keine Methode."),
+                      ("eine Variable ohne Funktion", False, "Methoden sind Aktionen, keine reinen Werte."),
+                      ("ein Bauteil der Hardware", False, "Methoden gehören zur Softwarestruktur, nicht zur Hardware."),
+                    ]),
+               dict(q="Was gehört bei einer Klasse „Ampel“ zu den Attributen?",
+                    done="Stimmt — die aktuelle Phase.",
+                    opts=[
+                      ("die aktuelle Phase (z. B. „rot“)", True, None),
+                      ("die Methode naechstePhase()", False, "Das ist eine Methode (Aktion), kein Attribut."),
+                      ("der Quellcode der Klasse", False, "Der Quellcode ist die Klasse selbst, kein einzelnes Attribut."),
+                      ("die Steckplatine", False, "Die Steckplatine ist ein Hardware-Bauteil, kein Software-Attribut."),
+                    ]),
+               dict(q="Was bezeichnet man als Fallunterscheidung im Code?",
+                    done="Richtig — eine if/else-Struktur.",
+                    opts=[
+                      ("eine if/else-Struktur, die abhängig von einer Bedingung entscheidet", True, None),
+                      ("eine Dauerschleife", False, "Das ist eine Wiederholung, keine Entscheidung."),
+                      ("eine Methode ohne Rückgabewert", False, "Das beschreibt eine bestimmte Art von Methode, keine Fallunterscheidung."),
+                      ("ein Attribut", False, "Attribute speichern Eigenschaften, sie treffen keine Entscheidungen."),
+                    ]),
+             ],
              solution=["Attribut = Eigenschaft/Zustand (z. B. farbe); Methode = ausführbare Aktion (z. B. schalteUm()).",
                        "Dauerschleife = wiederholender Codeblock; Fallunterscheidung = if/else.",
                        "Klasse „Ampel“: Attribute (aktuellePhase), Methoden (naechstePhase())."]),
@@ -350,6 +1282,102 @@ UNITS = [
              tools=["tinker", "arduino"],
              fast="Baue eine Zusatzfunktion ein (z. B. Helligkeitssteuerung per Poti) und beschreibe sie in der Doku.",
              rlp=["RLP 2.4 · Umsetzen", "2.6 Kommunizieren", "3.3 Projekt"],
+             vorwissen=[
+               dict(fig="fig1", cap="Bild 1 · Projektablauf", quiz=[
+                 dict(q="Was ist Schritt 1 im Projektablauf?",
+                      done="Richtig — die Projektidee wählen.",
+                      opts=[
+                        ("Projektidee wählen", True, None),
+                        ("Bauteile und Ablauf planen", False, "Das Planen folgt erst, nachdem eine Idee feststeht."),
+                        ("Aufbauen und Testen", False, "Aufgebaut wird erst nach Idee und Planung."),
+                        ("Ergebnis sichern", False, "Das Sichern steht ganz am Ende des Ablaufs."),
+                      ]),
+                 dict(q="Was ist Schritt 3 im Projektablauf?",
+                      done="Genau — Aufbauen und Testen in Tinkercad.",
+                      opts=[
+                        ("Aufbauen und Testen in Tinkercad", True, None),
+                        ("Projektidee wählen", False, "Die Idee steht ganz am Anfang, Schritt 1."),
+                        ("Bauteile und Ablauf planen", False, "Das Planen ist Schritt 2, vor dem Aufbauen."),
+                        ("Ergebnis sichern", False, "Das Sichern folgt erst nach dem Testen, als Schritt 4."),
+                      ]),
+                 dict(q="Warum führt vom Testen ein gestrichelter Pfeil zurück zum Planen?",
+                      done="Richtig — Anpassen ist erlaubt.",
+                      opts=[
+                        ("Weil man die Planung nach dem Testen bei Bedarf anpassen darf.", True, None),
+                        ("Weil das Testen komplett übersprungen werden soll.", False, "Getestet werden soll gerade gründlich, nicht übersprungen."),
+                        ("Weil ein Fehler das ganze Projekt ungültig macht.", False, "Ein Fehler beim Testen führt nur zu einer Anpassung, nicht zum Abbruch."),
+                        ("Das ist nur Dekoration ohne Bedeutung.", False, "Der Pfeil zeigt den iterativen Charakter eines echten Projekts."),
+                      ]),
+                 dict(q="Was passiert im letzten Schritt, dem Sichern?",
+                      done="Stimmt — Sketch, Schaltplan und Doku an zwei Orten.",
+                      opts=[
+                        ("Sketch, Schaltplan-Screenshot und Doku werden an zwei Orten gespeichert.", True, None),
+                        ("Das Projekt wird sofort gelöscht.", False, "Sichern bedeutet Aufbewahren, nicht Löschen."),
+                        ("Nur der Sketch wird auf dem Arduino belassen.", False, "Ohne separate Sicherung geht die Arbeit bei einem Defekt verloren."),
+                        ("Es passiert nichts Wichtiges mehr.", False, "Die Ergebnissicherung ist ein zentraler, bewerteter Schritt."),
+                      ]),
+               ]),
+               dict(fig="fig2", cap="Bild 2 · Bewertungskriterien", quiz=[
+                 dict(q="Was bedeutet Kriterium 1, Funktion?",
+                      done="Richtig — die Schaltung funktioniert wie geplant.",
+                      opts=[
+                        ("Die Schaltung funktioniert wie geplant.", True, None),
+                        ("Der Code ist besonders kurz.", False, "Die Länge des Codes ist kein Bewertungskriterium."),
+                        ("Es wurden viele Bauteile verwendet.", False, "Die Anzahl der Bauteile sagt nichts über die Funktion aus."),
+                        ("Das Projekt wurde schnell fertig.", False, "Geschwindigkeit ist kein Bewertungskriterium, Funktion schon."),
+                      ]),
+                 dict(q="Was bedeutet Kriterium 2, Verdrahtung?",
+                      done="Genau — sauber und sicher aufgebaut.",
+                      opts=[
+                        ("Die Schaltung ist sauber und sicher aufgebaut.", True, None),
+                        ("Der Code ist kommentiert.", False, "Das gehört zum Kriterium Code, nicht zur Verdrahtung."),
+                        ("Es gibt eine Dokumentation.", False, "Das ist ein eigenes Kriterium, nicht die Verdrahtung."),
+                        ("Das Backup liegt an zwei Orten.", False, "Das betrifft die Dokumentation/Ergebnissicherung, nicht die Verdrahtung."),
+                      ]),
+                 dict(q="Was bedeutet Kriterium 3, Code?",
+                      done="Stimmt — kommentiert und lesbar.",
+                      opts=[
+                        ("Der Code ist kommentiert und lesbar.", True, None),
+                        ("Die Schaltung funktioniert wie geplant.", False, "Das ist das Kriterium Funktion, nicht Code."),
+                        ("Die Verdrahtung ist sauber.", False, "Das ist ein eigenes Kriterium, nicht der Code."),
+                        ("Es gibt ein Backup.", False, "Das gehört zur Dokumentation, nicht zum Code selbst."),
+                      ]),
+               ]),
+             ],
+             quiz=[
+               dict(q="Was gehört zu einer guten Projektplanung vor dem Bauen?",
+                    done="Richtig — Idee, Bauteile und Ablauf zuerst planen.",
+                    opts=[
+                      ("Projektidee wählen sowie Bauteile und Ablauf planen", True, None),
+                      ("direkt ohne Plan drauflos bauen", False, "Ohne Plan führt der Aufbau meist zu unnötigen Umbauten und Fehlern."),
+                      ("nur den Sketch schreiben, ohne Schaltung zu planen", False, "Sketch und Schaltung müssen zusammenpassen — beides gehört zur Planung."),
+                      ("die Dokumentation erst nach der Abgabe beginnen", False, "Dann fehlen oft wichtige Details — Dokumentation sollte parallel entstehen."),
+                    ]),
+               dict(q="Was bedeutet „Ergebnissicherung“ bei diesem Projekt?",
+                    done="Genau — Sketch, Schaltplan und Doku an zwei Orten sichern.",
+                    opts=[
+                      ("Sketch (.ino), Schaltplan-Screenshot und Doku sichern — lokal und in der Cloud", True, None),
+                      ("nur den Sketch auf dem Arduino lassen", False, "Ohne separate Sicherung geht die Arbeit bei einem Defekt verloren."),
+                      ("nichts, das Projekt bleibt nur im Kopf", False, "Ohne dokumentierte Sicherung ist das Projekt nicht nachvollziehbar oder abgebbar."),
+                      ("nur ein Foto des fertigen Aufbaus", False, "Ein Foto allein sichert weder den Code noch den Schaltplan im Detail."),
+                    ]),
+               dict(q="Wonach wird das Mini-Projekt vor allem bewertet?",
+                    done="Stimmt — Funktion, Verdrahtung, Code, Doku.",
+                    opts=[
+                      ("Funktion, saubere Verdrahtung, kommentierter Code und Doku", True, None),
+                      ("nur die Originalität der Idee", False, "Originalität allein reicht nicht — die Umsetzung zählt ebenso."),
+                      ("nur die Geschwindigkeit der Fertigstellung", False, "Schnelligkeit ist kein Bewertungskriterium, Qualität schon."),
+                      ("nur die Anzahl der verwendeten Bauteile", False, "Mehr Bauteile bedeuten nicht automatisch ein besseres Projekt."),
+                    ]),
+               dict(q="Warum ist ein kommentierter Code Teil der Bewertung?",
+                    done="Richtig — Kommentare machen den Code nachvollziehbar.",
+                    opts=[
+                      ("Er macht nachvollziehbar, was der Code tut, und erleichtert Verständnis und Korrektur.", True, None),
+                      ("Kommentare beschleunigen das Programm.", False, "Kommentare haben keinen Einfluss auf die Ausführungsgeschwindigkeit."),
+                      ("Kommentare sind für den Arduino zwingend nötig, sonst läuft der Sketch nicht.", False, "Ein Sketch läuft auch ganz ohne Kommentare — sie dienen nur dem Verständnis."),
+                      ("Kommentare ersetzen die Doku vollständig.", False, "Kommentare ergänzen die Doku, ersetzen sie aber nicht vollständig."),
+                    ]),
+             ],
              solution=["Bewertet werden Funktion, saubere Verdrahtung, kommentierter Code und die Doku.",
                        "Ergebnissicherung = reproduzierbar abgeben: .ino + Schaltplan + Beschreibung.",
                        "Backup an zwei Orten (Rechner + Cloud/USB)."]),
@@ -906,6 +1934,49 @@ def render_quiz(lp):
         '</div></section>'
     ) % (len(quiz), items)
 
+# ---------------------------------------------------------------- Vorwissen (SVG-Figuren + Bild-Quiz)
+def render_vorwissen(lp):
+    vw = lp.get("vorwissen")
+    if not vw:
+        return ""
+    blocks = ""
+    for entry in vw:
+        svg = load_svg(lp["no"], entry["fig"])
+        if not svg:
+            continue
+        quiz = entry["quiz"]
+        items = ""
+        for i, q in enumerate(quiz, 1):
+            opts = ""
+            for text, correct, hint in q["opts"]:
+                attr = ' data-correct="true"' if correct else (' data-hint="%s"' % esc(hint) if hint else "")
+                opts += '<button class="qz-opt"%s>%s</button>' % (attr, text)
+            items += (
+                '<div class="qz-item">'
+                '<div class="qz-text"><span class="qn">%d.</span>%s</div>'
+                '<div class="qz-opts">%s</div>'
+                '<div class="qz-hint"></div><div class="qz-done">%s</div>'
+                '</div>'
+            ) % (i, q["q"], opts, q.get("done", "Richtig!"))
+        blocks += (
+            '<div class="vw-block">'
+            '<div class="fig">%s<div class="fig-cap">%s</div></div>'
+            '<div class="qz-wrap" data-qz>'
+            '<div class="qz-progress"><span class="qz-count">0 / %d richtig</span>'
+            '<span class="qz-bar"><span class="qz-fill"></span></span></div>'
+            '%s'
+            '<div class="qz-solved">✔ Stark — %s komplett gelöst!</div>'
+            '</div></div>'
+        ) % (svg, esc(entry["cap"]), len(quiz), items, esc(entry["cap"].split("·")[0].strip()))
+    if not blocks:
+        return ""
+    return (
+        '<section class="lp-sec"><h2>Schau genau hin — was weißt du schon?</h2>'
+        '<p class="vw-intro">Sieh dir die Bilder an. Zu jedem Bild gehören einige Fragen. '
+        'Tippe die richtige Antwort an — wird sie grün, ist sie richtig. Bei rot bekommst du einen Tipp.</p>'
+        '%s</section>'
+    ) % blocks
+
 # ---------------------------------------------------------------- Lernpfad-Seiten
 def build_lp_page(u, lp):
     mon, fri = CAL[lp["sjw"]]
@@ -952,6 +2023,7 @@ def build_lp_page(u, lp):
         + '  </div>\n'
         + '  <section class="lp-sec"><h2>Das lernst du</h2><p>%s</p><div data-selfcheck="%s"></div></section>\n'
           % (lp["goal"], slug(lp["no"]))
+        + ('  %s\n' % render_vorwissen(lp) if lp.get("vorwissen") else '')
         + '  <section class="lp-sec"><h2>Aufgaben</h2><ul class="task-list">%s</ul></section>\n' % tasks
         + ('  %s\n' % render_quiz(lp) if lp.get("quiz") else '')
         + ('  %s\n' % tools if tools else '')
