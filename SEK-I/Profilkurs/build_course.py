@@ -24,6 +24,7 @@ while sjw < 37:
     sjw += 1
     CAL[sjw] = (mon, mon + timedelta(days=4))
     mon += timedelta(days=7)
+CAL = {k - 1: v for k, v in CAL.items()}   # SJW zählt ab 0
 
 def de(d):  # dd.mm.yyyy
     return d.strftime("%d.%m.%Y")
@@ -51,17 +52,17 @@ T = {
 # ---------------------------------------------------------------- Vorwissen-Figuren (SVG)
 # lp-Nummer -> Ordner mit typst/figN.svg (color-Variante, vollständig beschriftet)
 LESSON_DIRS = {
-  1: "01 Systemstart - Was ist Informatik",
-  2: "02 EVA & Algorithmus - wie ein Computer denkt",
-  3: "03 Scratch-Grundlagen - Bühne, Figuren, Ereignisse",
-  4: "04 Schleifen & Verzweigungen - ein Mini-Spiel",
-  5: "05 Makey Makey - die Welt wird zum Controller",
-  6: "06 Tinkercad Circuits - Stromkreis simulieren",
-  7: "07 Der Mikrocontroller - Arduino Uno kennenlernen",
-  8: "08 Erster Sketch - die interne LED blinkt",
-  9: "09 Steuerstrukturen im Sketch - das Ampelprogramm",
-  10: "10 Objektorientierung entdecken - Attribute & Methoden",
-  11: "11 Mini-Projekt Arduino - Ergebnissicherung",
+  0: "00 Systemstart - Was ist Informatik",
+  1: "01 EVA & Algorithmus - wie ein Computer denkt",
+  2: "02 Scratch-Grundlagen - Bühne, Figuren, Ereignisse",
+  3: "03 Schleifen & Verzweigungen - ein Mini-Spiel",
+  4: "04 Makey Makey - die Welt wird zum Controller",
+  5: "05 Tinkercad Circuits - Stromkreis simulieren",
+  6: "06 Der Mikrocontroller - Arduino Uno kennenlernen",
+  7: "07 Erster Sketch - die interne LED blinkt",
+  8: "08 Steuerstrukturen im Sketch - das Ampelprogramm",
+  9: "09 Objektorientierung entdecken - Attribute & Methoden",
+  10: "10 Mini-Projekt Arduino - Ergebnissicherung",
 }
 
 def load_svg(lp_no, fig):
@@ -78,17 +79,17 @@ def load_svg(lp_no, fig):
 # Jedes LP: no, sjw, title, goal, tasks[], tools[keys], fast, rlp[], solution[], kind
 UNITS = [
  # =================== HALBJAHR 1 ===================
- dict(hj=1, num="01", title="Systemstart — Was ist Informatik?",
+ dict(hj=1, num="00", title="Systemstart — Was ist Informatik?",
       key="#35e0ff", key2="#0bb7e0", tint="rgba(53,224,255,0.09)",
       lps=[
-        dict(no=1, sjw=1, kind="puffer", title="Boot-Sequenz: Kurslandkarte & digitale Werkzeugkiste",
+        dict(no=0, sjw=0, kind="lernpfad", title="Boot-Sequenz: Kurslandkarte & digitale Werkzeugkiste",
              goal="Du verschaffst dir einen Überblick über das Kursjahr, richtest Konto & Ordnerstruktur ein und lernst die Regeln zur Ergebnissicherung (Backups) kennen.",
              tasks=["Diese Kursseite als Landkarte erkunden: Halbjahre, Einheiten, Lernpfade, Sterne, Schlösser.",
                     "Persönliche Ordnerstruktur anlegen: <code>Informatik/HJ1</code>, <code>HJ2</code>, <code>_backups</code>.",
                     "Backup-Regel notieren: „Am Stundenende alles sichern — lokal UND in der Cloud/USB.“"],
-             tools=["ref"],
-             fast="Erkunde die Referenz-Anwendung (Verb-Trainer) und notiere drei Dinge, die dir am Interface auffallen.",
-             rlp=["RLP 2.3 · Bedienung", "3.2 Informatiksysteme", "neu · Orga & Backup"],
+             tools=[],
+             fast="Ausblick auf euer erstes Makey-Makey-Projekt (LP04): Recherchiere im Internet drei kreative Makey-Makey-Projekte und halte Titel, Link und eine Kurznotiz (Was macht das Projekt besonders?) zu jedem Projekt in einer Datei in deiner heutigen Ordnerstruktur fest.",
+             rlp=["RLP 2.3 · Bedienung", "3.2 Informatiksysteme"],
              vorwissen=[
                dict(fig="fig1", cap="Bild 1 · Was ist Informatik?", quiz=[
                  dict(q="Was gehört zu Teil 1, der Hardware?",
@@ -195,7 +196,7 @@ UNITS = [
              ],
              solution=["Ordnerstruktur steht, Backup-Regel im Heft.",
                        "Kurslandkarte verstanden: 4 Reihen a–d, 37 Lernpfade, Lösungen schalten sich datumsweise frei."]),
-        dict(no=2, sjw=2, kind="lernpfad", title="EVA & Algorithmus — wie ein Computer „denkt“",
+        dict(no=1, sjw=1, kind="lernpfad", title="EVA & Algorithmus — wie ein Computer „denkt“",
              goal="Du erklärst das EVA-Prinzip (Eingabe → Verarbeitung → Ausgabe) und beschreibst einen Alltagsablauf als Algorithmus (Schritt für Schritt, mit Verzweigung und Schleife).",
              tasks=["Zehn Alltagsgeräte dem EVA-Prinzip zuordnen (Ampel, Taschenrechner, Waschmaschine …).",
                     "Ein Rezept oder Weg als Algorithmus in nummerierten Schritten aufschreiben.",
@@ -379,10 +380,10 @@ UNITS = [
                        "Ein Algorithmus ist eine eindeutige, endliche Schrittfolge; Bausteine: Sequenz, Verzweigung, Schleife.",
                        "Beispiel Ampel: Eingabe = Zeit/Sensor, Verarbeitung = Steuerlogik, Ausgabe = Lichtsignal."]),
       ]),
- dict(hj=1, num="02", title="Blockbasiert I — Scratch & Makey Makey",
+ dict(hj=1, num="01", title="Blockbasiert I — Scratch & Makey Makey",
       key="#34ff9e", key2="#12c47a", tint="rgba(52,255,158,0.09)",
       lps=[
-        dict(no=3, sjw=3, kind="lernpfad", title="Scratch-Grundlagen: Bühne, Figuren, Ereignisse",
+        dict(no=2, sjw=2, kind="lernpfad", title="Scratch-Grundlagen: Bühne, Figuren, Ereignisse",
              goal="Du baust in Scratch dein erstes Programm: Figuren steuern, Ereignisse („Wenn Flagge geklickt“) nutzen und eine Sequenz aus Blöcken zusammensetzen.",
              tasks=["Eine Figur per Ereignisblock starten und über die Bühne bewegen.",
                     "Bewegung, Aussehen und Klang zu einer kleinen Szene kombinieren.",
@@ -497,7 +498,7 @@ UNITS = [
              solution=["Ereignisblock „Wenn 🏳 angeklickt“ startet die Sequenz.",
                        "Sequenz = Blöcke in fester Reihenfolge; Scratch verbindet sie wie Puzzleteile.",
                        "Export über Datei → „Auf deinen Computer herunterladen“."]),
-        dict(no=4, sjw=4, kind="lernpfad", title="Schleifen & Verzweigungen: ein Mini-Spiel",
+        dict(no=3, sjw=3, kind="lernpfad", title="Schleifen & Verzweigungen: ein Mini-Spiel",
              goal="Du setzt „wiederhole“-Schleifen und „falls … dann“-Verzweigungen ein und programmierst ein einfaches Fang- oder Ausweichspiel.",
              tasks=["Endlosschleife zum ständigen Abfragen der Tastatur bauen.",
                     "Verzweigung: „falls Figur berührt Rand → drehe/prallende ab“.",
@@ -612,11 +613,11 @@ UNITS = [
              solution=["Schleife = Wiederholung; Verzweigung = Entscheidung mit Bedingung.",
                        "Variable „Punkte“ speichert den Zustand über die Zeit.",
                        "Kollision per „wird berührt?“-Block als Bedingung."]),
-        dict(no=5, sjw=5, kind="lernpfad", title="Makey Makey: die Welt wird zum Controller",
+        dict(no=4, sjw=4, kind="lernpfad", title="Makey Makey: die Welt wird zum Controller",
              goal="Du verbindest Makey Makey mit Scratch und steuerst dein Programm über leitfähige Alltagsgegenstände — Eingabe wird begreifbar (Sensorik & Stromkreis).",
              tasks=["Makey Makey anschließen und einen Stromkreis über Erde (EARTH) schließen.",
                     "Bananen/Alufolie als Tasten für Pfeil/Leertaste einrichten.",
-                    "Dein Scratch-Spiel aus LP04 mit den neuen „Tasten“ steuern."],
+                    "Dein Scratch-Spiel aus LP03 mit den neuen „Tasten“ steuern."],
              tools=["makey", "scratch"],
              fast="Baue ein „Banana-Piano“ mit fünf Tönen und erkläre, warum ein geschlossener Stromkreis nötig ist.",
              rlp=["RLP 2.3 · Informatiksysteme", "3.2 Ein-/Ausgabe", "neu · Physical Computing"],
@@ -728,10 +729,10 @@ UNITS = [
                        "Leitfähige Objekte (Obst, Folie, Wasser) leiten den schwachen Strom.",
                        "Eingabe = Kern des EVA-Prinzips, hier physisch erlebbar."]),
       ]),
- dict(hj=1, num="03", title="Blockbasiert II — Tinkercad & Arduino",
+ dict(hj=1, num="02", title="Blockbasiert II — Tinkercad & Arduino",
       key="#a56bff", key2="#7d3ff0", tint="rgba(165,107,255,0.09)",
       lps=[
-        dict(no=6, sjw=6, kind="lernpfad", title="Tinkercad Circuits: Stromkreis simulieren",
+        dict(no=5, sjw=5, kind="lernpfad", title="Tinkercad Circuits: Stromkreis simulieren",
              goal="Du baust im Browser einen virtuellen Stromkreis mit LED, Vorwiderstand und Steckplatine und verstehst, warum der Widerstand die LED schützt.",
              tasks=["LED + Widerstand + Batterie auf der Steckplatine verdrahten.",
                     "Simulation starten und den Stromfluss beobachten.",
@@ -838,7 +839,7 @@ UNITS = [
              solution=["Ohne Vorwiderstand fließt zu viel Strom → LED brennt durch.",
                        "Steckplatine verbindet Reihen elektrisch; lange/kurze LED-Beinchen = Anode/Kathode.",
                        "Parallel: gleich hell; Reihe: dunkler, da Spannung sich aufteilt."]),
-        dict(no=7, sjw=7, kind="lernpfad", title="Der Mikrocontroller: Arduino Uno kennenlernen",
+        dict(no=6, sjw=6, kind="lernpfad", title="Der Mikrocontroller: Arduino Uno kennenlernen",
              goal="Du benennst die Bauteile einer Arduino-Schaltung (Widerstand, LED, Mikrocontroller, Steckplatine) und verstehst die Rolle von GND (Minuspol) und 5 V.",
              tasks=["Bauteile im Schaltbild korrekt benennen und ordnen.",
                     "Die technische Anpassung für LEDs erklären: Stromkreisschluss zum Minuspol (GND).",
@@ -953,7 +954,7 @@ UNITS = [
              solution=["Reihenfolge: LED, Widerstand, Mikrocontroller, Steckplatine.",
                        "LEDs benötigen Stromkreisschluss zum Minuspol (GND).",
                        "Digitalpins kennen nur HIGH/LOW, Analogpins messen Zwischenwerte."]),
-        dict(no=8, sjw=8, kind="lernpfad", title="Erster Sketch: die interne LED blinkt",
+        dict(no=7, sjw=7, kind="lernpfad", title="Erster Sketch: die interne LED blinkt",
              goal="Du schreibst einen Arduino-Sketch mit <code>setup()</code>, <code>loop()</code>, <code>digitalWrite()</code> und <code>delay()</code>, der die interne LED (Pin 13) im Sekundentakt blinken lässt.",
              tasks=["Struktur eines Sketches verstehen: <code>setup()</code> läuft einmal, <code>loop()</code> endlos.",
                     "LED an Pin 13 in einer Dauerschleife 1 s an / 1 s aus schalten.",
@@ -1060,7 +1061,7 @@ UNITS = [
              solution=["<code>pinMode(13, OUTPUT);</code> in setup(); in loop(): <code>digitalWrite(13,HIGH); delay(1000); digitalWrite(13,LOW); delay(1000);</code>",
                        "<code>loop()</code> sorgt für die Dauerschleife (Wiederholung).",
                        "<code>delay(ms)</code> pausiert das Programm für Millisekunden."]),
-        dict(no=9, sjw=9, kind="lernpfad", title="Steuerstrukturen im Sketch: das Ampelprogramm",
+        dict(no=8, sjw=8, kind="lernpfad", title="Steuerstrukturen im Sketch: das Ampelprogramm",
              goal="Du überträgst Verzweigung und Schleife in Arduino-Code und programmierst eine Fußgänger-/Auto-Ampel mit mehreren LEDs.",
              tasks=["Rot–Gelb–Grün-Phasen als Sequenz in <code>loop()</code> umsetzen.",
                     "Die Steuerstruktur im Ampelprogramm benennen (Dauerschleife).",
@@ -1167,7 +1168,7 @@ UNITS = [
              solution=["Die Ampel wiederholt sich → Dauerschleife (<code>loop()</code>).",
                        "Taster liefert HIGH/LOW → Verzweigung mit <code>if</code>.",
                        "Phasen über <code>digitalWrite</code> + <code>delay</code> nacheinander."]),
-        dict(no=10, sjw=10, kind="lernpfad", title="Objektorientierung entdecken: Attribute & Methoden",
+        dict(no=9, sjw=9, kind="lernpfad", title="Objektorientierung entdecken: Attribute & Methoden",
              goal="Du lernst die Grundidee moderner Software (OOP): Objekte bündeln Daten (Attribute) und Fähigkeiten (Methoden). Du ordnest Code-Bereiche korrekt zu.",
              tasks=["An einem Beispiel Attribute (Eigenschaften) und Methoden (Aktionen) unterscheiden.",
                     "Fachbegriffe im Code zuordnen: Dauerschleife, Fallunterscheidung, Attribut, Methode.",
@@ -1274,7 +1275,7 @@ UNITS = [
              solution=["Attribut = Eigenschaft/Zustand (z. B. farbe); Methode = ausführbare Aktion (z. B. schalteUm()).",
                        "Dauerschleife = wiederholender Codeblock; Fallunterscheidung = if/else.",
                        "Klasse „Ampel“: Attribute (aktuellePhase), Methoden (naechstePhase())."]),
-        dict(no=11, sjw=11, kind="projekt", title="Mini-Projekt Arduino + Ergebnissicherung",
+        dict(no=10, sjw=10, kind="projekt", title="Mini-Projekt Arduino + Ergebnissicherung",
              goal="Du planst und baust eine eigene kleine Schaltung (Lichtorgel, Würfel, Reaktionsspiel), dokumentierst sie und sicherst Code + Schaltplan als Backup.",
              tasks=["Projektidee wählen, Bauteile & Ablauf planen.",
                     "Schaltung in Tinkercad aufbauen und Sketch schreiben & testen.",
@@ -1382,10 +1383,10 @@ UNITS = [
                        "Ergebnissicherung = reproduzierbar abgeben: .ino + Schaltplan + Beschreibung.",
                        "Backup an zwei Orten (Rechner + Cloud/USB)."]),
       ]),
- dict(hj=1, num="04", title="Wie Computer zählen — Zahlensysteme",
+ dict(hj=1, num="03", title="Wie Computer zählen — Zahlensysteme",
       key="#ffc23d", key2="#e39a00", tint="rgba(255,194,61,0.10)",
       lps=[
-        dict(no=12, sjw=12, kind="lernpfad", title="Dual- & Dezimalsystem: Bits und Bytes",
+        dict(no=11, sjw=11, kind="lernpfad", title="Dual- & Dezimalsystem: Bits und Bytes",
              goal="Du erklärst Stellenwertsysteme, benennst Dual- und Dezimalsystem und wandelst kleine Zahlen zwischen beiden um.",
              tasks=["Das abgebildete Zahlensystem benennen (Dual- vs. Dezimalsystem).",
                     "Stellenwerte des Dualsystems (1,2,4,8,16 …) an Beispielen anwenden.",
@@ -1396,7 +1397,7 @@ UNITS = [
              solution=["Dezimalsystem = Basis 10 (Ziffern 0–9), Dualsystem = Basis 2 (0/1).",
                        "Beispiel: 1101₂ = 8+4+0+1 = 13₁₀.",
                        "8 Bit ergeben 2⁸ = 256 mögliche Werte (0–255)."]),
-        dict(no=13, sjw=13, kind="lernpfad", title="Umrechnen: Dezimal ↔ Dual ↔ Hexadezimal",
+        dict(no=12, sjw=12, kind="lernpfad", title="Umrechnen: Dezimal ↔ Dual ↔ Hexadezimal",
              goal="Du wendest Umwandlungs-Algorithmen an (Divisionsverfahren, Stellenwerte) und wechselst zwischen Dezimal-, Dual- und Hexadezimalsystem.",
              tasks=["Dezimal → Dual per fortgesetzter Division durch 2 (Rest notieren).",
                     "Dual → Hexadezimal per 4er-Gruppen (Nibble).",
@@ -1407,7 +1408,7 @@ UNITS = [
              solution=["Dezimal→Dual: fortlaufend durch 2 teilen, Reste rückwärts lesen.",
                        "Je 4 Dualstellen = 1 Hexziffer (0000=0 … 1111=F).",
                        "Beispiel: 2C₁₆ = 0010 1100₂ = 44₁₀."]),
-        dict(no=14, sjw=14, kind="lernpfad", title="Rechnen im Dualsystem & negative Zahlen",
+        dict(no=13, sjw=13, kind="lernpfad", title="Rechnen im Dualsystem & negative Zahlen",
              goal="Du addierst im Dualsystem und lernst, wie negative Zahlen im Zweierkomplement dargestellt werden.",
              tasks=["Zwei Dualzahlen schriftlich addieren (Übertrag beachten).",
                     "Zweierkomplement bilden: invertieren + 1 addieren.",
@@ -1418,21 +1419,21 @@ UNITS = [
              solution=["Dualaddition wie im Dezimalsystem, Übertrag bei 1+1=10.",
                        "Zweierkomplement: alle Bits kippen, dann +1 → das ist die negative Zahl.",
                        "So funktioniert Subtraktion als Addition — nur 0 und 1 nötig."]),
-        dict(no=15, sjw=15, kind="puffer", title="Puffer & Vertiefung: Zahlensystem-Challenge + Backup",
-             goal="Reservestunde (Puffer): Wettkampf-Aufgaben zu Zahlensystemen, Aufholen von Rückständen und gemeinsame Ergebnissicherung vor den Weihnachtsferien.",
+        dict(no=14, sjw=14, kind="lernpfad", title="Vertiefung: Zahlensystem-Challenge + Backup",
+             goal="Vertiefung: Wettkampf-Aufgaben zu Zahlensystemen, Aufholen von Rückständen und gemeinsame Ergebnissicherung vor den Weihnachtsferien.",
              tasks=["Stationen-Challenge: Umrechnen auf Zeit (dezimal/dual/hex).",
-                    "Offene Fragen aus Einheit 04 klären, Sterne aktualisieren.",
+                    "Offene Fragen aus Einheit 03 klären, Sterne aktualisieren.",
                     "HJ1-Zwischenstand sichern (alle Dateien ins Backup)."],
              tools=[],
              fast="Erstelle drei knifflige Umrechnungsaufgaben mit Lösung für die Mitschüler:innen.",
-             rlp=["RLP 2.5 · Reflektieren", "Puffer ~10 %"],
-             solution=["Diese Stunde ist bewusst als Zeitpuffer eingeplant (Sonderveranstaltung/Aufholen).",
+             rlp=["RLP 2.5 · Reflektieren"],
+             solution=["Diese Stunde vertieft die Zahlensysteme (Sonderveranstaltung/Aufholen).",
                        "Ziel: sichere Beherrschung der Umrechnungen + vollständiges Backup."]),
       ]),
- dict(hj=1, num="05", title="Von Blöcken zu Zeilen — Python-Einstieg",
+ dict(hj=1, num="04", title="Von Blöcken zu Zeilen — Python-Einstieg",
       key="#ff5db8", key2="#e0338f", tint="rgba(255,93,184,0.10)",
       lps=[
-        dict(no=16, sjw=16, kind="lernpfad", title="Warum Python? + WebTigerJython-Oberfläche",
+        dict(no=15, sjw=15, kind="lernpfad", title="Warum Python? + WebTigerJython-Oberfläche",
              goal="Du begründest, warum Python so verbreitet ist (Filmeffekte, KI, riesige Bibliotheken) und findest dich in WebTigerJython zurecht: Editor, Konsole, Zeichenfläche.",
              tasks=["Argumente für Python sammeln (z. B. Interstellar-Blackhole, KI-Systeme großer Firmen).",
                     "Bereiche von WebTigerJython zuordnen: Editor, Konsole, Zeichenfläche.",
@@ -1443,7 +1444,7 @@ UNITS = [
              solution=["Python ist einsteigerfreundlich (klare Struktur) und hat riesige Bibliotheken → schnelle Entwicklung, auch für KI.",
                        "Reihenfolge: Editor (Code), Konsole (Ausgaben/Fehler), Zeichenfläche (Turtle-Grafik).",
                        "Anders als Scratch tippt man Befehle als Text (Syntax)."]),
-        dict(no=17, sjw=17, kind="lernpfad", title="Erste Turtle-Programme: Vierecke & Dreiecke",
+        dict(no=16, sjw=16, kind="lernpfad", title="Erste Turtle-Programme: Vierecke & Dreiecke",
              goal="Du steuerst die Turtle mit <code>makeTurtle()</code>, <code>forward()</code>, <code>right()</code> und zeichnest erste geometrische Figuren.",
              tasks=["Turtle erzeugen und ein Quadrat zeichnen (4× vorwärts + 90° drehen).",
                     "Ein Dreieck zeichnen (Außenwinkel 120°) — den Winkel begründen.",
@@ -1454,7 +1455,7 @@ UNITS = [
              solution=["Quadrat: <code>repeat 4: forward(100); right(90)</code>.",
                        "Dreieck: Außenwinkel 120°, da 360°/3 = 120°.",
                        "Drehwinkel eines n-Ecks = 360° / n."]),
-        dict(no=18, sjw=18, kind="lernpfad", title="Punkte, Positionen & Farben",
+        dict(no=17, sjw=17, kind="lernpfad", title="Punkte, Positionen & Farben",
              goal="Du positionierst die Turtle mit <code>setPos()</code>, zeichnest Punkte in wählbarer Dicke (<code>dot()</code>) und setzt Farben ein.",
              tasks=["Turtle mit <code>setPos(x, y)</code> gezielt platzieren.",
                     "Punkte unterschiedlicher Dicke und Farbe setzen.",
@@ -1465,7 +1466,7 @@ UNITS = [
              solution=["<code>setPos(x,y)</code> springt zur Position, ohne zu zeichnen (Stift ggf. heben).",
                        "<code>dot(size)</code> zeichnet gefüllte Punkte; Farbe über <code>setPenColor()</code>/<code>setColor()</code>.",
                        "Der fehlerhafte Code vergisst meist <code>makeTurtle()</code> oder eine Klammer."]),
-        dict(no=19, sjw=19, kind="lernpfad", title="Halbjahres-Check: vom Block zum Syntax-Code",
+        dict(no=18, sjw=18, kind="lernpfad", title="Halbjahres-Check: vom Block zum Syntax-Code",
              goal="Du reflektierst den Übergang von blockbasiert zu textbasiert, sicherst deine HJ1-Ergebnisse und bereitest den Grafik-Schwerpunkt in HJ2 vor.",
              tasks=["Ein Scratch-Konzept (Schleife) in Python-Syntax übersetzen.",
                     "Selbsteinschätzung aller HJ1-Lernpfade aktualisieren.",
@@ -1478,10 +1479,10 @@ UNITS = [
                        "Vollständiges HJ1-Backup ist Voraussetzung für HJ2."]),
       ]),
  # =================== HALBJAHR 2 ===================
- dict(hj=2, num="06", title="Computergrafik mit Python (WebTigerJython)",
+ dict(hj=2, num="05", title="Computergrafik mit Python (WebTigerJython)",
       key="#35e0ff", key2="#0bb7e0", tint="rgba(53,224,255,0.09)",
       lps=[
-        dict(no=20, sjw=20, kind="lernpfad", title="Flaggen zeichnen: Rechtecke & Füllfarben",
+        dict(no=19, sjw=19, kind="lernpfad", title="Flaggen zeichnen: Rechtecke & Füllfarben",
              goal="Du strukturierst ein Python-Programm sauber und zeichnest Länderflaggen aus gefüllten Rechtecken.",
              tasks=["Ein Rechteck als Funktion/Baustein zeichnen und füllen.",
                     "Eine drei­streifige Flagge (z. B. Frankreich/Deutschland) programmieren.",
@@ -1492,7 +1493,7 @@ UNITS = [
              solution=["Wiederkehrende Formen in Funktionen kapseln (z. B. <code>def balken(...)</code>).",
                        "Füllen mit <code>startPath()/fill()</code> bzw. <code>fillToPoint()</code>.",
                        "Variablen für Farbe/Breite machen die Flagge anpassbar."]),
-        dict(no=21, sjw=21, kind="lernpfad", title="For-Schleifen I: Muster mit Zähler",
+        dict(no=20, sjw=20, kind="lernpfad", title="For-Schleifen I: Muster mit Zähler",
              goal="Du nutzt <code>for</code>-Schleifen mit <code>range()</code>, um Muster, Treppen und Sternenreihen effizient zu zeichnen.",
              tasks=["<code>for i in range(n)</code> verstehen (Zähler, Start/Ende/Schritt).",
                     "Eine Treppe aus n Stufen zeichnen.",
@@ -1503,7 +1504,7 @@ UNITS = [
              solution=["<code>range(n)</code> liefert 0,1,…,n−1; die Schleifenvariable zählt mit.",
                        "Treppe: pro Durchlauf ein Schritt nach rechts + nach oben.",
                        "Schleifen sparen Wiederholung und machen Code kurz & lesbar."]),
-        dict(no=22, sjw=22, kind="lernpfad", title="For-Schleifen II: verschachtelte Schleifen",
+        dict(no=21, sjw=21, kind="lernpfad", title="For-Schleifen II: verschachtelte Schleifen",
              goal="Du verschachtelst Schleifen (Schleife in Schleife) und erzeugst Raster, Kacheln und Mandalas.",
              tasks=["Ein n×n-Punkteraster mit zwei geschachtelten Schleifen zeichnen.",
                     "Ein Mandala aus rotierten Figuren (z. B. 12× ein Quadrat, je 30° gedreht) erstellen.",
@@ -1514,7 +1515,7 @@ UNITS = [
              solution=["Äußere Schleife = Zeilen, innere = Spalten (bzw. Rotation).",
                        "Mandala: <code>for k in range(12): quadrat(); right(30)</code>.",
                        "Die innere Schleife läuft bei jedem äußeren Durchlauf komplett durch."]),
-        dict(no=23, sjw=23, kind="lernpfad", title="While-Schleifen & Bedingungen",
+        dict(no=22, sjw=22, kind="lernpfad", title="While-Schleifen & Bedingungen",
              goal="Du unterscheidest <code>for</code> und <code>while</code> und wiederholst Code, bis eine Bedingung erfüllt ist.",
              tasks=["Eine <code>while</code>-Schleife mit Abbruchbedingung schreiben.",
                     "Eine Spirale zeichnen, die wächst, bis sie den Rand erreicht.",
@@ -1525,7 +1526,7 @@ UNITS = [
              solution=["<code>for</code> = feste Anzahl; <code>while</code> = solange Bedingung wahr ist.",
                        "Spirale: Länge in jedem Schritt erhöhen, Abbruch bei Grenze.",
                        "Ohne veränderliche Bedingung → Endlosschleife (vermeiden)."]),
-        dict(no=24, sjw=24, kind="lernpfad", title="Raster- vs. Vektorgrafik: Pixel oder Formel?",
+        dict(no=23, sjw=23, kind="lernpfad", title="Raster- vs. Vektorgrafik: Pixel oder Formel?",
              goal="Du unterscheidest Raster- und Vektorgrafik, erklärst Vor-/Nachteile und ordnest Dateiformate zu. (Kurzwoche: Frauentag)",
              tasks=["Rastergrafik (Pixel) vs. Vektorgrafik (Formen/Formeln) gegenüberstellen.",
                     "Zoom-Test: Warum werden Fotos pixelig, Vektoren aber nicht?",
@@ -1536,7 +1537,7 @@ UNITS = [
              solution=["Rastergrafik = Gitter aus Pixeln (auflösungsabhängig, wird beim Zoom pixelig).",
                        "Vektorgrafik = mathematische Formen (verlustfrei skalierbar).",
                        "JPG/PNG = Raster, SVG = Vektor."]),
-        dict(no=25, sjw=25, kind="projekt", title="Grafik-Projekt + Ergebnissicherung",
+        dict(no=24, sjw=24, kind="projekt", title="Grafik-Projekt + Ergebnissicherung",
              goal="Du planst und programmierst eine eigene Computergrafik (Landschaft, Muster, Logo), dokumentierst deinen Code und sicherst das Ergebnis.",
              tasks=["Motiv wählen und in Bausteine (Funktionen) zerlegen.",
                     "Mit Schleifen & Variablen umsetzen, Code kommentieren.",
@@ -1548,10 +1549,10 @@ UNITS = [
                        "Ergebnissicherung reproduzierbar: .py + Bild + Beschreibung.",
                        "Backup an zwei Orten."]),
       ]),
- dict(hj=2, num="07", title="Datensicherheit & Kryptographie",
+ dict(hj=2, num="06", title="Datensicherheit & Kryptographie",
       key="#ff5d6c", key2="#e0333f", tint="rgba(255,93,108,0.10)",
       lps=[
-        dict(no=26, sjw=26, kind="lernpfad", title="Passwörter & Kontosicherheit",
+        dict(no=25, sjw=25, kind="lernpfad", title="Passwörter & Kontosicherheit",
              goal="Du erklärst, was ein starkes Passwort ausmacht, warum jedes Konto ein eigenes braucht und wie Passwortmanager und Zwei-Faktor-Authentisierung schützen.",
              tasks=["Merkmale starker Passwörter (Länge, Zufälligkeit, Einzigartigkeit) sammeln.",
                     "Passwortstärke schätzen: warum Länge wichtiger ist als Sonderzeichen-Chaos.",
@@ -1562,7 +1563,7 @@ UNITS = [
              solution=["Stark = lang, zufällig, für jedes Konto einzigartig.",
                        "Länge schlägt Komplexität: mehr Zeichen = exponentiell mehr Möglichkeiten.",
                        "Passwortmanager erzeugt/merkt sichere Passwörter; 2FA ergänzt „Wissen“ um „Besitz“."]),
-        dict(no=27, sjw=27, kind="lernpfad", title="Verschlüsselung verstehen: Cäsar & Substitution",
+        dict(no=26, sjw=26, kind="lernpfad", title="Verschlüsselung verstehen: Cäsar & Substitution",
              goal="Du ver- und entschlüsselst mit der Cäsar-Verschiebung und einer Substitutionschiffre und erkennst deren Schwächen (Häufigkeitsanalyse).",
              tasks=["Nachrichten mit Cäsar-Verschiebung (Schlüssel = Verschiebung) codieren.",
                     "Eine fremde Nachricht ohne Schlüssel knacken (Häufigkeitsanalyse).",
@@ -1573,7 +1574,7 @@ UNITS = [
              solution=["Cäsar verschiebt jeden Buchstaben um k Stellen im Alphabet.",
                        "Schwäche: nur 25 Schlüssel bzw. Buchstabenhäufigkeit verrät die Zuordnung (e/n häufig).",
                        "Sicherheit darf nicht auf Geheimhaltung des Verfahrens beruhen (Kerckhoffs)."]),
-        dict(no=28, sjw=28, kind="lernpfad", title="Symmetrisch vs. asymmetrisch: der Schlüsseltausch",
+        dict(no=27, sjw=27, kind="lernpfad", title="Symmetrisch vs. asymmetrisch: der Schlüsseltausch",
              goal="Du unterscheidest symmetrische und asymmetrische Verschlüsselung und erklärst das Prinzip von öffentlichem und privatem Schlüssel.",
              tasks=["Symmetrisch (ein geheimer Schlüssel) vs. asymmetrisch (Schlüsselpaar) gegenüberstellen.",
                     "Das Schlüsseltausch-Problem beschreiben und mit dem „Vorhängeschloss“ lösen.",
@@ -1584,7 +1585,7 @@ UNITS = [
              solution=["Symmetrisch: gleicher Schlüssel zum Ver-/Entschlüsseln (schnell, aber Austauschproblem).",
                        "Asymmetrisch: öffentlicher Schlüssel verschlüsselt, privater entschlüsselt.",
                        "HTTPS-Schloss = verschlüsselte, authentisierte Verbindung."]),
-        dict(no=29, sjw=29, kind="lernpfad", title="Hashing & Integrität: der Fingerabdruck von Daten",
+        dict(no=28, sjw=28, kind="lernpfad", title="Hashing & Integrität: der Fingerabdruck von Daten",
              goal="Du erklärst, was eine Hashfunktion ist, wozu Hashes dienen (Integrität, Passwortspeicherung) und warum Hashing keine Verschlüsselung ist.",
              tasks=["Eigenschaften einer Hashfunktion (Einweg, fixe Länge, Lawineneffekt) sammeln.",
                     "Kleine Änderung → völlig anderer Hash: an einem Beispiel zeigen.",
@@ -1595,7 +1596,7 @@ UNITS = [
              solution=["Hash = Einwegfunktion: aus Daten ein fixer „Fingerabdruck“, nicht umkehrbar.",
                        "Integrität: gleicher Hash ⇒ Datei unverändert.",
                        "Keine Verschlüsselung, da man den Ursprung nicht zurückrechnen kann."]),
-        dict(no=30, sjw=30, kind="lernpfad", title="Datenschutz im Alltag: Metadaten & Grundrechte",
+        dict(no=29, sjw=29, kind="lernpfad", title="Datenschutz im Alltag: Metadaten & Grundrechte",
              goal="Du erkennst, welche Daten du täglich hinterlässt (Metadaten), kennst Grundideen der DSGVO und triffst bewusste Entscheidungen zur sicheren Kommunikation. (Kurzwoche: Himmelfahrt/Brückentag)",
              tasks=["Metadaten aufspüren (Foto-Standort, Zeitstempel, Absender).",
                     "DSGVO-Grundrechte nennen (Auskunft, Löschung, Datensparsamkeit).",
@@ -1607,10 +1608,10 @@ UNITS = [
                        "DSGVO: Datensparsamkeit, Zweckbindung, Recht auf Auskunft/Löschung.",
                        "Ende-zu-Ende-Verschlüsselung schützt Inhalte auch vor dem Anbieter."]),
       ]),
- dict(hj=2, num="08", title="Eigene Software — Vibe-Coding & Hosting",
+ dict(hj=2, num="07", title="Eigene Software — Vibe-Coding & Hosting",
       key="#34ff9e", key2="#12c47a", tint="rgba(52,255,158,0.09)",
       lps=[
-        dict(no=31, sjw=31, kind="lernpfad", title="Vibe-Coding verstehen: präzises Prompting",
+        dict(no=30, sjw=30, kind="lernpfad", title="Vibe-Coding verstehen: präzises Prompting",
              goal="Du verstehst „Vibe-Coding“ (Code per KI-Prompt statt selbst tippen) und lernst, was einen starken Prompt ausmacht: Format · Funktion · Design · Technik · Kontext.",
              tasks=["Prompt-Anatomie an einem Beispiel (Pomodoro-Timer) analysieren.",
                     "Referenz-Tools ansehen: Verb-Trainer und chemical_communication_trainer.",
@@ -1621,7 +1622,7 @@ UNITS = [
              solution=["Vibe-Coding: eine KI (Claude/ChatGPT/Gemini) schreibt den Code, die Qualität hängt vom Prompt ab.",
                        "Starker Prompt = Format (standalone .html) + Funktion + Design + Technik + Kontext.",
                        "Je präziser die Anweisung, desto brauchbarer das Ergebnis."]),
-        dict(no=32, sjw=32, kind="lernpfad", title="Themenwahl & KI-Recherche: Kurzvortrag ODER App",
+        dict(no=31, sjw=31, kind="lernpfad", title="Themenwahl & KI-Recherche: Kurzvortrag ODER App",
              goal="Du wählst dein Projekt: (a) einen Kurzvortrag mit Schwerpunkt KI-Recherche und Produkterstellung durch präzises Prompting ODER (b) eine eigene .html-Anwendung. (Kurzwoche: Pfingsten)",
              tasks=["Anwendungsfall/Thema festlegen und eingrenzen.",
                     "Für (a): mit KI recherchieren und ein Produkt/Ergebnis präzise erzeugen.",
@@ -1632,7 +1633,7 @@ UNITS = [
              solution=["Gute Themen sind klein & klar abgegrenzt (eine Aufgabe, ein Bildschirm).",
                        "Kurzvortrag = KI-Recherche + präzise Produkterstellung; App = eigenes .html.",
                        "Kriterien für die Präsentation frühzeitig anschauen."]),
-        dict(no=33, sjw=33, kind="lernpfad", title="Prototyp bauen mit jsfiddle.net",
+        dict(no=32, sjw=32, kind="lernpfad", title="Prototyp bauen mit jsfiddle.net",
              goal="Du erzeugst mit einer KI eine einseitige HTML-Anwendung, testest sie in jsfiddle.net und verbesserst sie iterativ.",
              tasks=["KI-generierten HTML-Code (von <code>&lt;!DOCTYPE html&gt;</code> bis <code>&lt;/html&gt;</code>) in jsfiddle einfügen.",
                     "Testen, Fehler zurück an die KI melden, gezielt nachbessern.",
@@ -1643,7 +1644,7 @@ UNITS = [
              solution=["jsfiddle zeigt HTML/CSS/JS live — ideal zum schnellen Testen.",
                        "Iteration: testen → Fehler beschreiben → KI nachbessern lassen.",
                        "Funktioniert es lokal/hier, läuft es später auch auf GitHub."]),
-        dict(no=34, sjw=34, kind="lernpfad", title="Auf GitHub veröffentlichen (GitHub Pages)",
+        dict(no=33, sjw=33, kind="lernpfad", title="Auf GitHub veröffentlichen (GitHub Pages)",
              goal="Du legst einen GitHub-Account und ein Repository an, aktivierst GitHub Pages und teilst deine .html-Anwendung über eine öffentliche URL — komplett im Browser.",
              tasks=["Account anlegen, Repository <code>vibe-apps</code> (Public) mit README erstellen.",
                     "GitHub Pages aktivieren: Settings → Pages → Branch <code>main</code>, Ordner <code>/ (root)</code>.",
@@ -1654,7 +1655,7 @@ UNITS = [
              solution=["URL-Schema: <code>https://&lt;username&gt;.github.io/vibe-apps/deine-datei.html</code>.",
                        "GitHub Pages hostet statische Dateien kostenlos (1–2 Min. bis live).",
                        "Public-Repo nötig, damit andere die Seite öffnen können."]),
-        dict(no=35, sjw=35, kind="lernpfad", title="Die eigene Implementierung verstehen (Folien + Sprechtext)",
+        dict(no=34, sjw=34, kind="lernpfad", title="Die eigene Implementierung verstehen (Folien + Sprechtext)",
              goal="Du untersuchst die für dich interessanteste Stelle im KI-geschriebenen Code deiner App und erstellst dazu eine ca. 5–6-seitige Präsentation mit Sprechtexten — nach dem Vorbild „Das VSEPR-Modell im Code“.",
              tasks=["Eine interessante Implementierung im Code auswählen (Algorithmus/Trick).",
                     "Analyse-Prompt nutzen: „Erstelle eine ca. 5–6-seitige Präsentation zur .html-Syntax und algorithmischen Struktur von … im … (Dateiname). Formuliere zu jeder Folie Sprechtexte.“",
@@ -1665,7 +1666,7 @@ UNITS = [
              solution=["Ziel: nicht alles, sondern EINE Stelle wirklich verstehen und erklären können.",
                        "Beispiel VSEPR: Datenmodell → atan2-Winkel → Repulsions-Relaxation (1/d²) → drawLP.",
                        "Sprechtext pro Folie ca. 45–75 s; Folienzahl ~5–6."]),
-        dict(no=36, sjw=36, kind="lernpfad", title="Präsentationen: Kurzvorträge nach Kriterien",
+        dict(no=35, sjw=35, kind="lernpfad", title="Präsentationen: Kurzvorträge nach Kriterien",
              goal="Du präsentierst dein Projekt (Kurzvortrag oder App-Analyse) nach den vereinbarten Kriterien und gibst/erhältst konstruktives Feedback.",
              tasks=["Vortrag nach Kriterien halten (Inhalt, Struktur, Fachsprache, Medien, Zeit).",
                     "Peer-Feedback mit klaren Kriterien geben.",
@@ -1676,7 +1677,7 @@ UNITS = [
              solution=["Kriterien z. B.: fachliche Richtigkeit, roter Faden, Fachsprache, Medieneinsatz, Zeit.",
                        "Feedback: konkret, wertschätzend, umsetzbar.",
                        "Nach der Runde: gezielt überarbeiten, dann abgeben."]),
-        dict(no=37, sjw=37, kind="projekt", title="Abgabe, Backup & Ausblick",
+        dict(no=36, sjw=36, kind="projekt", title="Abgabe, Backup & Ausblick",
              goal="Du gibst alle Ergebnisse sinnvoll und einfach wiederverwendbar ab, sicherst finale Backups und blickst auf Informatik in Klasse 10.",
              tasks=["Alle Ergebnisse gebündelt & benannt abgeben (App-Link, Folien, Sprechtexte, Code).",
                     "Finale Backups an zwei Orten prüfen (Rechner + Cloud/USB).",
@@ -1698,7 +1699,7 @@ def lp_filename(no):
     return "lernpfade/%s.html" % slug(no)
 
 def kind_badge(kind):
-    return {"lernpfad":"Lernpfad","projekt":"Projekt","puffer":"Puffer"}.get(kind,"Lernpfad")
+    return {"lernpfad":"Lernpfad","projekt":"Projekt"}.get(kind,"Lernpfad")
 
 def unlock_iso(sjw):
     # Lösung wird am Freitag der jeweiligen Schuljahreswoche freigeschaltet
@@ -1770,26 +1771,14 @@ def render_semester(hj):
     title = ("Boot — von Blöcken zu Bytes" if hj == 1
              else "Runtime — Python, Krypto & eigene Software")
     body_units = "".join(render_unit(u) for u in units)
-    if hj == 1:
-        pause = ('<div class="holiday"><b>// Unterrichtspausen im 1. Halbjahr:</b><br>'
-                 'Herbstferien 19.10.–31.10.2026 · Weihnachtsferien ab 23.12.2026 (Wiederbeginn 04.01.2027)<br>'
-                 'Kurzwochen je nach Kurstag beachten</div>')
-    else:
-        pause = ('<div class="holiday"><b>// Unterrichtspausen im 2. Halbjahr:</b><br>'
-                 'Winterferien 01.02.–06.02.2027 · Frauentag (Mo 08.03.) · Osterferien 22.03.–02.04.2027<br>'
-                 'Christi Himmelfahrt (Do 06.05.) + Brückentag (Fr 07.05.) · Pfingstmontag (Mo 17.05.) + frei (Di 18.05.)<br>'
-                 'Schuljahresende vor den Sommerferien ab 01.07.2027</div>')
-    buf = ('<div class="buffer"><b>// Zeitpuffer ~10&nbsp;%%:</b> Reserve- und Projektstunden (z. B. LP&nbsp;%s) '
-           'sowie ferien-/feiertagsbedingte Kurzwochen federn Sonderveranstaltungen, Exkursionen und '
-           'Aufholbedarf ab.</div>') % ("15 · 19" if hj == 1 else "25 · 30 · 32")
     return ('<section class="sem-content%s" id="hj%d-content">\n'
             '  <div class="%s">\n'
             '    <div class="sem-badge">HJ%d</div>\n'
             '    <div><h2>%s</h2><p class="period">%d Lernpfade · %s – %s</p></div>\n'
-            '  </div>\n%s%s\n%s\n'
+            '  </div>\n%s\n'
             '</section>\n') % (
         (" active" if hj == 1 else ""), hj, badge_cls, hj, esc(title),
-        len(lps), de(d1), de(d2), body_units, pause, buf)
+        len(lps), de(d1), de(d2), body_units)
 
 # ---------------------------------------------------------------- index.html
 def build_index():
@@ -1802,7 +1791,7 @@ def build_index():
   </div>
   <div class="wrap">
     <div class="hero-meta">
-      <span>PROFIL INFORMATIK · KLASSE 9 · 14–15 J.</span>
+      <span>PROFIL INFORMATIK · KLASSE 9</span>
       <span>BERLIN · SJ 2026/27 · <span class="on">SYS.UPTIME</span> <span id="sysclock">--:--:--</span></span>
     </div>
     <span class="hero-eyebrow"><span class="dot"></span> Profilkurs Informatik · 1 Std/Woche · 37 Lernpfade</span>
@@ -1840,7 +1829,6 @@ def build_index():
       <span class="lg-title">// Legende</span>
       <span class="lg-item"><span class="lp-badge" style="--key:#35e0ff;background:#35e0ff;color:#05070e">Lernpfad</span> reguläre Stunde</span>
       <span class="lg-item"><span class="lp-badge" style="background:#34ff9e;color:#05070e">Projekt</span> Projekt &amp; Ergebnissicherung</span>
-      <span class="lg-item"><span class="lp-badge" style="background:#a56bff;color:#05070e">Puffer</span> Reserve (~10 %)</span>
       <span class="lg-item">🔒 Lösung gesperrt · 🔓 freigeschaltet</span>
       <span class="lg-item"><span class="tag rlp">RLP</span> Bezug zum Rahmenlehrplan</span>
       <span class="lg-item"><span class="tag neu">neu</span> neu für diesen Kurs</span>
@@ -1872,12 +1860,30 @@ def build_index():
 </section>
 '''.replace("{tot}", str(TOTAL_LP)).replace("{n1}", str(len(lp1))).replace("{n2}", str(len(lp2)))
 
+    classroom = '''
+<section class="section classroom">
+  <div class="wrap">
+    <h2>Material im Google Classroom</h2>
+    <p class="sub">// Aufgaben, Dateien &amp; Ankündigungen zu deinem Kurs</p>
+    <div class="classroom-grid">
+      <a class="classroom-tile" href="https://classroom.google.com/u/0/c/ODcxNDA2NjU5MTcy" target="_blank" rel="noopener">
+        <span class="ct-id">KURS InP2</span>
+        <span class="ct-title">Zum Google Classroom <span class="ex">↗</span></span>
+      </a>
+      <a class="classroom-tile" href="https://classroom.google.com/u/0/c/ODcxNDA1MTA1NTY2" target="_blank" rel="noopener">
+        <span class="ct-id">KURS InP4</span>
+        <span class="ct-title">Zum Google Classroom <span class="ex">↗</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+'''
     footer = '''
 <footer>
   <div class="foot-inner">
     <div>
       <b class="h">PROFIL INFORMATIK · KLASSE 9</b><br>
-      Profilkurs · 14–15 Jahre · Schuljahr 2026/27<br>
+      Profilkurs · Schuljahr 2026/27<br>
       Berlin · 1 Std/Woche · 37 Lernpfade
     </div>
     <div>
@@ -1888,7 +1894,7 @@ def build_index():
     <div>
       Aufbau:<br>
       2 Halbjahre · 8 Einheiten · Übersicht + Übungs-Archiv<br>
-      Lösungen mit zeitlicher Freischaltung · ~10 % Puffer
+      Lösungen mit zeitlicher Freischaltung
     </div>
   </div>
 </footer>
@@ -1900,6 +1906,7 @@ def build_index():
         + FONTS + '\n<style>\n' + THEME_CSS + '\n</style>\n</head>\n<body>\n'
         + hero + why + guide + selector
         + render_semester(1) + render_semester(2)
+        + classroom
         + footer
         + '\n<script>\n' + THEME_JS + '\n</script>\n</body>\n</html>\n'
     )
@@ -2048,4 +2055,4 @@ for u in UNITS:
 print("OK — index.html erstellt.")
 print("OK — %d Lernpfad-Seiten in lernpfade/ erstellt." % count)
 print("Gesamt Lernpfade laut Daten:", TOTAL_LP)
-print("HJ1 SJW1 Freischaltung:", unlock_iso(1), "| HJ2 letzte:", unlock_iso(37))
+print("HJ1 SJW0 Freischaltung:", unlock_iso(0), "| HJ2 letzte:", unlock_iso(36))

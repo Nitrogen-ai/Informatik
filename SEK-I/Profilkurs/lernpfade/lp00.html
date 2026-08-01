@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LP37 · Abgabe, Backup &amp; Ausblick</title>
+<title>LP00 · Boot-Sequenz: Kurslandkarte &amp; digitale Werkzeugkiste</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
@@ -171,6 +171,23 @@ h1.hero-title .v{color:var(--violet);text-shadow:0 0 26px rgba(165,107,255,.45)}
 .st-meta{font-family:'JetBrains Mono',monospace;font-size:.72rem;display:flex;justify-content:space-between;
   border-top:1px solid var(--line);padding-top:.8rem;color:var(--dim)}
 
+/* ===== CLASSROOM ===== */
+.classroom-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.3rem;max-width:920px;margin:0 auto}
+@media(max-width:640px){.classroom-grid{grid-template-columns:1fr}}
+.classroom-tile{display:flex;flex-direction:column;gap:.7rem;text-decoration:none;color:var(--ink);
+  cursor:pointer;border:1px solid var(--line);border-radius:18px;padding:1.9rem 1.7rem;
+  position:relative;overflow:hidden;background:var(--panel);transition:.25s}
+.classroom-tile::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 80% 0%,rgba(53,224,255,.16),transparent 55%);opacity:.9}
+.classroom-tile:hover{transform:translateY(-4px);border-color:rgba(53,224,255,.45);
+  box-shadow:0 16px 44px rgba(0,0,0,.45)}
+.classroom-tile>*{position:relative;z-index:1}
+.ct-id{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.72rem;
+  letter-spacing:.18em;color:var(--cyan)}
+.ct-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.3rem;
+  display:flex;align-items:center;gap:.5rem}
+.ct-title .ex{opacity:.5;font-family:inherit;font-weight:600}
+
 /* ===== SEMESTER CONTENT ===== */
 .sem-content{padding:1rem 6vw 5rem;max-width:1260px;margin:0 auto;display:none}
 .sem-content.active{display:block;animation:slideIn .5s ease}
@@ -246,16 +263,6 @@ h1.hero-title .v{color:var(--violet);text-shadow:0 0 26px rgba(165,107,255,.45)}
 .sc-star.on{color:var(--cyan);filter:drop-shadow(0 0 6px var(--cyan))}
 .sc-feedback{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.82rem;color:var(--matrix);opacity:0;transition:opacity .2s}
 .sc-feedback.show{opacity:1}
-
-/* Ferien / Puffer Hinweise */
-.holiday{margin-top:1.6rem;background:var(--panel);border:1px solid var(--line);
-  border-left:4px solid var(--red);border-radius:12px;padding:1rem 1.2rem;
-  font-family:'JetBrains Mono',monospace;font-size:.74rem;line-height:1.8;color:var(--ink-soft)}
-.holiday b{color:var(--red);letter-spacing:.05em}
-.buffer{margin-top:1rem;background:var(--panel);border:1px solid var(--line);
-  border-left:4px solid var(--violet);border-radius:12px;padding:1rem 1.2rem;
-  font-family:'JetBrains Mono',monospace;font-size:.74rem;line-height:1.8;color:var(--ink-soft)}
-.buffer b{color:var(--violet);letter-spacing:.05em}
 
 /* ===== FOOTER ===== */
 footer{background:#04060c;border-top:1px solid var(--line);padding:3rem 6vw 2.4rem}
@@ -364,22 +371,23 @@ footer{background:#04060c;border-top:1px solid var(--line);padding:3rem 6vw 2.4r
 
 </style>
 </head>
-<body style="--key:#34ff9e;--key-2:#12c47a;--tint:rgba(52,255,158,0.09);">
+<body style="--key:#35e0ff;--key-2:#0bb7e0;--tint:rgba(53,224,255,0.09);">
 <canvas id="matrix-canvas"></canvas>
 <div class="lp-page">
-  <a class="back" href="../index.html#hj2-content">← zur Kursübersicht</a>
+  <a class="back" href="../index.html#hj1-content">← zur Kursübersicht</a>
   <div class="lp-hero">
-    <div class="lp-meta"><span>Einheit 08 · Eigene Software — Vibe-Coding &amp; Hosting</span><span>SJW 37 · 21.06.2027</span><span>Projekt</span></div>
-    <h1>Abgabe, Backup &amp; Ausblick</h1>
-    <div class="lp-big">37</div>
+    <div class="lp-meta"><span>Einheit 00 · Systemstart — Was ist Informatik?</span><span>SJW 0 · 24.08.2026</span><span>Lernpfad</span></div>
+    <h1>Boot-Sequenz: Kurslandkarte &amp; digitale Werkzeugkiste</h1>
+    <div class="lp-big">00</div>
   </div>
-  <section class="lp-sec"><h2>Das lernst du</h2><p>Du gibst alle Ergebnisse sinnvoll und einfach wiederverwendbar ab, sicherst finale Backups und blickst auf Informatik in Klasse 10.</p><div data-selfcheck="lp37"></div></section>
-  <section class="lp-sec"><h2>Aufgaben</h2><ul class="task-list"><li>Alle Ergebnisse gebündelt & benannt abgeben (App-Link, Folien, Sprechtexte, Code).</li><li>Finale Backups an zwei Orten prüfen (Rechner + Cloud/USB).</li><li>Jahresrückblick: Was kann ich jetzt? Ausblick auf Klasse 10.</li></ul></section>
-  <section class="lp-sec"><h2>Werkzeuge</h2><div class="tool-list"><a class="tool" href="https://github.com/" target="_blank" rel="noopener">GitHub <span class="ex">↗</span></a></div></section>
-  <section class="lp-sec"><div class="fast-box"><span class="fb-t">⚡ Schnellläufer:in</span>Schreibe deinem „Ich zu Schuljahresbeginn“ einen kurzen Brief: Was kannst du jetzt, was vorher nicht?</div></section>
+  <section class="lp-sec"><h2>Das lernst du</h2><p>Du verschaffst dir einen Überblick über das Kursjahr, richtest Konto & Ordnerstruktur ein und lernst die Regeln zur Ergebnissicherung (Backups) kennen.</p><div data-selfcheck="lp00"></div></section>
+  
+  <section class="lp-sec"><h2>Aufgaben</h2><ul class="task-list"><li>Diese Kursseite als Landkarte erkunden: Halbjahre, Einheiten, Lernpfade, Sterne, Schlösser.</li><li>Persönliche Ordnerstruktur anlegen: <code>Informatik/HJ1</code>, <code>HJ2</code>, <code>_backups</code>.</li><li>Backup-Regel notieren: „Am Stundenende alles sichern — lokal UND in der Cloud/USB.“</li></ul></section>
+  <section class="lp-sec"><h2>Wissens-Check</h2><div class="qz-wrap" data-qz><div class="qz-progress"><span class="qz-count">0 / 4 richtig</span><span class="qz-bar"><span class="qz-fill"></span></span></div><div class="qz-item"><div class="qz-text"><span class="qn">1.</span>Wie lautet die Backup-Regel für diesen Kurs?</div><div class="qz-opts"><button class="qz-opt" data-correct="true">Am Stundenende alles sichern — lokal UND in der Cloud/USB.</button><button class="qz-opt" data-hint="Das wäre zu selten — Ergebnisse sollen nach jeder Stunde gesichert sein.">Nur am Ende des Halbjahres sichern.</button><button class="qz-opt" data-hint="Ohne eine zweite Kopie in der Cloud/USB ist ein Rechnerausfall riskant.">Nur lokal auf dem Rechner sichern.</button><button class="qz-opt" data-hint="Ergebnissicherung ist ausdrücklich Teil jeder Stunde — Backups sind nötig.">Backups sind bei diesem Kurs nicht nötig.</button></div><div class="qz-hint"></div><div class="qz-done">Richtig — zwei Orte, jede Stunde.</div></div><div class="qz-item"><div class="qz-text"><span class="qn">2.</span>Wie viele Lernpfade umfasst der gesamte Kurs?</div><div class="qz-opts"><button class="qz-opt" data-correct="true">37</button><button class="qz-opt" data-hint="Das wären nur gut zwei Monate — der Kurs läuft über das ganze Schuljahr.">12</button><button class="qz-opt" data-hint="Es sind mehr — der Kurs deckt beide Halbjahre komplett ab.">20</button><button class="qz-opt" data-hint="So viele Schulwochen hat kein Schuljahr — Ferien und Feiertage fehlen dann.">52</button></div><div class="qz-hint"></div><div class="qz-done">Richtig — 37 Lernpfade über beide Halbjahre.</div></div><div class="qz-item"><div class="qz-text"><span class="qn">3.</span>Wann wird die Musterlösung eines Lernpfads freigeschaltet?</div><div class="qz-opts"><button class="qz-opt" data-correct="true">Automatisch zu einem festgelegten Datum.</button><button class="qz-opt" data-hint="Die Seite prüft ein festgelegtes Datum, nicht den ersten Seitenaufruf.">Sofort beim ersten Öffnen der Seite.</button><button class="qz-opt" data-hint="Jede Lösung schaltet sich irgendwann frei — sie bleibt nicht für immer verborgen.">Nie, sie bleibt dauerhaft verborgen.</button><button class="qz-opt" data-hint="Es ist keine Anfrage nötig — die Seite schaltet automatisch frei.">Nur auf Anfrage per E-Mail.</button></div><div class="qz-hint"></div><div class="qz-done">Genau — automatisch zu einem festen Datum.</div></div><div class="qz-item"><div class="qz-text"><span class="qn">4.</span>Wozu dienen die Sterne auf der Kursseite?</div><div class="qz-opts"><button class="qz-opt" data-correct="true">Für die eigene Selbsteinschätzung, wie sicher du dich fühlst.</button><button class="qz-opt" data-hint="Die Sterne werden nur lokal bei dir gespeichert, nicht an die Lehrkraft übertragen.">Für die Bewertung durch die Lehrkraft.</button><button class="qz-opt" data-hint="Sie speichern tatsächlich deinen Stand — keine reine Dekoration.">Als Deko ohne Funktion.</button><button class="qz-opt" data-hint="Das Freischalten der Lösung hängt vom Datum ab, nicht von den Sternen.">Um Lernpfade freizuschalten.</button></div><div class="qz-hint"></div><div class="qz-done">Stimmt — reine Selbsteinschätzung, lokal gespeichert.</div></div><div class="qz-solved">✔ Stark — Wissens-Check komplett gelöst!</div></div></section>
+  <section class="lp-sec"><div class="fast-box"><span class="fb-t">⚡ Schnellläufer:in</span>Ausblick auf euer erstes Makey-Makey-Projekt (LP04): Recherchiere im Internet drei kreative Makey-Makey-Projekte und halte Titel, Link und eine Kurznotiz (Was macht das Projekt besonders?) zu jedem Projekt in einer Datei in deiner heutigen Ordnerstruktur fest.</div></section>
   <section class="lp-sec"><div class="backup-box"><span class="bb-t">💾 Ergebnissicherung</span>Sichere deine Ergebnisse am Stundenende <b>einfach wiederverwendbar</b> (sinnvoll benannt) an <b>zwei Orten</b> — Rechner und Cloud/USB. Achte selbstständig auf Backups.</div></section>
-  <section class="sol" id="loesung" data-unlock="2027-06-25"><h2>Musterlösung <span class="sol-status">…</span></h2><p class="sol-countdown"></p><div class="sol-body" hidden><ul class="sol-list"><li>„Sinnvoll abgeben“ = benannt, gebündelt, mit funktionierendem Link — von anderen nutzbar.</li><li>Ergebnissicherung ist selbstständig zu gewährleisten (zwei Backup-Orte).</li><li>Ausblick: vertiefte Programmierung, Daten & Projekte in Klasse 10.</li></ul></div><p class="sol-hint">Die Lösung wird automatisch zum angegebenen Datum sichtbar — die Seite prüft das bei jedem Laden.</p></section>
-  <a class="back" href="../index.html#hj2-content" style="margin-top:1.6rem">← zurück zur Kursübersicht</a>
+  <section class="sol" id="loesung" data-unlock="2026-08-28"><h2>Musterlösung <span class="sol-status">…</span></h2><p class="sol-countdown"></p><div class="sol-body" hidden><ul class="sol-list"><li>Ordnerstruktur steht, Backup-Regel im Heft.</li><li>Kurslandkarte verstanden: 4 Reihen a–d, 37 Lernpfade, Lösungen schalten sich datumsweise frei.</li></ul></div><p class="sol-hint">Die Lösung wird automatisch zum angegebenen Datum sichtbar — die Seite prüft das bei jedem Laden.</p></section>
+  <a class="back" href="../index.html#hj1-content" style="margin-top:1.6rem">← zurück zur Kursübersicht</a>
 </div>
 <script>
 /* ============================================================

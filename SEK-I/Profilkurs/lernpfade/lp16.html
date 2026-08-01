@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LP16 · Warum Python? + WebTigerJython-Oberfläche</title>
+<title>LP16 · Erste Turtle-Programme: Vierecke &amp; Dreiecke</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
@@ -171,6 +171,23 @@ h1.hero-title .v{color:var(--violet);text-shadow:0 0 26px rgba(165,107,255,.45)}
 .st-meta{font-family:'JetBrains Mono',monospace;font-size:.72rem;display:flex;justify-content:space-between;
   border-top:1px solid var(--line);padding-top:.8rem;color:var(--dim)}
 
+/* ===== CLASSROOM ===== */
+.classroom-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.3rem;max-width:920px;margin:0 auto}
+@media(max-width:640px){.classroom-grid{grid-template-columns:1fr}}
+.classroom-tile{display:flex;flex-direction:column;gap:.7rem;text-decoration:none;color:var(--ink);
+  cursor:pointer;border:1px solid var(--line);border-radius:18px;padding:1.9rem 1.7rem;
+  position:relative;overflow:hidden;background:var(--panel);transition:.25s}
+.classroom-tile::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 80% 0%,rgba(53,224,255,.16),transparent 55%);opacity:.9}
+.classroom-tile:hover{transform:translateY(-4px);border-color:rgba(53,224,255,.45);
+  box-shadow:0 16px 44px rgba(0,0,0,.45)}
+.classroom-tile>*{position:relative;z-index:1}
+.ct-id{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.72rem;
+  letter-spacing:.18em;color:var(--cyan)}
+.ct-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.3rem;
+  display:flex;align-items:center;gap:.5rem}
+.ct-title .ex{opacity:.5;font-family:inherit;font-weight:600}
+
 /* ===== SEMESTER CONTENT ===== */
 .sem-content{padding:1rem 6vw 5rem;max-width:1260px;margin:0 auto;display:none}
 .sem-content.active{display:block;animation:slideIn .5s ease}
@@ -246,16 +263,6 @@ h1.hero-title .v{color:var(--violet);text-shadow:0 0 26px rgba(165,107,255,.45)}
 .sc-star.on{color:var(--cyan);filter:drop-shadow(0 0 6px var(--cyan))}
 .sc-feedback{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.82rem;color:var(--matrix);opacity:0;transition:opacity .2s}
 .sc-feedback.show{opacity:1}
-
-/* Ferien / Puffer Hinweise */
-.holiday{margin-top:1.6rem;background:var(--panel);border:1px solid var(--line);
-  border-left:4px solid var(--red);border-radius:12px;padding:1rem 1.2rem;
-  font-family:'JetBrains Mono',monospace;font-size:.74rem;line-height:1.8;color:var(--ink-soft)}
-.holiday b{color:var(--red);letter-spacing:.05em}
-.buffer{margin-top:1rem;background:var(--panel);border:1px solid var(--line);
-  border-left:4px solid var(--violet);border-radius:12px;padding:1rem 1.2rem;
-  font-family:'JetBrains Mono',monospace;font-size:.74rem;line-height:1.8;color:var(--ink-soft)}
-.buffer b{color:var(--violet);letter-spacing:.05em}
 
 /* ===== FOOTER ===== */
 footer{background:#04060c;border-top:1px solid var(--line);padding:3rem 6vw 2.4rem}
@@ -369,16 +376,16 @@ footer{background:#04060c;border-top:1px solid var(--line);padding:3rem 6vw 2.4r
 <div class="lp-page">
   <a class="back" href="../index.html#hj1-content">← zur Kursübersicht</a>
   <div class="lp-hero">
-    <div class="lp-meta"><span>Einheit 05 · Von Blöcken zu Zeilen — Python-Einstieg</span><span>SJW 16 · 04.01.2027</span><span>Lernpfad</span></div>
-    <h1>Warum Python? + WebTigerJython-Oberfläche</h1>
+    <div class="lp-meta"><span>Einheit 04 · Von Blöcken zu Zeilen — Python-Einstieg</span><span>SJW 16 · 11.01.2027</span><span>Lernpfad</span></div>
+    <h1>Erste Turtle-Programme: Vierecke &amp; Dreiecke</h1>
     <div class="lp-big">16</div>
   </div>
-  <section class="lp-sec"><h2>Das lernst du</h2><p>Du begründest, warum Python so verbreitet ist (Filmeffekte, KI, riesige Bibliotheken) und findest dich in WebTigerJython zurecht: Editor, Konsole, Zeichenfläche.</p><div data-selfcheck="lp16"></div></section>
-  <section class="lp-sec"><h2>Aufgaben</h2><ul class="task-list"><li>Argumente für Python sammeln (z. B. Interstellar-Blackhole, KI-Systeme großer Firmen).</li><li>Bereiche von WebTigerJython zuordnen: Editor, Konsole, Zeichenfläche.</li><li>Erstes <code>print("Hallo Welt")</code> ausführen und den Unterschied Block↔Syntax spüren.</li></ul></section>
+  <section class="lp-sec"><h2>Das lernst du</h2><p>Du steuerst die Turtle mit <code>makeTurtle()</code>, <code>forward()</code>, <code>right()</code> und zeichnest erste geometrische Figuren.</p><div data-selfcheck="lp16"></div></section>
+  <section class="lp-sec"><h2>Aufgaben</h2><ul class="task-list"><li>Turtle erzeugen und ein Quadrat zeichnen (4× vorwärts + 90° drehen).</li><li>Ein Dreieck zeichnen (Außenwinkel 120°) — den Winkel begründen.</li><li>Ergebnis dem richtigen Code zuordnen (Dreieck/Viereck/zwei Figuren).</li></ul></section>
   <section class="lp-sec"><h2>Werkzeuge</h2><div class="tool-list"><a class="tool" href="https://webtigerjython.ethz.ch/" target="_blank" rel="noopener">WebTigerJython <span class="ex">↗</span></a></div></section>
-  <section class="lp-sec"><div class="fast-box"><span class="fb-t">⚡ Schnellläufer:in</span>Vergleiche ein „Hello World“ in Scratch und in Python — was ist gleich, was anders?</div></section>
+  <section class="lp-sec"><div class="fast-box"><span class="fb-t">⚡ Schnellläufer:in</span>Zeichne mit einer Schleife ein regelmäßiges Sechseck und finde die Formel für den Drehwinkel (360°/n).</div></section>
   <section class="lp-sec"><div class="backup-box"><span class="bb-t">💾 Ergebnissicherung</span>Sichere deine Ergebnisse am Stundenende <b>einfach wiederverwendbar</b> (sinnvoll benannt) an <b>zwei Orten</b> — Rechner und Cloud/USB. Achte selbstständig auf Backups.</div></section>
-  <section class="sol" id="loesung" data-unlock="2027-01-08"><h2>Musterlösung <span class="sol-status">…</span></h2><p class="sol-countdown"></p><div class="sol-body" hidden><ul class="sol-list"><li>Python ist einsteigerfreundlich (klare Struktur) und hat riesige Bibliotheken → schnelle Entwicklung, auch für KI.</li><li>Reihenfolge: Editor (Code), Konsole (Ausgaben/Fehler), Zeichenfläche (Turtle-Grafik).</li><li>Anders als Scratch tippt man Befehle als Text (Syntax).</li></ul></div><p class="sol-hint">Die Lösung wird automatisch zum angegebenen Datum sichtbar — die Seite prüft das bei jedem Laden.</p></section>
+  <section class="sol" id="loesung" data-unlock="2027-01-15"><h2>Musterlösung <span class="sol-status">…</span></h2><p class="sol-countdown"></p><div class="sol-body" hidden><ul class="sol-list"><li>Quadrat: <code>repeat 4: forward(100); right(90)</code>.</li><li>Dreieck: Außenwinkel 120°, da 360°/3 = 120°.</li><li>Drehwinkel eines n-Ecks = 360° / n.</li></ul></div><p class="sol-hint">Die Lösung wird automatisch zum angegebenen Datum sichtbar — die Seite prüft das bei jedem Laden.</p></section>
   <a class="back" href="../index.html#hj1-content" style="margin-top:1.6rem">← zurück zur Kursübersicht</a>
 </div>
 <script>

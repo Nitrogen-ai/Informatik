@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LP26 · Passwörter &amp; Kontosicherheit</title>
+<title>LP26 · Verschlüsselung verstehen: Cäsar &amp; Substitution</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
@@ -171,6 +171,23 @@ h1.hero-title .v{color:var(--violet);text-shadow:0 0 26px rgba(165,107,255,.45)}
 .st-meta{font-family:'JetBrains Mono',monospace;font-size:.72rem;display:flex;justify-content:space-between;
   border-top:1px solid var(--line);padding-top:.8rem;color:var(--dim)}
 
+/* ===== CLASSROOM ===== */
+.classroom-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.3rem;max-width:920px;margin:0 auto}
+@media(max-width:640px){.classroom-grid{grid-template-columns:1fr}}
+.classroom-tile{display:flex;flex-direction:column;gap:.7rem;text-decoration:none;color:var(--ink);
+  cursor:pointer;border:1px solid var(--line);border-radius:18px;padding:1.9rem 1.7rem;
+  position:relative;overflow:hidden;background:var(--panel);transition:.25s}
+.classroom-tile::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 80% 0%,rgba(53,224,255,.16),transparent 55%);opacity:.9}
+.classroom-tile:hover{transform:translateY(-4px);border-color:rgba(53,224,255,.45);
+  box-shadow:0 16px 44px rgba(0,0,0,.45)}
+.classroom-tile>*{position:relative;z-index:1}
+.ct-id{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.72rem;
+  letter-spacing:.18em;color:var(--cyan)}
+.ct-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.3rem;
+  display:flex;align-items:center;gap:.5rem}
+.ct-title .ex{opacity:.5;font-family:inherit;font-weight:600}
+
 /* ===== SEMESTER CONTENT ===== */
 .sem-content{padding:1rem 6vw 5rem;max-width:1260px;margin:0 auto;display:none}
 .sem-content.active{display:block;animation:slideIn .5s ease}
@@ -246,16 +263,6 @@ h1.hero-title .v{color:var(--violet);text-shadow:0 0 26px rgba(165,107,255,.45)}
 .sc-star.on{color:var(--cyan);filter:drop-shadow(0 0 6px var(--cyan))}
 .sc-feedback{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.82rem;color:var(--matrix);opacity:0;transition:opacity .2s}
 .sc-feedback.show{opacity:1}
-
-/* Ferien / Puffer Hinweise */
-.holiday{margin-top:1.6rem;background:var(--panel);border:1px solid var(--line);
-  border-left:4px solid var(--red);border-radius:12px;padding:1rem 1.2rem;
-  font-family:'JetBrains Mono',monospace;font-size:.74rem;line-height:1.8;color:var(--ink-soft)}
-.holiday b{color:var(--red);letter-spacing:.05em}
-.buffer{margin-top:1rem;background:var(--panel);border:1px solid var(--line);
-  border-left:4px solid var(--violet);border-radius:12px;padding:1rem 1.2rem;
-  font-family:'JetBrains Mono',monospace;font-size:.74rem;line-height:1.8;color:var(--ink-soft)}
-.buffer b{color:var(--violet);letter-spacing:.05em}
 
 /* ===== FOOTER ===== */
 footer{background:#04060c;border-top:1px solid var(--line);padding:3rem 6vw 2.4rem}
@@ -369,15 +376,16 @@ footer{background:#04060c;border-top:1px solid var(--line);padding:3rem 6vw 2.4r
 <div class="lp-page">
   <a class="back" href="../index.html#hj2-content">← zur Kursübersicht</a>
   <div class="lp-hero">
-    <div class="lp-meta"><span>Einheit 07 · Datensicherheit &amp; Kryptographie</span><span>SJW 26 · 05.04.2027</span><span>Lernpfad</span></div>
-    <h1>Passwörter &amp; Kontosicherheit</h1>
+    <div class="lp-meta"><span>Einheit 06 · Datensicherheit &amp; Kryptographie</span><span>SJW 26 · 12.04.2027</span><span>Lernpfad</span></div>
+    <h1>Verschlüsselung verstehen: Cäsar &amp; Substitution</h1>
     <div class="lp-big">26</div>
   </div>
-  <section class="lp-sec"><h2>Das lernst du</h2><p>Du erklärst, was ein starkes Passwort ausmacht, warum jedes Konto ein eigenes braucht und wie Passwortmanager und Zwei-Faktor-Authentisierung schützen.</p><div data-selfcheck="lp26"></div></section>
-  <section class="lp-sec"><h2>Aufgaben</h2><ul class="task-list"><li>Merkmale starker Passwörter (Länge, Zufälligkeit, Einzigartigkeit) sammeln.</li><li>Passwortstärke schätzen: warum Länge wichtiger ist als Sonderzeichen-Chaos.</li><li>2FA und Passwortmanager (z. B. KeePass, Bitwarden) einordnen.</li></ul></section>
-  <section class="lp-sec"><div class="fast-box"><span class="fb-t">⚡ Schnellläufer:in</span>Baue aus einem Merksatz eine lange Passphrase und erkläre, warum sie sicher UND merkbar ist.</div></section>
+  <section class="lp-sec"><h2>Das lernst du</h2><p>Du ver- und entschlüsselst mit der Cäsar-Verschiebung und einer Substitutionschiffre und erkennst deren Schwächen (Häufigkeitsanalyse).</p><div data-selfcheck="lp26"></div></section>
+  <section class="lp-sec"><h2>Aufgaben</h2><ul class="task-list"><li>Nachrichten mit Cäsar-Verschiebung (Schlüssel = Verschiebung) codieren.</li><li>Eine fremde Nachricht ohne Schlüssel knacken (Häufigkeitsanalyse).</li><li>Optional: die Verschiebung als kleines Python-Programm umsetzen.</li></ul></section>
+  <section class="lp-sec"><h2>Werkzeuge</h2><div class="tool-list"><a class="tool" href="https://webtigerjython.ethz.ch/" target="_blank" rel="noopener">WebTigerJython <span class="ex">↗</span></a></div></section>
+  <section class="lp-sec"><div class="fast-box"><span class="fb-t">⚡ Schnellläufer:in</span>Schreibe ein Python-Snippet, das einen Text um k Stellen verschiebt und wieder zurück.</div></section>
   <section class="lp-sec"><div class="backup-box"><span class="bb-t">💾 Ergebnissicherung</span>Sichere deine Ergebnisse am Stundenende <b>einfach wiederverwendbar</b> (sinnvoll benannt) an <b>zwei Orten</b> — Rechner und Cloud/USB. Achte selbstständig auf Backups.</div></section>
-  <section class="sol" id="loesung" data-unlock="2027-04-09"><h2>Musterlösung <span class="sol-status">…</span></h2><p class="sol-countdown"></p><div class="sol-body" hidden><ul class="sol-list"><li>Stark = lang, zufällig, für jedes Konto einzigartig.</li><li>Länge schlägt Komplexität: mehr Zeichen = exponentiell mehr Möglichkeiten.</li><li>Passwortmanager erzeugt/merkt sichere Passwörter; 2FA ergänzt „Wissen“ um „Besitz“.</li></ul></div><p class="sol-hint">Die Lösung wird automatisch zum angegebenen Datum sichtbar — die Seite prüft das bei jedem Laden.</p></section>
+  <section class="sol" id="loesung" data-unlock="2027-04-16"><h2>Musterlösung <span class="sol-status">…</span></h2><p class="sol-countdown"></p><div class="sol-body" hidden><ul class="sol-list"><li>Cäsar verschiebt jeden Buchstaben um k Stellen im Alphabet.</li><li>Schwäche: nur 25 Schlüssel bzw. Buchstabenhäufigkeit verrät die Zuordnung (e/n häufig).</li><li>Sicherheit darf nicht auf Geheimhaltung des Verfahrens beruhen (Kerckhoffs).</li></ul></div><p class="sol-hint">Die Lösung wird automatisch zum angegebenen Datum sichtbar — die Seite prüft das bei jedem Laden.</p></section>
   <a class="back" href="../index.html#hj2-content" style="margin-top:1.6rem">← zurück zur Kursübersicht</a>
 </div>
 <script>
