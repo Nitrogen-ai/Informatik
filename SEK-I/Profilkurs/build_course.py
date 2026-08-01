@@ -6,6 +6,7 @@ Einzige Quelle der Wahrheit für Inhalte, Kalender und Freischalt-Daten.
 """
 import os, html
 from datetime import date, timedelta
+from urllib.parse import quote
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 LP_DIR = os.path.join(BASE, "lernpfade")
@@ -1695,9 +1696,6 @@ UNITS = [
 def slug(no):
     return "lp%02d" % no
 
-def lp_filename(no):
-    return "lernpfade/%s.html" % slug(no)
-
 def kind_badge(kind):
     return {"lernpfad":"Lernpfad","projekt":"Projekt"}.get(kind,"Lernpfad")
 
@@ -1706,6 +1704,24 @@ def unlock_iso(sjw):
     return iso(CAL[sjw][1])
 
 TOTAL_LP = sum(len(u["lps"]) for u in UNITS)
+
+# ---------------------------------------------------------------- Ordnerstruktur (HJ/Einheit)
+UNIT_OF_LP = {lp["no"]: u for u in UNITS for lp in u["lps"]}
+
+def einheit_dirname(u):
+    return "%s %s" % (u["num"], u["title"].replace(" — ", " - ").rstrip("?"))
+
+def lp_dir_parts(no):
+    u = UNIT_OF_LP[no]
+    return ["lernpfade", "%dHJ" % u["hj"], einheit_dirname(u)]
+
+def lp_out_dir(no):
+    return os.path.join(BASE, *lp_dir_parts(no))
+
+def lp_filename(no):
+    # href relativ zu index.html: Pfadsegmente einzeln URL-kodieren
+    parts = lp_dir_parts(no) + ["%s.html" % slug(no)]
+    return "/".join(quote(p, safe="") for p in parts)
 
 # ---------------------------------------------------------------- gemeinsame Fragmente
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
@@ -2021,7 +2037,7 @@ def build_lp_page(u, lp):
         '<body style="%s">\n' % style
         + '<canvas id="matrix-canvas"></canvas>\n'
         + '<div class="lp-page">\n'
-        + '  <a class="back" href="../index.html#hj%d-content">← zur Kursübersicht</a>\n' % u["hj"]
+        + '  <a class="back" href="../../../index.html#hj%d-content">← zur Kursübersicht</a>\n' % u["hj"]
         + '  <div class="lp-hero">\n'
         + '    <div class="lp-meta"><span>Einheit %s · %s</span><span>SJW %d · %s</span><span>%s</span></div>\n'
           % (u["num"], esc(u["title"]), lp["sjw"], de(mon), kind_badge(lp["kind"]))
@@ -2037,11 +2053,13 @@ def build_lp_page(u, lp):
         + ('  %s\n' % fast if fast else '')
         + '  %s\n' % backup
         + '  %s\n' % solution
-        + '  <a class="back" href="../index.html#hj%d-content" style="margin-top:1.6rem">← zurück zur Kursübersicht</a>\n' % u["hj"]
+        + '  <a class="back" href="../../../index.html#hj%d-content" style="margin-top:1.6rem">← zurück zur Kursübersicht</a>\n' % u["hj"]
         + '</div>\n'
         + '<script>\n' + THEME_JS + '\n</script>\n</body>\n</html>\n'
     )
-    with open(os.path.join(LP_DIR, "%s.html" % slug(lp["no"])), "w", encoding="utf-8") as f:
+    out_dir = lp_out_dir(lp["no"])
+    os.makedirs(out_dir, exist_ok=True)
+    with open(os.path.join(out_dir, "%s.html" % slug(lp["no"])), "w", encoding="utf-8") as f:
         f.write(doc)
 
 # ---------------------------------------------------------------- Lauf
