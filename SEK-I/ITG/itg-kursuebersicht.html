@@ -269,6 +269,38 @@
   .niv.weiter { background: var(--coral); }
   .niv.neu { background: var(--sun); color: var(--ink); }
 
+  /* ============ CLASSROOM ============ */
+  .classroom { padding: 0 6vw 1rem; }
+  .classroom-box {
+    background: var(--card);
+    border: 2px solid var(--primary);
+    border-radius: 20px;
+    padding: 1.6rem 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    flex-wrap: wrap;
+    box-shadow: 0 5px 0 var(--primary-edge);
+  }
+  .classroom-ic {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: var(--primary); flex-shrink: 0;
+    display: grid; place-items: center; font-size: 1.6rem;
+  }
+  .classroom-text { flex: 1 1 260px; }
+  .classroom-text h3 { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 1.15rem; margin-bottom: 0.3rem; }
+  .classroom-text p { color: var(--ink-soft); font-size: 0.95rem; }
+  .classroom-btn {
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.85rem;
+    background: var(--primary); color: #fff; text-decoration: none;
+    padding: 0.75rem 1.4rem; border-radius: 999px;
+    box-shadow: 0 3px 0 var(--primary-edge);
+    white-space: nowrap;
+    transition: transform 0.15s ease;
+    display: inline-flex; align-items: center; gap: 0.4rem;
+  }
+  .classroom-btn:hover { transform: translateY(-2px); }
+
   /* ============ SELECTOR ============ */
   .selector { padding: 4rem 6vw 3rem; }
   .sem-grid {
@@ -415,7 +447,9 @@
   .lp-key .lp-week {
     font-family: 'JetBrains Mono', monospace; font-weight: 700;
     font-size: 0.66rem; letter-spacing: 0.06em; opacity: 0.92;
+    display: none;
   }
+  html.lehrkraft .lp-key .lp-week { display: block; }
   .lp-key .lp-no {
     font-family: 'Fredoka', sans-serif; font-weight: 700;
     font-size: 1.5rem; line-height: 1.1; margin-top: 0.2rem;
@@ -445,6 +479,9 @@
     box-shadow: 0 2px 0 var(--edge);
   }
   .lp-name:hover .lp-soon { transform: translateY(1px); box-shadow: 0 1px 0 var(--edge); }
+  .lp-name.locked { pointer-events: none; cursor: default; opacity: 0.55; filter: grayscale(0.4); }
+  .lp-name.locked:hover .arrow { transform: none; }
+  .lp-name.locked .lp-soon { background: var(--ink-soft); box-shadow: 0 2px 0 rgba(0,0,0,0.25); }
   .lp-goal { font-size: 0.95rem; margin: 0.45rem 0 0.6rem; color: var(--ink); }
   .lp-goal b { color: var(--key); }
 
@@ -634,6 +671,20 @@
   </div>
 </section>
 
+<!-- ================= CLASSROOM ================= -->
+<section class="classroom">
+  <div class="wrap">
+    <div class="classroom-box">
+      <div class="classroom-ic">🎒</div>
+      <div class="classroom-text">
+        <h3>Materialien &amp; Lösungen im Classroom</h3>
+        <p>Arbeitsblätter, Zusatzmaterial und Musterlösungen zum Kurs findest du im Google Classroom.</p>
+      </div>
+      <a class="classroom-btn" href="https://classroom.google.com/u/0/c/MjIzMDQwOTUwNzBa" target="_blank" rel="noopener">Zum Classroom <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
 <!-- ================= SELECTOR ================= -->
 <section class="selector">
   <div class="wrap">
@@ -673,7 +724,7 @@
     </div>
     <div class="unit-body">
 
-      <article class="lp" data-lp="00">
+      <article class="lp" data-lp="00" data-unlock="2026-08-25">
         <div class="lp-key"><div class="lp-week">SJW 0</div><div class="lp-no">00</div></div>
         <div class="lp-info">
           <a class="lp-name" href="1HJ/hallo-computer/00anmelden-umschauen-loslegen.html">Anmelden, umschauen, loslegen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -686,7 +737,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="01">
+      <article class="lp" data-lp="01" data-unlock="2026-09-01">
         <div class="lp-key"><div class="lp-week">SJW 1</div><div class="lp-no">01</div></div>
         <div class="lp-info">
           <a class="lp-name" href="1HJ/hallo-computer/01was-steckt-drin-das-eva-prinzip.html">Was steckt drin? Das EVA-Prinzip <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -699,7 +750,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="02">
+      <article class="lp" data-lp="02" data-unlock="2026-09-08">
         <div class="lp-key"><div class="lp-week">SJW 2</div><div class="lp-no">02</div></div>
         <div class="lp-info">
           <a class="lp-name" href="1HJ/hallo-computer/02programme-starten-und-fenster-jonglieren.html">Programme starten &amp; Fenster jonglieren <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -724,7 +775,7 @@
     </div>
     <div class="unit-body">
 
-      <article class="lp" data-lp="03">
+      <article class="lp" data-lp="03" data-unlock="2026-09-15">
         <div class="lp-key"><div class="lp-week">SJW 3</div><div class="lp-no">03</div></div>
         <div class="lp-info">
           <a class="lp-name" href="1HJ/tastatur/03die-tastatur-landkarte.html">Die Tastatur-Landkarte <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -737,7 +788,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="04">
+      <article class="lp" data-lp="04" data-unlock="2026-09-22">
         <div class="lp-key"><div class="lp-week">SJW 4</div><div class="lp-no">04</div></div>
         <div class="lp-info">
           <a class="lp-name" href="1HJ/tastatur/04zaubertasten-tastenkombinationen.html">Zaubertasten: Tastenkombinationen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -750,7 +801,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="05">
+      <article class="lp" data-lp="05" data-unlock="2026-09-29">
         <div class="lp-key"><div class="lp-week">SJW 5</div><div class="lp-no">05</div></div>
         <div class="lp-info">
           <a class="lp-name" href="1HJ/tastatur/05schreiben-wie-ein-profi.html">Schreiben wie ein Profi <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -775,7 +826,7 @@
     </div>
     <div class="unit-body">
 
-      <article class="lp" data-lp="06">
+      <article class="lp" data-lp="06" data-unlock="2026-10-06">
         <div class="lp-key"><div class="lp-week">SJW 6</div><div class="lp-no">06</div></div>
         <div class="lp-info">
           <a class="lp-name" href="1HJ/ordnung-digitales-zimmer/06speichern-wiederfinden-benennen.html">Speichern, wiederfinden, benennen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -788,7 +839,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="07">
+      <article class="lp" data-lp="07" data-unlock="2026-10-13">
         <div class="lp-key"><div class="lp-week">SJW 7</div><div class="lp-no">07</div></div>
         <div class="lp-info">
           <a class="lp-name" href="1HJ/ordnung-digitales-zimmer/07ordner-bauen-struktur-schaffen.html">Ordner bauen — Struktur schaffen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -801,7 +852,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="08">
+      <article class="lp" data-lp="08" data-unlock="2026-11-03">
         <div class="lp-key"><div class="lp-week">SJW 8</div><div class="lp-no">08</div></div>
         <div class="lp-info">
           <a class="lp-name" href="1HJ/ordnung-digitales-zimmer/08lokal-oder-wolke-speichern-frueher-und-heute.html">Lokal oder Wolke? Speichern früher &amp; heute <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -814,7 +865,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="09">
+      <article class="lp" data-lp="09" data-unlock="2026-11-10">
         <div class="lp-key"><div class="lp-week">SJW 9</div><div class="lp-no">09</div></div>
         <div class="lp-info">
           <a class="lp-name" href="1HJ/ordnung-digitales-zimmer/09meine-daten-gehoeren-mir-passwoerter-und-backups.html">Meine Daten gehören mir — Passwörter &amp; Backups <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -839,7 +890,7 @@
     </div>
     <div class="unit-body">
 
-      <article class="lp" data-lp="10">
+      <article class="lp" data-lp="10" data-unlock="2026-11-17">
         <div class="lp-key"><div class="lp-week">SJW 10</div><div class="lp-no">10</div></div>
         <div class="lp-info">
           <a class="lp-name" href="1HJ/textverarbeitung/10text-eingeben-und-bewegen.html">Text eingeben &amp; bewegen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -852,7 +903,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="11">
+      <article class="lp" data-lp="11" data-unlock="2026-11-24">
         <div class="lp-key"><div class="lp-week">SJW 11</div><div class="lp-no">11</div></div>
         <div class="lp-info">
           <a class="lp-name" href="1HJ/textverarbeitung/11schrift-schoen-machen.html">Schrift schön machen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -865,7 +916,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="12">
+      <article class="lp" data-lp="12" data-unlock="2026-12-01">
         <div class="lp-key"><div class="lp-week">SJW 12</div><div class="lp-no">12</div></div>
         <div class="lp-info">
           <a class="lp-name" href="1HJ/textverarbeitung/12absaetze-ordnen-ausrichtung-abstaende-listen.html">Absätze ordnen — Ausrichtung, Abstände, Listen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -878,7 +929,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="13">
+      <article class="lp" data-lp="13" data-unlock="2026-12-08">
         <div class="lp-key"><div class="lp-week">SJW 13</div><div class="lp-no">13</div></div>
         <div class="lp-info">
           <a class="lp-name" href="1HJ/textverarbeitung/13ueberschriften-und-formatvorlagen.html">Überschriften &amp; Formatvorlagen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -891,7 +942,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="14">
+      <article class="lp" data-lp="14" data-unlock="2026-12-15">
         <div class="lp-key"><div class="lp-week">SJW 14</div><div class="lp-no">14</div></div>
         <div class="lp-info">
           <a class="lp-name" href="1HJ/textverarbeitung/14bilder-und-tabellen-einfuegen.html">Bilder &amp; Tabellen einfügen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -904,7 +955,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="15">
+      <article class="lp" data-lp="15" data-unlock="2026-12-22">
         <div class="lp-key"><div class="lp-week">SJW 15</div><div class="lp-no">15</div></div>
         <div class="lp-info">
           <a class="lp-name" href="1HJ/textverarbeitung/15seite-einrichten-und-als-pdf-ausgeben.html">Seite einrichten &amp; als PDF ausgeben <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -917,7 +968,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="16">
+      <article class="lp" data-lp="16" data-unlock="2027-01-05">
         <div class="lp-key"><div class="lp-week">SJW 16</div><div class="lp-no">16</div></div>
         <div class="lp-info">
           <a class="lp-name" href="1HJ/textverarbeitung/16google-docs-und-gemeinsam-schreiben.html">Google Docs &amp; gemeinsam schreiben <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -930,7 +981,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="17">
+      <article class="lp" data-lp="17" data-unlock="2027-01-12">
         <div class="lp-key"><div class="lp-week">SJW 17</div><div class="lp-no">17</div></div>
         <div class="lp-info">
           <a class="lp-name" href="1HJ/textverarbeitung/17mein-meisterdokument.html">Mein Meisterdokument <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -943,7 +994,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="18">
+      <article class="lp" data-lp="18" data-unlock="2027-01-19">
         <div class="lp-key"><div class="lp-week">SJW 18</div><div class="lp-no">18</div></div>
         <div class="lp-info">
           <a class="lp-name" href="1HJ/textverarbeitung/18zeigen-und-besprechen-halbjahres-check.html">Zeigen &amp; besprechen — Halbjahres-Check <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -985,7 +1036,7 @@
     </div>
     <div class="unit-body">
 
-      <article class="lp" data-lp="19">
+      <article class="lp" data-lp="19" data-unlock="2027-02-09">
         <div class="lp-key"><div class="lp-week">SJW 19</div><div class="lp-no">19</div></div>
         <div class="lp-info">
           <a class="lp-name" href="2HJ/tabellenkalkulation/19das-gitter-verstehen-zellen-zeilen-spalten.html">Das Gitter verstehen — Zellen, Zeilen, Spalten <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -998,7 +1049,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="20">
+      <article class="lp" data-lp="20" data-unlock="2027-02-16">
         <div class="lp-key"><div class="lp-week">SJW 20</div><div class="lp-no">20</div></div>
         <div class="lp-info">
           <a class="lp-name" href="2HJ/tabellenkalkulation/20der-computer-rechnet-fuer-dich-erste-formeln.html">Der Computer rechnet für dich — erste Formeln <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -1011,7 +1062,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="21">
+      <article class="lp" data-lp="21" data-unlock="2027-02-23">
         <div class="lp-key"><div class="lp-week">SJW 21</div><div class="lp-no">21</div></div>
         <div class="lp-info">
           <a class="lp-name" href="2HJ/tabellenkalkulation/21praktische-funktionen-summe-und-mittelwert.html">Praktische Funktionen — SUMME &amp; MITTELWERT <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -1024,7 +1075,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="22">
+      <article class="lp" data-lp="22" data-unlock="2027-03-02">
         <div class="lp-key"><div class="lp-week">SJW 22</div><div class="lp-no">22</div></div>
         <div class="lp-info">
           <a class="lp-name" href="2HJ/tabellenkalkulation/22daten-huebsch-und-uebersichtlich.html">Daten hübsch &amp; übersichtlich <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -1037,7 +1088,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="23">
+      <article class="lp" data-lp="23" data-unlock="2027-03-09">
         <div class="lp-key"><div class="lp-week">SJW 23</div><div class="lp-no">23</div></div>
         <div class="lp-info">
           <a class="lp-name" href="2HJ/tabellenkalkulation/23sortieren-filtern-ordnung-finden.html">Sortieren, filtern, Ordnung finden <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -1050,7 +1101,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="24">
+      <article class="lp" data-lp="24" data-unlock="2027-03-16">
         <div class="lp-key"><div class="lp-week">SJW 24</div><div class="lp-no">24</div></div>
         <div class="lp-info">
           <a class="lp-name" href="2HJ/tabellenkalkulation/24diagramme-zahlen-sichtbar-machen.html">Diagramme — Zahlen sichtbar machen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -1063,7 +1114,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="25">
+      <article class="lp" data-lp="25" data-unlock="2027-04-06">
         <div class="lp-key"><div class="lp-week">SJW 25</div><div class="lp-no">25</div></div>
         <div class="lp-info">
           <a class="lp-name" href="2HJ/tabellenkalkulation/25mini-datenprojekt-meine-eigene-auswertung.html">Mini-Datenprojekt — meine eigene Auswertung <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -1088,7 +1139,7 @@
     </div>
     <div class="unit-body">
 
-      <article class="lp" data-lp="26">
+      <article class="lp" data-lp="26" data-unlock="2027-04-13">
         <div class="lp-key"><div class="lp-week">SJW 26</div><div class="lp-no">26</div></div>
         <div class="lp-info">
           <a class="lp-name" href="2HJ/praesentationen/26die-erste-folie-powerpoint-und-google-slides.html">Die erste Folie — PowerPoint &amp; Google Slides <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -1101,7 +1152,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="27">
+      <article class="lp" data-lp="27" data-unlock="2027-04-20">
         <div class="lp-key"><div class="lp-week">SJW 27</div><div class="lp-no">27</div></div>
         <div class="lp-info">
           <a class="lp-name" href="2HJ/praesentationen/27weniger-ist-mehr-gutes-folien-design.html">Weniger ist mehr — gutes Folien-Design <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -1114,7 +1165,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="28">
+      <article class="lp" data-lp="28" data-unlock="2027-04-27">
         <div class="lp-key"><div class="lp-week">SJW 28</div><div class="lp-no">28</div></div>
         <div class="lp-info">
           <a class="lp-name" href="2HJ/praesentationen/28bilder-symbole-und-uebergaenge.html">Bilder, Symbole &amp; Übergänge <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -1127,7 +1178,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="29">
+      <article class="lp" data-lp="29" data-unlock="2027-05-04">
         <div class="lp-key"><div class="lp-week">SJW 29</div><div class="lp-no">29</div></div>
         <div class="lp-info">
           <a class="lp-name" href="2HJ/praesentationen/29vom-bildschirm-zum-publikum-frei-vortragen.html">Vom Bildschirm zum Publikum — frei vortragen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -1140,7 +1191,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="30">
+      <article class="lp" data-lp="30" data-unlock="2027-05-11">
         <div class="lp-key"><div class="lp-week">SJW 30</div><div class="lp-no">30</div></div>
         <div class="lp-info">
           <a class="lp-name" href="2HJ/praesentationen/30praesentations-werkstatt.html">Präsentations-Werkstatt <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -1165,7 +1216,7 @@
     </div>
     <div class="unit-body">
 
-      <article class="lp" data-lp="31">
+      <article class="lp" data-lp="31" data-unlock="2027-05-25">
         <div class="lp-key"><div class="lp-week">SJW 31</div><div class="lp-no">31</div></div>
         <div class="lp-info">
           <a class="lp-name" href="2HJ/sicher-im-netz/31suchmaschinen-gezielt-fragen.html">Suchmaschinen gezielt fragen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -1178,7 +1229,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="32">
+      <article class="lp" data-lp="32" data-unlock="2027-06-01">
         <div class="lp-key"><div class="lp-week">SJW 32</div><div class="lp-no">32</div></div>
         <div class="lp-info">
           <a class="lp-name" href="2HJ/sicher-im-netz/32stimmt-das-quellen-pruefen.html">Stimmt das? Quellen prüfen <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -1191,7 +1242,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="33">
+      <article class="lp" data-lp="33" data-unlock="2027-06-08">
         <div class="lp-key"><div class="lp-week">SJW 33</div><div class="lp-no">33</div></div>
         <div class="lp-info">
           <a class="lp-name" href="2HJ/sicher-im-netz/33hoeflich-im-netz-netiquette-und-zusammenarbeit.html">Höflich im Netz — Netiquette &amp; Zusammenarbeit <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -1204,7 +1255,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="34">
+      <article class="lp" data-lp="34" data-unlock="2027-06-15">
         <div class="lp-key"><div class="lp-week">SJW 34</div><div class="lp-no">34</div></div>
         <div class="lp-info">
           <a class="lp-name" href="2HJ/sicher-im-netz/34meine-spuren-im-netz-datenschutz-und-urheberrecht.html">Meine Spuren im Netz — Datenschutz &amp; Urheberrecht <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -1229,7 +1280,7 @@
     </div>
     <div class="unit-body">
 
-      <article class="lp" data-lp="35">
+      <article class="lp" data-lp="35" data-unlock="2027-06-22">
         <div class="lp-key"><div class="lp-week">SJW 35</div><div class="lp-no">35</div></div>
         <div class="lp-info">
           <a class="lp-name" href="2HJ/grosses-finale/35projekt-woche-text-tabelle-folien.html">Projekt-Woche: Text + Tabelle + Folien <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -1242,7 +1293,7 @@
         </div>
       </article>
 
-      <article class="lp" data-lp="36">
+      <article class="lp" data-lp="36" data-unlock="2027-06-29">
         <div class="lp-key"><div class="lp-week">SJW 36</div><div class="lp-no">36</div></div>
         <div class="lp-info">
           <a class="lp-name" href="2HJ/grosses-finale/36vorstellen-feiern-zurueckblicken.html">Vorstellen, feiern, zurückblicken <span class="lp-soon">Lernpfad</span> <span class="arrow">→</span></a>
@@ -1288,6 +1339,36 @@
 </footer>
 
 <script>
+  // ===== Zeitgesteuerte Freischaltung =====
+  // Lehrkraft-Version (itg-kursuebersichtl.html) setzt window.LEHRERMODUS=true
+  // vor diesem Skript und hebt damit alle Sperren auf + zeigt SJW.
+  (function () {
+    function parseISO(s) {
+      var p = (s || '').split('-');
+      return new Date(+p[0], (+p[1] || 1) - 1, +p[2] || 1, 18, 0, 0);
+    }
+    function fmt(d) {
+      function z(n) { return (n < 10 ? '0' : '') + n; }
+      return z(d.getDate()) + '.' + z(d.getMonth() + 1) + '.';
+    }
+    var lehrkraft = !!window.LEHRERMODUS;
+    if (lehrkraft) { document.documentElement.classList.add('lehrkraft'); }
+    var now = new Date();
+    document.querySelectorAll('.lp[data-unlock]').forEach(function (card) {
+      var a = card.querySelector('.lp-name');
+      if (!a) return;
+      var unlock = parseISO(card.dataset.unlock);
+      if (lehrkraft || now >= unlock) return;
+      a.classList.add('locked');
+      a.setAttribute('aria-disabled', 'true');
+      a.addEventListener('click', function (e) { e.preventDefault(); });
+      var soon = a.querySelector('.lp-soon');
+      if (soon) soon.textContent = '🔒 ab ' + fmt(unlock);
+      var arrow = a.querySelector('.arrow');
+      if (arrow) arrow.remove();
+    });
+  })();
+
   // ===== Halbjahr umschalten =====
   var tiles = document.querySelectorAll('.sem-tile');
   var contents = document.querySelectorAll('.sem-content');
