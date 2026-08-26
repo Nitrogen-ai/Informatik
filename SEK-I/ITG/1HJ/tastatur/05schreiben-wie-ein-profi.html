@@ -171,6 +171,8 @@
   .nav-prev:hover, .nav-next:hover { transform: translateY(2px); box-shadow: 0 1px 0 var(--edge); }
   .nav-over { background: var(--key); color: var(--ktext); box-shadow: 0 3px 0 var(--edge); }
   .nav-empty { color: rgba(33,26,77,0.28); border: 2px dashed var(--line); }
+  .nav-next.locked { color: rgba(33,26,77,0.28); border: 2px dashed var(--line); background: transparent; box-shadow: none; cursor: default; pointer-events: none; }
+  .nav-next.locked:hover { transform: none; box-shadow: none; }
 
   footer {
     text-align: center; margin-top: 2rem; padding: 1.4rem 5vw 0;
@@ -456,7 +458,7 @@
     <nav class="lp-nav">
       <a class="nav-prev" href="../../1HJ/tastatur/04zaubertasten-tastenkombinationen.html">&#8592; LP 04</a>
       <a class="nav-over" href="../../itg-kursuebersicht.html">&#8801; Kurs&uuml;bersicht</a>
-      <a class="nav-next" href="../../1HJ/ordnung-digitales-zimmer/06speichern-wiederfinden-benennen.html">LP 06 &#8594;</a>
+      <a class="nav-next" href="../../1HJ/ordnung-digitales-zimmer/06speichern-wiederfinden-benennen.html" data-unlock="2026-10-06">LP 06 &#8594;</a>
     </nav>
   </main>
 
@@ -525,6 +527,20 @@
     function paint(l){ stars.forEach(function(s,i){ if(i<l) s.classList.add('on'); else s.classList.remove('on'); }); if(l>0){ fb.textContent = msgs[l]; fb.classList.add('show'); } else { fb.textContent=''; fb.classList.remove('show'); } }
     var saved = 0; try { saved = parseInt(localStorage.getItem(key), 10) || 0; } catch(e) {} paint(saved);
     stars.forEach(function(st,i){ st.addEventListener('click', function(){ var l=i+1; var last = stars[i].classList.contains('on') && (i===stars.length-1 || !stars[i+1].classList.contains('on')); if(last){ paint(0); try{ localStorage.removeItem(key); }catch(e){} } else { paint(l); try{ localStorage.setItem(key,l); }catch(e){} } }); });
+  })();
+</script>
+<script>
+  (function () {
+    var next = document.querySelector('.nav-next[data-unlock]');
+    if (!next) return;
+    var p = next.dataset.unlock.split('-');
+    var unlock = new Date(+p[0], (+p[1] || 1) - 1, +p[2] || 1, 18, 0, 0);
+    if (new Date() >= unlock) return;
+    function z(n) { return (n < 10 ? '0' : '') + n; }
+    next.classList.add('locked');
+    next.setAttribute('aria-disabled', 'true');
+    next.removeAttribute('href');
+    next.textContent = '\uD83D\uDD12 ab ' + z(unlock.getDate()) + '.' + z(unlock.getMonth() + 1) + '.';
   })();
 </script>
 </body>
