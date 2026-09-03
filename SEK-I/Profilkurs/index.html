@@ -226,7 +226,8 @@ h1.hero-title .v{color:var(--violet);text-shadow:0 0 26px rgba(165,107,255,.45)}
 .lp-key .lp-week{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.64rem;letter-spacing:.04em;display:none}
 .lp-key .lp-no{font-family:'Orbitron',sans-serif;font-weight:800;font-size:1.5rem;line-height:1.05;margin-top:.15rem}
 .lp-key .lp-date{font-family:'JetBrains Mono',monospace;font-size:.56rem;margin-top:.2rem;opacity:.8;display:none}
-html.lehrkraft .lp-key .lp-week,html.lehrkraft .lp-key .lp-date{display:block}
+html.lehrkraft .lp-key .lp-week,html.lehrkraft .lp-key .lp-date,
+.lp.revealed .lp-key .lp-week,.lp.revealed .lp-key .lp-date{display:block}
 @media(max-width:560px){.lp-key{display:flex;gap:.6rem;align-items:baseline;justify-content:flex-start;padding:.5rem .9rem}.lp-key .lp-no{font-size:1.1rem;margin-top:0}}
 .lp-info{min-width:0}
 .lp-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;line-height:1.2;
@@ -237,8 +238,8 @@ html.lehrkraft .lp-key .lp-week,html.lehrkraft .lp-key .lp-date{display:block}
 .lp-name.locked{pointer-events:none;cursor:default;opacity:.55;filter:grayscale(.4)}
 .lp-name.locked:hover .arrow{transform:none}
 .lp-title-full{display:none}
-html.lehrkraft .lp-title-full{display:inline}
-html.lehrkraft .lp-title-short{display:none}
+html.lehrkraft .lp-title-full,.lp.revealed .lp-title-full{display:inline}
+html.lehrkraft .lp-title-short,.lp.revealed .lp-title-short{display:none}
 .lp-badge{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.58rem;letter-spacing:.1em;
   text-transform:uppercase;color:#05070e;background:var(--key);border-radius:999px;padding:.16rem .55rem}
 .lp-name.locked .lp-badge{background:var(--dim)}
@@ -250,8 +251,9 @@ html.lehrkraft .lp-title-short{display:none}
 .fast-badge{display:inline-flex;align-items:center;gap:.35rem;font-family:'Space Grotesk',sans-serif;
   font-weight:700;font-size:.74rem;color:var(--amber);white-space:nowrap;flex-shrink:0}
 .lp-rlp{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--dim);display:none;flex-wrap:wrap;gap:.3rem}
-html.lehrkraft .lp-goal,html.lehrkraft .lp-fast{display:flex}
-html.lehrkraft .lp-rlp{display:flex}
+html.lehrkraft .lp-goal,html.lehrkraft .lp-fast,
+.lp.revealed .lp-goal,.lp.revealed .lp-fast{display:flex}
+html.lehrkraft .lp-rlp,.lp.revealed .lp-rlp{display:flex}
 
 /* Freischalt-Status (Lösung) */
 .lp-lock{display:none;align-items:center;gap:.4rem;font-family:'JetBrains Mono',monospace;
@@ -474,7 +476,7 @@ footer{background:#04060c;border-top:1px solid var(--line);padding:3rem 6vw 2.4r
   <div class="lp-info" data-selfcheck="lp01">
     <a class="lp-name" href="lernpfade/1HJ/systemstart/lp01.html"><span class="lp-title-short">EVA-Prinzip</span><span class="lp-title-full">EVA &amp; Algorithmus — wie ein Computer „denkt“</span> <span class="lp-badge">Lernpfad</span> <span class="arrow">→</span></a>
     <p class="lp-goal"><b>Das lernst du:</b> Du erklärst das EVA-Prinzip (Eingabe → Verarbeitung → Ausgabe) und beschreibst einen Alltagsablauf als Algorithmus (Schritt für Schritt, mit Verzweigung und Schleife).</p>
-    <div class="lp-fast"><span class="fast-badge">⚡ Schnellläufer:in</span><span>Formuliere den Algorithmus „Zähne putzen“ so präzise, dass ein Roboter ihn ausführen könnte — inklusive Abbruchbedingung.</span></div>
+    <div class="lp-fast"><span class="fast-badge">⚡ Schnellläufer:in</span><span>Zwei Möglichkeiten: a) Recherchiere drei kreative Makey-Makey-Projekte. b) Binde über Imgur eigene oder bereitgestellte Bilder in deine nichtlineare Twine-Geschichte ein.</span></div>
     <p class="lp-rlp"><span class="tag rlp">RLP 2.1 · Modellieren</span><span class="tag rlp">3.2 EVA-Prinzip</span><span class="tag rlp">2.2 Algorithmen</span></p>
   </div>
 </article>
@@ -1099,6 +1101,18 @@ footer{background:#04060c;border-top:1px solid var(--line);padding:3rem 6vw 2.4r
     });
   }
 
+  /* ---------- Aufdecken bereits veröffentlichter Lernpfade ----------
+     Sobald data-unlock erreicht ist, gab es die Stunde schon real —
+     dann sind Ziel/Schnellläufer:in/RLP-Tags/Volltitel keine Spoiler
+     mehr und werden auch im Schülermodus gezeigt (wie im Lehrermodus).
+     Wird bei jedem Laden STETS neu geprüft. */
+  function initRevealPublished() {
+    var now = new Date();
+    document.querySelectorAll('.lp[data-unlock]').forEach(function (el) {
+      if (now >= parseISO(el.dataset.unlock)) el.classList.add('revealed');
+    });
+  }
+
   /* ---------- Live-Uhr im Hero (optional) ---------- */
   function initClock() {
     var el = document.getElementById('sysclock');
@@ -1118,6 +1132,7 @@ footer{background:#04060c;border-top:1px solid var(--line);padding:3rem 6vw 2.4r
     initSemesters();
     initUnlockBadges();
     initLinkGate();
+    initRevealPublished();
     initSolutionGate();
     initSelfcheck();
     initQuiz();
