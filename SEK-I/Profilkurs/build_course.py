@@ -4,7 +4,7 @@ Generator: Profil Informatik · Klasse 9 (14–15 J.) — Kursplan HJ1 & HJ2
 Erzeugt index.html (Kursübersicht) + Lernpfad-Startseiten + nutzt geteilte Assets.
 Einzige Quelle der Wahrheit für Inhalte, Kalender und Freischalt-Daten.
 """
-import os, html
+import os, glob, html
 from datetime import date, timedelta
 from urllib.parse import quote
 
@@ -66,15 +66,23 @@ LESSON_DIRS = {
   10: "10 Mini-Projekt Arduino - Ergebnissicherung",
 }
 
+# Die Lektionsordner (mit typst/figN.svg) liegen in der iCloud-Materialablage unter
+# 1HJ/<Einheit>/<Lektion>/, nicht neben diesem Skript. Überschreibbar per PROFIL_MATERIAL.
+MATERIAL_ROOT = os.environ.get("PROFIL_MATERIAL") or os.path.expanduser(
+    "~/Library/Mobile Documents/com~apple~CloudDocs/Unterricht/Material SEK I/"
+    "Informatik/Profilkurs/1HJ")
+
 def load_svg(lp_no, fig):
     folder = LESSON_DIRS.get(lp_no)
     if not folder:
         return ""
-    path = os.path.join(BASE, folder, "typst", fig + ".svg")
-    if not os.path.exists(path):
-        return ""
-    with open(path, "r", encoding="utf-8") as f:
-        return f.read()
+    rel = os.path.join(folder, "typst", fig + ".svg")
+    candidates = [os.path.join(BASE, rel)] + sorted(glob.glob(os.path.join(MATERIAL_ROOT, "*", rel)))
+    for path in candidates:
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                return f.read()
+    return ""
 
 # ---------------------------------------------------------------- Kursinhalt
 # Jedes LP: no, sjw, title, goal, tasks[], tools[keys], fast, rlp[], solution[], kind
@@ -501,119 +509,101 @@ UNITS = [
                        "Export über Datei → „Auf deinen Computer herunterladen“."]),
         dict(no=3, sjw=3, kind="lernpfad", title="Schleifen & Verzweigungen: ein Mini-Spiel",
              goal="Du setzt „wiederhole“-Schleifen und „falls … dann“-Verzweigungen ein und programmierst ein einfaches Fang- oder Ausweichspiel.",
-             tasks=["Endlosschleife zum ständigen Abfragen der Tastatur bauen.",
-                    "Verzweigung: „falls Figur berührt Rand → drehe/prallende ab“.",
-                    "Punktevariable anlegen und bei Treffer erhöhen."],
+             tasks=["Eine Endlosschleife bauen, die ständig abfragt, ob eine Pfeiltaste gedrückt wurde, und die Figur entsprechend bewegen.",
+                    "Eine Verzweigung ergänzen („falls Figur berührt Rand → dreht ab/prallt ab“), eine Punktevariable anlegen und bei einem Treffer erhöhen.",
+                    "In zwei bis drei Sätzen erklären, warum man beim Testen einer Endlosschleife in Scratch besonders vorsichtig sein muss und wie man das Programm trotzdem sicher stoppen kann."],
              tools=["scratch"],
-             fast="Füge einen Schwierigkeitsgrad hinzu: Das Spiel wird mit steigender Punktzahl schneller.",
+             fast="Vertiefungen aus Sitzung 00, 01, 02.<br>Füge einen Schwierigkeitsgrad hinzu: Das Spiel wird mit steigender Punktzahl schneller.<br>Nützliches: Erstelle eine Grußkarte unter Verwendung der Steuerelemente und einer Variable.",
              rlp=["RLP 2.2 · Kontrollstrukturen", "3.3 Schleife & Verzweigung"],
              vorwissen=[
                dict(fig="fig1", cap="Bild 1 · Endlosschleife + Tastaturabfrage", quiz=[
                  dict(q='Wozu dient Teil 1, die Endlosschleife ("wiederhole fortlaufend")?',
-                      done="Richtig — sie prüft ständig.",
+                      done="Richtig, sie prüft ständig.",
                       opts=[
-                        ("Sie prüft ständig, ohne von selbst zu enden, ob eine Bedingung eingetreten ist.", True, None),
+                        ("Sie startet das Programm zum Bewegen der Figur.", False, "Gestartet wird das Programm durch einen Ereignisblock, die Schleife wiederholt nur."),
+                        ("Sie prüft ständig, ob eine Bedingung eingetreten ist.", True, None),
                         ("Sie prüft die Bedingung genau einmal.", False, "Das würde eine einmalige Verzweigung tun, keine Endlosschleife."),
                         ("Sie beendet das Programm sofort.", False, "Eine Endlosschleife läuft weiter, sie beendet nichts."),
-                        ("Sie speichert nur Daten, ohne etwas zu prüfen.", False, "Speichern ist keine Aufgabe einer Schleife."),
                       ]),
                  dict(q='Was passiert bei Teil 2, wenn die Bedingung "Taste links?" erfüllt ist?',
-                      done="Genau — die Aktion wird ausgeführt.",
+                      done="Genau, die Aktion wird ausgeführt.",
                       opts=[
                         ("Die angehängte Aktion wird ausgeführt (z. B. Bewegung nach links).", True, None),
-                        ("Das ganze Programm stoppt.", False, "Eine erfüllte Bedingung löst die Aktion aus, sie stoppt nicht das Programm."),
-                        ("Die Schleife wird beendet.", False, "Die Endlosschleife läuft weiter, nur die Aktion wird einmal ausgeführt."),
-                        ("Nichts, Verzweigungen lösen keine Aktionen aus.", False, "Genau das ist die Aufgabe einer Verzweigung."),
+                        ("Das ganze Programm stoppt sofort und muss neu gestartet werden.", False, "Eine erfüllte Bedingung löst die Aktion aus, sie stoppt nicht das Programm."),
+                        ("Die Schleife wird vollständig beendet.", False, "Die Endlosschleife läuft weiter, nur die Aktion wird ausgeführt."),
+                        ("Es muss erneut auf die grüne Flagge geklickt werden.", False, "Die Flagge startet das Programm einmal, danach läuft die Schleife von selbst weiter."),
                       ]),
                  dict(q="Was passiert bei Teil 3, wenn die Bedingung NICHT erfüllt ist?",
-                      done="Stimmt — die Aktion wird übersprungen.",
+                      done="Stimmt, die Aktion wird übersprungen.",
                       opts=[
-                        ("Die Aktion wird übersprungen, die Schleife läuft weiter.", True, None),
                         ("Das Programm stürzt ab.", False, "Eine nicht erfüllte Bedingung führt zu keinem Absturz."),
+                        ("Die Aktion wird übersprungen, die Schleife läuft weiter.", True, None),
+                        ("Die Aktion wird übersprungen, jedoch bricht die Schleife ab.", False, "Die Schleife bricht nicht ab, sie prüft im nächsten Durchlauf erneut."),
                         ("Die Aktion wird trotzdem ausgeführt.", False, "Ohne erfüllte Bedingung wird die Aktion gerade nicht ausgeführt."),
-                        ("Die Schleife startet von vorne bei Frage 1.", False, "Die Schleife läuft einfach weiter, sie springt nicht zurück."),
                       ]),
                  dict(q="Warum steckt die Verzweigung INNERHALB der Schleife und nicht davor?",
-                      done="Richtig — ständige Neuprüfung.",
+                      done="Richtig, so wird ständig neu geprüft.",
                       opts=[
-                        ("Damit die Bedingung ständig neu geprüft wird, solange das Spiel läuft.", True, None),
-                        ("Das spielt keine Rolle, beide Anordnungen sind identisch.", False, "Außerhalb der Schleife würde die Bedingung nur einmal geprüft."),
-                        ("Damit die Bedingung nur einmal beim Start geprüft wird.", False, "Genau das würde passieren, wenn sie AUSSERHALB stünde — nicht gewollt."),
-                        ("Damit das Programm schneller läuft.", False, "Die Position hat nichts mit der Geschwindigkeit zu tun."),
+                        ("Das spielt keine Rolle, beide Anordnungen sind identisch in ihrer Funktion für das Programm.", False, "Außerhalb der Schleife würde die Bedingung nur einmal geprüft."),
+                        ("Es ist dafür wichtig, dass die Bedingung nur einmal beim Start geprüft wird.", False, "Genau das würde passieren, wenn sie außerhalb stünde. Das ist nicht gewollt."),
+                        ("Es ist dafür wichtig, dass die Bedingung ständig neu geprüft wird, solange das Spiel läuft.", True, None),
+                        ("Es ist dafür wichtig, dass das Programm schneller und fehlerfrei läuft.", False, "Die Position hat nichts mit der Geschwindigkeit zu tun."),
                       ]),
                ]),
                dict(fig="fig2", cap="Bild 2 · Punktevariable + Kollision", quiz=[
-                 dict(q='Wozu dient Teil 1, die Variable "Punkte"?',
-                      done="Richtig — sie speichert den Punktestand.",
+                 dict(q='Wozu dient Teil 1, die Variable „Punkte“?',
+                      done="Richtig, sie speichert den Punktestand.",
                       opts=[
+                        ("Sie steuert die Bühnenfarbe für das ablaufende Programm.", False, "Die Bühnenfarbe wird nicht über eine Punkte-Variable gesteuert."),
+                        ("Sie zeichnet die Spielfigur (Sprite).", False, "Zeichnen übernimmt das Kostüm des Sprites, nicht die Variable."),
                         ("Sie speichert einen Zustand (den Punktestand), der sich über die Zeit verändert.", True, None),
-                        ("Sie zeichnet die Spielfigur.", False, "Zeichnen übernimmt das Kostüm des Sprites, nicht die Variable."),
-                        ("Sie steuert die Bühnenfarbe.", False, "Die Bühnenfarbe wird nicht über eine Punkte-Variable gesteuert."),
                         ("Variablen werden in Scratch nicht benötigt.", False, "Variablen sind ein zentraler Baustein in Scratch."),
                       ]),
                  dict(q="Womit erkennst du eine Kollision (Teil 2)?",
-                      done='Genau — mit "wird … berührt?".',
+                      done='Genau, der „wird … berührt?“-Block prüft das.',
                       opts=[
-                        ('mit einem "wird … berührt?"-Block als Bedingung', True, None),
-                        ("nur durch genaues Hinschauen ohne Code", False, "Scratch bietet dafür einen eigenen Berührungs-Block."),
-                        ("mit einer Endlosschleife allein", False, "Die Schleife wiederholt nur die Prüfung, sie erkennt selbst keine Berührung."),
-                        ("das ist in Scratch nicht möglich", False, "Scratch hat einen eingebauten Berührungs-Block."),
+                        ("Mit der Drehung um 180 °.", False, "Eine Drehung ist eine Bewegung, sie erkennt keine Berührung."),
+                        ("Mit einer Endlosschleife im Programm.", False, "Die Schleife wiederholt nur die Prüfung, sie erkennt selbst keine Berührung."),
+                        ('Mit einem „wird … berührt?“-Block als Bedingung.', True, None),
+                        ('Mit einem „Pfeil nach rechts gedrückt?“-Block als Bedingung.', False, "Dieser Block fragt die Tastatur ab, nicht die Berührung von zwei Figuren."),
                       ]),
-                 dict(q='Was macht Teil 3, "ändere Punkte um 1"?',
-                      done="Stimmt — der Wert steigt um 1.",
+                 dict(q='Warum sollte „ändere Punkte um 1“ INNERHALB der Kollisions-Verzweigung stehen?',
+                      done="Richtig, nur bei einem echten Treffer.",
                       opts=[
-                        ("Es erhöht den Wert der Variable Punkte bei jedem Durchlauf um 1.", True, None),
-                        ("Es setzt die Variable auf genau 1 zurück.", False, "Das würde „setze Punkte auf 1“ tun, nicht „ändere um 1“."),
-                        ("Es löscht die Variable.", False, "Die Variable bleibt erhalten, ihr Wert wird nur erhöht."),
-                        ("Es hat keinen Effekt ohne Bildschirmaktualisierung.", False, "Der Wert ändert sich unabhängig von der Anzeige."),
-                      ]),
-                 dict(q='Warum sollte "ändere Punkte um 1" INNERHALB der Kollisions-Verzweigung stehen?',
-                      done="Richtig — nur bei echtem Treffer.",
-                      opts=[
+                        ("Das spielt keine Rolle, die Position ist beliebig.", False, "Innerhalb der Verzweigung zählt nur ein echter Treffer."),
                         ("Damit der Punktestand nur bei einem echten Treffer steigt.", True, None),
                         ("Damit der Punktestand jede Sekunde automatisch steigt.", False, "Das würde passieren, wenn der Block außerhalb der Verzweigung stünde."),
-                        ("Das spielt keine Rolle, die Position ist beliebig.", False, "Innerhalb der Verzweigung zählt nur ein echter Treffer."),
                         ("Damit die Variable gelöscht wird.", False, "Der Block erhöht die Variable, er löscht sie nicht."),
+                      ]),
+                 dict(q="Wozu dient eine Endlosschleife beim Abfragen der Tastatur?",
+                      done="Richtig, sie fragt ständig ab.",
+                      opts=[
+                        ("Damit ständig geprüft wird, ob eine Taste gedrückt wurde.", True, None),
+                        ("Damit das Programm nach einem Tastendruck sofort endet.", False, "Eine Endlosschleife läuft weiter, sie beendet das Programm nicht."),
+                        ("Damit die Tastatur ausgeschaltet wird.", False, "Die Schleife fragt die Tastatur ab, schaltet sie aber nicht aus."),
+                        ("Sie hat damit nichts zu tun.", False, "Genau das ständige Abfragen ist ihre Aufgabe."),
+                      ]),
+                 dict(q='Wie implementierst du „ändere Punkte um 1“? (implementieren = umsetzen)',
+                      done="Richtig, alter Wert plus 1.",
+                      opts=[
+                        ("Variablenblock „Setze Variable auf +1“", False, "Das würde die Variable jedes Mal nur auf +1 setzen, der bisherige Wert ginge verloren."),
+                        ("Variablenblock „Setze Variable auf (Operatorenblock (Variablenblock Variable) + Tastendruck)“", False, "Ein Tastendruck ist keine Zahl, die man zum Punktestand addieren kann."),
+                        ("Variablenblock „Setze Variable auf (Operatorenblock + 1)“", False, "Im Operatorenblock fehlt der bisherige Wert der Variable."),
+                        ("Variablenblock „Setze Variable auf (Operatorenblock (Variablenblock Variable) + 1)“", True, None),
+                      ]),
+                 dict(q='Was passiert bei der Verzweigung „falls Figur berührt Rand“?',
+                      done="Genau, die Bedingung löst eine Reaktion aus.",
+                      opts=[
+                        ("Die Figur verschwindet immer sofort und verlässt das Feld.", False, "Das würde nur passieren, wenn extra ein Verschwinden programmiert wäre."),
+                        ("Das Spiel startet automatisch neu.", False, "Ein Neustart müsste eigens programmiert werden, das macht die Verzweigung allein nicht."),
+                        ("Es passiert nichts, Verzweigungen (Fallunterscheidungen) wirken nicht auf Figuren.", False, "Verzweigungen steuern genau solche Reaktionen von Figuren."),
+                        ("Die Figur reagiert (z. B. dreht ab/stößt zurück), wenn die Bedingung erfüllt ist.", True, None),
                       ]),
                ]),
              ],
-             quiz=[
-               dict(q="Wozu dient eine Endlosschleife beim Abfragen der Tastatur?",
-                    done="Richtig — sie fragt ständig ab.",
-                    opts=[
-                      ("Damit ständig geprüft wird, ob eine Taste gedrückt wurde.", True, None),
-                      ("Damit das Programm nach einem Tastendruck sofort endet.", False, "Eine Endlosschleife läuft weiter, sie beendet das Programm nicht."),
-                      ("Damit die Tastatur ausgeschaltet wird.", False, "Die Schleife fragt die Tastatur ab, schaltet sie aber nicht aus."),
-                      ("Sie hat damit nichts zu tun.", False, "Genau das ständige Abfragen ist ihre Aufgabe."),
-                    ]),
-               dict(q="Was passiert bei der Verzweigung „falls Figur berührt Rand“?",
-                    done="Genau — die Bedingung löst eine Reaktion aus.",
-                    opts=[
-                      ("Die Figur reagiert (z. B. dreht ab), wenn die Bedingung erfüllt ist.", True, None),
-                      ("Die Figur verschwindet immer sofort.", False, "Das würde nur passieren, wenn extra ein Lösch-Befehl programmiert wäre."),
-                      ("Das Spiel startet automatisch neu.", False, "Ein Neustart müsste eigens programmiert werden, das macht die Verzweigung allein nicht."),
-                      ("Nichts, Verzweigungen wirken nicht auf Figuren.", False, "Verzweigungen steuern genau solche Reaktionen von Figuren."),
-                    ]),
-               dict(q="Wozu dient eine Variable wie „Punkte“ in einem Spiel?",
-                    done="Stimmt — sie merkt sich einen Zustand über die Zeit.",
-                    opts=[
-                      ("Sie speichert einen Zustand (den Punktestand), der sich über die Zeit verändert.", True, None),
-                      ("Sie zeichnet nur die Spielfigur.", False, "Das Zeichnen übernehmen Aussehen-Blöcke, nicht die Variable."),
-                      ("Sie ist nur für die Farbe der Bühne zuständig.", False, "Die Bühnenfarbe hat mit einer Punkte-Variable nichts zu tun."),
-                      ("Variablen werden in Scratch nicht benötigt.", False, "Ohne Variable ließe sich kein Punktestand über die Zeit merken."),
-                    ]),
-               dict(q="Womit erkennst du eine Kollision zwischen zwei Figuren?",
-                    done="Richtig — der „wird berührt?“-Block prüft das.",
-                    opts=[
-                      ("Mit einem „wird berührt?“-Block als Bedingung.", True, None),
-                      ("Nur durch genaues Hinschauen ohne Code.", False, "Das Spiel muss die Kollision selbst erkennen, nicht nur die spielende Person."),
-                      ("Mit einer Endlosschleife allein.", False, "Die Schleife fragt nur wiederholt ab, die Kollision erkennt der Berührt-Block."),
-                      ("Das ist in Scratch nicht möglich.", False, "Der „wird berührt?“-Block macht genau das möglich."),
-                    ]),
-             ],
-             solution=["Schleife = Wiederholung; Verzweigung = Entscheidung mit Bedingung.",
-                       "Variable „Punkte“ speichert den Zustand über die Zeit.",
-                       "Kollision per „wird berührt?“-Block als Bedingung."]),
+             solution=["Bild 1: (1) Endlosschleife („wiederhole fortlaufend“), (2) Verzweigung (Tastenabfrage), (3) Aktion (Bewegung).",
+                       "Bild 2: (1) Variable („Punkte“), (2) Kollisionsbedingung, (3) Punktezähler-Erhöhung.",
+                       "Aufgabe 3: Eine Endlosschleife läuft ohne Pause weiter und kann Scratch sehr schnell ausbremsen oder dafür sorgen, dass du keine Blöcke mehr anklicken kannst, wenn darin zu viel auf einmal passiert. Du kannst das Programm sicher stoppen, indem du das rote Stopp-Zeichen klickst oder in die Schleife eine Abbruchbedingung einbaust (z. B. „falls Taste [Leertaste] gedrückt, dann stoppe alles“)."]),
         dict(no=4, sjw=4, kind="lernpfad", title="Makey Makey: die Welt wird zum Controller",
              goal="Du verbindest Makey Makey mit Scratch und steuerst dein Programm über leitfähige Alltagsgegenstände — Eingabe wird begreifbar (Sensorik & Stromkreis).",
              tasks=["Makey Makey anschließen und einen Stromkreis über Erde (EARTH) schließen.",
