@@ -502,7 +502,13 @@
         if (doneBox && solved === total) doneBox.classList.add('show');
       }
       questions.forEach(function(q){
-        var opts = q.querySelectorAll('.opt');
+        var optsContainer = q.querySelector('.opts');
+        var opts = Array.prototype.slice.call(q.querySelectorAll('.opt'));
+        for (var i = opts.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = opts[i]; opts[i] = opts[j]; opts[j] = tmp;
+        }
+        opts.forEach(function(opt){ optsContainer.appendChild(opt); });
         var hint = q.querySelector('.q-hint');
         var done = q.querySelector('.q-done');
         var answered = false;
