@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LP04 · Makey Makey: die Welt wird zum Controller</title>
+<title>LP04 · Controller-Druckvorlagen</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
@@ -519,112 +519,55 @@ ol.steps li::before{content:counter(st);position:absolute;left:0;top:.05rem;widt
 .setup{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.6rem;margin-top:.4rem}
 .setup div{background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:.6rem .75rem;font-size:.86rem;color:var(--ink-soft)}
 .setup b{display:block;font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gc);margin-bottom:.2rem}
+
+/* ===== LP04 · Druckvorlagen ===== */
+.print-ctrl{display:flex;flex-wrap:wrap;gap:.8rem 1.2rem;align-items:center;margin-top:1.1rem;padding-top:1rem;border-top:1px dashed var(--line)}
+.print-ctrl label{color:var(--ink-soft);font-size:.9rem;display:inline-flex;gap:.45rem;align-items:center}
+.print-ctrl select{font-family:inherit;font-size:.9rem;background:var(--panel-2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:.4rem .6rem}
+.print-ctrl .radios{display:flex;flex-wrap:wrap;gap:.4rem 1rem}
+.print-ctrl input{accent-color:var(--key)}
+#sheets{display:flex;flex-direction:column;gap:1.2rem}
+.sheet{background:#fff;border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,.45);overflow:hidden;aspect-ratio:297/210}
+.sheet svg{width:100%;height:100%;display:block}
+.sheet.off{display:none}
+@page{size:A4 landscape;margin:0}
+@media print{
+  body{background:#fff}
+  body::before,#matrix-canvas,.back,.lp-hero,.lp-sec{display:none!important}
+  .lp-page{padding:0;max-width:none}
+  #sheets{gap:0}
+  .sheet{width:297mm;height:210mm;border-radius:0;box-shadow:none;break-after:page;aspect-ratio:auto}
+  .sheet:last-child{break-after:auto}
+}
 </style>
 </head>
 <body style="--key:#34ff9e;--key-2:#12c47a;--tint:rgba(52,255,158,0.09);">
 <canvas id="matrix-canvas"></canvas>
 <div class="lp-page">
-  <a class="back" href="../../../index.html#hj1-content">← zur Kursübersicht</a>
+  <a class="back" href="lp04.html#werkstatt">← zurück zu LP04 · Werkstatt</a>
   <div class="lp-hero">
-    <div class="lp-meta"><span>Einheit 01 · Blockbasiert I — Scratch &amp; Makey Makey</span><span>SJW 4 · 21.09.2026</span><span>Lernpfad</span></div>
-    <h1>Makey Makey: die Welt wird zum Controller</h1>
-    <div class="lp-big">04</div>
+    <div class="lp-meta"><span>Einheit 01 · Blockbasiert I — Scratch &amp; Makey Makey</span><span>LP04</span><span>Druckvorlagen</span></div>
+    <h1>Controller-Schablonen zum Ausdrucken</h1>
+    <div class="lp-big">A4</div>
   </div>
-  <section class="lp-sec"><h2>Das lernst du</h2><p>Du verbindest Makey Makey mit Scratch, erklärst, warum ein geschlossener Stromkreis über leitfähige Gegenstände ein Tastendruck ist (Eingabe im EVA-Prinzip), und baust im Zweierteam aus Alufolie und Papier einen <b>eigenen Controller</b> für ein <b>rundenbasiertes Spiel</b> — von Tic Tac Toe bis Schach.</p><div data-selfcheck="lp04"></div></section>
-  <section class="lp-sec"><h2>Schau genau hin — was weißt du schon?</h2><p class="vw-intro">Sieh dir die Bilder an. Zu jedem Bild gehören einige Fragen. Tippe die richtige Antwort an — wird sie grün, ist sie richtig. Bei rot bekommst du einen Tipp.</p><div class="vw-block"><div class="fig"><svg viewBox="0 0 700 370" xmlns="http://www.w3.org/2000/svg" font-family="Nunito, sans-serif" role="img"><rect x="20" y="20" width="660" height="330" rx="18" fill="#e3f8fd" stroke="#0b4a5c" stroke-width="3"/><rect x="80" y="60" width="340" height="260" rx="16" fill="#eef2f6" stroke="#0b4a5c" stroke-width="2.8"/><circle cx="230" cy="90" r="16" fill="#0bb7e0" stroke="#0b4a5c" stroke-width="2.2"/><text x="230" y="94" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="9" fill="#ffffff">up</text><circle cx="230" cy="170" r="16" fill="#0bb7e0" stroke="#0b4a5c" stroke-width="2.2"/><text x="230" y="174" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="9" fill="#ffffff">down</text><circle cx="180" cy="130" r="16" fill="#0bb7e0" stroke="#0b4a5c" stroke-width="2.2"/><text x="180" y="134" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="9" fill="#ffffff">left</text><circle cx="280" cy="130" r="16" fill="#0bb7e0" stroke="#0b4a5c" stroke-width="2.2"/><text x="280" y="134" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="9" fill="#ffffff">right</text><circle cx="230" cy="60" r="17" fill="#8a6205" stroke="#ffffff" stroke-width="3"/><text x="230" y="60" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><circle cx="230" cy="130" r="18" fill="#12866a" stroke="#0b4a5c" stroke-width="2.4"/><text x="230" y="134" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="9" fill="#ffffff">space</text><circle cx="270" cy="170" r="17" fill="#0b5c49" stroke="#ffffff" stroke-width="3"/><text x="270" y="170" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><rect x="130" y="250" width="240" height="40" rx="8" fill="#7d3ff0" stroke="#0b4a5c" stroke-width="2.4"/><text x="250" y="276" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="15" fill="#ffffff">EARTH</text><circle cx="130" cy="246" r="17" fill="#4c1fb0" stroke="#ffffff" stroke-width="3"/><text x="130" y="246" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><path d="M420,90 C 470,90 470,130 520,130" stroke="#0b4a5c" stroke-width="4" fill="none" stroke-linecap="round"/><rect x="520" y="100" width="110" height="70" rx="10" fill="#eef2f6" stroke="#0b4a5c" stroke-width="2.4"/><text x="575" y="140" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="700" font-size="13" fill="#0b4a5c">Computer</text><circle cx="420" cy="90" r="17" fill="#0b4a5c" stroke="#ffffff" stroke-width="3"/><text x="420" y="90" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text></svg><div class="fig-cap">Bild 1 · Das Makey-Makey-Board</div></div><div class="qz-wrap" data-qz><div class="qz-progress"><span class="qz-count">0 / 4 richtig</span><span class="qz-bar"><span class="qz-fill"></span></span></div><div class="qz-item"><div class="qz-text"><span class="qn">1.</span>Wozu dient Teil 1, der EARTH-Anschluss?</div><div class="qz-opts"><button class="qz-opt" data-hint="EARTH hat mit einer Internetverbindung nichts zu tun.">Er verbindet Makey Makey mit dem Internet.</button><button class="qz-opt" data-hint="EARTH ist für den geschlossenen Stromkreis unverzichtbar.">Er hat keine erkennbare Funktion.</button><button class="qz-opt" data-hint="Makey Makey wird über USB versorgt, nicht über EARTH.">Er lädt das Gerät auf.</button><button class="qz-opt" data-correct="true">Er schließt den Stromkreis, meist indem man ihn selbst berührt (Erdung).</button></div><div class="qz-hint"></div><div class="qz-done">Richtig — er schließt den Stromkreis.</div></div><div class="qz-item"><div class="qz-text"><span class="qn">2.</span>Wofür stehen die Pins bei Teil 2?</div><div class="qz-opts"><button class="qz-opt" data-hint="Dafür hat Makey Makey keine eigenen Pins.">für Lautstärke und Helligkeit</button><button class="qz-opt" data-hint="Makey Makey verbindet sich nicht mit dem Internet.">für die Internetverbindung</button><button class="qz-opt" data-hint="Makey Makey hat keinen separaten Ein-/Ausschalter-Pin.">für den Ein-/Ausschalter</button><button class="qz-opt" data-correct="true">für die vier Pfeiltasten (up, down, left, right)</button></div><div class="qz-hint"></div><div class="qz-done">Genau — die Pfeiltasten.</div></div><div class="qz-item"><div class="qz-text"><span class="qn">3.</span>Wofür steht der Pin bei Teil 3?</div><div class="qz-opts"><button class="qz-opt" data-hint="Dafür ist kein eigener Pin vorgesehen.">für die Umschalttaste</button><button class="qz-opt" data-hint="Dafür gibt es keinen eigenen Pin bei Makey Makey.">für die Eingabetaste (Enter)</button><button class="qz-opt" data-correct="true">für die Leertaste</button><button class="qz-opt" data-hint="Makey Makey simuliert Tastendrücke, keine Mausbewegung.">für den Mauszeiger</button></div><div class="qz-hint"></div><div class="qz-done">Stimmt — für die Leertaste.</div></div><div class="qz-item"><div class="qz-text"><span class="qn">4.</span>Wozu dient Teil 4, das USB-Kabel?</div><div class="qz-opts"><button class="qz-opt" data-hint="Das USB-Kabel geht zum Computer, nicht zu einem zweiten Board.">es verbindet zwei Makey-Makey-Boards miteinander</button><button class="qz-opt" data-hint="Makey Makey hat keinen eigenen Akku.">es lädt nur den Akku auf</button><button class="qz-opt" data-hint="Ohne USB-Verbindung erreichen die Signale den Computer nicht.">es hat keine Funktion beim Spielen</button><button class="qz-opt" data-correct="true">es verbindet Makey Makey mit dem Computer und überträgt die Signale</button></div><div class="qz-hint"></div><div class="qz-done">Richtig — es überträgt die Signale.</div></div><div class="qz-solved">✔ Stark — Bild 1 komplett gelöst!</div></div></div><div class="vw-block"><div class="fig"><svg viewBox="0 0 700 370" xmlns="http://www.w3.org/2000/svg" font-family="Nunito, sans-serif" role="img"><rect x="20" y="20" width="660" height="330" rx="18" fill="#e3f8fd" stroke="#0b4a5c" stroke-width="3"/><rect x="60" y="150" width="110" height="80" rx="10" fill="#7d3ff0" stroke="#0b4a5c" stroke-width="2.6"/><text x="115" y="195" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="700" font-size="13" fill="#ffffff">Makey Makey</text><circle cx="60" cy="150" r="17" fill="#0b4a5c" stroke="#ffffff" stroke-width="3"/><text x="60" y="150" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><path d="M170,180 L230,180" stroke="#0b4a5c" stroke-width="3"/><ellipse cx="290" cy="180" rx="50" ry="22" fill="#e3a008" stroke="#0b4a5c" stroke-width="2.4" transform="rotate(-10 290 180)"/><text x="290" y="185" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="700" font-size="13" fill="#ffffff">Banane</text><circle cx="230" cy="180" r="17" fill="#8a6205" stroke="#ffffff" stroke-width="3"/><text x="230" y="180" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><circle cx="420" cy="120" r="20" fill="#fde3e9" stroke="#0b4a5c" stroke-width="2.4"/><path d="M420,140 L420,200" stroke="#0b4a5c" stroke-width="5" stroke-linecap="round"/><path d="M420,155 L350,175" stroke="#0b4a5c" stroke-width="5" stroke-linecap="round"/><path d="M420,155 L440,190" stroke="#0b4a5c" stroke-width="5" stroke-linecap="round"/><path d="M420,200 L400,240" stroke="#0b4a5c" stroke-width="5" stroke-linecap="round"/><path d="M420,200 L440,240" stroke="#0b4a5c" stroke-width="5" stroke-linecap="round"/><path d="M440,190 L340,180" stroke="#0b4a5c" stroke-width="2" stroke-dasharray="3,3" fill="none"/><path d="M400,240 L115,230" stroke="#0b4a5c" stroke-width="2" stroke-dasharray="3,3" fill="none"/><circle cx="396" cy="96" r="17" fill="#0b5c49" stroke="#ffffff" stroke-width="3"/><text x="396" y="96" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><rect x="560" y="90" width="110" height="90" rx="10" fill="#12866a" stroke="#0b4a5c" stroke-width="2.6"/><text x="615" y="130" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="700" font-size="12" fill="#ffffff">Taste</text><text x="615" y="148" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="700" font-size="12" fill="#ffffff">erkannt!</text><path d="M440,120 L560,120" stroke="#0b4a5c" stroke-width="2.2" fill="none"/><path d="M552,114 L562,120 L552,126 Z" fill="#0b4a5c"/><circle cx="560" cy="90" r="17" fill="#4c1fb0" stroke="#ffffff" stroke-width="3"/><text x="560" y="90" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text></svg><div class="fig-cap">Bild 2 · Der Stromkreis</div></div><div class="qz-wrap" data-qz><div class="qz-progress"><span class="qz-count">0 / 4 richtig</span><span class="qz-bar"><span class="qz-fill"></span></span></div><div class="qz-item"><div class="qz-text"><span class="qn">1.</span>Was ist Teil 1, das violette Board?</div><div class="qz-opts"><button class="qz-opt" data-hint="Der Computer empfängt nur die Signale von Makey Makey.">der Computer</button><button class="qz-opt" data-hint="Die Person schließt den Kreis, ist aber nicht das Board.">die Person</button><button class="qz-opt" data-hint="Die Banane ist das leitfähige Objekt, nicht das Board.">die Banane</button><button class="qz-opt" data-correct="true">Makey Makey — es erkennt den geschlossenen Stromkreis.</button></div><div class="qz-hint"></div><div class="qz-done">Richtig — Makey Makey.</div></div><div class="qz-item"><div class="qz-text"><span class="qn">2.</span>Was ist Teil 2, der leitfähige Gegenstand?</div><div class="qz-opts"><button class="qz-opt" data-hint="Glas leitet keinen Strom.">eine Fensterscheibe</button><button class="qz-opt" data-correct="true">die Banane, verbunden über eine Krokodilklemme</button><button class="qz-opt" data-hint="Holz ist nicht leitfähig.">ein Stück Holz</button><button class="qz-opt" data-hint="Radiergummi leitet keinen Strom.">ein Radiergummi</button></div><div class="qz-hint"></div><div class="qz-done">Genau — die Banane.</div></div><div class="qz-item"><div class="qz-text"><span class="qn">3.</span>Was macht Teil 3, die Person?</div><div class="qz-opts"><button class="qz-opt" data-hint="Ohne die Person bleibt der Stromkreis offen.">Sie hat keine Funktion im Stromkreis.</button><button class="qz-opt" data-hint="Das Skript wurde vorher am Rechner erstellt.">Sie programmiert das Scratch-Skript.</button><button class="qz-opt" data-correct="true">Sie schließt den Stromkreis, indem sie Banane UND EARTH gleichzeitig berührt.</button><button class="qz-opt" data-hint="Das Board wird über USB versorgt, nicht über die Person.">Sie lädt das Makey-Makey-Board auf.</button></div><div class="qz-hint"></div><div class="qz-done">Stimmt — sie schließt den Stromkreis.</div></div><div class="qz-item"><div class="qz-text"><span class="qn">4.</span>Was passiert bei Teil 4, wenn der Kreis geschlossen ist?</div><div class="qz-opts"><button class="qz-opt" data-hint="Im Scratch-Projekt löst das Signal eine Reaktion aus.">nichts, es passiert nichts Sichtbares</button><button class="qz-opt" data-hint="Ein geschlossener Kreis simuliert nur einen Tastendruck.">der Computer schaltet sich aus</button><button class="qz-opt" data-hint="Die schwachen USB-Ströme schaden der Banane nicht.">die Banane wird beschädigt</button><button class="qz-opt" data-correct="true">der Computer erkennt ein Signal, so als wäre eine Taste gedrückt worden</button></div><div class="qz-hint"></div><div class="qz-done">Richtig — der Computer erkennt ein Signal.</div></div><div class="qz-solved">✔ Stark — Bild 2 komplett gelöst!</div></div></div></section>
-  <section class="lp-sec"><h2>Aus LP03 aktivieren — die Tastenschleife</h2>
-    <p>In LP03 hast du eine Figur mit einer <b>Endlosschleife</b> gesteuert, die ständig fragt: „Ist gerade eine Taste gedrückt?“ Genau dieses Muster ist das Herz eures Spiels — denn Makey Makey <b>tut nichts anderes, als Tasten zu drücken</b>.</p>
-    <div class="sb-wrap"><div class="sb-sprite">Erinnerung · LP03</div><pre class="sbsrc" hidden>
-ev: Wenn ⚑ angeklickt wird
-ctl: wiederhole fortlaufend
-  ctl: falls ⟨sen Taste [Pfeil nach rechts] gedrückt?⟩, dann
-    mot: ändere x um (10)
-</pre></div>
-    <h3>Deine fünf Spieltasten am Makey Makey</h3>
-    <p>Auf der Vorderseite hat Makey Makey sechs Anschlüsse. Für ein Rundenspiel reichen fünf davon: vier zum <b>Bewegen</b>, einer zum <b>Bestätigen</b>.</p>
-    <table class="map-table">
-      <tr><th>Anschluss</th><th>Scratch fragt ab …</th><th>Rolle im Spiel</th></tr>
-      <tr><td><span class="kbd">↑</span> <span class="kbd">↓</span> <span class="kbd">←</span> <span class="kbd">→</span></td><td><code>Taste [Pfeil nach oben] gedrückt?</code> usw.</td><td>Cursor / Zeiger über das Spielfeld bewegen</td></tr>
-      <tr><td><span class="kbd">SPACE</span></td><td><code>Taste [Leertaste] gedrückt?</code></td><td><b>Bestätigen</b>: setzen · einwerfen · feuern · Figur wählen</td></tr>
-      <tr><td><span class="kbd">CLICK</span></td><td><code>Maustaste gedrückt?</code></td><td>optional: z. B. „Abbrechen“ oder „Neues Spiel“</td></tr>
-      <tr><td><span class="kbd">EARTH</span></td><td>—</td><td>Erdung: schließt den Stromkreis (Alu-Armband)</td></tr>
-    </table>
-    <p class="note"><b>Achtung Enter:</b> Makey Makey hat vorne <b>keinen Enter-Anschluss</b>. Eure „Bestätigen-Taste“ ist deshalb die <b>Leertaste</b> (SPACE). Wer mehr Tasten braucht, findet auf der Rückseite noch <span class="kbd">W</span> <span class="kbd">A</span> <span class="kbd">S</span> <span class="kbd">D</span> <span class="kbd">F</span> <span class="kbd">G</span> (mit Steckkabel).</p>
-    <h3>Denk kurz nach — dann aufklappen</h3>
-    <details class="think"><summary>Du berührst die Alufolien-Taste „→“ eine halbe Sekunde lang. Was passiert mit einem Spielfeld-Cursor, der pro Schleifendurchlauf ein Feld weiterspringt?</summary><div class="ans">Die Schleife läuft etwa <b>30-mal pro Sekunde</b>. Der Cursor rast also bis an den Rand. Lösung: Nach dem Sprung warten, bis die Taste wieder <b>losgelassen</b> ist — mit <code>warte bis ⟨nicht ⟨Taste [Pfeil nach rechts] gedrückt?⟩⟩</code>. Das nennt man <b>Entprellen</b>.</div></details>
-    <details class="think"><summary>Warum eine Endlosschleife und nicht einfach mehrere „Wenn Taste … gedrückt wird“-Blöcke?</summary><div class="ans">In der Schleife steuert <b>ein</b> Skript das ganze Spiel: Nur dort wird gezogen, geprüft und der Spieler gewechselt. Mit einer <code>wiederhole bis ⟨Sieger &gt; 0⟩</code>-Schleife hört das Spiel außerdem sauber auf, sobald jemand gewonnen hat — einzelne Ereignisblöcke würden einfach weiterreagieren.</div></details>
-    <details class="think"><summary>„Rundenbasiert“ heißt: Spieler 1, dann Spieler 2, dann wieder 1 … Wie merkt sich das Programm, wer dran ist?</summary><div class="ans">Mit einer Variablen <code>Spieler</code> (Wert 1 oder 2). Nach jedem gültigen Zug: <code>setze [Spieler] auf ((3) - (Spieler))</code> — aus 1 wird 2, aus 2 wird 1. Ihr teilt euch <b>einen</b> Controller und gebt ihn nach jedem Zug weiter.</div></details>
-  </section>
-
-  <section class="lp-sec" id="controller-test"><h2>Controller-Test</h2>
-    <p>Schließe Makey Makey per USB an und starte den Test. Berühre EARTH und eine Taste — die passende Lampe muss aufleuchten. Funktioniert das, klappt es auch in Scratch. Rechts siehst du, wie sich ein Rundenspiel mit fünf Tasten anfühlt: <span class="kbd">←</span><span class="kbd">→</span><span class="kbd">↑</span><span class="kbd">↓</span> bewegen, <span class="kbd">SPACE</span> setzt.</p>
-    <div style="margin:.9rem 0"><button class="btn" id="ct-toggle" type="button">▶ Test starten</button></div>
-    <div class="ct-panel">
-      <div>
-        <div class="ct-keys">
-          <span></span><div class="lamp" data-k="ArrowUp">↑</div><span></span>
-          <div class="lamp" data-k="ArrowLeft">←</div><div class="lamp wide" data-k=" ">SPACE</div><div class="lamp" data-k="ArrowRight">→</div>
-          <span></span><div class="lamp" data-k="ArrowDown">↓</div><div class="lamp wide" data-k="click">CLICK</div>
-        </div>
-        <div class="ct-row"><div class="lamp" data-k="w">W</div><div class="lamp" data-k="a">A</div><div class="lamp" data-k="s">S</div><div class="lamp" data-k="d">D</div><div class="lamp" data-k="f">F</div><div class="lamp" data-k="g">G</div></div>
-        <div class="ct-cap">VORDERSEITE (oben) · RÜCKSEITE W–G (unten)</div>
-        <div class="ct-status" id="ct-status">Test ist aus — Pfeiltasten scrollen normal.</div>
-      </div>
-      <div>
-        <div class="ttt" id="ttt"></div>
-        <div class="ttt-msg" id="ttt-msg">Starte den Test, dann: Spieler ✕ ist dran.</div>
-      </div>
+  <section class="lp-sec"><h2>So druckt ihr richtig</h2>
+    <ol class="steps">
+      <li>Controller wählen, dann <b>Drucken</b>. Im Druckdialog: <b>A4 quer</b>, Skalierung <b>100 % / „Tatsächliche Größe“</b>, Ränder <b>keine</b> bzw. Minimum.</li>
+      <li><b>Vorderseite:</b> gestrichelte Flächen mit Alufolie bekleben. Am roten Kreuz ein Loch stanzen.</li>
+      <li><b>Rückseite (gespiegelt):</b> Am einfachsten einzeln drucken, Blatt umgedreht gegen das Fenster halten und die Lochkreuze übereinanderlegen — dann die grauen Bahnen auf die Rückseite übertragen. Wer beidseitig druckt: Probeblatt machen, die Kreuze müssen genau übereinanderliegen.</li>
+      <li>Druckknopf durch Folie, Papier und Alustreifen stecken, Krokodilklemmen an die schwarzen Punkte am Rand.</li>
+    </ol>
+    <div class="print-ctrl">
+      <label>Controller <select id="which"><option value="all">alle vier</option></select></label>
+      <span class="radios">
+        <label><input type="radio" name="side" value="both" checked> Vorder- + Rückseite</label>
+        <label><input type="radio" name="side" value="front"> nur vorne</label>
+        <label><input type="radio" name="side" value="back"> nur hinten</label>
+      </span>
+      <button class="btn" id="print" type="button">🖨 Drucken</button>
     </div>
   </section>
-
-  <section class="lp-sec" id="werkstatt"><h2>Werkstatt — euer A4-Controller</h2>
-    <p>Euer Controller ist ein DIN-A4-Blatt, auf dem ihr das Spielfeld bzw. ein Steuerkreuz mit <b>Alufolie</b> nachbaut. Der Trick ist das <b>Zwei-Seiten-Prinzip</b>: Vorne liegen die Folien-Tasten, hinten laufen Alustreifen als „Leiterbahnen“ zum Rand. Verbunden werden beide Seiten durch ein <b>gestanztes Loch</b>, in dem ein <b>Metall-Druckknopf</b> (oder eine Musterbeutelklammer) steckt. So kreuzen sich vorne keine Streifen und alle Krokodilklemmen sitzen ordentlich am Rand.</p>
-    <div class="ctrl-fig" id="fig-sandwich"></div>
-    <div class="two" style="margin-top:1rem">
-      <div>
-        <h3>Material pro Team</h3>
-        <ul class="task-list">
-          <li>Makey Makey + USB-Kabel + 6–7 Krokodilklemmen</li>
-          <li>1–2 Blatt DIN A4 (gern etwas dicker), Bleistift, Lineal</li>
-          <li>Alufolie, Schere, Klebestift/Tesafilm</li>
-          <li>Locher bzw. Lochzange + Metall-Druckknöpfe oder Musterbeutelklammern</li>
-          <li>Streifen Alufolie als EARTH-Armband</li>
-        </ul>
-      </div>
-      <div>
-        <h3>Bauanleitung</h3>
-        <ol class="steps">
-          <li>Layout mit Bleistift vorzeichnen (siehe Bauplan eures Spiels unten).</li>
-          <li>Vorderseite: Folien-Tasten aufkleben — mindestens 1 cm Abstand zwischen zwei Tasten.</li>
-          <li>In jede Taste ein Loch stanzen, Druckknopf von vorne durchstecken.</li>
-          <li>Rückseite: pro Taste einen Alustreifen vom Druckknopf bis zum Blattrand kleben. Streifen dürfen sich <b>nie berühren</b>.</li>
-          <li>Am Rand je eine Krokodilklemme auf den Streifen, andere Seite an den passenden Makey-Makey-Anschluss.</li>
-          <li>EARTH mit dem Alu-Armband verbinden — wer gerade am Zug ist, trägt es. Dann: <a href="#controller-test" style="color:var(--key)">Controller-Test</a>!</li>
-        </ol>
-      </div>
-    </div>
-    <p style="margin-top:1rem"><a class="btn" href="lp04-vorlagen.html" target="_blank" rel="noopener">🖨 Druckvorlagen: alle Controller-Schablonen (A4, 1:1)</a></p>
-    <p class="note warn"><b>Fehlersuche:</b> Leuchtet keine Lampe? EARTH-Kontakt prüfen (Haut direkt an der Folie, feuchte Finger leiten besser). Leuchten zwei Lampen gleichzeitig? Zwei Streifen berühren sich — mit Tesafilm isolieren. Druckknopf locker? Folie vorne und hinten fest andrücken.</p>
-    <p class="note">Sicherheit: Makey Makey arbeitet nur mit der schwachen, ungefährlichen USB-Spannung. Trotzdem nie Steckdosen oder Netzteile an die Klemmen anschließen.</p>
-  </section>
-
-  <section class="lp-sec" id="mission"><h2>Mission — euer Rundenspiel (ca. 30 Min.)</h2>
-    <p>Findet euch als <b>Zweierteam</b> zusammen und wählt ein Spiel, das zu eurem Können und euren Interessen passt. Jeder Pfad beginnt mit <b>Denkanstößen</b> — versucht zuerst, selbst eine Lösung zu finden. Kommt ihr nicht weiter, klickt euch <b>frei durch die Stufen</b> bis hin zum vollständigen <b>Bauplan</b>. Tipp zur Arbeitsteilung: eine Person baut den Controller, die andere programmiert — nach Stufe 2 wird gewechselt.</p>
-    <div class="games" id="games"></div>
-    <div id="tracks"></div>
-  </section>
-
-  <section class="lp-sec"><h2>Aufgaben</h2><ul class="task-list">
-    <li><b>Basis:</b> Schließe Makey Makey an, verbinde EARTH über eine Krokodilklemme mit dir selbst (Alu-Armband) und teste eine Folien-Taste im <a href="#controller-test" style="color:var(--key)">Controller-Test</a>.</li>
-    <li><b>Mittel:</b> Baut als Zweierteam euren A4-Controller mit fünf Tasten (<span class="kbd">↑</span><span class="kbd">↓</span><span class="kbd">←</span><span class="kbd">→</span><span class="kbd">SPACE</span>) und programmiert euer Rundenspiel mindestens bis zur spielbaren Stufe.</li>
-    <li><b>Knifflig:</b> Teste einen nicht leitfähigen Gegenstand (z. B. ein Radiergummi) als „Taste“ und erkläre in eigenen Worten, warum er nicht funktioniert — nutze dabei den Begriff „geschlossener Stromkreis“.</li>
-  </ul></section>
-  <section class="lp-sec"><h2>Wissens-Check</h2><div class="qz-wrap" data-qz><div class="qz-progress"><span class="qz-count">0 / 4 richtig</span><span class="qz-bar"><span class="qz-fill"></span></span></div><div class="qz-item"><div class="qz-text"><span class="qn">1.</span>Was ersetzt Makey Makey im Grunde?</div><div class="qz-opts"><button class="qz-opt" data-hint="Der Bildschirm gehört zur Ausgabe, damit hat Makey Makey nichts zu tun.">Den Bildschirm.</button><button class="qz-opt" data-hint="Scratch läuft weiterhin normal — Makey Makey liefert nur andere Eingaben.">Die Scratch-Software.</button><button class="qz-opt" data-correct="true">Signale von Tastatur und Maus.</button><button class="qz-opt" data-hint="Makey Makey ersetzt nur die Eingabesignale, nicht den ganzen Computer.">Den gesamten Computer.</button></div><div class="qz-hint"></div><div class="qz-done">Richtig — Tastatur-/Maus-Signale.</div></div><div class="qz-item"><div class="qz-text"><span class="qn">2.</span>Wodurch entsteht ein „Tastendruck“ bei Makey Makey?</div><div class="qz-opts"><button class="qz-opt" data-hint="Genau das will Makey Makey ersetzen — durch leitfähige Alltagsgegenstände.">Nur durch Drücken einer echten Computertaste.</button><button class="qz-opt" data-hint="Es zählt der geschlossene Stromkreis, nicht die Lautstärke.">Durch lautes Klopfen auf den Tisch.</button><button class="qz-opt" data-correct="true">Durch einen geschlossenen Stromkreis, z. B. über den eigenen Körper.</button><button class="qz-opt" data-hint="Makey Makey arbeitet über Kabel und Stromkreise, nicht über WLAN.">Durch eine WLAN-Verbindung.</button></div><div class="qz-hint"></div><div class="qz-done">Genau — ein geschlossener Stromkreis über den Körper.</div></div><div class="qz-item"><div class="qz-text"><span class="qn">3.</span>Welche Alltagsgegenstände eignen sich als leitfähige „Tasten“?</div><div class="qz-opts"><button class="qz-opt" data-hint="Glas ist ein Isolator, kein Leiter.">Nur Glas.</button><button class="qz-opt" data-correct="true">Bananen, Alufolie oder Wasser.</button><button class="qz-opt" data-hint="Holz und Papier leiten Strom kaum — sie funktionieren nicht als Makey-Makey-Taste.">Nur Holz und Papier.</button><button class="qz-opt" data-hint="Genau alltägliche, leitfähige Gegenstände funktionieren als Taste — keine Spezialhardware nötig.">Gar keine, es braucht spezielle Hardware.</button></div><div class="qz-hint"></div><div class="qz-done">Stimmt — leitfähige Alltagsgegenstände.</div></div><div class="qz-item"><div class="qz-text"><span class="qn">4.</span>Zu welchem Teil des EVA-Prinzips gehört Makey Makey vor allem?</div><div class="qz-opts"><button class="qz-opt" data-hint="Verarbeitet wird im Prozessor/der Software, nicht im Makey Makey selbst.">Zur Verarbeitung.</button><button class="qz-opt" data-hint="Ausgabe wäre z. B. der Bildschirm — Makey Makey liefert stattdessen Eingaben.">Zur Ausgabe.</button><button class="qz-opt" data-correct="true">Zur Eingabe.</button><button class="qz-opt" data-hint="Makey Makey liefert Eingabesignale — das ordnet es klar der Eingabe zu.">Zu keinem der drei Schritte.</button></div><div class="qz-hint"></div><div class="qz-done">Richtig — zur Eingabe.</div></div><div class="qz-solved">✔ Stark — Wissens-Check komplett gelöst!</div></div></section>
-  <section class="lp-sec"><h2>Werkzeuge</h2><div class="tool-list"><a class="tool" href="https://makeymakey.com/pages/how-to" target="_blank" rel="noopener">Makey Makey <span class="ex">↗</span></a><a class="tool" href="https://scratch.mit.edu/" target="_blank" rel="noopener">Scratch <span class="ex">↗</span></a></div></section>
-  <section class="lp-sec"><div class="fast-box"><span class="fb-t">⚡ Schnellläufer:in</span>Baut einen <b>Feld-Controller</b>, bei dem jedes Spielfeld eine eigene Folien-Taste ist (Rückseite <span class="kbd">W</span>–<span class="kbd">G</span> mit Steckkabeln) — Bauplan im Pfad Tic Tac Toe bzw. Vier gewinnt. Oder: Zählt Siege über mehrere Runden, ergänzt Sounds und tretet gegen ein anderes Team an.</div></section>
-  <section class="lp-sec"><div class="backup-box"><span class="bb-t">💾 Ergebnissicherung</span>Sichere deine Ergebnisse am Stundenende <b>einfach wiederverwendbar</b> (sinnvoll benannt) an <b>zwei Orten</b> — Rechner und Cloud/USB. Achte selbstständig auf Backups.</div></section>
-  <section class="sol" id="loesung" data-unlock="2026-09-25"><h2>Musterlösung <span class="sol-status">…</span></h2><p class="sol-countdown"></p><div class="sol-body" hidden><ul class="sol-list"><li>Bild 1: (1) EARTH (Erdung), (2) Pfeiltasten-Pins, (3) Leertaste-Pin, (4) USB zum Computer.</li><li>Bild 2: (1) Makey Makey, (2) leitfähiges Objekt (Banane), (3) Person (schließt den Kreis), (4) Signal im Computer.</li><li>Makey Makey ersetzt Signale von Tastatur und Maus. Ein „Tastendruck“ entsteht durch einen geschlossenen Stromkreis, z. B. über den eigenen Körper — erst wenn Objekt UND EARTH berührt werden, ist der Kreis geschlossen. Das ist der Eingabe-Schritt im EVA-Prinzip.</li><li>Knifflig: Ein Radiergummi ist nicht leitfähig (Isolator). Der Stromkreis bleibt offen, Makey Makey erkennt keinen Tastendruck.</li><li>Rundenspiel-Kern: Eine Schleife fragt ↑ ↓ ← → und Leertaste ab; „warte bis nicht Taste gedrückt?“ verhindert Mehrfachauslösung. Das Spielfeld steht in einer Liste (Feldnummer = (zeile − 1) · Breite + spalte), „setze Spieler auf (3 − Spieler)“ wechselt die Runde, nach jedem Zug wird auf Sieg geprüft.</li></ul></div><p class="sol-hint">Die Lösung wird automatisch zum angegebenen Datum sichtbar — die Seite prüft das bei jedem Laden.</p></section>
-  <a class="back" href="../../../index.html#hj1-content" style="margin-top:1.6rem">← zurück zur Kursübersicht</a>
+  <div id="sheets"></div>
 </div>
 <script>
 /* ============================================================
@@ -1087,288 +1030,84 @@ var GAMES = [
 ];
 
 /* ============================================================
-   LP04 · Blöcke zeichnen · Controller-Pläne · Controller-Test ·
-   Spielpfade (Denkanstöße → Stufen → Bauplan)
+   LP04 · Druckvorlagen: A4-Controller im Maßstab 1:1 (mm)
+   nutzt CTRL_PAD aus games.js · Vorderseite + gespiegelte Rückseite
    ============================================================ */
 (function () {
   'use strict';
   function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
-  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { return null; } }
-
-  /* ---------- Scratch-Blöcke ---------- */
-  var CLOSE = { '(': ')', '[': ']', '{': '}', '⟨': '⟩' };
-  function inline(s) {
-    var pos = 0;
-    function run(closer) {
-      var out = '';
-      while (pos < s.length) {
-        var ch = s[pos];
-        if (ch === closer) { pos++; return out; }
-        if (CLOSE[ch]) {
-          pos++;
-          var cat = '';
-          if (ch === '{' || ch === '⟨') {
-            var m = /^([a-z]+) /.exec(s.slice(pos));
-            if (m) { cat = m[1]; pos += m[0].length; }
-          }
-          var inner = run(CLOSE[ch]);
-          if (ch === '(') out += '<span class="slot">' + inner + '</span>';
-          else if (ch === '[') out += '<span class="dd">' + inner + '</span>';
-          else if (ch === '{') out += '<span class="rep c-' + (cat || 'op') + '">' + inner + '</span>';
-          else out += '<span class="bool c-' + (cat || 'op') + '">' + inner + '</span>';
-          continue;
-        }
-        out += esc(ch); pos++;
+  var W = 297, H = 210, S = 0.9, OX = (W - W * S) / 2, OY = 12;
+  var SHEETS = [
+    { spec: CTRL_PAD.pad('SPACE'), name: 'Steuerkreuz', use: 'Tic Tac Toe · Schiffe versenken · Schach', hint: 'SPACE-Taste beschriften: SETZEN / FEUER / WÄHLEN' },
+    { spec: CTRL_PAD.einwurf(), name: 'Einwurf-Leiste', use: 'Vier gewinnt', hint: '' },
+    { spec: CTRL_PAD.tttFeld(), name: 'Feld-Controller 3 × 3', use: 'Tic Tac Toe · Profi', hint: 'W–G an die Rückseiten-Buchsen (Steckkabel), Rest vorne' },
+    { spec: CTRL_PAD.c4Feld(), name: 'Spalten-Controller', use: 'Vier gewinnt · Profi', hint: 'W–G an die Rückseiten-Buchsen (Steckkabel), 7. Spalte = SPACE' }
+  ];
+  function T(x, y, mirror) { var X = OX + x * S, Y = OY + y * S; return [mirror ? W - X : X, Y]; }
+  function sheetSVG(sh, back) {
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" font-family="Space Grotesk, Arial, sans-serif">';
+    s += '<rect x="0" y="0" width="' + W + '" height="' + H + '" fill="#fff"/>';
+    var f = T(0, 0, false), g = T(W, H, false);
+    s += '<rect x="' + f[0] + '" y="' + f[1] + '" width="' + (g[0] - f[0]) + '" height="' + (g[1] - f[1]) + '" fill="none" stroke="#bbb" stroke-width=".3" stroke-dasharray="2 2"/>';
+    s += '<text x="' + OX + '" y="7" font-size="4.2" font-weight="700" fill="#222">' + esc(sh.name) + ' · ' + (back ? 'RÜCKSEITE (gespiegelt)' : 'VORDERSEITE') + '</text>';
+    s += '<text x="' + (W - OX) + '" y="7" text-anchor="end" font-size="3.2" fill="#666">' + esc(sh.use) + ' · Profil Informatik LP04</text>';
+    sh.spec.pads.forEach(function (p) {
+      var c = T(p.x, p.y, back);
+      if (back) {
+        var pts = [[p.x, p.y]].concat(p.route).map(function (q) { return T(q[0], q[1], true).join(','); }).join(' ');
+        s += '<polyline points="' + pts + '" fill="none" stroke="#8a95a8" stroke-width="' + (6 * S) + '" stroke-linecap="round" stroke-linejoin="round" opacity=".45"/>';
+        s += '<polyline points="' + pts + '" fill="none" stroke="#333" stroke-width=".3" stroke-dasharray="1.5 1.2"/>';
+        var e = p.route[p.route.length - 1], E = T(e[0], e[1], true);
+        s += '<rect x="' + (E[0] - 3) + '" y="' + (E[1] - 3) + '" width="6" height="6" fill="#222"/>';
+        var lx = E[0], ly = E[1], anc = 'middle';
+        if (e[1] <= 0) ly += 9;
+        else if (e[1] >= H) ly -= 5;
+        else if (e[0] <= 0) { lx -= 2; anc = 'end'; ly -= 5; }   // links → gespiegelt rechts
+        else { lx += 2; anc = 'start'; ly -= 5; }
+        s += '<text x="' + lx + '" y="' + ly + '" text-anchor="' + anc + '" font-size="4" font-weight="700" fill="#0b6b87">Klemme → ' + esc(p.key) + '</text>';
+      } else {
+        var P = T(p.x, p.y, false);
+        if (p.r) s += '<circle cx="' + P[0] + '" cy="' + P[1] + '" r="' + p.r * S + '" fill="#f1f3f6" stroke="#333" stroke-width=".4" stroke-dasharray="2 1.2"/>';
+        else s += '<rect x="' + (P[0] - p.w * S / 2) + '" y="' + (P[1] - p.h * S / 2) + '" width="' + p.w * S + '" height="' + p.h * S + '" rx="2" fill="#f1f3f6" stroke="#333" stroke-width=".4" stroke-dasharray="2 1.2"/>';
+        var big = p.t.length > 2;
+        s += '<text x="' + P[0] + '" y="' + (P[1] - 5) + '" text-anchor="middle" font-size="' + (big ? 6 : 9) + '" font-weight="700" fill="#555">' + esc(p.t) + '</text>';
+        s += '<text x="' + P[0] + '" y="' + (P[1] + 8) + '" text-anchor="middle" font-size="2.6" fill="#888">Alufolie</text>';
+        var e2 = p.route[p.route.length - 1], E2 = T(e2[0], e2[1], false);
+        s += '<text x="' + E2[0] + '" y="' + (e2[1] <= 0 ? E2[1] + 5 : e2[1] >= H ? E2[1] - 2 : E2[1] + 1.5) + '" text-anchor="' + (e2[0] <= 0 ? 'start' : e2[0] >= W ? 'end' : 'middle') + '" font-size="4.5" font-weight="700" fill="#0b6b87">' + esc(e2[0] <= 0 ? '◂ ' + p.key : e2[0] >= W ? p.key + ' ▸' : e2[1] >= H ? p.key + ' ▾' : p.key + ' ▴') + '</text>';
       }
-      return out;
-    }
-    return run(null);
-  }
-  function parseScript(src) {
-    var root = { kids: [] }, stack = [{ ind: -1, node: root, list: root.kids }];
-    src.split('\n').forEach(function (line) {
-      if (!line.trim()) return;
-      var ind = line.match(/^ */)[0].length / 2;
-      var m = /^([a-z]+): ?(.*)$/.exec(line.trim());
-      var node = { cat: m ? m[1] : 'ctl', text: m ? m[2] : line.trim(), kids: [] };
-      while (stack.length > 1 && stack[stack.length - 1].ind >= ind) stack.pop();
-      var parent = stack[stack.length - 1];
-      if (node.cat === 'ctl' && node.text === 'sonst') {
-        var prev = parent.list[parent.list.length - 1];
-        prev.els = [];
-        stack.push({ ind: ind, node: prev, list: prev.els });
-        return;
-      }
-      parent.list.push(node);
-      stack.push({ ind: ind, node: node, list: node.kids });
+      s += '<circle cx="' + c[0] + '" cy="' + c[1] + '" r="2.4" fill="none" stroke="#c0392b" stroke-width=".4"/>';
+      s += '<path d="M' + (c[0] - 4) + ' ' + c[1] + 'h8M' + c[0] + ' ' + (c[1] - 4) + 'v8" stroke="#c0392b" stroke-width=".3"/>';
     });
-    return root.kids;
+    var foot = back ? 'Streifen (grau) mit Alufolie bekleben, Streifen dürfen sich nicht berühren · schwarze Punkte = Krokodilklemme · Lochkreuze müssen über denen der Vorderseite liegen'
+      : 'Gestrichelte Flächen mit Alufolie bekleben · rotes Kreuz = Loch stanzen, Druckknopf durchstecken' + (sh.hint ? ' · ' + sh.hint : '');
+    s += '<text x="' + OX + '" y="' + (H - 4) + '" font-size="3" fill="#666">' + esc(foot) + '</text>';
+    return s + '</svg>';
   }
-  function renderNodes(nodes) {
-    return nodes.map(function (n) {
-      if (n.cat === 'note') return '<div class="sb-note">' + esc(n.text) + '</div>';
-      var cls = 'c-' + n.cat;
-      var txt = inline(n.text);
-      if (n.kids.length || n.els) {
-        var h = '<div class="cblk ' + cls + '"><div class="ctop">' + txt + '</div><div class="cin">' + renderNodes(n.kids) + '</div>';
-        if (n.els) h += '<div class="cmid">sonst</div><div class="cin">' + renderNodes(n.els) + '</div>';
-        return h + '<div class="cbot"></div></div>';
-      }
-      var hat = n.cat === 'ev' && /^Wenn /.test(n.text) ? ' hat' : (n.cat === 'def' ? ' def' : '');
-      return '<div class="blk ' + cls + hat + '">' + txt + '</div>';
-    }).join('');
-  }
-  function renderScripts(src) {
-    return src.split(/\n\s*\n/).map(function (part) { return '<div class="sb">' + renderNodes(parseScript(part)) + '</div>'; }).join('');
-  }
-  function codeBox(list) {
-    return list.map(function (c) {
-      return '<div class="sb-wrap"><div class="sb-sprite">' + esc(c[0]) + '</div>' + renderScripts(c[1]) + '</div>';
-    }).join('');
-  }
-
-  /* ---------- Controller-Plan (SVG, A4 quer) ---------- */
-  var svgId = 0;
-  function ctrlSVG(spec, caption, vorlage) {
-    var W = 297, H = 210, s = '', gid = 'foil' + (++svgId);
-    s += '<svg viewBox="-34 -30 365 272" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="' + esc(caption) + '">';
-    s += '<defs><linearGradient id="' + gid + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eef2f7"/><stop offset=".5" stop-color="#aab4c3"/><stop offset="1" stop-color="#dfe5ee"/></linearGradient></defs>';
-    s += '<rect x="0" y="0" width="' + W + '" height="' + H + '" rx="4" fill="#f4f1e8" stroke="#8a8272" stroke-width="1"/>';
-    s += '<text x="' + (W - 6) + '" y="' + (H - 6) + '" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="7" fill="#8a8272">DIN A4</text>';
-    spec.pads.forEach(function (p) {
-      var pts = [[p.x, p.y]].concat(p.route), d = pts.map(function (q) { return q.join(','); }).join(' ');
-      s += '<polyline points="' + d + '" fill="none" stroke="#7d8797" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 4" opacity=".85"/>';
-    });
-    spec.pads.forEach(function (p) {
-      if (p.r) s += '<circle cx="' + p.x + '" cy="' + p.y + '" r="' + p.r + '" fill="url(#' + gid + ')" stroke="#6b7486" stroke-width="1.2"/>';
-      else s += '<rect x="' + (p.x - p.w / 2) + '" y="' + (p.y - p.h / 2) + '" width="' + p.w + '" height="' + p.h + '" rx="5" fill="url(#' + gid + ')" stroke="#6b7486" stroke-width="1.2"/>';
-      var big = p.t.length > 2;
-      s += '<text x="' + p.x + '" y="' + (p.y + (big ? -6 : -4)) + '" text-anchor="middle" font-family="Space Grotesk,sans-serif" font-weight="700" font-size="' + (big ? 9 : 13) + '" fill="#1c2433">' + esc(p.t) + '</text>';
-      s += '<circle cx="' + p.x + '" cy="' + (p.y + 8) + '" r="3.6" fill="#e0a526" stroke="#8a6410" stroke-width="1"/>';
-      var e = p.route[p.route.length - 1], lx = e[0], ly = e[1], anc = 'middle';
-      if (ly <= 0) ly = -10; else if (ly >= H) ly = H + 18; else if (lx <= 0) { lx = -5; anc = 'end'; ly += 3; } else { lx = W + 5; anc = 'start'; ly += 3; }
-      s += '<rect x="' + (e[0] - 4) + '" y="' + (e[1] - 4) + '" width="8" height="8" rx="1.5" fill="#1c2433"/>';
-      s += '<text x="' + lx + '" y="' + ly + '" text-anchor="' + anc + '" font-family="JetBrains Mono,monospace" font-weight="700" font-size="8.5" fill="#35e0ff">' + esc(p.key) + '</text>';
-    });
-    s += '</svg>';
-    return '<div class="ctrl-fig">' + s + '<div class="fig-cap">' + esc(caption) + '</div>' +
-      '<div class="legend-row"><span><i class="sw" style="background:#c3cad6"></i>Folien-Taste (vorne)</span><span><i class="sw" style="background:#e0a526;border-radius:50%;width:10px"></i>Loch + Druckknopf</span><span><i class="sw" style="background:repeating-linear-gradient(90deg,#7d8797 0 5px,transparent 5px 8px)"></i>Alustreifen (Rückseite)</span><span><i class="sw" style="background:#1c2433;border:1px solid #9fb0d8"></i>Krokodilklemme → Anschluss</span><span>EARTH: Alu-Armband</span></div>' +
-      (vorlage ? '<p style="text-align:center;margin-top:.6rem"><a class="btn ghost" href="lp04-vorlagen.html?v=' + vorlage + '" target="_blank" rel="noopener">🖨 Schablone 1:1 drucken</a></p>' : '') + '</div>';
-  }
-  function sandwichSVG() {
-    return '<svg viewBox="0 0 620 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Querschnitt Folientaste mit Druckknopf">' +
-      '<defs><linearGradient id="foil2" x1="0" x2="1"><stop offset="0" stop-color="#eef2f7"/><stop offset=".5" stop-color="#aab4c3"/><stop offset="1" stop-color="#dfe5ee"/></linearGradient></defs>' +
-      '<text x="20" y="22" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#35e0ff">QUERSCHNITT · EINE TASTE</text>' +
-      '<rect x="120" y="70" width="140" height="10" fill="url(#foil2)" stroke="#6b7486"/>' +
-      '<rect x="40" y="80" width="520" height="16" fill="#f4f1e8" stroke="#8a8272"/>' +
-      '<rect x="176" y="96" width="330" height="9" fill="url(#foil2)" stroke="#6b7486"/>' +
-      '<rect x="183" y="62" width="14" height="52" rx="3" fill="#e0a526" stroke="#8a6410"/>' +
-      '<ellipse cx="190" cy="62" rx="20" ry="7" fill="#e0a526" stroke="#8a6410"/>' +
-      '<path d="M183 114 l-12 10 M197 114 l12 10" stroke="#8a6410" stroke-width="4" stroke-linecap="round"/>' +
-      '<path d="M500 92 l40 -6 l0 26 l-40 -6 z" fill="#1c2433"/><path d="M540 99 C 575 99, 580 150, 600 160" fill="none" stroke="#ff5d6c" stroke-width="3"/>' +
-      '<text x="190" y="44" text-anchor="middle" font-family="Space Grotesk,sans-serif" font-size="13" fill="#e6eeff">Druckknopf im Loch</text>' +
-      '<text x="340" y="66" font-family="Space Grotesk,sans-serif" font-size="13" fill="#e6eeff">① Folien-Taste (Vorderseite)</text>' +
-      '<line x1="336" y1="62" x2="262" y2="74" stroke="#9fb0d8"/>' +
-      '<text x="40" y="130" font-family="Space Grotesk,sans-serif" font-size="13" fill="#e6eeff">② Papier (isoliert)</text>' +
-      '<text x="220" y="150" font-family="Space Grotesk,sans-serif" font-size="13" fill="#e6eeff">③ Alustreifen (Rückseite) → zum Rand</text>' +
-      '<line x1="300" y1="138" x2="300" y2="106" stroke="#9fb0d8"/>' +
-      '<text x="600" y="182" text-anchor="end" font-family="Space Grotesk,sans-serif" font-size="13" fill="#e6eeff">④ Klemme → Makey Makey</text>' +
-      '<text x="20" y="200" font-family="JetBrains Mono,monospace" font-size="11" fill="#9fb0d8">Finger auf ① + EARTH-Armband = Stromkreis geschlossen → „Tastendruck“</text>' +
-      '</svg><div class="fig-cap">Zwei-Seiten-Prinzip: Taste vorne, Leiterbahn hinten, Druckknopf als Brücke</div>';
-  }
-
-  /* ---------- Spielpfade ---------- */
-  var AUFSTELLUNG = [].concat(
-    ['sT', 'sS', 'sL', 'sD', 'sK', 'sL', 'sS', 'sT'], Array(8).fill('sB'), Array(32).fill('--'),
-    Array(8).fill('wB'), ['wT', 'wS', 'wL', 'wD', 'wK', 'wL', 'wS', 'wT']);
-
-  function buildGames() {
-    var gHost = document.getElementById('games'), tHost = document.getElementById('tracks');
-    if (!gHost || typeof GAMES === 'undefined') return;
-    GAMES.forEach(function (g) {
-      var card = document.createElement('button');
-      card.type = 'button'; card.className = 'game'; card.style.setProperty('--gc', g.color); card.dataset.game = g.id;
-      card.innerHTML = '<div class="g-ic">' + g.icon + '</div><div class="g-t">' + esc(g.title) + '</div><div class="g-lv">' + esc(g.level) + '</div><div class="g-d">' + esc(g.blurb) + '</div><div class="g-prog"></div>';
-      gHost.appendChild(card);
-
-      var tr = document.createElement('div');
-      tr.className = 'track'; tr.id = 'track-' + g.id; tr.style.setProperty('--gc', g.color);
-      var h = '<div class="track-head"><h3>' + g.icon + ' ' + esc(g.title) + '</h3><span class="g-lv">' + esc(g.level) + '</span></div>';
-      h += '<h3 style="margin-top:.2rem">Denkanstöße — erst selbst überlegen</h3><div class="denk">';
-      g.denk.forEach(function (d) { h += '<details><summary><span class="dk-t">' + esc(d[0]) + '</span>' + esc(d[1]) + '</summary><div class="ans">' + d[2] + '</div></details>'; });
-      h += '</div><div class="stepper">';
-      g.stages.forEach(function (st, i) { h += '<button type="button" class="chip" data-i="' + i + '">' + (i + 1) + ' · ' + esc(st.t) + '</button>'; });
-      h += '<button type="button" class="chip bp" data-i="' + g.stages.length + '">★ Bauplan</button></div>';
-      g.stages.forEach(function (st, i) {
-        h += '<div class="stage" data-i="' + i + '"><div class="stage-top"><h4>Stufe ' + (i + 1) + ' · ' + esc(st.t) + '</h4><span class="time">' + esc(st.time) + '</span></div>';
-        h += '<span class="lbl">Ziel</span><p>' + esc(st.goal) + '</p><span class="lbl">So geht’s</span>' + st.html;
-        if (st.ctrl) st.ctrl.forEach(function (c) { var sp = CTRL_PAD[c[0]](c[1]); h += ctrlSVG(sp, c[2], { pad: 'pad', einwurf: 'einwurf', tttFeld: 'ttt', c4Feld: 'c4' }[c[0]]); });
-        if (st.tip) h += '<p class="note"><b>Denk-Tipp:</b> ' + st.tip + '</p>';
-        var hasCode = st.code && st.code.length;
-        if (hasCode) h += '<div class="codebox" hidden>' + codeBox(st.code) + '</div>';
-        h += '<div class="stage-actions">' + (hasCode ? '<button type="button" class="btn ghost" data-act="code">🧩 Blöcke zeigen</button>' : '') +
-          '<button type="button" class="btn" data-act="next">Weiter →</button><label><input type="checkbox" data-act="done"> geschafft</label></div></div>';
-      });
-      h += '<div class="stage" data-i="' + g.stages.length + '"><div class="stage-top"><h4>★ Vollständiger Bauplan</h4><span class="time">alles auf einen Blick</span></div>';
-      h += '<span class="lbl">Das braucht dein Projekt</span><div class="setup">' + g.setup.map(function (x) { return '<div><b>' + esc(x[0]) + '</b>' + esc(x[1]) + '</div>'; }).join('') + '</div>';
-      h += '<span class="lbl">Alle Skripte</span>' + codeBox(g.plan) + '<p class="note">' + g.extra + '</p>';
-      h += '<div class="stage-actions"><label><input type="checkbox" data-act="done"> Spiel läuft!</label></div></div>';
-      tr.innerHTML = h;
-      tHost.appendChild(tr);
-
-      var chips = tr.querySelectorAll('.chip'), stages = tr.querySelectorAll('.stage');
-      function show(i) {
-        chips.forEach(function (c) { c.classList.toggle('active', +c.dataset.i === i); });
-        stages.forEach(function (s) { s.classList.toggle('active', +s.dataset.i === i); });
-        store('pi9_lp04_stage_' + g.id, String(i));
-      }
-      function refreshDone() {
-        var n = 0;
-        stages.forEach(function (s) {
-          var i = s.dataset.i, done = store('pi9_lp04_done_' + g.id + '_' + i) === '1';
-          var cb = s.querySelector('[data-act="done"]'); if (cb) cb.checked = done;
-          tr.querySelector('.chip[data-i="' + i + '"]').classList.toggle('done', done);
-          if (done) n++;
-        });
-        card.querySelector('.g-prog').textContent = n ? n + ' / ' + stages.length + ' Stufen geschafft' : '';
-      }
-      chips.forEach(function (c) { c.addEventListener('click', function () { show(+c.dataset.i); }); });
-      stages.forEach(function (s) {
-        var i = +s.dataset.i;
-        s.addEventListener('click', function (ev) {
-          var a = ev.target.closest('[data-act]'); if (!a) return;
-          if (a.dataset.act === 'code') {
-            var box = s.querySelector('.codebox'); box.hidden = !box.hidden;
-            a.textContent = box.hidden ? '🧩 Blöcke zeigen' : '🧩 Blöcke verbergen';
-          } else if (a.dataset.act === 'next') {
-            show(Math.min(i + 1, stages.length - 1));
-            tr.querySelector('.stepper').scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        });
-        var cb = s.querySelector('[data-act="done"]');
-        if (cb) cb.addEventListener('change', function () { store('pi9_lp04_done_' + g.id + '_' + i, cb.checked ? '1' : null); refreshDone(); });
-      });
-      var saved = parseInt(store('pi9_lp04_stage_' + g.id), 10);
-      show(isNaN(saved) ? 0 : Math.min(saved, stages.length - 1));
-      refreshDone();
-
-      card.addEventListener('click', function () { openGame(g.id, true); });
-    });
-    function openGame(id, scroll) {
-      gHost.querySelectorAll('.game').forEach(function (c) { c.classList.toggle('active', c.dataset.game === id); });
-      tHost.querySelectorAll('.track').forEach(function (t) { t.classList.toggle('active', t.id === 'track-' + id); });
-      store('pi9_lp04_game', id);
-      if (scroll) setTimeout(function () { document.getElementById('track-' + id).scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60);
-    }
-    var last = store('pi9_lp04_game');
-    if (last && document.getElementById('track-' + last)) openGame(last, false);
-
-    document.addEventListener('click', function (ev) {
-      var b = ev.target.closest('[data-dl="aufstellung"]'); if (!b) return;
-      var blob = new Blob([AUFSTELLUNG.join('\n') + '\n'], { type: 'text/plain' });
-      var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'aufstellung.txt';
-      document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
-    });
-  }
-
-  /* ---------- Controller-Test + Mini-Tic-Tac-Toe ---------- */
-  function initTester() {
-    var btn = document.getElementById('ct-toggle'); if (!btn) return;
-    var status = document.getElementById('ct-status'), active = false;
-    var lamps = {}; document.querySelectorAll('#controller-test .lamp').forEach(function (l) { lamps[l.dataset.k] = l; });
-    var grid = document.getElementById('ttt'), msg = document.getElementById('ttt-msg'), cells = [];
-    for (var i = 0; i < 9; i++) { var c = document.createElement('div'); grid.appendChild(c); cells.push(c); }
-    var board, cur, player, over;
-    function reset() { board = Array(9).fill(0); cur = 4; player = 1; over = false; paint(); msg.textContent = active ? 'Spieler ✕ ist dran.' : 'Starte den Test, dann: Spieler ✕ ist dran.'; }
-    function paint() { cells.forEach(function (c, i) { c.textContent = board[i] === 1 ? '✕' : board[i] === 2 ? '○' : ''; c.className = (i === cur ? 'cur ' : '') + (board[i] ? 'p' + board[i] : ''); }); }
-    var LINES = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
-    function place() {
-      if (over) { reset(); return; }
-      if (board[cur]) { msg.textContent = 'Feld belegt — anderes wählen.'; return; }
-      board[cur] = player;
-      var win = LINES.some(function (l) { return l.every(function (k) { return board[k] === player; }); });
-      if (win) { over = true; msg.textContent = (player === 1 ? '✕' : '○') + ' gewinnt! SPACE = neues Spiel'; }
-      else if (board.every(Boolean)) { over = true; msg.textContent = 'Unentschieden! SPACE = neues Spiel'; }
-      else { player = 3 - player; msg.textContent = 'Spieler ' + (player === 1 ? '✕' : '○') + ' ist dran.'; }
-      paint();
-    }
-    function norm(k) { return k.length === 1 ? k.toLowerCase() : k; }
-    function lamp(k, on) { var l = lamps[k]; if (l) l.classList.toggle('on', on); }
-    document.addEventListener('keydown', function (e) {
-      if (!active) return;
-      var k = norm(e.key);
-      if (lamps[k]) { e.preventDefault(); lamp(k, true); status.textContent = 'Signal: ' + ({ ' ': 'Leertaste', ArrowUp: 'Pfeil nach oben', ArrowDown: 'Pfeil nach unten', ArrowLeft: 'Pfeil nach links', ArrowRight: 'Pfeil nach rechts' }[k] || k.toUpperCase()); }
-      if (e.repeat) return;
-      var r = Math.floor(cur / 3), col = cur % 3;
-      if (k === 'ArrowRight' && col < 2) cur++;
-      else if (k === 'ArrowLeft' && col > 0) cur--;
-      else if (k === 'ArrowDown' && r < 2) cur += 3;
-      else if (k === 'ArrowUp' && r > 0) cur -= 3;
-      else if (k === ' ') place();
-      paint();
-    });
-    document.addEventListener('keyup', function (e) { if (active) lamp(norm(e.key), false); });
-    document.addEventListener('mousedown', function (e) { if (active && e.target !== btn) { lamp('click', true); status.textContent = 'Signal: Klick'; } });
-    document.addEventListener('mouseup', function () { lamp('click', false); });
-    btn.addEventListener('click', function () {
-      active = !active;
-      btn.textContent = active ? '■ Test beenden' : '▶ Test starten';
-      btn.classList.toggle('on', active);
-      status.textContent = active ? 'Test läuft — Pfeiltasten und Leertaste werden hier abgefangen.' : 'Test ist aus — Pfeiltasten scrollen normal.';
-      reset();
-    });
-    reset();
-  }
-
   document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('pre.sbsrc').forEach(function (p) {
-      var d = document.createElement('div'); d.className = 'sb'; d.innerHTML = renderNodes(parseScript(p.textContent.trim()));
-      p.replaceWith(d);
+    var host = document.getElementById('sheets'); if (!host) return;
+    var sel = document.getElementById('which');
+    SHEETS.forEach(function (sh, i) {
+      var o = document.createElement('option'); o.value = i; o.textContent = sh.name + ' — ' + sh.use; sel.appendChild(o);
+      [false, true].forEach(function (back) {
+        var d = document.createElement('div');
+        d.className = 'sheet'; d.dataset.i = i; d.dataset.side = back ? 'back' : 'front';
+        d.innerHTML = sheetSVG(sh, back);
+        host.appendChild(d);
+      });
     });
-    var sw = document.getElementById('fig-sandwich'); if (sw) sw.innerHTML = sandwichSVG();
-    buildGames();
-    initTester();
+    function apply() {
+      var v = sel.value, side = document.querySelector('input[name="side"]:checked').value;
+      host.querySelectorAll('.sheet').forEach(function (d) {
+        var on = (v === 'all' || d.dataset.i === v) && (side === 'both' || d.dataset.side === side);
+        d.classList.toggle('off', !on);
+      });
+    }
+    sel.addEventListener('change', apply);
+    document.querySelectorAll('input[name="side"]').forEach(function (r) { r.addEventListener('change', apply); });
+    var m = /[?&]v=(\w+)/.exec(location.search);
+    if (m) { var idx = { pad: 0, einwurf: 1, ttt: 2, c4: 3 }[m[1]]; if (idx !== undefined) sel.value = String(idx); }
+    apply();
+    document.getElementById('print').addEventListener('click', function () { window.print(); });
   });
 })();
 

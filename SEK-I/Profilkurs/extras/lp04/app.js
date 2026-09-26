@@ -81,7 +81,7 @@
 
   /* ---------- Controller-Plan (SVG, A4 quer) ---------- */
   var svgId = 0;
-  function ctrlSVG(spec, caption) {
+  function ctrlSVG(spec, caption, vorlage) {
     var W = 297, H = 210, s = '', gid = 'foil' + (++svgId);
     s += '<svg viewBox="-34 -30 365 272" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="' + esc(caption) + '">';
     s += '<defs><linearGradient id="' + gid + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eef2f7"/><stop offset=".5" stop-color="#aab4c3"/><stop offset="1" stop-color="#dfe5ee"/></linearGradient></defs>';
@@ -104,7 +104,8 @@
     });
     s += '</svg>';
     return '<div class="ctrl-fig">' + s + '<div class="fig-cap">' + esc(caption) + '</div>' +
-      '<div class="legend-row"><span><i class="sw" style="background:#c3cad6"></i>Folien-Taste (vorne)</span><span><i class="sw" style="background:#e0a526;border-radius:50%;width:10px"></i>Loch + Druckknopf</span><span><i class="sw" style="background:repeating-linear-gradient(90deg,#7d8797 0 5px,transparent 5px 8px)"></i>Alustreifen (Rückseite)</span><span><i class="sw" style="background:#1c2433;border:1px solid #9fb0d8"></i>Krokodilklemme → Anschluss</span><span>EARTH: Alu-Armband</span></div></div>';
+      '<div class="legend-row"><span><i class="sw" style="background:#c3cad6"></i>Folien-Taste (vorne)</span><span><i class="sw" style="background:#e0a526;border-radius:50%;width:10px"></i>Loch + Druckknopf</span><span><i class="sw" style="background:repeating-linear-gradient(90deg,#7d8797 0 5px,transparent 5px 8px)"></i>Alustreifen (Rückseite)</span><span><i class="sw" style="background:#1c2433;border:1px solid #9fb0d8"></i>Krokodilklemme → Anschluss</span><span>EARTH: Alu-Armband</span></div>' +
+      (vorlage ? '<p style="text-align:center;margin-top:.6rem"><a class="btn ghost" href="lp04-vorlagen.html?v=' + vorlage + '" target="_blank" rel="noopener">🖨 Schablone 1:1 drucken</a></p>' : '') + '</div>';
   }
   function sandwichSVG() {
     return '<svg viewBox="0 0 620 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Querschnitt Folientaste mit Druckknopf">' +
@@ -153,7 +154,7 @@
       g.stages.forEach(function (st, i) {
         h += '<div class="stage" data-i="' + i + '"><div class="stage-top"><h4>Stufe ' + (i + 1) + ' · ' + esc(st.t) + '</h4><span class="time">' + esc(st.time) + '</span></div>';
         h += '<span class="lbl">Ziel</span><p>' + esc(st.goal) + '</p><span class="lbl">So geht’s</span>' + st.html;
-        if (st.ctrl) st.ctrl.forEach(function (c) { var sp = CTRL_PAD[c[0]](c[1]); h += ctrlSVG(sp, c[2]); });
+        if (st.ctrl) st.ctrl.forEach(function (c) { var sp = CTRL_PAD[c[0]](c[1]); h += ctrlSVG(sp, c[2], { pad: 'pad', einwurf: 'einwurf', tttFeld: 'ttt', c4Feld: 'c4' }[c[0]]); });
         if (st.tip) h += '<p class="note"><b>Denk-Tipp:</b> ' + st.tip + '</p>';
         var hasCode = st.code && st.code.length;
         if (hasCode) h += '<div class="codebox" hidden>' + codeBox(st.code) + '</div>';

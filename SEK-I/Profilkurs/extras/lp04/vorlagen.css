@@ -1,0 +1,20 @@
+
+/* ===== LP04 · Druckvorlagen ===== */
+.print-ctrl{display:flex;flex-wrap:wrap;gap:.8rem 1.2rem;align-items:center;margin-top:1.1rem;padding-top:1rem;border-top:1px dashed var(--line)}
+.print-ctrl label{color:var(--ink-soft);font-size:.9rem;display:inline-flex;gap:.45rem;align-items:center}
+.print-ctrl select{font-family:inherit;font-size:.9rem;background:var(--panel-2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:.4rem .6rem}
+.print-ctrl .radios{display:flex;flex-wrap:wrap;gap:.4rem 1rem}
+.print-ctrl input{accent-color:var(--key)}
+#sheets{display:flex;flex-direction:column;gap:1.2rem}
+.sheet{background:#fff;border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,.45);overflow:hidden;aspect-ratio:297/210}
+.sheet svg{width:100%;height:100%;display:block}
+.sheet.off{display:none}
+@page{size:A4 landscape;margin:0}
+@media print{
+  body{background:#fff}
+  body::before,#matrix-canvas,.back,.lp-hero,.lp-sec{display:none!important}
+  .lp-page{padding:0;max-width:none}
+  #sheets{gap:0}
+  .sheet{width:297mm;height:210mm;border-radius:0;box-shadow:none;break-after:page;aspect-ratio:auto}
+  .sheet:last-child{break-after:auto}
+}

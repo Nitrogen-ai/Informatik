@@ -53,3 +53,15 @@ doc = (head + css + "</style>\n</head>\n" + hero + body +
        "<script>\n" + theme_js + "\n</script>\n<script>\n" + games + "\n" + app + "\n</script>\n</body>\n</html>\n")
 open(OUT, "w", encoding="utf-8").write(doc)
 print("OK", OUT, len(doc))
+
+# Druckvorlagen-Seite (Controller-Schablonen 1:1)
+OUT2 = os.path.join(os.path.dirname(OUT), "lp04-vorlagen.html")
+vcss = open(os.path.join(HERE, "vorlagen.css"), encoding="utf-8").read()
+vbody = open(os.path.join(HERE, "vorlagen.html"), encoding="utf-8").read()
+vjs = open(os.path.join(HERE, "vorlagen.js"), encoding="utf-8").read()
+vhead = head.replace("<title>LP04 · Makey Makey: die Welt wird zum Controller</title>", "<title>LP04 · Controller-Druckvorlagen</title>")
+vhero = hero[:hero.index('<div class="lp-page">') + len('<div class="lp-page">\n')]
+doc2 = (vhead + css + vcss + "</style>\n</head>\n" + vhero + vbody + "</div>\n"
+        "<script>\n" + theme_js + "\n</script>\n<script>\n" + games + "\n" + vjs + "\n</script>\n</body>\n</html>\n")
+open(OUT2, "w", encoding="utf-8").write(doc2)
+print("OK", OUT2, len(doc2))
