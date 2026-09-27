@@ -103,6 +103,15 @@
   .fast-text { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.6rem; }
   .fast-list { margin: 0.4rem 0 0.8rem 1.1rem; }
   .fast-list li { margin-bottom: 0.3rem; }
+  .auftrag { border: 1.5px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0 0 0.9rem; background: #fff; }
+  .auftrag p { margin: 0; }
+  .auftrag-no, .task-no { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); background: var(--tint); border-radius: 6px; padding: 0.1rem 0.45rem; margin-right: 0.2rem; }
+  .auftrag details, .fast-sol { margin-top: 0.5rem; }
+  .auftrag summary, .fast-sol summary { cursor: pointer; font-weight: 700; color: var(--edge); font-size: 0.92rem; }
+  .auftrag ol, .fast-sol ul { margin: 0.4rem 0 0 1.3rem; }
+  .fast-sol { margin-bottom: 0.8rem; }
+  .fill { display: inline-block; min-width: 10rem; border-bottom: 1.5px dotted currentColor; }
+  .merke-box { margin-top: 0.9rem; background: var(--tint); border-left: 6px solid var(--key); border-radius: 10px; padding: 0.7rem 0.9rem; }
   .fast-extra { font-size: 0.95rem; font-weight: 600; background: #fff; border-radius: 10px; padding: 0.7rem 0.9rem; border: 1.5px dashed var(--sun); }
 
   /* merksatz */
@@ -197,11 +206,11 @@
       <div class="keycap">04</div>
       <h1>Zaubertasten: Tastenkombinationen</h1>
     </div>
-    <p class="goal"><b>Das lernst du:</b> Die wichtigsten Tastentricks — Kopieren (Strg+C), Einfügen (Strg+V), Rückgängig (Strg+Z) und Speichern (Strg+S) — und wirst dadurch viel schneller.</p>
+    <p class="goal"><b>Das lernst du:</b> Die wichtigsten Tastentricks kennen und nutzen: Kopieren (Strg+C), Ausschneiden (Strg+X), Einfügen (Strg+V), Rückgängig (Strg+Z), Wiederholen (Strg+Y), Speichern (Strg+S), Alles markieren (Strg+A) und Suchen (Strg+F). So wirst du viel schneller.</p>
     <p class="rlp"><span class="tag neu">neu</span><span class="tag">2.5 · effizientes Arbeiten</span></p>
   </header>
 
-  <p class="intro">Eine <span class="hl">Zaubertaste</span> ist eine Tastenkombination: Du h&auml;ltst eine Taste gedr&uuml;ckt und tippst <b>gleichzeitig</b> eine zweite dazu &mdash; schon passiert etwas N&uuml;tzliches, ganz ohne Maus. Die wichtigste Zaubertaste hei&szlig;t <b>Strg</b> (Steuerung). Zusammen mit einem Buchstaben verwandelt sie sich in einen Blitz-Befehl: Kopieren, Einf&uuml;gen, R&uuml;ckg&auml;ngig, Speichern und noch mehr. Los geht&rsquo;s!</p>
+  <p class="intro"><span class="hl">Zaubertasten</span> sind Tastenkombinationen: Du h&auml;ltst eine Taste gedr&uuml;ckt und dr&uuml;ckst <b>gleichzeitig</b> eine zweite, schon passiert etwas N&uuml;tzliches, ganz ohne Maus. Die wichtigste Zaubertaste hei&szlig;t <b>Strg</b> (Steuerung). Zuerst schaust du mit ein paar schnellen Fragen, welche Zaubertasten du schon kennst. Danach probierst du alles selbst am Rechner aus. Los geht&rsquo;s!</p>
 
   <main>
 
@@ -211,46 +220,47 @@
       <p>Sieh dir die drei Bilder an. Zu jedem Bild geh&ouml;ren einige Fragen. Tippe die richtige Antwort an &mdash; wird sie <b style="color:var(--ok-dk)">gr&uuml;n</b>, ist sie richtig. Bei <b style="color:var(--no-dk)">rot</b> bekommst du einen Tipp.</p>
 
       <!-- Fig 1 -->
-      <div class="fig"><svg viewBox="0 0 700 370" xmlns="http://www.w3.org/2000/svg" font-family="Nunito, sans-serif" role="img"><rect x="20" y="20" width="660" height="330" rx="18" fill="#f6f4fe" stroke="#5a39cf" stroke-width="3"/><circle cx="45" cy="90" r="17" fill="#7c5cf0" stroke="#ffffff" stroke-width="3"/><text x="45" y="90" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><rect x="75" y="67" width="70" height="46" rx="8" fill="#ece7fe" stroke="#5a39cf" stroke-width="2.5"/><text x="110" y="97" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="17" fill="#5a39cf">Strg</text><text x="152" y="98" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="800" font-size="22" fill="#5a39cf">+</text><rect x="168" y="67" width="50" height="46" rx="8" fill="#7c5cf0" stroke="#5a39cf" stroke-width="2.5"/><text x="193" y="98" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="22" fill="#ffffff">C</text><line x1="230" y1="90" x2="254" y2="90" stroke="#5a39cf" stroke-width="2.6" stroke-linecap="round"/><path d="M252,84 L262,90 L252,96 Z" fill="#5a39cf"/><rect x="262" y="57" width="66" height="66" rx="12" fill="#ece7fe" stroke="#5a39cf" stroke-width="2.5"/><rect x="279" y="74" width="26" height="32" rx="3" fill="none" stroke="#5a39cf" stroke-width="2"/><rect x="289" y="82" width="26" height="32" rx="3" fill="#ffffff" stroke="#5a39cf" stroke-width="2.2"/><line x1="294" y1="80" x2="310" y2="80" stroke="#5a39cf" stroke-width="1.6"/><line x1="294" y1="88" x2="310" y2="88" stroke="#5a39cf" stroke-width="1.6"/><line x1="294" y1="96" x2="310" y2="96" stroke="#5a39cf" stroke-width="1.6"/><text x="345" y="96" text-anchor="start" font-family="JetBrains Mono, monospace" font-weight="700" font-size="19" fill="#5a39cf">kopieren</text><circle cx="45" cy="185" r="17" fill="#c8890a" stroke="#ffffff" stroke-width="3"/><text x="45" y="185" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><rect x="75" y="162" width="70" height="46" rx="8" fill="#ece7fe" stroke="#5a39cf" stroke-width="2.5"/><text x="110" y="192" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="17" fill="#5a39cf">Strg</text><text x="152" y="193" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="800" font-size="22" fill="#5a39cf">+</text><rect x="168" y="162" width="50" height="46" rx="8" fill="#7c5cf0" stroke="#5a39cf" stroke-width="2.5"/><text x="193" y="193" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="22" fill="#ffffff">X</text><line x1="230" y1="185" x2="254" y2="185" stroke="#5a39cf" stroke-width="2.6" stroke-linecap="round"/><path d="M252,179 L262,185 L252,191 Z" fill="#5a39cf"/><rect x="262" y="152" width="66" height="66" rx="12" fill="#fff3d1" stroke="#5a39cf" stroke-width="2.5"/><circle cx="284" cy="200" r="6" fill="none" stroke="#5a39cf" stroke-width="2.4"/><circle cx="306" cy="200" r="6" fill="none" stroke="#5a39cf" stroke-width="2.4"/><path d="M284,200 L295,170" stroke="#5a39cf" stroke-width="2.4" stroke-linecap="round"/><path d="M306,200 L295,170" stroke="#5a39cf" stroke-width="2.4" stroke-linecap="round"/><circle cx="295" cy="170" r="2.2" fill="#5a39cf"/><text x="345" y="191" text-anchor="start" font-family="JetBrains Mono, monospace" font-weight="700" font-size="19" fill="#5a39cf">ausschneiden</text><circle cx="45" cy="280" r="17" fill="#248049" stroke="#ffffff" stroke-width="3"/><text x="45" y="280" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><rect x="75" y="257" width="70" height="46" rx="8" fill="#ece7fe" stroke="#5a39cf" stroke-width="2.5"/><text x="110" y="287" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="17" fill="#5a39cf">Strg</text><text x="152" y="288" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="800" font-size="22" fill="#5a39cf">+</text><rect x="168" y="257" width="50" height="46" rx="8" fill="#7c5cf0" stroke="#5a39cf" stroke-width="2.5"/><text x="193" y="288" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="22" fill="#ffffff">V</text><line x1="230" y1="280" x2="254" y2="280" stroke="#5a39cf" stroke-width="2.6" stroke-linecap="round"/><path d="M252,274 L262,280 L252,286 Z" fill="#5a39cf"/><rect x="262" y="247" width="66" height="66" rx="12" fill="#e2f6ea" stroke="#5a39cf" stroke-width="2.5"/><rect x="279" y="264" width="32" height="38" rx="4" fill="#ffffff" stroke="#5a39cf" stroke-width="2.2"/><rect x="288" y="260" width="14" height="8" rx="2" fill="#5a39cf" stroke="#5a39cf" stroke-width="0"/><line x1="285" y1="274" x2="305" y2="274" stroke="#5a39cf" stroke-width="1.8"/><line x1="285" y1="282" x2="305" y2="282" stroke="#5a39cf" stroke-width="1.8"/><line x1="285" y1="290" x2="305" y2="290" stroke="#5a39cf" stroke-width="1.8"/><text x="345" y="286" text-anchor="start" font-family="JetBrains Mono, monospace" font-weight="700" font-size="19" fill="#5a39cf">einf&uuml;gen</text></svg><div class="fig-cap">Bild 1 &middot; Kopieren, Ausschneiden, Einf&uuml;gen</div></div>
+      <div class="fig"><svg viewBox="0 0 700 370" xmlns="http://www.w3.org/2000/svg" font-family="Nunito, sans-serif" role="img"><rect x="20" y="20" width="660" height="330" rx="18" fill="#f6f4fe" stroke="#5a39cf" stroke-width="3"/><circle cx="45" cy="90" r="17" fill="#7c5cf0" stroke="#ffffff" stroke-width="3"/><text x="45" y="90" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><rect x="75" y="67" width="70" height="46" rx="8" fill="#ece7fe" stroke="#5a39cf" stroke-width="2.5"/><text x="110" y="97" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="17" fill="#5a39cf">Strg</text><text x="152" y="98" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="800" font-size="22" fill="#5a39cf">+</text><rect x="168" y="67" width="50" height="46" rx="8" fill="#7c5cf0" stroke="#5a39cf" stroke-width="2.5"/><text x="193" y="98" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="22" fill="#ffffff">C</text><line x1="230" y1="90" x2="254" y2="90" stroke="#5a39cf" stroke-width="2.6" stroke-linecap="round"/><path d="M252,84 L262,90 L252,96 Z" fill="#5a39cf"/><rect x="262" y="57" width="66" height="66" rx="12" fill="#ece7fe" stroke="#5a39cf" stroke-width="2.5"/><rect x="279" y="74" width="26" height="32" rx="3" fill="none" stroke="#5a39cf" stroke-width="2"/><rect x="289" y="82" width="26" height="32" rx="3" fill="#ffffff" stroke="#5a39cf" stroke-width="2.2"/><line x1="294" y1="80" x2="310" y2="80" stroke="#5a39cf" stroke-width="1.6"/><line x1="294" y1="88" x2="310" y2="88" stroke="#5a39cf" stroke-width="1.6"/><line x1="294" y1="96" x2="310" y2="96" stroke="#5a39cf" stroke-width="1.6"/><text x="345" y="96" text-anchor="start" font-family="JetBrains Mono, monospace" font-weight="700" font-size="19" fill="#5a39cf">kopieren</text><circle cx="45" cy="185" r="17" fill="#c8890a" stroke="#ffffff" stroke-width="3"/><text x="45" y="185" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><rect x="75" y="162" width="70" height="46" rx="8" fill="#ece7fe" stroke="#5a39cf" stroke-width="2.5"/><text x="110" y="192" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="17" fill="#5a39cf">Strg</text><text x="152" y="193" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="800" font-size="22" fill="#5a39cf">+</text><rect x="168" y="162" width="50" height="46" rx="8" fill="#7c5cf0" stroke="#5a39cf" stroke-width="2.5"/><text x="193" y="193" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="22" fill="#ffffff">X</text><line x1="230" y1="185" x2="254" y2="185" stroke="#5a39cf" stroke-width="2.6" stroke-linecap="round"/><path d="M252,179 L262,185 L252,191 Z" fill="#5a39cf"/><rect x="262" y="152" width="66" height="66" rx="12" fill="#fff3d1" stroke="#5a39cf" stroke-width="2.5"/><path d="M285.9,190.9 L301.1,188.1 L304.0,160.0 L293.6,185.5 L290.1,195.1 Z" fill="#ffffff" stroke="#5a39cf" stroke-width="2" stroke-linejoin="round"/><path d="M304.1,190.9 L288.9,188.1 L286.0,160.0 L296.4,185.5 L299.9,195.1 Z" fill="#ffffff" stroke="#5a39cf" stroke-width="2" stroke-linejoin="round"/><ellipse cx="285" cy="201" rx="7.5" ry="8.5" fill="#ffffff" stroke="#5a39cf" stroke-width="2.6"/><ellipse cx="305" cy="201" rx="7.5" ry="8.5" fill="#ffffff" stroke="#5a39cf" stroke-width="2.6"/><circle cx="295" cy="186" r="2.4" fill="#5a39cf"/><text x="345" y="191" text-anchor="start" font-family="JetBrains Mono, monospace" font-weight="700" font-size="19" fill="#5a39cf">ausschneiden</text><circle cx="45" cy="280" r="17" fill="#248049" stroke="#ffffff" stroke-width="3"/><text x="45" y="280" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><rect x="75" y="257" width="70" height="46" rx="8" fill="#ece7fe" stroke="#5a39cf" stroke-width="2.5"/><text x="110" y="287" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="17" fill="#5a39cf">Strg</text><text x="152" y="288" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="800" font-size="22" fill="#5a39cf">+</text><rect x="168" y="257" width="50" height="46" rx="8" fill="#7c5cf0" stroke="#5a39cf" stroke-width="2.5"/><text x="193" y="288" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="22" fill="#ffffff">V</text><line x1="230" y1="280" x2="254" y2="280" stroke="#5a39cf" stroke-width="2.6" stroke-linecap="round"/><path d="M252,274 L262,280 L252,286 Z" fill="#5a39cf"/><rect x="262" y="247" width="66" height="66" rx="12" fill="#e2f6ea" stroke="#5a39cf" stroke-width="2.5"/><rect x="279" y="264" width="32" height="38" rx="4" fill="#ffffff" stroke="#5a39cf" stroke-width="2.2"/><rect x="288" y="260" width="14" height="8" rx="2" fill="#5a39cf" stroke="#5a39cf" stroke-width="0"/><line x1="285" y1="274" x2="305" y2="274" stroke="#5a39cf" stroke-width="1.8"/><line x1="285" y1="282" x2="305" y2="282" stroke="#5a39cf" stroke-width="1.8"/><line x1="285" y1="290" x2="305" y2="290" stroke="#5a39cf" stroke-width="1.8"/><text x="345" y="286" text-anchor="start" font-family="JetBrains Mono, monospace" font-weight="700" font-size="19" fill="#5a39cf">einfügen</text></svg><div class="fig-cap">Bild 1 &middot; Kopieren, Ausschneiden, Einf&uuml;gen</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 1</span> <b>Benenne</b> die drei Tastenkombinationen. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>L&ouml;sung zeigen</summary><ol><li>Strg+C = kopieren</li><li>Strg+X = ausschneiden</li><li>Strg+V = einf&uuml;gen</li></ol></details></div>
       <div class="quiz" data-quiz>
         <div class="quiz-progress"><span class="pcount">0 / 4 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
         <div class="q">
-          <div class="q-text"><span class="qn">1.1</span> &nbsp;Was passiert, wenn du <b>Strg+C</b> (Teil 1) dr&uuml;ckst?</div>
+          <div class="q-text"><span class="qn">1.1</span> &nbsp;<b>Beschreibe</b>, was beim Dr&uuml;cken von Strg+C (<b>Teil 1</b>) passiert.</div>
           <div class="opts">
-            <button class="opt" data-correct="true">Das Markierte wird kopiert &mdash; das Original bleibt erhalten.</button>
-            <button class="opt" data-hint="Beim Kopieren bleibt das Original stehen, nichts verschwindet.">Das Markierte wird gel&ouml;scht und verschwindet ganz.</button>
-            <button class="opt" data-hint="Ein neues Dokument &ouml;ffnest du &uuml;ber ein Programm-Men&uuml;, nicht mit Strg+C.">Ein neues Dokument wird ge&ouml;ffnet.</button>
-            <button class="opt" data-hint="Speichern geschieht mit Strg+S.">Das Dokument wird gespeichert.</button>
+            <button class="opt" data-correct="true">Das Markierte wird kopiert, das Original bleibt erhalten.</button>
+            <button class="opt" data-hint="Speichern geschieht mit Strg+S, nicht mit Strg+C.">Das gesamte Dokument wird sofort gespeichert.</button>
+            <button class="opt" data-hint="Ein neues Dokument &ouml;ffnest du &uuml;ber ein Programm-Men&uuml;, nicht mit Strg+C.">Ein neues Dokument wird automatisch ge&ouml;ffnet.</button>
+            <button class="opt" data-hint="Beim Kopieren bleibt das Original stehen, nichts verschwindet.">Das Markierte wird gel&ouml;scht und verschwindet vollst&auml;ndig.</button>
           </div>
           <div class="q-hint"></div><div class="q-done">Richtig &mdash; Strg+C legt eine Kopie in die Zwischenablage.</div>
         </div>
         <div class="q">
-          <div class="q-text"><span class="qn">1.2</span> &nbsp;Was passiert, wenn du <b>Strg+X</b> (Teil 2) dr&uuml;ckst?</div>
+          <div class="q-text"><span class="qn">1.2</span> &nbsp;<b>Beschreibe</b>, was beim Dr&uuml;cken von Strg+X (<b>Teil 2</b>) passiert.</div>
           <div class="opts">
-            <button class="opt" data-correct="true">Das Markierte wird ausgeschnitten &mdash; es verschwindet und wandert in die Zwischenablage.</button>
+            <button class="opt" data-correct="true">Das Markierte wird ausgeschnitten und wandert in die Zwischenablage.</button>
+            <button class="opt" data-hint="Das beschreibt Strg+C (kopieren), nicht Strg+X.">Eine Kopie wird erstellt, das Original bleibt zus&auml;tzlich stehen.</button>
+            <button class="opt" data-hint="Den ganzen Text markierst du mit Strg+A.">Der gesamte Text wird automatisch markiert.</button>
             <button class="opt" data-hint="Beim Ausschneiden verschwindet das Original, es bleibt nicht einfach stehen.">Das Markierte wird nur angezeigt, aber nicht ver&auml;ndert.</button>
-            <button class="opt" data-hint="Das beschreibt eher Strg+C (kopieren), nicht Strg+X.">Es wird eine Kopie erstellt, das Original bleibt zus&auml;tzlich stehen.</button>
-            <button class="opt" data-hint="Den ganzen Text markierst du mit Strg+A.">Der ganze Text wird markiert.</button>
           </div>
           <div class="q-hint"></div><div class="q-done">Genau &mdash; Strg+X ist wie Kopieren, aber das Original verschwindet.</div>
         </div>
         <div class="q">
-          <div class="q-text"><span class="qn">1.3</span> &nbsp;Wie zauberst du mit <b>Strg+V</b> (Teil 3) etwas an eine neue Stelle?</div>
+          <div class="q-text"><span class="qn">1.3</span> &nbsp;<b>Beschreibe</b>, wie du mit Strg+V (<b>Teil 3</b>) etwas an eine neue Stelle zauberst.</div>
           <div class="opts">
-            <button class="opt" data-correct="true">Strg gedr&uuml;ckt halten und gleichzeitig V dr&uuml;cken.</button>
-            <button class="opt" data-hint="Ohne Strg schreibt die V-Taste nur den Buchstaben v.">Nur die V-Taste dr&uuml;cken.</button>
-            <button class="opt" data-hint="Ein doppeltes V f&uuml;gt nichts aus der Zwischenablage ein.">Strg gedr&uuml;ckt halten und zweimal V dr&uuml;cken.</button>
-            <button class="opt" data-hint="Shift+V ergibt nur ein gro&szlig;es V, kein Einf&uuml;gen.">Umschalttaste (Shift) und V dr&uuml;cken.</button>
+            <button class="opt" data-correct="true">Du h&auml;ltst Strg gedr&uuml;ckt und dr&uuml;ckst gleichzeitig V.</button>
+            <button class="opt" data-hint="Ein doppeltes V f&uuml;gt den Inhalt zweimal ein. Einmal V reicht.">Du h&auml;ltst Strg gedr&uuml;ckt und dr&uuml;ckst zweimal V.</button>
+            <button class="opt" data-hint="Shift+V ergibt nur ein gro&szlig;es V, kein Einf&uuml;gen.">Du h&auml;ltst Shift gedr&uuml;ckt und dr&uuml;ckst V.</button>
+            <button class="opt" data-hint="Ohne Strg schreibt die V-Taste nur den Buchstaben v.">Du dr&uuml;ckst nur die V-Taste.</button>
           </div>
           <div class="q-hint"></div><div class="q-done">Stimmt &mdash; Strg und V m&uuml;ssen gleichzeitig gedr&uuml;ckt sein.</div>
         </div>
         <div class="q">
-          <div class="q-text"><span class="qn">1.4</span> &nbsp;Was musst du <b>immer zuerst</b> tun, damit Strg+C oder Strg+X &uuml;berhaupt etwas kopieren oder ausschneiden k&ouml;nnen?</div>
+          <div class="q-text"><span class="qn">1.4</span> &nbsp;<b>Nenne</b> den Schritt, der immer vor Strg+C oder Strg+X n&ouml;tig ist.</div>
           <div class="opts">
-            <button class="opt" data-correct="true">Den Text oder das Objekt markieren.</button>
-            <button class="opt" data-hint="Speichern kommt sp&auml;ter, nicht als erster Schritt beim Kopieren.">Das Dokument speichern.</button>
-            <button class="opt" data-hint="Das ist nicht n&ouml;tig und hilft nicht beim Kopieren.">Den Rechner neu starten.</button>
-            <button class="opt" data-hint="Strg+V f&uuml;gt erst etwas ein, das schon in der Zwischenablage ist.">Strg+V dr&uuml;cken.</button>
+            <button class="opt" data-correct="true">Du markierst zuerst den Text oder das Objekt.</button>
+            <button class="opt" data-hint="Das ist nicht n&ouml;tig und hilft nicht beim Kopieren.">Du startest zuerst den Rechner neu.</button>
+            <button class="opt" data-hint="Strg+V f&uuml;gt erst etwas ein, das schon in der Zwischenablage ist.">Du dr&uuml;ckst zuerst Strg+V.</button>
+            <button class="opt" data-hint="Speichern ist sinnvoll, aber nicht der Schritt vor dem Kopieren.">Du speicherst zuerst das Dokument.</button>
           </div>
           <div class="q-hint"></div><div class="q-done">Richtig &mdash; ohne Markieren gibt es nichts zu kopieren.</div>
         </div>
@@ -258,36 +268,37 @@
       </div>
 
       <!-- Fig 2 -->
-      <div class="fig"><svg viewBox="0 0 700 370" xmlns="http://www.w3.org/2000/svg" font-family="Nunito, sans-serif" role="img"><rect x="20" y="20" width="660" height="330" rx="18" fill="#f6f4fe" stroke="#5a39cf" stroke-width="3"/><circle cx="45" cy="130" r="17" fill="#7c5cf0" stroke="#ffffff" stroke-width="3"/><text x="45" y="130" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><rect x="75" y="107" width="70" height="46" rx="8" fill="#ece7fe" stroke="#5a39cf" stroke-width="2.5"/><text x="110" y="137" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="17" fill="#5a39cf">Strg</text><text x="152" y="138" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="800" font-size="22" fill="#5a39cf">+</text><rect x="168" y="107" width="50" height="46" rx="8" fill="#7c5cf0" stroke="#5a39cf" stroke-width="2.5"/><text x="193" y="138" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="22" fill="#ffffff">Z</text><line x1="230" y1="130" x2="254" y2="130" stroke="#5a39cf" stroke-width="2.6" stroke-linecap="round"/><path d="M252,124 L262,130 L252,136 Z" fill="#5a39cf"/><rect x="262" y="97" width="66" height="66" rx="12" fill="#fde3e9" stroke="#5a39cf" stroke-width="2.5"/><path d="M 309,120 A 17 17 0 1 0 304,145" fill="none" stroke="#5a39cf" stroke-width="3" stroke-linecap="round"/><path d="M317,116 L308,113 L310,124 Z" fill="#5a39cf"/><text x="345" y="136" text-anchor="start" font-family="JetBrains Mono, monospace" font-weight="700" font-size="19" fill="#5a39cf">r&uuml;ckg&auml;ngig</text><circle cx="45" cy="250" r="17" fill="#c8890a" stroke="#ffffff" stroke-width="3"/><text x="45" y="250" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><rect x="75" y="227" width="70" height="46" rx="8" fill="#ece7fe" stroke="#5a39cf" stroke-width="2.5"/><text x="110" y="257" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="17" fill="#5a39cf">Strg</text><text x="152" y="258" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="800" font-size="22" fill="#5a39cf">+</text><rect x="168" y="227" width="50" height="46" rx="8" fill="#7c5cf0" stroke="#5a39cf" stroke-width="2.5"/><text x="193" y="258" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="22" fill="#ffffff">Y</text><line x1="230" y1="250" x2="254" y2="250" stroke="#5a39cf" stroke-width="2.6" stroke-linecap="round"/><path d="M252,244 L262,250 L252,256 Z" fill="#5a39cf"/><rect x="262" y="217" width="66" height="66" rx="12" fill="#e2f6ea" stroke="#5a39cf" stroke-width="2.5"/><path d="M 281,240 A 17 17 0 1 1 286,265" fill="none" stroke="#5a39cf" stroke-width="3" stroke-linecap="round"/><path d="M273,236 L282,233 L280,244 Z" fill="#5a39cf"/><text x="345" y="256" text-anchor="start" font-family="JetBrains Mono, monospace" font-weight="700" font-size="19" fill="#5a39cf">wiederholen</text></svg><div class="fig-cap">Bild 2 &middot; R&uuml;ckg&auml;ngig, Wiederholen</div></div>
+      <div class="fig"><svg viewBox="0 0 700 370" xmlns="http://www.w3.org/2000/svg" font-family="Nunito, sans-serif" role="img"><rect x="20" y="20" width="660" height="330" rx="18" fill="#f6f4fe" stroke="#5a39cf" stroke-width="3"/><circle cx="45" cy="130" r="17" fill="#7c5cf0" stroke="#ffffff" stroke-width="3"/><text x="45" y="130" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><rect x="75" y="107" width="70" height="46" rx="8" fill="#ece7fe" stroke="#5a39cf" stroke-width="2.5"/><text x="110" y="137" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="17" fill="#5a39cf">Strg</text><text x="152" y="138" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="800" font-size="22" fill="#5a39cf">+</text><rect x="168" y="107" width="50" height="46" rx="8" fill="#7c5cf0" stroke="#5a39cf" stroke-width="2.5"/><text x="193" y="138" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="22" fill="#ffffff">Z</text><line x1="230" y1="130" x2="254" y2="130" stroke="#5a39cf" stroke-width="2.6" stroke-linecap="round"/><path d="M252,124 L262,130 L252,136 Z" fill="#5a39cf"/><rect x="262" y="97" width="66" height="66" rx="12" fill="#fde3e9" stroke="#5a39cf" stroke-width="2.5"/><path d="M 309,120 A 17 17 0 1 0 304,145" fill="none" stroke="#5a39cf" stroke-width="3" stroke-linecap="round"/><path d="M317,116 L308,113 L310,124 Z" fill="#5a39cf"/><text x="345" y="136" text-anchor="start" font-family="JetBrains Mono, monospace" font-weight="700" font-size="19" fill="#5a39cf">rückgängig</text><circle cx="45" cy="250" r="17" fill="#c8890a" stroke="#ffffff" stroke-width="3"/><text x="45" y="250" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><rect x="75" y="227" width="70" height="46" rx="8" fill="#ece7fe" stroke="#5a39cf" stroke-width="2.5"/><text x="110" y="257" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="17" fill="#5a39cf">Strg</text><text x="152" y="258" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="800" font-size="22" fill="#5a39cf">+</text><rect x="168" y="227" width="50" height="46" rx="8" fill="#7c5cf0" stroke="#5a39cf" stroke-width="2.5"/><text x="193" y="258" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="22" fill="#ffffff">Y</text><line x1="230" y1="250" x2="254" y2="250" stroke="#5a39cf" stroke-width="2.6" stroke-linecap="round"/><path d="M252,244 L262,250 L252,256 Z" fill="#5a39cf"/><rect x="262" y="217" width="66" height="66" rx="12" fill="#e2f6ea" stroke="#5a39cf" stroke-width="2.5"/><path d="M 281,240 A 17 17 0 1 1 286,265" fill="none" stroke="#5a39cf" stroke-width="3" stroke-linecap="round"/><path d="M273,236 L282,233 L280,244 Z" fill="#5a39cf"/><text x="345" y="256" text-anchor="start" font-family="JetBrains Mono, monospace" font-weight="700" font-size="19" fill="#5a39cf">wiederholen</text></svg><div class="fig-cap">Bild 2 &middot; R&uuml;ckg&auml;ngig, Wiederholen</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 2</span> <b>Benenne</b> die zwei Tastenkombinationen. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>L&ouml;sung zeigen</summary><ol><li>Strg+Z = r&uuml;ckg&auml;ngig machen</li><li>Strg+Y = wiederholen</li></ol></details></div>
       <div class="quiz" data-quiz>
         <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
         <div class="q">
-          <div class="q-text"><span class="qn">2.1</span> &nbsp;Du hast aus Versehen einen Satz gel&ouml;scht. Welche Tastenkombination (<b>Teil 1</b>) hilft dir sofort?</div>
+          <div class="q-text"><span class="qn">2.1</span> &nbsp;<b>Nenne</b> die Tastenkombination (<b>Teil 1</b>), die dir sofort hilft, wenn du aus Versehen einen Satz gel&ouml;scht hast.</div>
           <div class="opts">
             <button class="opt" data-correct="true">Strg+Z</button>
-            <button class="opt" data-hint="Strg+C kopiert, l&ouml;scht aber nichts und stellt nichts wieder her.">Strg+C</button>
-            <button class="opt" data-hint="Strg+S speichert nur, das hilft hier nicht.">Strg+S</button>
             <button class="opt" data-hint="Strg+A markiert alles, stellt aber nichts wieder her.">Strg+A</button>
+            <button class="opt" data-hint="Strg+S speichert nur, das hilft hier nicht.">Strg+S</button>
+            <button class="opt" data-hint="Strg+C kopiert, stellt aber nichts wieder her.">Strg+C</button>
           </div>
           <div class="q-hint"></div><div class="q-done">Richtig &mdash; Strg+Z macht die letzte Aktion r&uuml;ckg&auml;ngig.</div>
         </div>
         <div class="q">
-          <div class="q-text"><span class="qn">2.2</span> &nbsp;Du hast mit Strg+Z zu oft r&uuml;ckg&auml;ngig gemacht und zu viel gel&ouml;scht bekommen. Was tust du (<b>Teil 2</b>)?</div>
+          <div class="q-text"><span class="qn">2.2</span> &nbsp;<b>Beschreibe</b>, was du tust (<b>Teil 2</b>), wenn du mit Strg+Z zu oft r&uuml;ckg&auml;ngig gemacht und zu viel gel&ouml;scht hast.</div>
           <div class="opts">
-            <button class="opt" data-correct="true">Strg+Y dr&uuml;cken, um die Aktion wiederherzustellen.</button>
-            <button class="opt" data-hint="Strg+V f&uuml;gt nur ein, was in der Zwischenablage liegt.">Strg+V dr&uuml;cken.</button>
-            <button class="opt" data-hint="Das ist nicht n&ouml;tig und hilft nicht weiter.">Den Rechner ausschalten.</button>
-            <button class="opt" data-hint="Es gibt eine Zaubertaste genau daf&uuml;r &mdash; Strg+Y.">Nichts, das l&auml;sst sich nicht mehr &auml;ndern.</button>
+            <button class="opt" data-correct="true">Du dr&uuml;ckst Strg+Y, um die Aktion wiederherzustellen.</button>
+            <button class="opt" data-hint="Es gibt eine Zaubertaste genau daf&uuml;r, schau auf Teil 2.">Du kannst daran nichts mehr &auml;ndern.</button>
+            <button class="opt" data-hint="Strg+V f&uuml;gt nur ein, was in der Zwischenablage liegt.">Du dr&uuml;ckst einfach die Tastenkombination Strg+V.</button>
+            <button class="opt" data-hint="Das ist nicht n&ouml;tig, und ungespeicherte Arbeit w&auml;re weg.">Du schaltest sofort den ganzen Rechner aus.</button>
           </div>
           <div class="q-hint"></div><div class="q-done">Genau &mdash; Strg+Y wiederholt die r&uuml;ckg&auml;ngig gemachte Aktion.</div>
         </div>
         <div class="q">
-          <div class="q-text"><span class="qn">2.3</span> &nbsp;Wie oft kannst du Strg+Z hintereinander dr&uuml;cken?</div>
+          <div class="q-text"><span class="qn">2.3</span> &nbsp;<b>Nenne</b>, wie oft du Strg+Z hintereinander dr&uuml;cken kannst.</div>
           <div class="opts">
-            <button class="opt" data-correct="true">Mehrmals &mdash; jeder Druck macht einen weiteren Schritt r&uuml;ckg&auml;ngig.</button>
-            <button class="opt" data-hint="Du kannst mehrere Schritte hintereinander zur&uuml;cknehmen, nicht nur einen.">Nur genau einmal.</button>
-            <button class="opt" data-hint="Strg+Z funktioniert auch ohne Maus, ganz allein mit der Tastatur.">Nur zusammen mit der Maus.</button>
-            <button class="opt" data-hint="Strg+Z funktioniert mehrfach in jedem Dokument.">Gar nicht, es funktioniert nur einmal pro Dokument.</button>
+            <button class="opt" data-correct="true">Mehrmals, jeder Druck macht einen weiteren Schritt r&uuml;ckg&auml;ngig.</button>
+            <button class="opt" data-hint="Du kannst mehrere Schritte hintereinander zur&uuml;cknehmen, nicht nur einen.">Nur genau einmal pro Dokument.</button>
+            <button class="opt" data-hint="Strg+Z funktioniert mehrfach hintereinander.">Gar nicht, es funktioniert nur einmal.</button>
+            <button class="opt" data-hint="Strg+Z funktioniert ganz allein mit der Tastatur.">Nur zusammen mit der Maus.</button>
           </div>
           <div class="q-hint"></div><div class="q-done">Stimmt &mdash; du kannst dich Schritt f&uuml;r Schritt zur&uuml;cktasten.</div>
         </div>
@@ -296,45 +307,46 @@
 
       <!-- Fig 3 -->
       <div class="fig"><svg viewBox="0 0 700 370" xmlns="http://www.w3.org/2000/svg" font-family="Nunito, sans-serif" role="img"><rect x="20" y="20" width="660" height="330" rx="18" fill="#f6f4fe" stroke="#5a39cf" stroke-width="3"/><circle cx="45" cy="90" r="17" fill="#7c5cf0" stroke="#ffffff" stroke-width="3"/><text x="45" y="90" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><rect x="75" y="67" width="70" height="46" rx="8" fill="#ece7fe" stroke="#5a39cf" stroke-width="2.5"/><text x="110" y="97" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="17" fill="#5a39cf">Strg</text><text x="152" y="98" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="800" font-size="22" fill="#5a39cf">+</text><rect x="168" y="67" width="50" height="46" rx="8" fill="#7c5cf0" stroke="#5a39cf" stroke-width="2.5"/><text x="193" y="98" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="22" fill="#ffffff">S</text><line x1="230" y1="90" x2="254" y2="90" stroke="#5a39cf" stroke-width="2.6" stroke-linecap="round"/><path d="M252,84 L262,90 L252,96 Z" fill="#5a39cf"/><rect x="262" y="57" width="66" height="66" rx="12" fill="#ece7fe" stroke="#5a39cf" stroke-width="2.5"/><rect x="279" y="72" width="32" height="36" rx="3" fill="#ffffff" stroke="#5a39cf" stroke-width="2.2"/><rect x="287" y="72" width="16" height="10" rx="1" fill="#5a39cf" stroke="#5a39cf" stroke-width="0"/><rect x="285" y="94" width="20" height="10" rx="1" fill="#ffffff" stroke="#5a39cf" stroke-width="1.8"/><text x="345" y="96" text-anchor="start" font-family="JetBrains Mono, monospace" font-weight="700" font-size="19" fill="#5a39cf">speichern</text><circle cx="45" cy="185" r="17" fill="#c8890a" stroke="#ffffff" stroke-width="3"/><text x="45" y="185" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><rect x="75" y="162" width="70" height="46" rx="8" fill="#ece7fe" stroke="#5a39cf" stroke-width="2.5"/><text x="110" y="192" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="17" fill="#5a39cf">Strg</text><text x="152" y="193" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="800" font-size="22" fill="#5a39cf">+</text><rect x="168" y="162" width="50" height="46" rx="8" fill="#7c5cf0" stroke="#5a39cf" stroke-width="2.5"/><text x="193" y="193" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="22" fill="#ffffff">A</text><line x1="230" y1="185" x2="254" y2="185" stroke="#5a39cf" stroke-width="2.6" stroke-linecap="round"/><path d="M252,179 L262,185 L252,191 Z" fill="#5a39cf"/><rect x="262" y="152" width="66" height="66" rx="12" fill="#fff3d1" stroke="#5a39cf" stroke-width="2.5"/><rect x="277" y="171" width="36" height="28" rx="2" fill="none" stroke="#5a39cf" stroke-width="1.8" stroke-dasharray="4,3"/><line x1="283" y1="179" x2="307" y2="179" stroke="#5a39cf" stroke-width="1.6"/><line x1="283" y1="185" x2="307" y2="185" stroke="#5a39cf" stroke-width="1.6"/><line x1="283" y1="191" x2="307" y2="191" stroke="#5a39cf" stroke-width="1.6"/><circle cx="277" cy="171" r="2.4" fill="#5a39cf"/><circle cx="313" cy="171" r="2.4" fill="#5a39cf"/><circle cx="277" cy="199" r="2.4" fill="#5a39cf"/><circle cx="313" cy="199" r="2.4" fill="#5a39cf"/><text x="345" y="191" text-anchor="start" font-family="JetBrains Mono, monospace" font-weight="700" font-size="19" fill="#5a39cf">alles markieren</text><circle cx="45" cy="280" r="17" fill="#248049" stroke="#ffffff" stroke-width="3"/><text x="45" y="280" text-anchor="middle" dominant-baseline="central" font-family="JetBrains Mono, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><rect x="75" y="257" width="70" height="46" rx="8" fill="#ece7fe" stroke="#5a39cf" stroke-width="2.5"/><text x="110" y="287" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="17" fill="#5a39cf">Strg</text><text x="152" y="288" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="800" font-size="22" fill="#5a39cf">+</text><rect x="168" y="257" width="50" height="46" rx="8" fill="#7c5cf0" stroke="#5a39cf" stroke-width="2.5"/><text x="193" y="288" text-anchor="middle" font-family="Fredoka, sans-serif" font-weight="700" font-size="22" fill="#ffffff">F</text><line x1="230" y1="280" x2="254" y2="280" stroke="#5a39cf" stroke-width="2.6" stroke-linecap="round"/><path d="M252,274 L262,280 L252,286 Z" fill="#5a39cf"/><rect x="262" y="247" width="66" height="66" rx="12" fill="#e2f6ea" stroke="#5a39cf" stroke-width="2.5"/><circle cx="291" cy="276" r="12" fill="none" stroke="#5a39cf" stroke-width="3"/><line x1="299.5" y1="284.5" x2="309" y2="294" stroke="#5a39cf" stroke-width="3.6" stroke-linecap="round"/><text x="345" y="286" text-anchor="start" font-family="JetBrains Mono, monospace" font-weight="700" font-size="19" fill="#5a39cf">suchen</text></svg><div class="fig-cap">Bild 3 &middot; Speichern, Alles markieren, Suchen</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 3</span> <b>Benenne</b> die drei Tastenkombinationen. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>L&ouml;sung zeigen</summary><ol><li>Strg+S = speichern</li><li>Strg+A = alles markieren</li><li>Strg+F = suchen</li></ol></details></div>
       <div class="quiz" data-quiz>
         <div class="quiz-progress"><span class="pcount">0 / 4 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
         <div class="q">
-          <div class="q-text"><span class="qn">3.1</span> &nbsp;Wozu dient <b>Strg+S</b> (Teil 1)?</div>
+          <div class="q-text"><span class="qn">3.1</span> &nbsp;<b>Nenne</b> den Zweck von Strg+S (<b>Teil 1</b>).</div>
           <div class="opts">
             <button class="opt" data-correct="true">Es speichert dein Dokument.</button>
-            <button class="opt" data-hint="Den ganzen Text markierst du mit Strg+A.">Es markiert den ganzen Text.</button>
+            <button class="opt" data-hint="Den ganzen Text markierst du mit Strg+A.">Es markiert den gesamten Text.</button>
             <button class="opt" data-hint="Die Suche &ouml;ffnest du mit Strg+F.">Es &ouml;ffnet die Suche.</button>
             <button class="opt" data-hint="Strg+S speichert, l&ouml;scht aber nichts.">Es l&ouml;scht das Dokument.</button>
           </div>
           <div class="q-hint"></div><div class="q-done">Richtig &mdash; speichere regelm&auml;&szlig;ig mit Strg+S!</div>
         </div>
         <div class="q">
-          <div class="q-text"><span class="qn">3.2</span> &nbsp;Was passiert bei <b>Strg+A</b> (Teil 2)?</div>
+          <div class="q-text"><span class="qn">3.2</span> &nbsp;<b>Beschreibe</b>, was bei Strg+A (<b>Teil 2</b>) passiert.</div>
           <div class="opts">
-            <button class="opt" data-correct="true">Der gesamte Text bzw. Inhalt wird markiert.</button>
-            <button class="opt" data-hint="Ein neues Dokument &ouml;ffnest du &uuml;ber ein Programm-Men&uuml;.">Es wird ein neues Dokument angelegt.</button>
+            <button class="opt" data-correct="true">Der gesamte Text beziehungsweise Inhalt wird markiert.</button>
+            <button class="opt" data-hint="Gel&ouml;scht wird mit der R&uuml;cktaste oder Entf, nicht mit Strg+A.">Der gesamte Inhalt wird gel&ouml;scht.</button>
+            <button class="opt" data-hint="Ein neues Dokument &ouml;ffnest du &uuml;ber ein Programm-Men&uuml;.">Ein neues Dokument wird angelegt.</button>
             <button class="opt" data-hint="Strg+A markiert nur, es korrigiert nichts.">Der Text wird automatisch korrigiert.</button>
-            <button class="opt" data-hint="Gel&ouml;scht wird mit der R&uuml;cktaste oder Entf, nicht mit Strg+A.">Es wird alles gel&ouml;scht.</button>
           </div>
           <div class="q-hint"></div><div class="q-done">Genau &mdash; Strg+A markiert alles auf einen Schlag.</div>
         </div>
         <div class="q">
-          <div class="q-text"><span class="qn">3.3</span> &nbsp;Wozu dient <b>Strg+F</b> (Teil 3)?</div>
+          <div class="q-text"><span class="qn">3.3</span> &nbsp;<b>Nenne</b> den Zweck von Strg+F (<b>Teil 3</b>).</div>
           <div class="opts">
             <button class="opt" data-correct="true">Es &ouml;ffnet die Suche, um ein Wort im Text zu finden.</button>
-            <button class="opt" data-hint="Einen Absatz beginnst du mit der Eingabetaste (Enter).">Es f&uuml;gt einen Absatz ein.</button>
-            <button class="opt" data-hint="Unter neuem Namen speicherst du &uuml;ber das Datei-Men&uuml;.">Es speichert das Dokument unter neuem Namen.</button>
             <button class="opt" data-hint="Fett schreibst du meist mit Strg+B, nicht mit Strg+F.">Es formatiert den Text fett.</button>
+            <button class="opt" data-hint="Unter neuem Namen speicherst du &uuml;ber das Datei-Men&uuml;.">Es speichert das Dokument unter neuem Namen.</button>
+            <button class="opt" data-hint="Einen Absatz beginnst du mit der Eingabetaste (Enter).">Es f&uuml;gt einen neuen Absatz ein.</button>
           </div>
           <div class="q-hint"></div><div class="q-done">Stimmt &mdash; Strg+F ist die Blitz-Suche im Dokument.</div>
         </div>
         <div class="q">
-          <div class="q-text"><span class="qn">3.4</span> &nbsp;Du willst den <b>gesamten</b> Text auf einmal kopieren. Welche zwei Tastenkombinationen brauchst du nacheinander?</div>
+          <div class="q-text"><span class="qn">3.4</span> &nbsp;<b>Nenne</b> die zwei Tastenkombinationen, die du nacheinander brauchst, um den <b>gesamten</b> Text zu kopieren.</div>
           <div class="opts">
-            <button class="opt" data-correct="true">Erst Strg+A, dann Strg+C.</button>
-            <button class="opt" data-hint="Ohne vorheriges Markieren mit Strg+A kopierst du nur, was schon markiert war.">Erst Strg+C, dann Strg+A.</button>
-            <button class="opt" data-hint="Strg+S speichert nur, das kopiert nichts.">Erst Strg+S, dann Strg+V.</button>
-            <button class="opt" data-hint="Strg+F sucht nur, das markiert nichts zum Kopieren.">Erst Strg+F, dann Strg+X.</button>
+            <button class="opt" data-correct="true">Erst Strg+A, dann Strg+C</button>
+            <button class="opt" data-hint="Strg+F sucht nur, das markiert nichts zum Kopieren.">Erst Strg+F, dann Strg+X</button>
+            <button class="opt" data-hint="Die Reihenfolge stimmt nicht: Erst markieren, dann kopieren.">Erst Strg+C, dann Strg+A</button>
+            <button class="opt" data-hint="Strg+S speichert nur, das kopiert nichts.">Erst Strg+S, dann Strg+V</button>
           </div>
           <div class="q-hint"></div><div class="q-done">Richtig &mdash; erst alles markieren, dann kopieren.</div>
         </div>
@@ -357,21 +369,22 @@
         <li><b>Speichern.</b> Dr&uuml;cke Strg+S, um dein Dokument zu speichern &mdash; das solltest du regelm&auml;&szlig;ig tun!</li>
         <li><b>Suchen.</b> Dr&uuml;cke Strg+F und tippe ein Wort ein, um es im Text zu finden.</li>
       </ol>
+      <div class="merke-box"><b>Merke:</b> Bei einer Zaubertaste h&auml;ltst du die erste Taste (z.&nbsp;B. Strg) gedr&uuml;ckt und tippst <b>gleichzeitig</b> die zweite Taste, nicht nacheinander! Beide Tasten liegen meist bequem unter deinen beiden H&auml;nden.</div>
     </section>
 
     <!-- ===================== ÜBUNGEN ===================== -->
     <section class="block">
       <h2><span class="dot"></span>&Uuml;bungsaufgaben</h2>
       <div class="task">
-        <span class="chip basis">Basis</span>
+        <span class="task-no">Aufgabe 5</span> <span class="chip basis">Basis</span>
         <p>&Ouml;ffne den Editor (oder ein Textprogramm) und tippe drei W&ouml;rter. Kopiere (Strg+C) eines davon und f&uuml;ge es (Strg+V) f&uuml;nfmal hintereinander ein.</p>
       </div>
       <div class="task">
-        <span class="chip mittel">mittel</span>
+        <span class="task-no">Aufgabe 6</span> <span class="chip mittel">mittel</span>
         <p>Schreibe einen kurzen Satz. Schneide (Strg+X) das letzte Wort aus und f&uuml;ge es (Strg+V) an den Anfang des Satzes ein. Speichere (Strg+S) danach dein Dokument.</p>
       </div>
       <div class="task">
-        <span class="chip knifflig">knifflig</span>
+        <span class="task-no">Aufgabe 7</span> <span class="chip knifflig">knifflig</span>
         <p>Schreibe einen Text mit mindestens vier S&auml;tzen. L&ouml;sche versehentlich einen Satz, mach es mit Strg+Z r&uuml;ckg&auml;ngig und stelle es mit Strg+Y wieder her. Markiere danach mit Strg+A den ganzen Text und nutze Strg+F, um ein bestimmtes Wort darin zu suchen &mdash; erkl&auml;re einer Partnerin oder einem Partner, was du dabei getan hast.</p>
       </div>
     </section>
@@ -379,13 +392,17 @@
     <!-- ===================== SCHNELLLÄUFER ===================== -->
     <section class="block fast">
       <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnelll&auml;ufer:innen-Mission</h2>
-      <p class="fast-text">Sammle acht weitere Shortcuts und baue ein &bdquo;Spickzettel&ldquo;-Plakat f&uuml;r die ganze Klasse. Hier sind drei zum Einstieg:</p>
+      <p class="fast-text">Sammle weitere Shortcuts. Finde zuerst heraus, was diese drei tun, und erg&auml;nze dann mindestens drei eigene:</p>
       <ul class="fast-list">
-        <li><b>Strg+P:</b> &ouml;ffnet den Druckdialog.</li>
-        <li><b>Strg+N:</b> &ouml;ffnet ein neues Fenster oder Dokument.</li>
-        <li><b>Strg+B:</b> macht markierten Text <b>fett</b>.</li>
+        <li><b>Strg+P:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Strg+N:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Strg+B:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Strg+__:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Strg+__:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Strg+__:</b> <span class="fill">&nbsp;</span></li>
       </ul>
-      <p class="fast-extra"><b>Extra:</b> Frag eine Mitsch&uuml;lerin oder einen Mitsch&uuml;ler nach ihren/seinen Lieblings-Shortcuts oder sucht gemeinsam am Rechner in einem Textprogramm im Men&uuml; nach weiteren Tastenkombinationen &mdash; die stehen dort oft direkt neben dem Befehl.</p>
+      <details class="fast-sol"><summary>L&ouml;sung zu Strg+P, Strg+N und Strg+B zeigen</summary><ul><li><b>Strg+P</b> &ouml;ffnet den Druckdialog.</li><li><b>Strg+N</b> &ouml;ffnet ein neues Fenster oder Dokument.</li><li><b>Strg+B</b> macht markierten Text <b>fett</b>.</li></ul></details>
+      <p class="fast-extra"><b>Tipp:</b> In vielen Programmen stehen die Tastenkombinationen im Men&uuml; direkt neben dem Befehl. Du kannst auch eine Mitsch&uuml;lerin oder einen Mitsch&uuml;ler nach Lieblings-Shortcuts fragen.</p>
     </section>
 
     <!-- ===================== SICHERUNG ===================== -->
@@ -395,7 +412,7 @@
       <div class="quiz" data-quiz>
         <div class="quiz-progress"><span class="pcount">0 / 4 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
         <div class="q">
-          <div class="q-text"><span class="qn">4.1</span> &nbsp;Welche Tastenkombination kopiert markierten Text?</div>
+          <div class="q-text"><span class="qn">4.1</span> &nbsp;<b>Nenne</b> die Tastenkombination, die markierten Text kopiert.</div>
           <div class="opts">
             <button class="opt" data-correct="true">Strg+C</button>
             <button class="opt" data-hint="Strg+V f&uuml;gt ein, kopiert aber nicht.">Strg+V</button>
@@ -405,17 +422,17 @@
           <div class="q-hint"></div><div class="q-done">Richtig &mdash; Strg+C kopiert.</div>
         </div>
         <div class="q">
-          <div class="q-text"><span class="qn">4.2</span> &nbsp;Welche Tastenkombination f&uuml;gt den kopierten oder ausgeschnittenen Inhalt ein?</div>
+          <div class="q-text"><span class="qn">4.2</span> &nbsp;<b>Nenne</b> die Tastenkombination, die den kopierten oder ausgeschnittenen Inhalt einf&uuml;gt.</div>
           <div class="opts">
             <button class="opt" data-correct="true">Strg+V</button>
-            <button class="opt" data-hint="Strg+C kopiert nur, f&uuml;gt aber nicht ein.">Strg+C</button>
-            <button class="opt" data-hint="Strg+S speichert, das f&uuml;gt nichts ein.">Strg+S</button>
             <button class="opt" data-hint="Strg+A markiert alles, f&uuml;gt aber nichts ein.">Strg+A</button>
+            <button class="opt" data-hint="Strg+S speichert, das f&uuml;gt nichts ein.">Strg+S</button>
+            <button class="opt" data-hint="Strg+C kopiert nur, f&uuml;gt aber nicht ein.">Strg+C</button>
           </div>
           <div class="q-hint"></div><div class="q-done">Genau &mdash; Strg+V f&uuml;gt ein.</div>
         </div>
         <div class="q">
-          <div class="q-text"><span class="qn">4.3</span> &nbsp;Welche Tastenkombination macht die letzte Aktion r&uuml;ckg&auml;ngig?</div>
+          <div class="q-text"><span class="qn">4.3</span> &nbsp;<b>Nenne</b> die Tastenkombination, die die letzte Aktion r&uuml;ckg&auml;ngig macht.</div>
           <div class="opts">
             <button class="opt" data-correct="true">Strg+Z</button>
             <button class="opt" data-hint="Strg+Y wiederholt eine r&uuml;ckg&auml;ngig gemachte Aktion, statt sie zur&uuml;ckzunehmen.">Strg+Y</button>
@@ -425,11 +442,11 @@
           <div class="q-hint"></div><div class="q-done">Stimmt &mdash; Strg+Z macht r&uuml;ckg&auml;ngig.</div>
         </div>
         <div class="q">
-          <div class="q-text"><span class="qn">4.4</span> &nbsp;Welche Tastenkombination speichert dein Dokument?</div>
+          <div class="q-text"><span class="qn">4.4</span> &nbsp;<b>Nenne</b> die Tastenkombination, die dein Dokument speichert.</div>
           <div class="opts">
             <button class="opt" data-correct="true">Strg+S</button>
-            <button class="opt" data-hint="Strg+A markiert alles, das speichert nicht.">Strg+A</button>
             <button class="opt" data-hint="Strg+V f&uuml;gt ein, das speichert nicht.">Strg+V</button>
+            <button class="opt" data-hint="Strg+A markiert alles, das speichert nicht.">Strg+A</button>
             <button class="opt" data-hint="Strg+C kopiert, das speichert nicht.">Strg+C</button>
           </div>
           <div class="q-hint"></div><div class="q-done">Richtig &mdash; Strg+S speichert dein Dokument.</div>
@@ -484,7 +501,13 @@
         if (doneBox && solved === total) doneBox.classList.add('show');
       }
       questions.forEach(function(q){
-        var opts = q.querySelectorAll('.opt');
+        var optsContainer = q.querySelector('.opts');
+        var opts = Array.prototype.slice.call(q.querySelectorAll('.opt'));
+        for (var i = opts.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = opts[i]; opts[i] = opts[j]; opts[j] = tmp;
+        }
+        opts.forEach(function(opt){ optsContainer.appendChild(opt); });
         var hint = q.querySelector('.q-hint');
         var done = q.querySelector('.q-done');
         var answered = false;
