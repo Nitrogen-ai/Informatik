@@ -23,7 +23,7 @@ def shuffle(q):
 for entry in lp4["vorwissen"]:
     for q in entry["quiz"]:
         shuffle(q)
-for q in lp4["quiz"]:
+for q in lp4.get("quiz", []):
     shuffle(q)
 
 vorwissen = ns["render_vorwissen"](lp4)

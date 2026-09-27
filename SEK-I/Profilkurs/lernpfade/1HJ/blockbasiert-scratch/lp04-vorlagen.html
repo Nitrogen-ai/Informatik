@@ -519,6 +519,27 @@ ol.steps li::before{content:counter(st);position:absolute;left:0;top:.05rem;widt
 .setup{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.6rem;margin-top:.4rem}
 .setup div{background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:.6rem .75rem;font-size:.86rem;color:var(--ink-soft)}
 .setup b{display:block;font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gc);margin-bottom:.2rem}
+/* ---- Übungen: Spiel-Links, Reminder, EVA-Tabelle ---- */
+.reminder{display:inline-block;margin-top:.3rem;font-size:.86rem;color:var(--ink-soft)}
+.game-links{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin:.7rem 0 .4rem}
+@media(max-width:640px){.game-links{grid-template-columns:1fr}}
+.game-link{display:flex;flex-direction:column;gap:.25rem;padding:.75rem .9rem;border:1px solid var(--line);border-left:3px solid var(--key);
+  border-radius:12px;background:var(--panel-2);color:var(--ink);text-decoration:none;transition:border-color .2s,transform .2s}
+.game-link:hover{border-color:var(--key);transform:translateY(-2px)}
+.gl-tag{font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--key)}
+.gl-t{font-weight:700}
+.gl-k{font-size:.84rem;color:var(--ink-soft)}
+.eva-scroll{overflow-x:auto}
+.eva-table td{color:var(--ink-soft);font-style:italic;height:2.6rem}
+/* ---- Sondervertiefung (nur auf Klick) ---- */
+details.sv{margin:1.6rem 0 1.2rem;border:1px dashed var(--key);border-radius:16px;padding:.9rem 1.1rem;background:rgba(8,12,24,.35)}
+details.sv>summary{cursor:pointer;list-style:none;display:flex;flex-direction:column;gap:.25rem}
+details.sv>summary::-webkit-details-marker{display:none}
+details.sv>summary .sv-t{font-weight:700;font-size:1.08rem}
+details.sv>summary .sv-t::after{content:' ▸';color:var(--key)}
+details.sv[open]>summary .sv-t::after{content:' ▾'}
+details.sv>summary .sv-s{font-size:.86rem;color:var(--ink-soft)}
+details.sv[open]>summary{margin-bottom:.6rem}
 
 /* ===== LP04 · Druckvorlagen ===== */
 .print-ctrl{display:flex;flex-wrap:wrap;gap:.8rem 1.2rem;align-items:center;margin-top:1.1rem;padding-top:1rem;border-top:1px dashed var(--line)}

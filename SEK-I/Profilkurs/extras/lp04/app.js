@@ -283,3 +283,17 @@
     initTester();
   });
 })();
+
+// Sondervertiefung nur auf Klick: Links mit data-open-sv bzw. Sprungmarken in die Vertiefung öffnen sie
+(function () {
+  var sv = document.getElementById('sondervertiefung'); if (!sv) return;
+  function openIfTarget() {
+    var id = location.hash.slice(1), el = id && document.getElementById(id);
+    if (el && sv.contains(el) && !sv.open) { sv.open = true; el.scrollIntoView({ block: 'start' }); }
+  }
+  document.querySelectorAll('[data-open-sv]').forEach(function (a) {
+    a.addEventListener('click', function () { sv.open = true; });
+  });
+  window.addEventListener('hashchange', openIfTarget);
+  openIfTarget();
+})();

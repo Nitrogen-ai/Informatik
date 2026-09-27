@@ -1,27 +1,44 @@
-  <section class="lp-sec"><h2>Das lernst du</h2><p>Du verbindest Makey Makey mit Scratch, erklärst, warum ein geschlossener Stromkreis über leitfähige Gegenstände ein Tastendruck ist (Eingabe im EVA-Prinzip), und baust im Zweierteam aus Alufolie und Papier einen <b>eigenen Controller</b> für ein <b>rundenbasiertes Spiel</b> — von Tic Tac Toe bis Schach.</p><div data-selfcheck="lp04"></div></section>
+  <section class="lp-sec"><h2>Das lernst du</h2><p>Du verbindest Makey Makey mit Scratch, schließt einen Stromkreis über <b>leitfähige Alltagsgegenstände</b> und erklärst, warum das ein greifbares Beispiel für <b>Eingabe im EVA-Prinzip</b> ist.</p><div data-selfcheck="lp04"></div></section>
   {{VORWISSEN}}
-  <section class="lp-sec"><h2>Aus LP03 aktivieren — die Tastenschleife</h2>
-    <p>In LP03 hast du eine Figur mit einer <b>Endlosschleife</b> gesteuert, die ständig fragt: „Ist gerade eine Taste gedrückt?“ Genau dieses Muster ist das Herz eures Spiels — denn Makey Makey <b>tut nichts anderes, als Tasten zu drücken</b>.</p>
+  <section class="lp-sec" id="aufgaben"><h2>Übungen und Leistungsnachweis</h2>
+    <ol class="steps">
+      <li><b>Schließt</b> Makey Makey <b>an</b>, <b>verbindet</b> EARTH über eine Krokodilklemme mit jeweils einer Person (z. B. Armband aus Alufolie) und verknüpft die Pfeiltasten aus euren Spielen der letzten Woche mit den Bananenstücken über deren Schale.</li>
+      <li><b>Erweitert</b> eure beiden Spiele um je einen weiteren Tastendruck per Makey Makey, z. B. einen <b>Bühnenbildwechsel</b> o. Ä., und gebt eure neuen, <b>mit Kommentaren versehenen</b> Erweiterungen als .sb3-Datei zur Leistungsanerkennung im Classroom wie gewohnt ab. <span class="reminder">Reminder: <i>Inhalt+Vorname.sb3</i></span></li>
+      <li><b>Plant</b> ein kreatives Projekt zur Umsetzung des EVA-Prinzips, z. B. ein rundenbasiertes Teamspiel mit Makey Makey und Scratch oder eine andere Anwendung aus Alltag oder Technik. <b>Präsentiert</b> es der Gruppe.</li>
+    </ol>
+    <h3>Kein eigenes lauffähiges Spiel? Nehmt eines davon</h3>
+    <p>Alle drei laufen über die Pfeiltasten und lassen sich leicht um einen Bühnenbildwechsel erweitern. Öffnen → <b>Schau hinein</b> → oben <b>Remix</b> (angemeldet) oder <b>Datei → Auf deinem Computer speichern</b>.</p>
+    <div class="game-links">
+      <a class="game-link" href="https://scratch.mit.edu/projects/10128431" target="_blank" rel="noopener"><span class="gl-tag">Spiel A</span><span class="gl-t">Maze Starter <span class="ex">↗</span></span><span class="gl-k">↑ ↓ ← → · Kugel durchs Labyrinth</span></a>
+      <a class="game-link" href="https://scratch.mit.edu/projects/404400397" target="_blank" rel="noopener"><span class="gl-tag">Spiel B</span><span class="gl-t">Fruit Catcher <span class="ex">↗</span></span><span class="gl-k">← → · Obst mit der Schüssel fangen</span></a>
+      <a class="game-link" href="https://scratch.mit.edu/projects/176104336" target="_blank" rel="noopener"><span class="gl-tag">Spiel C</span><span class="gl-t">Fruit Catcher für 2 <span class="ex">↗</span></span><span class="gl-k">← → und A/D · zwei Spieler:innen</span></a>
+    </div>
+    <details class="think"><summary>Wie hänge ich einen Kommentar an einen Block?</summary><div class="ans"><b>Rechtsklick</b> auf den Block → <b>„Kommentar hinzufügen“</b>. Schreibt hinein, welche Makey-Makey-Taste was auslöst, z. B. „Leertaste = Banane 5: wechselt zum nächsten Bühnenbild“. Die Kommentare werden in der .sb3-Datei mitgespeichert.</div></details>
+    <h3>Eure Projektplanung (Aufgabe 3)</h3>
+    <div class="eva-scroll"><table class="map-table eva-table">
+      <tr><th>Team</th><th>Eingabe</th><th>Verarbeitung</th><th>Ausgabe</th></tr>
+      <tr><td>Wer seid ihr?</td><td>Was wird berührt bzw. gedrückt?</td><td>Was prüft und berechnet das Programm?</td><td>Was sieht oder hört man?</td></tr>
+    </table></div>
+  </section>
+
+  <section class="lp-sec"><h2>So wird aus einer Banane eine Taste</h2>
+    <p>In LP03 hast du eine Figur mit einer <b>Endlosschleife</b> gesteuert, die ständig fragt: „Ist gerade eine Taste gedrückt?“ Genau dieses Muster nutzt ihr weiter — denn Makey Makey <b>tut nichts anderes, als Tasten zu drücken</b>.</p>
     <div class="sb-wrap"><div class="sb-sprite">Erinnerung · LP03</div><pre class="sbsrc" hidden>
 ev: Wenn ⚑ angeklickt wird
 ctl: wiederhole fortlaufend
   ctl: falls ⟨sen Taste [Pfeil nach rechts] gedrückt?⟩, dann
     mot: ändere x um (10)
 </pre></div>
-    <h3>Deine fünf Spieltasten am Makey Makey</h3>
-    <p>Auf der Vorderseite hat Makey Makey sechs Anschlüsse. Für ein Rundenspiel reichen fünf davon: vier zum <b>Bewegen</b>, einer zum <b>Bestätigen</b>.</p>
+    <h3>Die Anschlüsse am Makey Makey</h3>
+    <p>Auf der Vorderseite hat Makey Makey sechs Anschlüsse plus EARTH. Jeder Anschluss „drückt“ im Computer eine ganz normale Taste — deshalb funktioniert euer Scratch-Spiel sofort, ohne dass ihr etwas umprogrammieren müsst.</p>
     <table class="map-table">
       <tr><th>Anschluss</th><th>Scratch fragt ab …</th><th>Rolle im Spiel</th></tr>
-      <tr><td><span class="kbd">↑</span> <span class="kbd">↓</span> <span class="kbd">←</span> <span class="kbd">→</span></td><td><code>Taste [Pfeil nach oben] gedrückt?</code> usw.</td><td>Cursor / Zeiger über das Spielfeld bewegen</td></tr>
-      <tr><td><span class="kbd">SPACE</span></td><td><code>Taste [Leertaste] gedrückt?</code></td><td><b>Bestätigen</b>: setzen · einwerfen · feuern · Figur wählen</td></tr>
-      <tr><td><span class="kbd">CLICK</span></td><td><code>Maustaste gedrückt?</code></td><td>optional: z. B. „Abbrechen“ oder „Neues Spiel“</td></tr>
-      <tr><td><span class="kbd">EARTH</span></td><td>—</td><td>Erdung: schließt den Stromkreis (Alu-Armband)</td></tr>
+      <tr><td><span class="kbd">↑</span> <span class="kbd">↓</span> <span class="kbd">←</span> <span class="kbd">→</span></td><td><code>Taste [Pfeil nach oben] gedrückt?</code> usw.</td><td>Figur bewegen — wie in eurem Spiel aus LP03</td></tr>
+      <tr><td><span class="kbd">SPACE</span></td><td><code>Taste [Leertaste] gedrückt?</code></td><td>z. B. springen, schießen oder das Bühnenbild wechseln</td></tr>
+      <tr><td><span class="kbd">CLICK</span></td><td><code>Maustaste gedrückt?</code></td><td>z. B. „Neues Spiel“ oder eine weitere Aktion</td></tr>
+      <tr><td><span class="kbd">EARTH</span></td><td>—</td><td>Erdung: schließt den Stromkreis (z. B. Alu-Armband)</td></tr>
     </table>
-    <p class="note"><b>Achtung Enter:</b> Makey Makey hat vorne <b>keinen Enter-Anschluss</b>. Eure „Bestätigen-Taste“ ist deshalb die <b>Leertaste</b> (SPACE). Wer mehr Tasten braucht, findet auf der Rückseite noch <span class="kbd">W</span> <span class="kbd">A</span> <span class="kbd">S</span> <span class="kbd">D</span> <span class="kbd">F</span> <span class="kbd">G</span> (mit Steckkabel).</p>
-    <h3>Denk kurz nach — dann aufklappen</h3>
-    <details class="think"><summary>Du berührst die Alufolien-Taste „→“ eine halbe Sekunde lang. Was passiert mit einem Spielfeld-Cursor, der pro Schleifendurchlauf ein Feld weiterspringt?</summary><div class="ans">Die Schleife läuft etwa <b>30-mal pro Sekunde</b>. Der Cursor rast also bis an den Rand. Lösung: Nach dem Sprung warten, bis die Taste wieder <b>losgelassen</b> ist — mit <code>warte bis ⟨nicht ⟨Taste [Pfeil nach rechts] gedrückt?⟩⟩</code>. Das nennt man <b>Entprellen</b>.</div></details>
-    <details class="think"><summary>Warum eine Endlosschleife und nicht einfach mehrere „Wenn Taste … gedrückt wird“-Blöcke?</summary><div class="ans">In der Schleife steuert <b>ein</b> Skript das ganze Spiel: Nur dort wird gezogen, geprüft und der Spieler gewechselt. Mit einer <code>wiederhole bis ⟨Sieger &gt; 0⟩</code>-Schleife hört das Spiel außerdem sauber auf, sobald jemand gewonnen hat — einzelne Ereignisblöcke würden einfach weiterreagieren.</div></details>
-    <details class="think"><summary>„Rundenbasiert“ heißt: Spieler 1, dann Spieler 2, dann wieder 1 … Wie merkt sich das Programm, wer dran ist?</summary><div class="ans">Mit einer Variablen <code>Spieler</code> (Wert 1 oder 2). Nach jedem gültigen Zug: <code>setze [Spieler] auf ((3) - (Spieler))</code> — aus 1 wird 2, aus 2 wird 1. Ihr teilt euch <b>einen</b> Controller und gebt ihn nach jedem Zug weiter.</div></details>
+    <p class="note"><b>Achtung Enter:</b> Makey Makey hat vorne <b>keinen Enter-Anschluss</b>. Für eine zusätzliche Aktion bietet sich deshalb die <b>Leertaste</b> (SPACE) an. Wer mehr Tasten braucht, findet auf der Rückseite noch <span class="kbd">W</span> <span class="kbd">A</span> <span class="kbd">S</span> <span class="kbd">D</span> <span class="kbd">F</span> <span class="kbd">G</span> (mit Steckkabel).</p>
   </section>
 
   <section class="lp-sec" id="controller-test"><h2>Controller-Test</h2>
@@ -45,6 +62,14 @@ ctl: wiederhole fortlaufend
     </div>
   </section>
 
+  <details class="sv" id="sondervertiefung">
+    <summary><span class="sv-t">🧩 Sondervertiefung: Rundenspiel-Controller im Team</span><span class="sv-s">Nur wenn ihr mit den Übungen fertig seid oder Aufgabe 3 als Rundenspiel umsetzen wollt — zum Aufklappen tippen.</span></summary>
+    <section class="lp-sec"><h2>Denk kurz nach — dann aufklappen</h2>
+      <p>Für ein Rundenspiel (Tic Tac Toe, Vier gewinnt, Schiffe versenken, Schach) reichen fünf Tasten: <span class="kbd">↑</span><span class="kbd">↓</span><span class="kbd">←</span><span class="kbd">→</span> zum Bewegen, <span class="kbd">SPACE</span> zum Bestätigen.</p>
+    <details class="think"><summary>Du berührst die Alufolien-Taste „→“ eine halbe Sekunde lang. Was passiert mit einem Spielfeld-Cursor, der pro Schleifendurchlauf ein Feld weiterspringt?</summary><div class="ans">Die Schleife läuft etwa <b>30-mal pro Sekunde</b>. Der Cursor rast also bis an den Rand. Lösung: Nach dem Sprung warten, bis die Taste wieder <b>losgelassen</b> ist — mit <code>warte bis ⟨nicht ⟨Taste [Pfeil nach rechts] gedrückt?⟩⟩</code>. Das nennt man <b>Entprellen</b>.</div></details>
+    <details class="think"><summary>Warum eine Endlosschleife und nicht einfach mehrere „Wenn Taste … gedrückt wird“-Blöcke?</summary><div class="ans">In der Schleife steuert <b>ein</b> Skript das ganze Spiel: Nur dort wird gezogen, geprüft und der Spieler gewechselt. Mit einer <code>wiederhole bis ⟨Sieger &gt; 0⟩</code>-Schleife hört das Spiel außerdem sauber auf, sobald jemand gewonnen hat — einzelne Ereignisblöcke würden einfach weiterreagieren.</div></details>
+    <details class="think"><summary>„Rundenbasiert“ heißt: Spieler 1, dann Spieler 2, dann wieder 1 … Wie merkt sich das Programm, wer dran ist?</summary><div class="ans">Mit einer Variablen <code>Spieler</code> (Wert 1 oder 2). Nach jedem gültigen Zug: <code>setze [Spieler] auf ((3) - (Spieler))</code> — aus 1 wird 2, aus 2 wird 1. Ihr teilt euch <b>einen</b> Controller und gebt ihn nach jedem Zug weiter.</div></details>
+    </section>
   <section class="lp-sec" id="werkstatt"><h2>Werkstatt — euer A4-Controller</h2>
     <p>Euer Controller ist ein DIN-A4-Blatt, auf dem ihr das Spielfeld bzw. ein Steuerkreuz mit <b>Alufolie</b> nachbaut. Der Trick ist das <b>Zwei-Seiten-Prinzip</b>: Vorne liegen die Folien-Tasten, hinten laufen Alustreifen als „Leiterbahnen“ zum Rand. Verbunden werden beide Seiten durch ein <b>gestanztes Loch</b>, in dem ein <b>Metall-Druckknopf</b> (oder eine Musterbeutelklammer) steckt. So kreuzen sich vorne keine Streifen und alle Krokodilklemmen sitzen ordentlich am Rand.</p>
     <div class="ctrl-fig" id="fig-sandwich"></div>
@@ -82,13 +107,10 @@ ctl: wiederhole fortlaufend
     <div id="tracks"></div>
   </section>
 
-  <section class="lp-sec"><h2>Aufgaben</h2><ul class="task-list">
-    <li><b>Basis:</b> Schließe Makey Makey an, verbinde EARTH über eine Krokodilklemme mit dir selbst (Alu-Armband) und teste eine Folien-Taste im <a href="#controller-test" style="color:var(--key)">Controller-Test</a>.</li>
-    <li><b>Mittel:</b> Baut als Zweierteam euren A4-Controller mit fünf Tasten (<span class="kbd">↑</span><span class="kbd">↓</span><span class="kbd">←</span><span class="kbd">→</span><span class="kbd">SPACE</span>) und programmiert euer Rundenspiel mindestens bis zur spielbaren Stufe.</li>
-    <li><b>Knifflig:</b> Teste einen nicht leitfähigen Gegenstand (z. B. ein Radiergummi) als „Taste“ und erkläre in eigenen Worten, warum er nicht funktioniert — nutze dabei den Begriff „geschlossener Stromkreis“.</li>
-  </ul></section>
+  </details>
+
   {{QUIZ}}
   <section class="lp-sec"><h2>Werkzeuge</h2><div class="tool-list"><a class="tool" href="https://makeymakey.com/pages/how-to" target="_blank" rel="noopener">Makey Makey <span class="ex">↗</span></a><a class="tool" href="https://scratch.mit.edu/" target="_blank" rel="noopener">Scratch <span class="ex">↗</span></a></div></section>
-  <section class="lp-sec"><div class="fast-box"><span class="fb-t">⚡ Schnellläufer:in</span>Baut einen <b>Feld-Controller</b>, bei dem jedes Spielfeld eine eigene Folien-Taste ist (Rückseite <span class="kbd">W</span>–<span class="kbd">G</span> mit Steckkabeln) — Bauplan im Pfad Tic Tac Toe bzw. Vier gewinnt. Oder: Zählt Siege über mehrere Runden, ergänzt Sounds und tretet gegen ein anderes Team an.</div></section>
+  <section class="lp-sec"><div class="fast-box"><span class="fb-t">⚡ Schnellläufer:in</span>Öffnet die <a href="#sondervertiefung" data-open-sv style="color:var(--key)">Sondervertiefung</a> und baut einen eigenen Alufolien-Controller für ein Rundenspiel — mit Denkanstößen, Stufen und Bauplänen zum Aufklappen.</div></section>
   <section class="lp-sec"><div class="backup-box"><span class="bb-t">💾 Ergebnissicherung</span>Sichere deine Ergebnisse am Stundenende <b>einfach wiederverwendbar</b> (sinnvoll benannt) an <b>zwei Orten</b> — Rechner und Cloud/USB. Achte selbstständig auf Backups.</div></section>
   {{SOLUTION}}
