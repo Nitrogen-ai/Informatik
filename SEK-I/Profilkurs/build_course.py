@@ -4,7 +4,7 @@ Generator: Profil Informatik · Klasse 9 (14–15 J.) — Kursplan HJ1 & HJ2
 Erzeugt index.html (Kursübersicht) + Lernpfad-Startseiten + nutzt geteilte Assets.
 Einzige Quelle der Wahrheit für Inhalte, Kalender und Freischalt-Daten.
 """
-import os, glob, html
+import os, glob, html, base64
 from datetime import date, timedelta
 from urllib.parse import quote
 
@@ -72,20 +72,48 @@ MATERIAL_ROOT = os.environ.get("PROFIL_MATERIAL") or os.path.expanduser(
     "~/Library/Mobile Documents/com~apple~CloudDocs/Unterricht/Material SEK I/"
     "Informatik/Profilkurs/1HJ")
 
-def load_svg(lp_no, fig):
+def find_material(lp_no, filename):
     folder = LESSON_DIRS.get(lp_no)
     if not folder:
-        return ""
-    rel = os.path.join(folder, "typst", fig + ".svg")
+        return None
+    rel = os.path.join(folder, "typst", filename)
     candidates = [os.path.join(BASE, rel)] + sorted(glob.glob(os.path.join(MATERIAL_ROOT, "*", rel)))
     for path in candidates:
         if os.path.exists(path):
-            with open(path, "r", encoding="utf-8") as f:
-                return f.read()
-    return ""
+            return path
+    return None
+
+def load_svg(lp_no, fig):
+    path = find_material(lp_no, fig + ".svg")
+    if not path:
+        return ""
+    with open(path, "r", encoding="utf-8") as f:
+        return f.read()
+
+def load_fig(lp_no, fig, alt=""):
+    """SVG (Name ohne Endung) inline oder Foto (.jpg/.png) als data-URI."""
+    if fig.lower().endswith((".jpg", ".jpeg", ".png")):
+        path = find_material(lp_no, fig)
+        if not path:
+            return ""
+        mime = "image/png" if fig.lower().endswith(".png") else "image/jpeg"
+        with open(path, "rb") as f:
+            data = base64.b64encode(f.read()).decode("ascii")
+        return '<img src="data:%s;base64,%s" alt="%s" loading="lazy">' % (mime, data, esc(alt))
+    return load_svg(lp_no, fig)
+
+def render_figs(lp, entries):
+    out = ""
+    for e in entries or []:
+        media = load_fig(lp["no"], e["fig"], e["cap"])
+        if media:
+            out += '<div class="fig">%s<div class="fig-cap">%s</div></div>' % (media, esc(e["cap"]))
+    return out
 
 # ---------------------------------------------------------------- Kursinhalt
 # Jedes LP: no, sjw, title, goal, tasks[], tools[keys], fast, rlp[], solution[], kind
+# optional: vorwissen[], quiz[], material (HTML, Informationstext), task_figs[] / solution_figs[]
+#           (dict(fig=..., cap=...); fig = SVG-Name ohne Endung oder Foto .jpg/.png aus <Lektion>/typst/)
 UNITS = [
  # =================== HALBJAHR 1 ===================
  dict(hj=1, num="00", title="Systemstart — Was ist Informatik?",
@@ -717,113 +745,79 @@ UNITS = [
  dict(hj=1, num="02", title="Blockbasiert II — Tinkercad & Arduino",
       key="#a56bff", key2="#7d3ff0", tint="rgba(165,107,255,0.09)",
       lps=[
-        dict(no=5, sjw=5, kind="lernpfad", title="Tinkercad Circuits: Stromkreis simulieren",
-             goal="Du baust im Browser einen virtuellen Stromkreis mit LED, Vorwiderstand und Steckplatine und verstehst, warum der Widerstand die LED schützt.",
-             tasks=["LED + Widerstand + Batterie auf der Steckplatine verdrahten.",
-                    "Simulation starten und den Stromfluss beobachten.",
-                    "Widerstandswert variieren und Helligkeit/Schutz erklären."],
+        dict(no=5, sjw=5, kind="lernpfad", title="Arduino: Einführung am Beispiel der LED",
+             goal="Du lernst den Mikrocontroller Arduino und die Bauteile einer LED-Schaltung kennen, benennst sie, zeichnest deinen ersten geschlossenen Stromkreis und verstehst, warum der Widerstand die LED schützt.",
+             # Quelle Arbeits-/Lösungsblatt: <Lektion>/typst/05-arduino-einfuehrung.typ, Grafiken: build_abb_arduino.py
+             material=(
+               "<p><b>Woher kommt der Name?</b> Der Arduino wurde 2005 im italienischen Städtchen Ivrea erfunden, damit Lernende günstig eigene Elektronik bauen und programmieren können. Die Entwickler trafen sich oft in der „Bar di Re Arduino“, benannt nach König Arduin von Ivrea, der um das Jahr 1000 König von Italien war. Der Name kommt aus dem Germanischen (Hartwin) und bedeutet etwa „starker Freund“. „Uno“ heißt auf Italienisch „eins“.</p>"
+               "<p><b>Die Mikrocontroller-Platine Arduino Uno</b> hat als „Gehirn“ den langen schwarzen Chip ATmega328P, einen winzigen Computer, der ein Programm (einen <i>Sketch</i>) Schritt für Schritt ausführt. Über das USB-Kabel bekommt sie Strom und neue Programme vom Computer. Bauteile werden an den schwarzen Pinleisten am Rand angeschlossen.</p>"
+               "<p><b>Plus- und Minuspol.</b> Strom fließt nur in einem geschlossenen Stromkreis zwischen zwei Polen. Am <b>Minuspol</b> gibt es einen Überschuss an Elektronen, am <b>Pluspol</b> einen Mangel (Unterschuss). Diesen Unterschied nennt man <b>Spannung</b>, gemessen in Volt (V). Ist der Kreis geschlossen, fließen die Elektronen vom Minus- zum Pluspol. Die <i>technische Stromrichtung</i> wurde festgelegt, bevor man Elektronen kannte, und zeigt deshalb andersherum von Plus nach Minus. Am Arduino heißt der Pluspol <b>5V</b>, er liegt 5 Volt über dem Minuspol. Der Minuspol heißt <b>GND</b> (engl. <i>ground</i>, Erde/Masse) und ist der Bezugspunkt mit 0 V, so wie EARTH am Makey Makey.</p>"
+               "<p><b>Das Steckbrett</b> (engl. <i>breadboard</i>, „Brotbrett“: Früher wurden Schaltungen auf Holzbrettchen geschraubt) verbindet Bauteile ohne Löten. Die fünf Löcher einer Spalte (a–e bzw. f–j) sind innen leitend verbunden, die Mitte trennt beide Hälften. Die Schienen am Rand (+ rot, − blau) verlaufen waagerecht.</p>"
+               "<p><b>Die LED</b> (engl. <i>light-emitting diode</i>, Leuchtdiode) lässt Strom nur in eine Richtung durch, wie eine Einbahnstraße. Ihr <b>langes Beinchen</b> ist die <b>Anode</b> (+) und zeigt Richtung 5V, das <b>kurze</b> die <b>Kathode</b> (−) Richtung GND. In Tinkercad ist das Anodenbeinchen geknickt.</p>"
+               "<p><b>Der Widerstand</b> mit den Farbringen rot-rot-braun hat 220 Ω (Ohm). Als <b>Vorwiderstand</b> vor der LED begrenzt er die Stromstärke. Ohne ihn flösse zu viel Strom und die LED würde durchbrennen. Seine Einbaurichtung ist egal.</p>"),
+             tasks=["<b>Benenne</b> mithilfe des Informationstextes die vier Bauteile aus Abbildung 1.",
+                    "<b>Zeichne</b> LED, Widerstand und zwei Kabel (zu 5V rot, zu GND schwarz) so in Abbildung 2 auf deinem Arbeitsblatt ein, dass ein geschlossener Stromkreis entsteht. Achte auf Anode und Kathode. <b>Überprüfe</b> deine Skizze am echten Arduino.",
+                    "Vertiefung: <b>Plane</b> drei parallel geschaltete LEDs und <b>vergleiche</b> sie mit einer entsprechenden Reihenschaltung. <b>Überprüfe</b> beides experimentell."],
+             task_figs=[dict(fig="abb1-bauteile", cap="Abbildung 1 · Bauteile (LED-Schaltung)"),
+                        dict(fig="abb2-schaltkreis", cap="Abbildung 2 · Schaltkreis der angeschlossenen LED")],
              tools=["tinker"],
-             fast="Schalte drei LEDs parallel und vergleiche mit einer Reihenschaltung — was passiert mit der Helligkeit?",
-             rlp=["RLP 2.3 · Informatiksysteme", "3.2 Hardware", "neu · Schaltungssimulation"],
-             vorwissen=[
-               dict(fig="fig1", cap="Bild 1 · Stromkreis-Aufbau", quiz=[
-                 dict(q="Was ist Teil 1?",
-                      done="Richtig — die Batterie.",
-                      opts=[
-                        ("die Batterie (Stromquelle, 9V)", True, None),
-                        ("der Widerstand", False, "Der Widerstand ist das Zickzack-Symbol, nicht die Batterie."),
-                        ("die LED", False, "Die LED ist das Dreieck-Symbol weiter rechts."),
-                        ("die Steckplatine", False, "Die Steckplatine ist das Raster im Hintergrund."),
-                      ]),
-                 dict(q="Wofür steht Teil 2, das Zickzack-Symbol?",
-                      done="Genau — der Widerstand.",
-                      opts=[
-                        ("der Widerstand — er begrenzt den Strom", True, None),
-                        ("die Batterie", False, "Die Batterie ist das Symbol mit den zwei parallelen Linien."),
-                        ("die LED", False, "Die LED ist das Dreieck-Symbol, nicht das Zickzack."),
-                        ("das USB-Kabel", False, "Diese Schaltung hat gar kein USB-Kabel."),
-                      ]),
-                 dict(q="Was ist Teil 3, das Dreieck-Symbol?",
-                      done="Stimmt — die LED.",
-                      opts=[
-                        ("die LED — das lange Beinchen ist die Anode, das kurze die Kathode", True, None),
-                        ("der Widerstand", False, "Der Widerstand ist das Zickzack-Symbol."),
-                        ("die Steckplatine", False, "Die Steckplatine ist das Hintergrundraster."),
-                        ("der Schalter", False, "Diese Schaltung enthält keinen eigenen Schalter."),
-                      ]),
-                 dict(q="Wozu dient Teil 4, die Steckplatine?",
-                      done="Richtig — sie verbindet Bauteile ohne Löten.",
-                      opts=[
-                        ("sie verbindet Bauteile elektrisch, ohne dass gelötet werden muss", True, None),
-                        ("sie speichert Strom wie ein Akku", False, "Eine Steckplatine speichert keine Energie."),
-                        ("sie zeigt den Simulationsstatus an", False, "Der Status wird in Tinkercad separat angezeigt, nicht auf der Platine."),
-                        ("sie hat keine erkennbare Funktion", False, "Sie verbindet die Bauteile elektrisch — das ist ihre Hauptfunktion."),
-                      ]),
-               ]),
-               dict(fig="fig2", cap="Bild 2 · Widerstand als Schutz", quiz=[
-                 dict(q="Was passiert bei Fall 1, ohne Widerstand?",
-                      done="Richtig — zu viel Strom, LED brennt durch.",
-                      opts=[
-                        ("Es fließt zu viel Strom, die LED brennt durch.", True, None),
-                        ("Die LED leuchtet besonders lange.", False, "Ohne Schutz brennt sie eher schnell durch, statt lange zu halten."),
-                        ("Nichts, das ist unproblematisch.", False, "Zu viel Strom beschädigt die LED dauerhaft."),
-                        ("Die Batterie lädt sich auf.", False, "Batterien laden sich dadurch nicht auf."),
-                      ]),
-                 dict(q="Was passiert bei Fall 2, mit 220 Ω Widerstand?",
-                      done="Genau — normale Helligkeit.",
-                      opts=[
-                        ("Die LED leuchtet normal und ist geschützt.", True, None),
-                        ("Die LED brennt sofort durch.", False, "Der passende Widerstand schützt gerade davor."),
-                        ("Die LED leuchtet gar nicht.", False, "Mit passendem Widerstand fließt genug Strom zum Leuchten."),
-                        ("Der Widerstand hat keine Wirkung.", False, "Der Widerstand begrenzt den Strom spürbar."),
-                      ]),
-                 dict(q="Was passiert bei Fall 3, mit 1 kΩ Widerstand?",
-                      done="Stimmt — weniger Strom, dunkler.",
-                      opts=[
-                        ("Weniger Strom fließt, die LED leuchtet dunkler.", True, None),
-                        ("Die LED leuchtet heller als bei 220 Ω.", False, "Ein größerer Widerstand lässt weniger Strom fließen, nicht mehr."),
-                        ("Die LED brennt durch.", False, "Ein höherer Widerstand schützt die LED noch stärker."),
-                        ("Es ändert sich nichts gegenüber 220 Ω.", False, "Der höhere Widerstandswert verändert die Helligkeit spürbar."),
-                      ]),
-               ]),
-             ],
+             fast="Baue deine Schaltung zusätzlich in Tinkercad Circuits nach, starte die Simulation und vergleiche sie mit dem echten Aufbau. Was passiert in der Simulation, wenn du die LED umdrehst oder den Widerstand weglässt?",
+             rlp=["RLP 2.3 · Informatiksysteme", "3.2 Hardware", "neu · Physical Computing"],
              quiz=[
-               dict(q="Wozu dient der Vorwiderstand in einem LED-Stromkreis?",
-                    done="Richtig — er schützt die LED.",
+               dict(q="Wie heißt Bauteil 1 in Abbildung 1?",
+                    done="Richtig, die Mikrocontroller-Platine Arduino Uno.",
                     opts=[
-                      ("Er begrenzt den Strom und schützt die LED vor dem Durchbrennen.", True, None),
-                      ("Er macht die LED heller.", False, "Ein Widerstand begrenzt den Strom, er verstärkt ihn nicht."),
-                      ("Er speichert Energie für später.", False, "Das wäre die Aufgabe eines Kondensators oder Akkus, nicht eines Widerstands."),
-                      ("Er hat keine Funktion, ist nur Deko.", False, "Ohne Widerstand brennt die LED durch — er hat eine echte Schutzfunktion."),
+                      ("ein Steckbrett", False, "Das Steckbrett ist die weiße Platte mit den vielen Löchern (Bauteil 2)."),
+                      ("die Mikrocontroller-Platine Arduino Uno", True, None),
+                      ("ein Netzteil", False, "Den Strom liefert hier das USB-Kabel vom Computer, ein Netzteil ist nicht abgebildet."),
+                      ("eine Grafikkarte", False, "Die Platine trägt einen Mikrocontroller, der Programme ausführt, keine Grafikkarte."),
                     ]),
-               dict(q="Was passiert ohne Vorwiderstand?",
-                    done="Genau — zu viel Strom zerstört die LED.",
+               dict(q="Wofür steht der Anschluss GND am Arduino?",
+                    done="Genau, GND ist der Minuspol mit 0 V.",
                     opts=[
-                      ("Es fließt zu viel Strom, die LED brennt durch.", True, None),
-                      ("Die LED leuchtet gar nicht.", False, "Ohne Widerstand leuchtet sie zunächst sogar sehr hell, bevor sie durchbrennt."),
-                      ("Nichts, das ist unproblematisch.", False, "Zu viel Strom beschädigt die LED dauerhaft."),
-                      ("Die Batterie lädt sich automatisch auf.", False, "Batterien laden sich dadurch nicht auf."),
+                      ("für den Pluspol mit 5 Volt", False, "Der Pluspol heißt am Arduino 5V."),
+                      ("für einen Datenanschluss zum Internet", False, "GND hat nichts mit Daten zu tun, es ist ein Pol des Stromkreises."),
+                      ("für ground (Erde/Masse): den Minuspol mit 0 V, wie EARTH am Makey Makey", True, None),
+                      ("für einen Ein-/Ausschalter", False, "Der Arduino hat keinen GND-Schalter, GND ist der Bezugspunkt mit 0 V."),
                     ]),
-               dict(q="Wie erkennst du Anode und Kathode an einer LED?",
-                    done="Stimmt — am langen bzw. kurzen Beinchen.",
+               dict(q="Wie erkennst du an einer LED den Pluspol (Anode)?",
+                    done="Stimmt, das lange Beinchen ist die Anode.",
                     opts=[
-                      ("am langen (Anode) und kurzen (Kathode) Beinchen", True, None),
                       ("an der Farbe des Gehäuses", False, "Die Gehäusefarbe zeigt die Leuchtfarbe, nicht die Polung."),
-                      ("am Gewicht", False, "Das Gewicht einer LED verrät nichts über die Polung."),
-                      ("das ist bei jeder LED zufällig", False, "Die Beinchenlänge kennzeichnet die Polung zuverlässig."),
+                      ("am kurzen Beinchen", False, "Das kurze Beinchen ist die Kathode (−), sie zeigt Richtung GND."),
+                      ("gar nicht, die Richtung ist egal", False, "Eine LED lässt Strom nur in eine Richtung durch, die Polung ist wichtig."),
+                      ("am langen Beinchen, es zeigt Richtung 5V", True, None),
                     ]),
-               dict(q="Was passiert, wenn du mehrere LEDs parallel statt in Reihe schaltest?",
-                    done="Richtig — parallel bleiben sie gleich hell.",
+               dict(q="Wozu dient der 220-Ω-Widerstand vor der LED?",
+                    done="Richtig, er begrenzt den Strom und schützt die LED.",
                     opts=[
-                      ("Sie leuchten alle etwa gleich hell.", True, None),
-                      ("Sie werden alle dunkler, da sich die Spannung aufteilt.", False, "Das passiert bei einer Reihenschaltung, nicht bei einer Parallelschaltung."),
-                      ("Sie funktionieren gar nicht.", False, "Parallelschaltung ist eine gängige, funktionierende Schaltungsart."),
-                      ("Die Reihenfolge spielt keine Rolle.", False, "Reihen- vs. Parallelschaltung macht einen deutlichen Unterschied in der Helligkeit."),
+                      ("Er begrenzt die Stromstärke, damit die LED nicht durchbrennt.", True, None),
+                      ("Er macht die LED heller.", False, "Ein Widerstand begrenzt den Strom, er verstärkt ihn nicht."),
+                      ("Er speichert Strom für später.", False, "Speichern kann ein Akku oder Kondensator, kein Widerstand."),
+                      ("Er bestimmt die Farbe der LED.", False, "Die Farbe hängt von der LED selbst ab, nicht vom Widerstand."),
+                    ]),
+               dict(q="In welche Richtung fließen die Elektronen in einem geschlossenen Stromkreis?",
+                    done="Genau, vom Elektronenüberschuss (−) zum Elektronenmangel (+).",
+                    opts=[
+                      ("vom Pluspol zum Minuspol", False, "Das ist die technische Stromrichtung, die festgelegt wurde, bevor man Elektronen kannte."),
+                      ("vom Minuspol (Überschuss) zum Pluspol (Mangel)", True, None),
+                      ("abwechselnd in beide Richtungen", False, "Am Arduino fließt Gleichstrom, also immer in dieselbe Richtung."),
+                      ("gar nicht, sie bleiben stehen", False, "In einem geschlossenen Kreis fließen die Elektronen, deshalb leuchtet die LED."),
+                    ]),
+               dict(q="Welche Löcher des Steckbretts sind innen leitend miteinander verbunden?",
+                    done="Stimmt, die fünf Löcher einer Spalte (a–e bzw. f–j).",
+                    opts=[
+                      ("alle Löcher des ganzen Bretts", False, "Dann wäre jede Schaltung kurzgeschlossen."),
+                      ("die Löcher einer Zeile, z. B. a1 bis a30", False, "Waagerecht verbunden sind nur die Plus- und Minusschienen am Rand."),
+                      ("die fünf Löcher einer Spalte, z. B. a1 bis e1", True, None),
+                      ("gar keine, man muss löten", False, "Gerade das Steckbrett macht Löten überflüssig."),
                     ]),
              ],
-             solution=["Ohne Vorwiderstand fließt zu viel Strom → LED brennt durch.",
-                       "Steckplatine verbindet Reihen elektrisch; lange/kurze LED-Beinchen = Anode/Kathode.",
-                       "Parallel: gleich hell; Reihe: dunkler, da Spannung sich aufteilt."]),
+             solution=["Aufgabe 1 (Abbildung 1): (1) Mikrocontroller-Platine Arduino Uno, (2) Steckbrett (Breadboard), (3) Widerstand (Vorwiderstand, 220 Ω), (4) LED (Leuchtdiode).",
+                       "Aufgabe 2: 5V → rotes Kabel → a6 → Widerstand (b6–b2) → Anode e2 (langes Beinchen) → LED → Kathode e1 (kurzes Beinchen) → a1 → schwarzes Kabel → GND. Ist der Kreis offen oder die LED verdreht eingesteckt, leuchtet sie nicht.",
+                       "Aufgabe 3: Parallel (jede LED mit eigenem 220-Ω-Widerstand an 5V und GND) leuchten alle so hell wie eine einzelne LED. In Reihe teilen sich die 5 V auf: Jede LED braucht etwa 2 V, für drei reicht das nicht, sie bleiben dunkel (zwei in Reihe leuchten nur schwach)."],
+             solution_figs=[dict(fig="abb2-schaltkreis-loesung", cap="Lösung · Abbildung 2 mit LED, Widerstand und Kabeln"),
+                            dict(fig="foto-aufbau-echt.jpg", cap="Abgleich · So sieht der Aufbau am echten Arduino aus")]),
         dict(no=6, sjw=6, kind="lernpfad", title="Der Mikrocontroller: Arduino Uno kennenlernen",
              goal="Du benennst die Bauteile einer Arduino-Schaltung (Widerstand, LED, Mikrocontroller, Steckplatine) und verstehst die Rolle von GND (Minuspol) und 5 V.",
              tasks=["Bauteile im Schaltbild korrekt benennen und ordnen.",
@@ -2005,13 +1999,16 @@ def build_lp_page(u, lp):
               'Sichere deine Ergebnisse am Stundenende <b>einfach wiederverwendbar</b> (sinnvoll benannt) an '
               '<b>zwei Orten</b> — Rechner und Cloud/USB. Achte selbstständig auf Backups.</div></section>')
     sol = "".join("<li>%s</li>" % s for s in lp["solution"])
+    material = ('<section class="lp-sec mat"><h2>Material · Informationstext</h2>%s</section>' % lp["material"]
+                if lp.get("material") else "")
+    task_figs = render_figs(lp, lp.get("task_figs"))
     solution = ('<section class="sol" id="loesung" data-unlock="%s">'
                 '<h2>Musterlösung <span class="sol-status">…</span></h2>'
                 '<p class="sol-countdown"></p>'
-                '<div class="sol-body" hidden><ul class="sol-list">%s</ul></div>'
+                '<div class="sol-body" hidden><ul class="sol-list">%s</ul>%s</div>'
                 '<p class="sol-hint">Die Lösung wird automatisch zum angegebenen Datum sichtbar — '
                 'die Seite prüft das bei jedem Laden.</p>'
-                '</section>') % (unlock_iso(lp["sjw"]), sol)
+                '</section>') % (unlock_iso(lp["sjw"]), sol, render_figs(lp, lp.get("solution_figs")))
 
     doc = (
         '<!DOCTYPE html>\n<html lang="de">\n<head>\n<meta charset="UTF-8">\n'
@@ -2031,7 +2028,8 @@ def build_lp_page(u, lp):
         + '  <section class="lp-sec"><h2>Das lernst du</h2><p>%s</p><div data-selfcheck="%s"></div></section>\n'
           % (lp["goal"], slug(lp["no"]))
         + ('  %s\n' % render_vorwissen(lp) if lp.get("vorwissen") else '')
-        + '  <section class="lp-sec"><h2>Aufgaben</h2><ul class="task-list">%s</ul></section>\n' % tasks
+        + ('  %s\n' % material if material else '')
+        + '  <section class="lp-sec"><h2>Aufgaben</h2><ul class="task-list">%s</ul>%s</section>\n' % (tasks, task_figs)
         + ('  %s\n' % render_quiz(lp) if lp.get("quiz") else '')
         + ('  %s\n' % tools if tools else '')
         + ('  %s\n' % fast if fast else '')

@@ -360,3 +360,8 @@ footer{background:#04060c;border-top:1px solid var(--line);padding:3rem 6vw 2.4r
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}
   #matrix-canvas{display:none}}
+/* Fotos in Abbildungen, Informationstext (Material) */
+.fig img{width:100%;height:auto;display:block;border-radius:8px}
+.task-list+.fig,.sol-list+.fig{margin-top:1rem}
+.mat p+p{margin-top:.7rem}
+.mat b{color:var(--ink)}
