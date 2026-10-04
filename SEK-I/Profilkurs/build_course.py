@@ -117,7 +117,7 @@ def render_figs(lp, entries):
 LP05_VERTIEFUNG = (
   '<p>Wähle eine oder beide Vertiefungen. Tinkercad Circuits folgt erst in der nächsten Stunde.</p>'
   '<h3>a) Weitere Bauteile anschließen und die Polung herausfinden</h3>'
-  '<p>Tausche die LED nacheinander gegen die Bauteile aus und stecke jedes Bauteil einmal richtig herum und einmal umgedreht ein. '
+  '<p>Schließe den Motor und den Buzzer nacheinander anstelle der LED an, den Tastschalter zusätzlich im LED-Stromkreis. Stecke jedes Bauteil einmal richtig herum und einmal umgedreht ein. '
   '<b>Notiere</b> jeweils: Funktioniert es in beiden Richtungen? Was ändert sich? Braucht das Bauteil einen Vorwiderstand?</p>'
   '<ul class="task-list">'
   '<li><b>Motor mit Propeller</b> (kleiner Gleichstrommotor) direkt an 5V und GND, <b>ohne</b> 220-Ω-Widerstand.</li>'
@@ -823,7 +823,7 @@ UNITS = [
              tasks=["<b>Benenne</b> mithilfe des Informationstextes die vier Bauteile aus Abbildung 1.",
                     "<b>Zeichne</b> LED, Widerstand und zwei Kabel (zu 5V rot, zu GND schwarz) so in Abbildung 2 auf deinem Arbeitsblatt ein, dass ein geschlossener Stromkreis entsteht. Achte auf Anode und Kathode. <b>Überprüfe</b> deine Skizze am echten Arduino.",
                     "<b>Fotografiere</b> deine funktionierende Schaltung, <b>beschrifte</b> das Foto und <b>lade</b> es im Classroom hoch (siehe Leistungsnachweis unten).",
-                    "Vertiefung (Wahl, siehe unten): a) weitere Bauteile anschließen und ihre Polung herausfinden, b) den Vorwiderstand berechnen und drei LEDs parallel und in Reihe vergleichen."],
+                    "Vertiefung (Wahl, siehe unten, auf dem Arbeitsblatt Aufgabe 4): a) weitere Bauteile anschließen und ihre Polung herausfinden, b) den Vorwiderstand berechnen und drei LEDs parallel und in Reihe vergleichen."],
              task_figs=[dict(fig="abb1-bauteile", cap="Abbildung 1 · Bauteile (LED-Schaltung)"),
                         dict(fig="abb2-schaltkreis", cap="Abbildung 2 · Schaltkreis der angeschlossenen LED")],
              tools=[],
@@ -911,9 +911,9 @@ UNITS = [
              ],
              solution=["Aufgabe 1 (Abbildung 1): (1) Mikrocontroller-Platine Arduino Uno, (2) Steckbrett (Breadboard), (3) Widerstand (Vorwiderstand, 220 Ω), (4) LED (Leuchtdiode).",
                        "Aufgabe 2: 5V → rotes Kabel → a6 → Widerstand (b6–b2) → Anode e2 (langes Beinchen) → LED → Kathode e1 (kurzes Beinchen) → a1 → schwarzes Kabel → GND. Ist der Kreis offen oder die LED verdreht eingesteckt, leuchtet sie nicht.",
-                       "Aufgabe 3 (Leistungsnachweis): beschriftetes Foto der leuchtenden Schaltung mit Arduino, Steckbrett, Widerstand, LED, 5V, GND, Anode und Kathode im Classroom.",
-                       "Vertiefung a): Motor mit Propeller: läuft in beiden Richtungen, Umpolen kehrt die Drehrichtung um; kein 220-Ω-Widerstand, sonst bekommt er zu wenig Strom und läuft nicht an. Buzzer (aktiv): hat eine Polung („+“ bzw. langes Bein an 5V), piept nur richtig herum; er braucht keinen Vorwiderstand, mit 220 Ω piept er leiser. Ein passiver Buzzer bleibt an 5V stumm, er braucht ein Tonsignal aus einem Sketch. Tastschalter: keine Polung; in Reihe in den LED-Kreis (z. B. zwischen Widerstand und Anode) leuchtet die LED nur, solange er gedrückt ist.",
-                       "Vertiefung b): U<sub>R</sub> = 5 V − 2 V = 3 V; R = 3 V / 20 mA = 150 Ω (nächster Normwert 150 Ω). Mit 220 Ω fließen 3 V / 220 Ω ≈ 13,6 mA, sicher unter 20 mA. Parallel (jede LED mit eigenem 220-Ω-Widerstand an 5V und GND) leuchten alle so hell wie eine einzelne LED, zusammen fließen etwa 41 mA. In Reihe teilen sich die 5 V auf: Zwei LEDs brauchen 4 V, es bleibt 1 V für den Widerstand (mit 220 Ω nur ≈ 4,5 mA, schwach); drei LEDs bräuchten 6 V, sie bleiben dunkel.",
+                       "Aufgabe 3 (Ergebnissicherung/Leistungsnachweis): beschriftetes Foto der leuchtenden Schaltung mit Arduino, Steckbrett, Widerstand, LED, 5V, GND, Anode und Kathode im Classroom.",
+                       "Aufgabe 4 a) Vertiefung: Motor mit Propeller: läuft in beiden Richtungen, Umpolen kehrt die Drehrichtung um; kein 220-Ω-Widerstand, sonst bekommt er zu wenig Strom und läuft nicht an. Buzzer (aktiv): hat eine Polung („+“ bzw. langes Bein an 5V), piept nur richtig herum; er braucht keinen Vorwiderstand, mit 220 Ω piept er leiser. Ein passiver Buzzer bleibt an 5V stumm, er braucht ein Tonsignal aus einem Sketch. Tastschalter: keine Polung; in Reihe in den LED-Kreis (z. B. zwischen Widerstand und Anode) leuchtet die LED nur, solange er gedrückt ist.",
+                       "Aufgabe 4 b) Vertiefung: U<sub>R</sub> = 5 V − 2 V = 3 V; R = 3 V / 20 mA = 150 Ω (nächster Normwert 150 Ω). Mit 220 Ω fließen 3 V / 220 Ω ≈ 13,6 mA, sicher unter 20 mA. Parallel (jede LED mit eigenem 220-Ω-Widerstand an 5V und GND) leuchten alle so hell wie eine einzelne LED, zusammen fließen etwa 41 mA. In Reihe teilen sich die 5 V auf: Zwei LEDs brauchen 4 V, es bleibt 1 V für den Widerstand (mit 220 Ω nur ≈ 4,5 mA, schwach); drei LEDs bräuchten 6 V, sie bleiben dunkel.",
                        "Fehlersuche (Schaltungen A–D): B ist richtig. A: kein Schutzwiderstand, die LED brennt durch. C: 220 kΩ (rot-rot-gelb) statt 220 Ω, die LED bleibt dunkel. D: LED falsch gepolt, sie sperrt."],
              solution_figs=[dict(fig="abb2-schaltkreis-loesung", cap="Lösung · Abbildung 2 mit LED, Widerstand und Kabeln"),
                             dict(fig="foto-aufbau-echt.jpg", cap="Abgleich · So sieht der Aufbau am echten Arduino aus")]),
