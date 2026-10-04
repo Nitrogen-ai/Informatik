@@ -78,7 +78,7 @@ def find_material(lp_no, filename):
         return None
     candidates = []
     # Nach dem Tutory-Einsatz liegt typst/ im Archiv der Lektion: Tutory/Stundenvorschlag/typst/
-    for sub in ("typst", os.path.join("Tutory", "Stundenvorschlag", "typst")):
+    for sub in ("typst", os.path.join("Tutory", "Stundenvorschlag", "typst"), "plickers"):
         rel = os.path.join(folder, sub, filename)
         candidates += [os.path.join(BASE, rel)] + sorted(glob.glob(os.path.join(MATERIAL_ROOT, "*", rel)))
     for path in candidates:
@@ -112,6 +112,68 @@ def render_figs(lp, entries):
         if media:
             out += '<div class="fig">%s<div class="fig-cap">%s</div></div>' % (media, esc(e["cap"]))
     return out
+
+# ---------------------------------------------------------------- LP05 · Vertiefung (Bauteile + Vorwiderstand-Rechner)
+LP05_VERTIEFUNG = (
+  '<p>Wähle eine oder beide Vertiefungen. Tinkercad Circuits folgt erst in der nächsten Stunde.</p>'
+  '<h3>a) Weitere Bauteile anschließen und die Polung herausfinden</h3>'
+  '<p>Tausche die LED nacheinander gegen die Bauteile aus und stecke jedes Bauteil einmal richtig herum und einmal umgedreht ein. '
+  '<b>Notiere</b> jeweils: Funktioniert es in beiden Richtungen? Was ändert sich? Braucht das Bauteil einen Vorwiderstand?</p>'
+  '<ul class="task-list">'
+  '<li><b>Motor mit Propeller</b> (kleiner Gleichstrommotor) direkt an 5V und GND, <b>ohne</b> 220-Ω-Widerstand.</li>'
+  '<li><b>Buzzer</b> (Summer): Achte auf ein „+“ oder das längere Beinchen. Probiere ihn ohne und mit 220-Ω-Widerstand.</li>'
+  '<li><b>Tastschalter</b>: Stecke ihn quer über den Mittelgraben und baue ihn in den LED-Stromkreis ein, '
+  'sodass die LED nur leuchtet, solange du den Taster gedrückt hältst.</li>'
+  '</ul>'
+  '<h3>b) Den Vorwiderstand berechnen</h3>'
+  '<p>Am Widerstand liegt die Spannung an, die die LED „übrig lässt“: <code>U<sub>R</sub> = U − U<sub>LED</sub></code>. '
+  'Mit der gewünschten Stromstärke gilt das ohmsche Gesetz <code>R = U<sub>R</sub> / I</code>. '
+  'Eine rote LED braucht etwa 2 V und verträgt höchstens 20 mA. <b>Rechne</b> zuerst selbst und <b>überprüfe</b> dann mit dem Rechner. '
+  'Plane anschließend drei parallel geschaltete LEDs und vergleiche sie mit einer Reihenschaltung. <b>Überprüfe</b> beides experimentell.</p>'
+  '<div class="rechner" data-rechner>'
+  '<div class="re-in">'
+  '<label>Spannung U <select data-k="u"><option value="5" selected>5 V (Pin 5V)</option><option value="3.3">3,3 V (Pin 3.3V)</option></select></label>'
+  '<label>LED-Farbe <select data-k="uf"><option value="2.0" selected>rot (≈ 2,0 V)</option><option value="2.1">gelb (≈ 2,1 V)</option>'
+  '<option value="2.2">grün (≈ 2,2 V)</option><option value="3.1">blau / weiß (≈ 3,1 V)</option></select></label>'
+  '<label>Stromstärke I <span><input type="range" min="5" max="20" step="1" value="20" data-k="i"> <b data-o="i">20 mA</b></span></label>'
+  '<label>Schaltung <select data-k="art"><option value="reihe" selected>LEDs in Reihe (ein Widerstand)</option>'
+  '<option value="parallel">LEDs parallel (jede mit eigenem Widerstand)</option></select></label>'
+  '<label>Anzahl LEDs <span><input type="range" min="1" max="4" step="1" value="1" data-k="n"> <b data-o="n">1</b></span></label>'
+  '</div>'
+  '<div class="re-out" data-out></div>'
+  '</div>'
+  '<style>'
+  '.vertiefung h3{font-size:1rem;margin:1.1rem 0 .4rem;color:var(--key)}'
+  '.rechner{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));background:var(--panel-2);'
+  'border:1px solid var(--line);border-radius:14px;padding:1rem;margin-top:.8rem}'
+  '.re-in{display:grid;gap:.7rem}.re-in label{display:grid;gap:.25rem;font-size:.9rem;color:var(--ink-soft)}'
+  '.re-in label>span{display:flex;align-items:center;gap:.6rem}.re-in input[type=range]{flex:1;accent-color:var(--key)}'
+  '.re-in select{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:.35rem .5rem}'
+  '.re-out{font-size:.92rem;line-height:1.55}.re-out .re-big{font-size:1.25rem;font-weight:700;color:var(--key)}'
+  '.re-out .re-warn{color:var(--amber);font-weight:700}.re-out code{white-space:nowrap}'
+  '</style>'
+  '<script>(function(){'
+  'var E12=[1,1.2,1.5,1.8,2.2,2.7,3.3,3.9,4.7,5.6,6.8,8.2];'
+  'function norm(r){var d=Math.pow(10,Math.floor(Math.log10(r)));for(var k=0;k<3;k++){for(var j=0;j<E12.length;j++){var v=E12[j]*d;if(v>=r-1e-9)return Math.round(v);}d*=10;}return Math.round(r);}'
+  'function f(x,n){return x.toFixed(n).replace(".",",");}'
+  'document.querySelectorAll("[data-rechner]").forEach(function(box){'
+  'function val(k){return box.querySelector("[data-k="+k+"]").value;}'
+  'function upd(){var U=+val("u"),UF=+val("uf"),I=+val("i")/1000,n=+val("n"),art=val("art");'
+  'box.querySelector("[data-o=i]").textContent=val("i")+" mA";box.querySelector("[data-o=n]").textContent=n;'
+  'var reihe=art==="reihe",ul=reihe?n*UF:UF,ur=U-ul,h="";'
+  'h+="<div><code>U<sub>LED</sub> = "+(reihe&&n>1?n+" · "+f(UF,1)+" V = ":"")+f(ul,1)+" V</code></div>";'
+  'if(ur<=0.05){h+="<p class=re-warn>Die "+f(U,1)+" V reichen nicht: "+(reihe?n+" LEDs in Reihe":"die LED")+" brauchen schon "+f(ul,1)+" V. Die LEDs bleiben dunkel.</p>";}'
+  'else{var R=ur/I,N=norm(R),I220=ur/220*1000;'
+  'h+="<div><code>U<sub>R</sub> = "+f(U,1)+" V − "+f(ul,1)+" V = "+f(ur,1)+" V</code></div>";'
+  'h+="<div><code>R = "+f(ur,1)+" V / "+f(I*1000,0)+" mA = "+f(R,0)+" Ω</code></div>";'
+  'h+="<p class=re-big>mindestens "+f(R,0)+" Ω → nächster Normwert: "+N+" Ω</p>";'
+  'h+="<p>Mit dem <b>220-Ω-Widerstand</b> aus dem Set fließen <code>"+f(ur,1)+" V / 220 Ω = "+f(I220,1)+" mA</code>"+(I220>20?" – <span class=re-warn>zu viel!</span>":(I220<5?" – die LED"+(reihe&&n>1?"s leuchten":" leuchtet")+" nur schwach.":" – sicher, die LED"+(n>1?"s leuchten":" leuchtet")+" gut."))+"</p>";'
+  'if(!reihe&&n>1)h+="<p>Parallel bekommt jede LED ihren eigenen Widerstand und dieselbe Spannung, die Ströme addieren sich: <code>"+n+" · "+f(I220,1)+" mA = "+f(n*I220,1)+" mA</code> aus dem Pin 5V.</p>";'
+  'if(reihe&&n>1)h+="<p>In Reihe fließt durch alle LEDs derselbe Strom, die Spannung teilt sich auf.</p>";}'
+  'box.querySelector("[data-out]").innerHTML=h;}'
+  'box.querySelectorAll("[data-k]").forEach(function(el){el.addEventListener("input",upd);});upd();});'
+  '})();</script>'
+)
 
 # ---------------------------------------------------------------- Kursinhalt
 # Jedes LP: no, sjw, title, goal, tasks[], tools[keys], fast, rlp[], solution[], kind
@@ -760,11 +822,17 @@ UNITS = [
                "<p><b>Der Widerstand</b> mit den Farbringen rot-rot-braun hat 220 Ω (Ohm). Als <b>Vorwiderstand</b> vor der LED begrenzt er die Stromstärke. Ohne ihn flösse zu viel Strom und die LED würde durchbrennen. Seine Einbaurichtung ist egal.</p>"),
              tasks=["<b>Benenne</b> mithilfe des Informationstextes die vier Bauteile aus Abbildung 1.",
                     "<b>Zeichne</b> LED, Widerstand und zwei Kabel (zu 5V rot, zu GND schwarz) so in Abbildung 2 auf deinem Arbeitsblatt ein, dass ein geschlossener Stromkreis entsteht. Achte auf Anode und Kathode. <b>Überprüfe</b> deine Skizze am echten Arduino.",
-                    "Vertiefung: <b>Plane</b> drei parallel geschaltete LEDs und <b>vergleiche</b> sie mit einer entsprechenden Reihenschaltung. <b>Überprüfe</b> beides experimentell."],
+                    "<b>Fotografiere</b> deine funktionierende Schaltung, <b>beschrifte</b> das Foto und <b>lade</b> es im Classroom hoch (siehe Leistungsnachweis unten).",
+                    "Vertiefung (Wahl, siehe unten): a) weitere Bauteile anschließen und ihre Polung herausfinden, b) den Vorwiderstand berechnen und drei LEDs parallel und in Reihe vergleichen."],
              task_figs=[dict(fig="abb1-bauteile", cap="Abbildung 1 · Bauteile (LED-Schaltung)"),
                         dict(fig="abb2-schaltkreis", cap="Abbildung 2 · Schaltkreis der angeschlossenen LED")],
-             tools=["tinker"],
-             fast="Baue deine Schaltung zusätzlich in Tinkercad Circuits nach, starte die Simulation und vergleiche sie mit dem echten Aufbau. Was passiert in der Simulation, wenn du die LED umdrehst oder den Widerstand weglässt?",
+             tools=[],
+             fast="Schließe einen Propeller-Motor, einen Buzzer und einen Tastschalter an und finde ihre Polung heraus. Berechne den Vorwiderstand der LED und vergleiche drei LEDs parallel und in Reihe.",
+             vertiefung=LP05_VERTIEFUNG,
+             sicherung=("📷 Leistungsnachweis · Ergebnissicherung",
+                        "Fotografiere deine <b>funktionierende Schaltung</b> (die LED leuchtet) so, dass Arduino, Steckbrett, Widerstand, LED und beide Kabel gut zu sehen sind. "
+                        "<b>Beschrifte</b> auf dem Foto die vier Bauteile sowie <b>5V</b>, <b>GND</b>, <b>Anode (+)</b> und <b>Kathode (−)</b> und "
+                        "<b>lade</b> es als Abgabe im <b>Google Classroom</b> hoch. Sichere das Foto zusätzlich in deinem Informatik-Ordner."),
              rlp=["RLP 2.3 · Informatiksysteme", "3.2 Hardware", "neu · Physical Computing"],
              quiz=[
                dict(q="Wie heißt Bauteil 1 in Abbildung 1?",
@@ -815,10 +883,38 @@ UNITS = [
                       ("die fünf Löcher einer Spalte, z. B. a1 bis e1", True, None),
                       ("gar keine, man muss löten", False, "Gerade das Steckbrett macht Löten überflüssig."),
                     ]),
+               dict(fig="schaltungen-A-D", cap="Fehlersuche · Schaltungen A bis D (Lupe: LED-Beinchen und Widerstand)",
+                    q="Nur eine der vier Schaltungen ist richtig aufgebaut. Welche?",
+                    done="Richtig, B: Vorwiderstand mit rot-rot-braun (220 Ω), langes geknicktes Anodenbein Richtung 5V.",
+                    opts=[
+                      ("Schaltung A", False, "Schau in die Lupe: Wo ist der Widerstand? Das rote Kabel geht direkt an die Anode."),
+                      ("Schaltung B", True, None),
+                      ("Schaltung C", False, "Vergleiche die Farbringe: Der dritte Ring ist gelb statt braun."),
+                      ("Schaltung D", False, "Achte auf das geknickte, lange Beinchen: Es zeigt hier Richtung GND."),
+                    ]),
+               dict(q="Was passiert in Schaltung C (Farbringe rot-rot-gelb)?",
+                    done="Genau, 220 kΩ = 220 000 Ω lassen nur etwa 0,014 mA durch, die LED bleibt praktisch dunkel.",
+                    opts=[
+                      ("Die LED brennt sofort durch.", False, "Das droht ohne Widerstand (Schaltung A). Hier ist der Widerstand viel zu groß, nicht zu klein."),
+                      ("Die LED leuchtet heller als in Schaltung B.", False, "Ein größerer Widerstand lässt weniger Strom durch, nicht mehr."),
+                      ("Die LED bleibt (fast) dunkel, weil 220 kΩ den Strom tausendmal stärker begrenzen.", True, None),
+                      ("Die LED blinkt.", False, "Blinken braucht ein Programm (Sketch), das kommt erst später."),
+                    ]),
+               dict(q="Warum leuchtet die LED in Schaltung D nicht?",
+                    done="Richtig, die LED ist falsch herum eingesteckt und sperrt.",
+                    opts=[
+                      ("Weil der Widerstand falsch herum steckt.", False, "Beim Widerstand ist die Einbaurichtung egal."),
+                      ("Weil das schwarze Kabel an 5V statt an GND steckt.", False, "Das schwarze Kabel steckt richtig an GND."),
+                      ("Weil der Stromkreis über den Mittelgraben unterbrochen ist.", False, "Die LED-Beinchen überbrücken den Graben, der Kreis ist geschlossen."),
+                      ("Weil die LED falsch gepolt ist: Die Anode (langes, geknicktes Bein) zeigt Richtung GND.", True, None),
+                    ]),
              ],
              solution=["Aufgabe 1 (Abbildung 1): (1) Mikrocontroller-Platine Arduino Uno, (2) Steckbrett (Breadboard), (3) Widerstand (Vorwiderstand, 220 Ω), (4) LED (Leuchtdiode).",
                        "Aufgabe 2: 5V → rotes Kabel → a6 → Widerstand (b6–b2) → Anode e2 (langes Beinchen) → LED → Kathode e1 (kurzes Beinchen) → a1 → schwarzes Kabel → GND. Ist der Kreis offen oder die LED verdreht eingesteckt, leuchtet sie nicht.",
-                       "Aufgabe 3: Parallel (jede LED mit eigenem 220-Ω-Widerstand an 5V und GND) leuchten alle so hell wie eine einzelne LED. In Reihe teilen sich die 5 V auf: Jede LED braucht etwa 2 V, für drei reicht das nicht, sie bleiben dunkel (zwei in Reihe leuchten nur schwach)."],
+                       "Aufgabe 3 (Leistungsnachweis): beschriftetes Foto der leuchtenden Schaltung mit Arduino, Steckbrett, Widerstand, LED, 5V, GND, Anode und Kathode im Classroom.",
+                       "Vertiefung a): Motor mit Propeller: läuft in beiden Richtungen, Umpolen kehrt die Drehrichtung um; kein 220-Ω-Widerstand, sonst bekommt er zu wenig Strom und läuft nicht an. Buzzer (aktiv): hat eine Polung („+“ bzw. langes Bein an 5V), piept nur richtig herum; er braucht keinen Vorwiderstand, mit 220 Ω piept er leiser. Ein passiver Buzzer bleibt an 5V stumm, er braucht ein Tonsignal aus einem Sketch. Tastschalter: keine Polung; in Reihe in den LED-Kreis (z. B. zwischen Widerstand und Anode) leuchtet die LED nur, solange er gedrückt ist.",
+                       "Vertiefung b): U<sub>R</sub> = 5 V − 2 V = 3 V; R = 3 V / 20 mA = 150 Ω (nächster Normwert 150 Ω). Mit 220 Ω fließen 3 V / 220 Ω ≈ 13,6 mA, sicher unter 20 mA. Parallel (jede LED mit eigenem 220-Ω-Widerstand an 5V und GND) leuchten alle so hell wie eine einzelne LED, zusammen fließen etwa 41 mA. In Reihe teilen sich die 5 V auf: Zwei LEDs brauchen 4 V, es bleibt 1 V für den Widerstand (mit 220 Ω nur ≈ 4,5 mA, schwach); drei LEDs bräuchten 6 V, sie bleiben dunkel.",
+                       "Fehlersuche (Schaltungen A–D): B ist richtig. A: kein Schutzwiderstand, die LED brennt durch. C: 220 kΩ (rot-rot-gelb) statt 220 Ω, die LED bleibt dunkel. D: LED falsch gepolt, sie sperrt."],
              solution_figs=[dict(fig="abb2-schaltkreis-loesung", cap="Lösung · Abbildung 2 mit LED, Widerstand und Kabeln"),
                             dict(fig="foto-aufbau-echt.jpg", cap="Abgleich · So sieht der Aufbau am echten Arduino aus")]),
         dict(no=6, sjw=6, kind="lernpfad", title="Der Mikrocontroller: Arduino Uno kennenlernen",
@@ -1921,13 +2017,18 @@ def render_quiz(lp):
         for text, correct, hint in q["opts"]:
             attr = ' data-correct="true"' if correct else (' data-hint="%s"' % esc(hint) if hint else "")
             opts += '<button class="qz-opt"%s>%s</button>' % (attr, text)
+        fig = ""
+        if q.get("fig"):
+            media = load_fig(lp["no"], q["fig"], q.get("cap", ""))
+            if media:
+                fig = '<div class="fig">%s<div class="fig-cap">%s</div></div>' % (media, esc(q.get("cap", "")))
         items += (
-            '<div class="qz-item">'
+            '<div class="qz-item">%s'
             '<div class="qz-text"><span class="qn">%d.</span>%s</div>'
             '<div class="qz-opts">%s</div>'
             '<div class="qz-hint"></div><div class="qz-done">%s</div>'
             '</div>'
-        ) % (i, q["q"], opts, q.get("done", "Richtig!"))
+        ) % (fig, i, q["q"], opts, q.get("done", "Richtig!"))
     return (
         '<section class="lp-sec"><h2>Wissens-Check</h2>'
         '<div class="qz-wrap" data-qz>'
@@ -1995,12 +2096,17 @@ def build_lp_page(u, lp):
                       % (url, esc(label)))
         tools = ('<section class="lp-sec"><h2>Werkzeuge</h2><div class="tool-list">%s</div></section>' % items)
     fast = ""
-    if lp.get("fast"):
+    if lp.get("vertiefung"):
+        fast = '<section class="lp-sec vertiefung"><h2>⚡ Vertiefung</h2>%s</section>' % lp["vertiefung"]
+    elif lp.get("fast"):
         fast = ('<section class="lp-sec"><div class="fast-box"><span class="fb-t">⚡ Schnellläufer:in</span>%s</div></section>'
                 % lp["fast"])
     backup = ('<section class="lp-sec"><div class="backup-box"><span class="bb-t">💾 Ergebnissicherung</span>'
               'Sichere deine Ergebnisse am Stundenende <b>einfach wiederverwendbar</b> (sinnvoll benannt) an '
               '<b>zwei Orten</b> — Rechner und Cloud/USB. Achte selbstständig auf Backups.</div></section>')
+    if lp.get("sicherung"):
+        backup = ('<section class="lp-sec"><div class="backup-box"><span class="bb-t">%s</span>%s</div></section>'
+                  % lp["sicherung"])
     sol = "".join("<li>%s</li>" % s for s in lp["solution"])
     material = ('<section class="lp-sec mat"><h2>Material · Informationstext</h2>%s</section>' % lp["material"]
                 if lp.get("material") else "")
