@@ -51,7 +51,7 @@ T = {
 }
 
 # ---------------------------------------------------------------- Vorwissen-Figuren (SVG)
-# lp-Nummer -> Ordner mit typst/figN.svg (color-Variante, vollständig beschriftet)
+# lp-Nummer -> Ordner mit typst/figN.svg bzw. Tutory/Stundenvorschlag/typst/figN.svg (color-Variante)
 LESSON_DIRS = {
   0: "00 Systemstart - Was ist Informatik",
   1: "01 EVA & Algorithmus - wie ein Computer denkt",
@@ -76,8 +76,11 @@ def find_material(lp_no, filename):
     folder = LESSON_DIRS.get(lp_no)
     if not folder:
         return None
-    rel = os.path.join(folder, "typst", filename)
-    candidates = [os.path.join(BASE, rel)] + sorted(glob.glob(os.path.join(MATERIAL_ROOT, "*", rel)))
+    candidates = []
+    # Nach dem Tutory-Einsatz liegt typst/ im Archiv der Lektion: Tutory/Stundenvorschlag/typst/
+    for sub in ("typst", os.path.join("Tutory", "Stundenvorschlag", "typst")):
+        rel = os.path.join(folder, sub, filename)
+        candidates += [os.path.join(BASE, rel)] + sorted(glob.glob(os.path.join(MATERIAL_ROOT, "*", rel)))
     for path in candidates:
         if os.path.exists(path):
             return path
