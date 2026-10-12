@@ -61,7 +61,7 @@ LESSON_DIRS = {
   4: "04 Makey Makey - die Welt wird zum Controller",
   5: "05 Tinkercad Circuits - Stromkreis simulieren",
   6: "06 Arduino - Einführung in Tinkercad",
-  7: "07 Arduino-Projekte - Tinkercad trifft echte Hardware",
+  7: "07 Arduino-Projekte - Tinkercad trifft echte Hardware/Version 2",
   8: "08 Steuerstrukturen im Sketch - das Ampelprogramm",
   9: "09 Objektorientierung entdecken - Attribute & Methoden",
   10: "10 Mini-Projekt Arduino - Ergebnissicherung",
@@ -178,68 +178,39 @@ LP05_VERTIEFUNG = (
 
 # ---------------------------------------------------------------- LP07 · Projektkarten (Quelle: extras/lp07/projekte.py → projekte.json)
 LP07_MATERIAL = (
-  "<p><b>Vom Tinkercad zum echten Arduino.</b> Tinkercad simuliert nur. Damit dein Projekt wirklich leuchtet, misst oder piept, lädst du den C++-Code auf einen echten Arduino Uno. "
+  "<p><b>Vom Tinkercad zum echten Arduino.</b> Tinkercad simuliert nur. Damit dein Schloss wirklich leuchtet und piept, lädst du den C++-Code auf einen echten Arduino Uno. "
   "Das geht im Browser mit dem <b>Arduino Cloud Editor</b> (Chrome oder Edge, kostenloses Arduino-Konto):</p>"
   "<ol class=\"task-list\" style=\"list-style:decimal;padding-left:1.4rem\">"
-  "<li>In Tinkercad: <b>Code</b> › Ansicht <b>„Text“</b> › gesamten Code markieren (Strg+A) und kopieren (Strg+C). Alternativ lädt der Pfeil ⬇ eine <code>.ino</code>-Datei herunter.</li>"
-  "<li><b>app.arduino.cc</b> öffnen › <b>Sketches</b> › <b>„+ Sketch“</b>, Beispielcode löschen, eigenen Code einfügen. Bei M3 und K3 nimmst du die <b>Echt-Version</b> von der Karte (DHT22 statt TMP36).</li>"
+  "<li>In Tinkercad: <b>Code</b> › Ansicht <b>„Text“</b>. Dort steht der C++-Code, den Tinkercad aus deinen Blöcken erzeugt.</li>"
+  "<li><b>app.arduino.cc</b> öffnen › <b>Sketches</b> › <b>„+ Sketch“</b>, Beispielcode löschen und den Code aus Tinkercad <b>Zeile für Zeile nachbauen</b>. So verstehst du jede Zeile. Vergleiche am Ende mit Tinkercad.</li>"
   "<li>Schaltung auf dem Steckbrett nachbauen, <b>ohne</b> dass der Arduino am USB-Kabel hängt. Pins 0 und 1 bleiben frei.</li>"
   "<li>Arduino per USB anstecken, oben <b>„Arduino Uno“</b> und den Anschluss (Port) wählen. Beim ersten Mal fragt der Editor nach dem <b>Arduino Cloud Agent</b>, ein kleines Hilfsprogramm, das die Schule einmalig installiert.</li>"
   "<li><b>✓ Überprüfen</b>, dann <b>→ Hochladen</b>. Messwerte zeigt der <b>Serial Monitor</b> (9600 Baud).</li>"
   "</ol>"
-  "<p><b>Bibliotheken</b> wie <code>Adafruit_NeoPixel</code> (LED-Ring) und <code>DHT</code> (DHT22) sind im Cloud Editor schon vorhanden, du musst nichts installieren. "
-  "<b>Sicherheit:</b> nur ohne Strom umstecken, jede LED mit Vorwiderstand, den LED-Ring mit <code>ring.setBrightness(40)</code> dimmen (USB liefert nur etwa 500 mA).</p>"
-  "<p><b>Tinkercad und Kurskiste</b> unterscheiden sich manchmal: Für den Wasserstandssensor nimmst du in Tinkercad den <i>Bodenfeuchtigkeitssensor</i>, für den DHT22 den <i>Temperatursensor TMP36</i>, "
-  "für den TDS-Sensor ein <i>Potentiometer</i>. Den LED-Ring WS2812 gibt es in Tinkercad als <i>NeoPixel-Ring 12</i>.</p>")
+  "<p><b>Sicherheit:</b> nur ohne Strom umstecken, jede LED mit Vorwiderstand, jeder Taster mit 10-kΩ-Widerstand nach GND.</p>")
 
-def _lp07_daten():
-    pfad = os.path.join(BASE, "extras", "lp07", "projekte.json")
-    with open(pfad, encoding="utf-8") as f:
-        return json.load(f)
+def _code(datei):
+    with open(os.path.join(BASE, "extras", "lp07", "code", datei), encoding="utf-8") as f:
+        return f.read()
 
-def _fett(s):
-    teile = esc(s).split("**")
-    return "".join("<b>%s</b>" % x if i % 2 else x for i, x in enumerate(teile))
+# LP07 Version 2 (Tastendruck und Farbschloss); Version 1 (9 Projektkarten) liegt in extras/lp07/version1
+LP07_VERTIEFUNG = (
+  "<p>Ein Escape Room lebt von Schlössern, die man nur mit dem richtigen Hinweis öffnen kann. Dein Farbschloss ist die Grundlage, "
+  "du änderst nur, <b>was</b> auf den Tastern steht und <b>woher</b> der Hinweis kommt.</p>"
+  "<h3>🔣 Symbolschloss</h3><p>Klebe Symbole (Stern, Mond, Herz, Blitz) auf die Taster. Der Hinweis ist ein Bild- oder Bilderrätsel, z. B. „Nacht folgt auf Tag …“.</p>"
+  "<h3>👃 Duftschloss</h3><p>Stelle vor jeden Taster ein Döschen mit Duft (Zitrone, Zimt, Kaffee, Minze). Der Hinweis beschreibt eine Reihenfolge, z. B. ein Rezept.</p>"
+  "<h3>🎵 Tonschloss</h3><p>Jeder Taster spielt mit <code>tone()</code> einen anderen Ton. Der Code ist eine kurze Melodie, die man nachspielen muss.</p>"
+  "<p><b>Plane</b> dein Schloss nach dem EVA-Prinzip: Was wird gedrückt (Eingabe), wie wird der Code gebildet und geprüft (Verarbeitung), was passiert beim Öffnen (Ausgabe)? "
+  "<b>Teste</b> es mit einer anderen Gruppe als „Spieler:innen“.</p>"
+  "<style>.vertiefung h3{font-size:1rem;margin:1.1rem 0 .4rem;color:var(--key)}</style>")
 
-def _lp07_projekte():
-    farben = ("#2e9e5b", "#e0a100", "#d0342c")
-    namen = ("einfach", "mittel", "knifflig")
-    out = ('<p>Wähle <b>ein</b> Projekt. ★ einfach: nur Ausgänge · ★★ mittel: Sensor oder Taster und eine Entscheidung · '
-           '★★★ knifflig: Bibliothek, Zeitmessung oder mehrere Sensoren. Jede Karte zeigt, welche Bauteile du in Tinkercad und in der Kurskiste nimmst.</p>'
-           '<div class="pk-grid">')
-    for p in _lp07_daten():
-        f = farben[p["stufe"] - 1]
-        li = lambda xs: "".join("<li>%s</li>" % esc(x) for x in xs)
-        out += (
-          '<details class="pk" style="--pk:%s"><summary><span class="pk-id">%s</span> %s '
-          '<span class="pk-st">%s %s</span><span class="pk-an">%s</span></summary>'
-          '<p>%s</p><div class="pk-2"><div><b>Tinkercad</b><ul>%s</ul></div><div><b>Echter Arduino (Kurskiste)</b><ul>%s</ul></div>'
-          '<div><b>Schaltung</b><ul>%s</ul></div><div><b>Neu für dich</b><ul>%s</ul></div></div>'
-          '<b>So gehst du vor</b><ol>%s</ol><b>Code-Baustein</b><pre><code>%s</code></pre>'
-          '<p><b>Erweiterung:</b> %s</p></details>'
-        ) % (f, p["id"], esc(p["titel"]), "★" * p["stufe"], namen[p["stufe"] - 1], esc(p["anwendung"]), _fett(p["ziel"]),
-             li(p["tinkercad"]), li(p["echt"]), li(p["schaltung"]), "".join("<li><code>%s</code></li>" % esc(x) for x in p["neu"]),
-             "".join("<li>%s</li>" % _fett(x) for x in p["schritte"]), esc(p["baustein"]), _fett(p["erweiterung"]))
-    out += ('</div><style>'
-            '.vertiefung h3{font-size:1rem;margin:1.1rem 0 .4rem;color:var(--key)}'
-            '.pk-grid{display:grid;gap:.7rem}.pk{border:1px solid var(--line);border-left:6px solid var(--pk);border-radius:12px;background:var(--panel-2);padding:.2rem .9rem}'
-            '.pk summary{cursor:pointer;font-weight:700;padding:.55rem 0;display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline}'
-            '.pk-id{color:var(--pk)}.pk-st{font-size:.8rem;color:var(--pk);font-weight:700}.pk-an{margin-left:auto;font-weight:400;font-size:.85rem;color:var(--ink-soft)}'
-            '.pk-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.3rem 1rem;font-size:.92rem}'
-            '.pk ul,.pk ol{margin:.2rem 0 .6rem;padding-left:1.2rem}.pk pre{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:.6rem;overflow:auto;font-size:.82rem}'
-            '</style>')
-    return out
-
-def _lp07_loesung():
-    out = []
-    for p in _lp07_daten():
-        for datei, src in p["quelltext"].items():
-            out.append('<details><summary><b>%s %s</b> · %s</summary><pre style="overflow:auto;font-size:.8rem"><code>%s</code></pre></details>'
-                       % (p["id"], esc(p["titel"]), esc(datei), esc(src)))
-    return out
-
-LP07_PROJEKTE = _lp07_projekte()
-LP07_LOESUNG = ["Aufgabe 2 (Beispiel M2 Füllstandswarner): Eingabe = Wasserstandssensor an A0 (0 bis 1023) · Verarbeitung = wenn Wert &lt; 100 Grün, sonst wenn &lt; 350 Gelb, sonst Blau + Ton, Wert im Seriellen Monitor · Ausgabe = LEDs 11/12/13, Buzzer 9."] + _lp07_loesung()
+LP07_LOESUNG = [
+  "Aufgabe 2: Die Variable <code>Tastendruck</code> zählt die Tastendrücke (0, 1, 2, …). Jeder Druck lässt die LED an Pin 7 blinken und erhöht um 1. Bei <code>Tastendruck = 5</code> endet „bis … wiederholen“.",
+  "Aufgabe 4: grün, weiß, blau, gelb → 2 → 24 → 241 → <b>2413</b>.",
+  "Aufgabe 5: Bedingungen <code>Anschluss 12/11/10/9 = HOCH</code>, dann <code>Tastendruck = 4</code>, darin <code>Code = Geheimcode</code> (z. B. 1334).",
+  '<details><summary><b>C++ Schritt 1</b> · 07-1-tastendruck.ino</summary><pre style="overflow:auto;font-size:.8rem"><code>%s</code></pre></details>' % esc(_code("07-1-tastendruck.ino")),
+  '<details><summary><b>C++ Schritt 2</b> · 07-2-farbschloss.ino</summary><pre style="overflow:auto;font-size:.8rem"><code>%s</code></pre></details>' % esc(_code("07-2-farbschloss.ino")),
+]
 
 # ---------------------------------------------------------------- Kursinhalt
 # Jedes LP: no, sjw, title, goal, tasks[], tools[keys], fast, rlp[], solution[], kind
@@ -1074,48 +1045,57 @@ UNITS = [
                        "Aufgabe 4/5 (rot 13, gelb 12, grün 11): Rot = HOCH/NIEDRIG/NIEDRIG, 3 s · Rot-Gelb = HOCH/HOCH/NIEDRIG, 1 s · Grün = NIEDRIG/NIEDRIG/HOCH, 3 s · Gelb = NIEDRIG/HOCH/NIEDRIG, 1 s. <code>void setup() { pinMode(13, OUTPUT); pinMode(12, OUTPUT); pinMode(11, OUTPUT); }</code> und in <code>loop()</code> je Phase alle drei <code>digitalWrite</code> plus <code>delay</code>, z. B. Rot-Gelb: <code>digitalWrite(13, HIGH); digitalWrite(12, HIGH); digitalWrite(11, LOW); delay(1000);</code>",
                        "Aufgabe 6 Fußgängerampel: Autos grün + F-rot → Gelb + F-rot → Räumzeit alle rot → Autos rot + F-grün → Räumzeit → Rot-Gelb + F-rot. Fehlersuche: Keine Lampe wird je auf LOW gestellt, deshalb bleibt jede an. Vor Grün <code>digitalWrite(13, LOW); digitalWrite(12, LOW);</code>, vor Gelb <code>digitalWrite(11, LOW);</code>, am Ende von Gelb <code>digitalWrite(12, LOW);</code>."],
              solution_figs=[dict(fig="ampel-loesung", cap="Lösung · Ampelzyklus")]),
-        dict(no=7, sjw=7, kind="lernpfad", title="Mein Arduino-Projekt: Tinkercad trifft echte Hardware",
-             goal="Du wählst ein Arduino-Projekt (einfach, mittel oder knifflig), planst es nach dem EVA-Prinzip, baust und programmierst es in Tinkercad und lädst den C++-Code auf einen echten Arduino.",
-             # Quelle: <Lektion>/Tutory/Typst/07 Mein Arduino-Projekt – Vorlage.typ, Projektkarten aus extras/lp07/projekte.json
-             material=LP07_MATERIAL,
-             tasks=["<b>Wähle</b> eine der neun Projektkarten unten (Aufgabe 1).",
-                    "<b>Plane</b> dein Projekt nach dem EVA-Prinzip: Was liest es ein, was entscheidet das Programm, was gibt es aus? <b>Lege</b> für jedes Bauteil den Pin fest. Pins 0 und 1 bleiben frei (Aufgabe 2).",
-                    "<b>Baue</b> und <b>programmiere</b> das Projekt in Tinkercad, lass Messwerte im Seriellen Monitor anzeigen und ergänze mindestens drei Kommentare (Aufgabe 3).",
-                    "<b>Übertrage</b> den Code mit dem Arduino Cloud Editor auf den echten Arduino (Anleitung oben, Aufgabe 4).",
-                    "<b>Sichere</b> Code und Foto/Video im Classroom (Leistungsnachweis unten) und <b>beschreibe</b>, was in Tinkercad anders war als am echten Arduino."],
+        dict(no=7, sjw=7, kind="lernpfad", title="Tastendruck und Farbschloss: ein Escape-Room-Schloss mit Arduino",
+             goal="Du speicherst Tastendrücke in einer Variablen, programmierst damit ein Farbschloss für einen Escape Room, überträgst den C++-Code auf den echten Arduino und entwickelst ein eigenes Schloss.",
+             # Quelle: <Lektion>/Version 2/Tutory/Typst/07 Tastendruck und Farbschloss – Vorlage.typ (nach Vorlage „Farbschloss Escape Room Arduino“)
+             material=(
+               "<p><b>Der Taster als Eingabe.</b> Ein Taster verbindet beim Drücken Pin 12 mit 5V, der Arduino liest dann <b>HOCH</b>. Ein 10-kΩ-Widerstand (braun-schwarz-orange) zieht den Pin sonst sicher auf GND, er liest <b>NIEDRIG</b> (Pull-down). Die LED an Pin 7 zeigt jeden Tastendruck an.</p>"
+               "<p><b>Variablen sind das Gedächtnis des Programms.</b> Die Variable <code>Tastendruck</code> ist ein benannter Speicherplatz für eine Zahl. Mit „Tastendruck auf Tastendruck + 1 einstellen“ zählt das Programm jeden Druck mit, im Serien-Monitor siehst du den aktuellen Wert.</p>"
+               "<p><b>Aus Farben wird eine Zahl.</b> Beim Farbschloss ist jede Farbe eine Ziffer (blau 1, grün 2, gelb 3, weiß 4). Bei jedem Tastendruck rechnet das Programm <code>Code = Code · 10 + Ziffer</code>: blau, gelb, gelb, weiß ergibt 1 → 13 → 133 → 1334. Nach vier Tastendrücken vergleicht es den Code mit dem Geheimcode.</p>"
+               + LP07_MATERIAL),
+             tasks=["<b>Baue</b> die Schaltung aus Abb. 1 (ein Taster an Pin 12 mit 10 kΩ, blaue LED mit 220 Ω an Pin 7) in Tinkercad und auf dem echten Steckbrett (Aufgabe 1).",
+                    "<b>Setze</b> die Codeblöcke aus Abb. 2, <b>starte</b> die Simulation mit Serien-Monitor und <b>erkläre</b>, was die Variable Tastendruck speichert (Aufgabe 2).",
+                    "<b>Erweitere</b> auf vier Taster, vier LEDs (blau, grün, gelb, weiß) und einen Piezo (Abb. 3) und <b>berechne</b> Codes aus Farbfolgen (Aufgabe 3 und 4).",
+                    "<b>Programmiere</b> das Farbschloss nach dem Gerüst auf dem Arbeitsblatt mit eigenem Geheimcode (Aufgabe 5).",
+                    "<b>Baue</b> den C++-Code im Arduino Cloud Editor nach und <b>teste</b> das Schloss am echten Arduino (Aufgabe 6, Anleitung oben).",
+                    "<b>Entwickle</b> ein eigenes Escape-Room-Schloss (Aufgabe 7, siehe Vertiefung)."],
+             task_figs=[dict(fig="07-schaltung-1-taster.png", cap="Abb. 1 · Taster an Pin 12, LED an Pin 7"),
+                        dict(fig="07-bloecke-tastendruck.png", cap="Abb. 2 · Codeblöcke für einen Tastendruck"),
+                        dict(fig="07-schaltung-4-taster.png", cap="Abb. 3 · Farbschloss: vier Taster, vier LEDs, Piezo an Pin 8")],
              tools=["tinker", "cloud"],
-             fast="Nimm dir die Erweiterung auf deiner Projektkarte vor oder steige eine Stufe höher.",
-             vertiefung=LP07_PROJEKTE,
+             fast="Baue dein Farbschloss zu einem Symbol-, Duft- oder Tonschloss für einen Escape Room um.",
+             vertiefung=LP07_VERTIEFUNG,
              sicherung=("💾 Leistungsnachweis · Ergebnissicherung",
-                        "Gib im <b>Google Classroom</b> zwei Dateien ab: deinen <b>Code</b> (.ino, .txt oder Google-Dokument) und ein <b>Foto oder kurzes Video</b> deines Aufbaus (echt oder Tinkercad-Screenshot). "
-                        "Dateiname z. B. „07 M2 Füllstandswarner Lena“. Bewertet wird (je 20 %): Dateiname mit Projekt und Vorname, Code als Text, mindestens drei sinnvolle Kommentare, Grundfunktion der Karte erfüllt, Nachweis per Foto/Video."),
+                        "Gib im <b>Google Classroom</b> deinen <b>C++-Code des Farbschlosses</b> (.ino, .txt oder Google-Dokument) und ein <b>kurzes Video</b> ab, in dem sich das Schloss am echten Arduino öffnet. "
+                        "Dateiname z. B. „07 Farbschloss Lena“."),
              rlp=["RLP 2.2 · Algorithmen", "2.3 · Informatiksysteme", "neu · Physical Computing"],
              quiz=[
-               dict(q="Welcher Befehl liest einen Sensor, der viele Zwischenwerte liefert (z. B. Wasserstand)?", done="Richtig, analogRead liefert 0 bis 1023.",
-                    opts=[("digitalRead(2)", False, "digitalRead kennt nur HIGH oder LOW."),
-                          ("analogRead(A0)", True, None),
-                          ("digitalWrite(A0, HIGH)", False, "digitalWrite schreibt, es liest nichts ein."),
-                          ("delay(A0)", False, "delay wartet nur.")]),
-               dict(q="Ein Taster hängt an Pin 2 mit <code>pinMode(2, INPUT_PULLUP)</code>. Was liefert <code>digitalRead(2)</code>, solange er gedrückt ist?", done="Genau, der Taster verbindet Pin 2 mit GND.",
-                    opts=[("HIGH", False, "HIGH liefert der Pin, solange der Taster nicht gedrückt ist (Pull-up)."),
-                          ("LOW", True, None),
-                          ("1023", False, "Das wäre der größte Wert von analogRead."),
-                          ("nichts, der Arduino stürzt ab", False, "Der Arduino liest ganz normal einen Zustand.")]),
-               dict(q="Warum lässt du am echten Arduino die Pins 0 und 1 frei?", done="Richtig, das sind RX und TX.",
-                    opts=[("Sie liefern nur 3,3 Volt.", False, "Alle Digitalpins liefern 5 V."),
-                          ("Sie sind nur für Sensoren gedacht.", False, "Grundsätzlich könnten sie beides, aber sie sind schon belegt."),
-                          ("Über sie spricht der Arduino per USB mit dem Computer (RX/TX), sonst stört es beim Hochladen.", True, None),
-                          ("Sie gibt es in Tinkercad nicht.", False, "In Tinkercad gibt es sie und dort funktionieren sie auch.")]),
-               dict(q="Wozu dient <code>Serial.println(wert)</code>?", done="Stimmt, so siehst du, was der Arduino misst.",
-                    opts=[("Der Messwert erscheint im Seriellen Monitor am Computer.", True, None),
-                          ("Die LED blinkt so oft, wie der Wert angibt.", False, "Mit LEDs hat Serial nichts zu tun."),
-                          ("Der Wert wird dauerhaft im Arduino gespeichert.", False, "Der Wert wird nur angezeigt."),
-                          ("Der Sensor wird neu gestartet.", False, "Serial schickt nur Text an den Computer.")]),
-               dict(q="Warum steht im Code für den LED-Ring <code>ring.setBrightness(40)</code>?", done="Richtig, 12 LEDs voll weiß brauchen etwa 720 mA.",
-                    opts=[("Damit die Farben schöner werden.", False, "Die Farben bleiben gleich, nur dunkler."),
-                          ("Damit der Ring schneller läuft.", False, "Das Tempo bestimmen delay und das Potentiometer."),
-                          ("Weil Tinkercad sonst einen Fehler meldet.", False, "In Tinkercad ginge es auch heller."),
-                          ("Damit 12 helle LEDs nicht mehr Strom ziehen, als der USB-Anschluss liefern kann.", True, None)]),
+               dict(fig="07-schaltung-1-taster.png", cap="Abb. 1 · Taster an Pin 12, LED an Pin 7",
+                    q="Wozu dient die Variable Tastendruck?", done="Richtig, sie ist das Gedächtnis für die Anzahl der Drücke.",
+                    opts=[("Sie schaltet die LED ein.", False, "Die LED schaltet der Block „Anschluss 7 auf HOCH einstellen“."),
+                          ("Sie speichert, wie oft der Taster schon gedrückt wurde.", True, None),
+                          ("Sie misst die Spannung am Taster.", False, "Gelesen wird nur HOCH oder NIEDRIG, gespeichert wird die Anzahl."),
+                          ("Sie legt fest, an welchem Pin der Taster steckt.", False, "Der Pin steht im Block „Digitalen Anschluss 12 lesen“.")]),
+               dict(q="Was liefert „Digitalen Anschluss 12 lesen“, solange der Taster gedrückt ist (Pull-down-Schaltung)?", done="Genau, der Taster verbindet Pin 12 mit 5V.",
+                    opts=[("NIEDRIG", False, "NIEDRIG liest der Pin, solange der Taster nicht gedrückt ist (10 kΩ nach GND)."),
+                          ("HOCH", True, None),
+                          ("5", False, "Ein Digitalpin kennt nur HOCH oder NIEDRIG."),
+                          ("nichts", False, "Der Pin liefert immer einen Zustand.")]),
+               dict(q="Wann endet „bis Tastendruck = 5 wiederholen“?", done="Richtig, dann ist die Bedingung erfüllt.",
+                    opts=[("nach fünf Sekunden", False, "Die Bedingung prüft die Variable, nicht die Zeit."),
+                          ("sofort beim Start", False, "Beim Start ist Tastendruck 0, also noch nicht 5."),
+                          ("nach dem fünften Tastendruck", True, None),
+                          ("nie", False, "Sobald Tastendruck 5 ist, endet die Wiederholung.")]),
+               dict(q="Das Programm rechnet Code = Code · 10 + Ziffer. Welcher Code entsteht bei blau (1), gelb (3), gelb (3), weiß (4)?", done="Genau: 1 → 13 → 133 → 1334.",
+                    opts=[("11", False, "Hier wurden die Ziffern addiert, nicht als Stellen aneinandergereiht."),
+                          ("4331", False, "Die erste Farbe steht vorn, weil sie am häufigsten mit 10 malgenommen wird."),
+                          ("1334", True, None),
+                          ("13", False, "Das ist der Code nach zwei Tastendrücken.")]),
+               dict(q="Warum werden Code und Tastendruck nach vier Tastendrücken auf 0 gesetzt?", done="Richtig, sonst wächst der Code immer weiter.",
+                    opts=[("Damit die LEDs heller leuchten.", False, "Die Variablen haben mit der Helligkeit nichts zu tun."),
+                          ("Weil der Arduino sonst ausgeht.", False, "Der Arduino läuft weiter, aber der Code würde fünfstellig."),
+                          ("Damit der Geheimcode gelöscht wird.", False, "Der Geheimcode steht fest im Programm."),
+                          ("Damit der nächste Versuch wieder von vorn beginnt.", True, None)]),
              ],
              solution=LP07_LOESUNG),
         dict(no=8, sjw=8, kind="lernpfad", title="Steuerstrukturen im Sketch: das Ampelprogramm",
