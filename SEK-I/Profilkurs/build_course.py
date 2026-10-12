@@ -4,7 +4,7 @@ Generator: Profil Informatik · Klasse 9 (14–15 J.) — Kursplan HJ1 & HJ2
 Erzeugt index.html (Kursübersicht) + Lernpfad-Startseiten + nutzt geteilte Assets.
 Einzige Quelle der Wahrheit für Inhalte, Kalender und Freischalt-Daten.
 """
-import os, glob, html, base64
+import os, glob, html, base64, json
 from datetime import date, timedelta
 from urllib.parse import quote
 
@@ -43,6 +43,7 @@ T = {
   "makey": ("Makey Makey", "https://makeymakey.com/pages/how-to"),
   "tinker": ("Tinkercad Circuits", "https://www.tinkercad.com/circuits"),
   "arduino": ("Arduino", "https://www.arduino.cc/en/software"),
+  "cloud": ("Arduino Cloud Editor", "https://app.arduino.cc/sketches"),
   "wtj": ("WebTigerJython", "https://webtigerjython.ethz.ch/"),
   "jsfiddle": ("jsfiddle.net", "https://jsfiddle.net/"),
   "github": ("GitHub", "https://github.com/"),
@@ -59,8 +60,8 @@ LESSON_DIRS = {
   3: "03 Schleifen & Verzweigungen - ein Mini-Spiel",
   4: "04 Makey Makey - die Welt wird zum Controller",
   5: "05 Tinkercad Circuits - Stromkreis simulieren",
-  6: "06 Der Mikrocontroller - Arduino Uno kennenlernen",
-  7: "07 Erster Sketch - die interne LED blinkt",
+  6: "06 Arduino - Einführung in Tinkercad",
+  7: "07 Arduino-Projekte - Tinkercad trifft echte Hardware",
   8: "08 Steuerstrukturen im Sketch - das Ampelprogramm",
   9: "09 Objektorientierung entdecken - Attribute & Methoden",
   10: "10 Mini-Projekt Arduino - Ergebnissicherung",
@@ -174,6 +175,71 @@ LP05_VERTIEFUNG = (
   'box.querySelectorAll("[data-k]").forEach(function(el){el.addEventListener("input",upd);});upd();});'
   '})();</script>'
 )
+
+# ---------------------------------------------------------------- LP07 · Projektkarten (Quelle: extras/lp07/projekte.py → projekte.json)
+LP07_MATERIAL = (
+  "<p><b>Vom Tinkercad zum echten Arduino.</b> Tinkercad simuliert nur. Damit dein Projekt wirklich leuchtet, misst oder piept, lädst du den C++-Code auf einen echten Arduino Uno. "
+  "Das geht im Browser mit dem <b>Arduino Cloud Editor</b> (Chrome oder Edge, kostenloses Arduino-Konto):</p>"
+  "<ol class=\"task-list\" style=\"list-style:decimal;padding-left:1.4rem\">"
+  "<li>In Tinkercad: <b>Code</b> › Ansicht <b>„Text“</b> › gesamten Code markieren (Strg+A) und kopieren (Strg+C). Alternativ lädt der Pfeil ⬇ eine <code>.ino</code>-Datei herunter.</li>"
+  "<li><b>app.arduino.cc</b> öffnen › <b>Sketches</b> › <b>„+ Sketch“</b>, Beispielcode löschen, eigenen Code einfügen. Bei M3 und K3 nimmst du die <b>Echt-Version</b> von der Karte (DHT22 statt TMP36).</li>"
+  "<li>Schaltung auf dem Steckbrett nachbauen, <b>ohne</b> dass der Arduino am USB-Kabel hängt. Pins 0 und 1 bleiben frei.</li>"
+  "<li>Arduino per USB anstecken, oben <b>„Arduino Uno“</b> und den Anschluss (Port) wählen. Beim ersten Mal fragt der Editor nach dem <b>Arduino Cloud Agent</b>, ein kleines Hilfsprogramm, das die Schule einmalig installiert.</li>"
+  "<li><b>✓ Überprüfen</b>, dann <b>→ Hochladen</b>. Messwerte zeigt der <b>Serial Monitor</b> (9600 Baud).</li>"
+  "</ol>"
+  "<p><b>Bibliotheken</b> wie <code>Adafruit_NeoPixel</code> (LED-Ring) und <code>DHT</code> (DHT22) sind im Cloud Editor schon vorhanden, du musst nichts installieren. "
+  "<b>Sicherheit:</b> nur ohne Strom umstecken, jede LED mit Vorwiderstand, den LED-Ring mit <code>ring.setBrightness(40)</code> dimmen (USB liefert nur etwa 500 mA).</p>"
+  "<p><b>Tinkercad und Kurskiste</b> unterscheiden sich manchmal: Für den Wasserstandssensor nimmst du in Tinkercad den <i>Bodenfeuchtigkeitssensor</i>, für den DHT22 den <i>Temperatursensor TMP36</i>, "
+  "für den TDS-Sensor ein <i>Potentiometer</i>. Den LED-Ring WS2812 gibt es in Tinkercad als <i>NeoPixel-Ring 12</i>.</p>")
+
+def _lp07_daten():
+    pfad = os.path.join(BASE, "extras", "lp07", "projekte.json")
+    with open(pfad, encoding="utf-8") as f:
+        return json.load(f)
+
+def _fett(s):
+    teile = esc(s).split("**")
+    return "".join("<b>%s</b>" % x if i % 2 else x for i, x in enumerate(teile))
+
+def _lp07_projekte():
+    farben = ("#2e9e5b", "#e0a100", "#d0342c")
+    namen = ("einfach", "mittel", "knifflig")
+    out = ('<p>Wähle <b>ein</b> Projekt. ★ einfach: nur Ausgänge · ★★ mittel: Sensor oder Taster und eine Entscheidung · '
+           '★★★ knifflig: Bibliothek, Zeitmessung oder mehrere Sensoren. Jede Karte zeigt, welche Bauteile du in Tinkercad und in der Kurskiste nimmst.</p>'
+           '<div class="pk-grid">')
+    for p in _lp07_daten():
+        f = farben[p["stufe"] - 1]
+        li = lambda xs: "".join("<li>%s</li>" % esc(x) for x in xs)
+        out += (
+          '<details class="pk" style="--pk:%s"><summary><span class="pk-id">%s</span> %s '
+          '<span class="pk-st">%s %s</span><span class="pk-an">%s</span></summary>'
+          '<p>%s</p><div class="pk-2"><div><b>Tinkercad</b><ul>%s</ul></div><div><b>Echter Arduino (Kurskiste)</b><ul>%s</ul></div>'
+          '<div><b>Schaltung</b><ul>%s</ul></div><div><b>Neu für dich</b><ul>%s</ul></div></div>'
+          '<b>So gehst du vor</b><ol>%s</ol><b>Code-Baustein</b><pre><code>%s</code></pre>'
+          '<p><b>Erweiterung:</b> %s</p></details>'
+        ) % (f, p["id"], esc(p["titel"]), "★" * p["stufe"], namen[p["stufe"] - 1], esc(p["anwendung"]), _fett(p["ziel"]),
+             li(p["tinkercad"]), li(p["echt"]), li(p["schaltung"]), "".join("<li><code>%s</code></li>" % esc(x) for x in p["neu"]),
+             "".join("<li>%s</li>" % _fett(x) for x in p["schritte"]), esc(p["baustein"]), _fett(p["erweiterung"]))
+    out += ('</div><style>'
+            '.vertiefung h3{font-size:1rem;margin:1.1rem 0 .4rem;color:var(--key)}'
+            '.pk-grid{display:grid;gap:.7rem}.pk{border:1px solid var(--line);border-left:6px solid var(--pk);border-radius:12px;background:var(--panel-2);padding:.2rem .9rem}'
+            '.pk summary{cursor:pointer;font-weight:700;padding:.55rem 0;display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline}'
+            '.pk-id{color:var(--pk)}.pk-st{font-size:.8rem;color:var(--pk);font-weight:700}.pk-an{margin-left:auto;font-weight:400;font-size:.85rem;color:var(--ink-soft)}'
+            '.pk-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.3rem 1rem;font-size:.92rem}'
+            '.pk ul,.pk ol{margin:.2rem 0 .6rem;padding-left:1.2rem}.pk pre{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:.6rem;overflow:auto;font-size:.82rem}'
+            '</style>')
+    return out
+
+def _lp07_loesung():
+    out = []
+    for p in _lp07_daten():
+        for datei, src in p["quelltext"].items():
+            out.append('<details><summary><b>%s %s</b> · %s</summary><pre style="overflow:auto;font-size:.8rem"><code>%s</code></pre></details>'
+                       % (p["id"], esc(p["titel"]), esc(datei), esc(src)))
+    return out
+
+LP07_PROJEKTE = _lp07_projekte()
+LP07_LOESUNG = ["Aufgabe 2 (Beispiel M2 Füllstandswarner): Eingabe = Wasserstandssensor an A0 (0 bis 1023) · Verarbeitung = wenn Wert &lt; 100 Grün, sonst wenn &lt; 350 Gelb, sonst Blau + Ton, Wert im Seriellen Monitor · Ausgabe = LEDs 11/12/13, Buzzer 9."] + _lp07_loesung()
 
 # ---------------------------------------------------------------- Kursinhalt
 # Jedes LP: no, sjw, title, goal, tasks[], tools[keys], fast, rlp[], solution[], kind
@@ -917,228 +983,142 @@ UNITS = [
                        "Fehlersuche (Schaltungen A–D): B ist richtig. A: kein Schutzwiderstand, die LED brennt durch. C: 220 kΩ (rot-rot-gelb) statt 220 Ω, die LED bleibt dunkel. D: LED falsch gepolt, sie sperrt."],
              solution_figs=[dict(fig="abb2-schaltkreis-loesung", cap="Lösung · Abbildung 2 mit LED, Widerstand und Kabeln"),
                             dict(fig="foto-aufbau-echt.jpg", cap="Abgleich · So sieht der Aufbau am echten Arduino aus")]),
-        dict(no=6, sjw=6, kind="lernpfad", title="Der Mikrocontroller: Arduino Uno kennenlernen",
-             goal="Du benennst die Bauteile einer Arduino-Schaltung (Widerstand, LED, Mikrocontroller, Steckplatine) und verstehst die Rolle von GND (Minuspol) und 5 V.",
-             tasks=["Bauteile im Schaltbild korrekt benennen und ordnen.",
-                    "Die technische Anpassung für LEDs erklären: Stromkreisschluss zum Minuspol (GND).",
-                    "Pins des Arduino Uno erkunden: digital, analog, 5 V, GND."],
-             tools=["tinker", "arduino"],
-             fast="Recherchiere den Unterschied zwischen digitalen und analogen Pins und nenne je ein Beispiel-Bauteil.",
-             rlp=["RLP 2.3 · Informatiksysteme", "3.2 Mikrocontroller"],
-             vorwissen=[
-               dict(fig="fig1", cap="Bild 1 · Das Arduino-Board", quiz=[
-                 dict(q="Was ist Teil 1, der violette Chip?",
-                      done="Richtig — der Mikrocontroller.",
-                      opts=[
-                        ("der Mikrocontroller — das „Gehirn“ des Boards", True, None),
-                        ("der USB-Anschluss", False, "Der USB-Anschluss sitzt am Rand des Boards, nicht mittig als Chip."),
-                        ("ein Widerstand", False, "Ein Widerstand ist ein winziges Einzelbauteil, kein zentraler Chip."),
-                        ("die Steckplatine", False, "Die Steckplatine ist ein separates Bauteil, kein Teil des Arduino-Boards."),
-                      ]),
-                 dict(q="Wofür stehen die Pins bei Teil 2?",
-                      done="Genau — die Digitalpins.",
-                      opts=[
-                        ("für die Digitalpins (0-13), sie kennen nur HIGH oder LOW", True, None),
-                        ("für die Analogpins, sie messen Zwischenwerte", False, "Analogpins sind separat beschriftet (A0-A5), das ist Teil 3."),
-                        ("für den Stromanschluss", False, "Die Stromversorgung ist ein eigener Bereich (5V/GND)."),
-                        ("für den Reset-Knopf", False, "Der Reset-Knopf ist kein Pin und hier nicht markiert."),
-                      ]),
-                 dict(q="Wofür stehen die Pins bei Teil 3?",
-                      done="Stimmt — die Analogpins.",
-                      opts=[
-                        ("für die Analogpins (A0-A5), sie können Zwischenwerte messen", True, None),
-                        ("für die Digitalpins, sie kennen nur an/aus", False, "Die Digitalpins sind die nummerierte Reihe 0-13, Teil 2."),
-                        ("für den USB-Anschluss", False, "Der USB-Anschluss ist ein eigenes Bauteil am Rand des Boards."),
-                        ("für den Mikrocontroller-Chip", False, "Der Chip ist Teil 1, nicht die Pin-Reihe."),
-                      ]),
-                 dict(q="Wozu dienen die Pins bei Teil 4?",
-                      done="Richtig — Stromversorgung.",
-                      opts=[
-                        ("zur Stromversorgung — 5V und GND (Minuspol)", True, None),
-                        ("zum Programmieren über USB", False, "Programmiert wird über den USB-Anschluss, nicht über 5V/GND."),
-                        ("zur drahtlosen Datenübertragung", False, "Ein Arduino Uno hat serienmäßig kein WLAN."),
-                        ("sie haben keine erkennbare Funktion", False, "5V und GND versorgen die Schaltung mit Strom — eine zentrale Funktion."),
-                      ]),
-               ]),
-               dict(fig="fig2", cap="Bild 2 · Vom Digitalpin zur LED", quiz=[
-                 dict(q="Was ist Teil 1, der violette Chip links im Bild?",
-                      done="Richtig — der Mikrocontroller.",
-                      opts=[
-                        ("der Mikrocontroller — er gibt das Signal am Digitalpin aus", True, None),
-                        ("die LED", False, "Die LED ist das Dreieck-Symbol rechts im Bild."),
-                        ("der Widerstand", False, "Der Widerstand ist das Zickzack-Symbol in der Mitte."),
-                        ("die Steckplatine", False, "Die Steckplatine ist das Hintergrundraster."),
-                      ]),
-                 dict(q="Wozu dient Teil 2, das Zickzack-Symbol?",
-                      done="Genau — der Widerstand.",
-                      opts=[
-                        ("der Widerstand — er begrenzt den Strom und schützt die LED", True, None),
-                        ("die Batterie", False, "Diese Schaltung wird vom Mikrocontroller-Pin gespeist, nicht von einer Batterie."),
-                        ("der Mikrocontroller", False, "Der Mikrocontroller ist der Chip links im Bild."),
-                        ("das USB-Kabel", False, "Diese Schaltung zeigt kein USB-Kabel."),
-                      ]),
-                 dict(q="Was ist Teil 3, das Dreieck-Symbol?",
-                      done="Stimmt — die LED.",
-                      opts=[
-                        ("die LED", True, None),
-                        ("der Widerstand", False, "Der Widerstand ist das Zickzack-Symbol."),
-                        ("die Steckplatine", False, "Die Steckplatine ist das Hintergrundraster, kein Symbol im Stromkreis."),
-                        ("der Mikrocontroller", False, "Der Mikrocontroller ist der Chip links im Bild."),
-                      ]),
-                 dict(q="Wozu dient Teil 4, die Steckplatine?",
-                      done="Richtig — Bauteile ohne Löten verbinden.",
-                      opts=[
-                        ("sie verbindet die Bauteile elektrisch, ohne dass gelötet werden muss", True, None),
-                        ("sie speichert das Arduino-Programm", False, "Das Programm wird im Speicher des Mikrocontrollers abgelegt, nicht auf der Platine."),
-                        ("sie ersetzt den GND-Anschluss", False, "GND ist ein eigener Pin am Board, die Platine ersetzt ihn nicht."),
-                        ("sie hat keine erkennbare Funktion", False, "Sie verbindet die Bauteile elektrisch — das ist ihre Hauptfunktion."),
-                      ]),
-               ]),
-             ],
+        dict(no=6, sjw=6, kind="lernpfad", title="Arduino: Einführung in Tinkercad (die Ampel)",
+             goal="Du planst eine Ampelschaltung mit Arduino, LEDs und Widerständen, konstruierst sie digital in Tinkercad und programmierst den Ampelzyklus mit Codeblöcken, die Tinkercad in C++ übersetzt.",
+             # Quelle Arbeits-/Lösungsblatt: <Lektion>/Tutory/Typst/06 Arduino - Einführung in Tinkercad – Vorlage.typ
+             # (gestrafft aus dem Arbeitsblatt des Praxissemesterstudenten), Bilder: plickers/fig1.png, fig2.png
+             material=(
+               "<p><b>Vom Stecken zum Programmieren.</b> In LP05 hat deine LED direkt an 5V und GND geleuchtet, also immer. Steckt sie stattdessen an einem <b>Digitalpin</b> (0–13), kann ein Programm sie schalten: <b>HOCH</b> (engl. <code>HIGH</code>) legt 5 V an, die LED leuchtet, <b>NIEDRIG</b> (<code>LOW</code>) legt 0 V an, sie ist aus. Jede LED braucht weiterhin ihren eigenen 220-Ω-Vorwiderstand, die kurzen Beinchen (Kathoden) führen zu GND.</p>"
+               "<p><b>Tinkercad Circuits</b> ist ein kostenloser Simulator im Browser. Du ziehst Arduino, Steckbrett, LEDs und Widerstände aus der Komponenten-Bibliothek auf die Arbeitsfläche, verbindest sie mit Kabeln und startest die Simulation. Nichts kann kaputtgehen, und du siehst sofort, ob dein Programm funktioniert.</p>"
+               "<p><b>Codeblöcke und C++.</b> Programmiert wird mit Blöcken, die an Scratch erinnern. Tinkercad übersetzt sie automatisch in die Sprache C++, die der echte Arduino versteht (Ansicht „Text“). Der Block „für immer“ heißt in C++ <code>void loop()</code> und wird endlos wiederholt, „Anschluss 13 auf HOCH einstellen“ wird zu <code>digitalWrite(13, HIGH);</code> und „3 Sekunden warten“ zu <code>delay(3000);</code>.</p>"
+               "<p><b>Der Ampelzyklus</b> in Deutschland: <b>Rot</b> → <b>Rot-Gelb</b> (gleich wird es Grün) → <b>Grün</b> → <b>Gelb</b> (gleich wird es Rot) → wieder Rot. Jede Phase besteht im Programm aus zwei Schritten: alle drei Lampen einstellen und dann warten. Eine Lampe bleibt so lange an, bis du sie ausdrücklich auf NIEDRIG stellst.</p>"),
+             tasks=["<b>Zeichne</b> den Ablauf einer Ampelphase (Aufgabe 1) und <b>plane</b> in der Tabelle für jede Phase, welche Pins (rot 13, gelb 12, grün 11) auf HOCH oder NIEDRIG stehen und wie lange gewartet wird (Aufgabe 2).",
+                    "<b>Benenne</b> die vier markierten Bestandteile von Tinkercad (Bild 1) und der Codeblöcke (Bild 2) und <b>ordne</b> den Blöcken ihren C++-Befehl zu (Aufgabe 3 und 4).",
+                    "<b>Baue</b> die Ampel in Tinkercad und <b>programmiere</b> deinen Plan im Block „für immer“. Achtung: Tinkercad setzt Widerstände auf 1 kΩ, stelle sie auf 220 Ω (Aufgabe 5).",
+                    "<b>Sichere</b> deinen C++-Code im Classroom (siehe Leistungsnachweis unten, Aufgabe 6).",
+                    "Vertiefung (Wahl, siehe unten, Aufgabe 7): Wartezeiten anpassen, Fußgängerampel, Fehlersuche."],
+             task_figs=[dict(fig="06-bild1-tinkercad.png", cap="Bild 1 · Tinkercad: die wichtigsten Bestandteile"),
+                        dict(fig="06-bild2-codebloecke.png", cap="Bild 2 · Die Codeblöcke")],
+             tools=["tinker"],
+             fast="Erweitere deine Ampel um eine Fußgängerampel, die nur Grün zeigt, solange die Autos Rot haben.",
+             vertiefung=(
+               "<p>Wähle eine oder mehrere Vertiefungen (auf dem Arbeitsblatt Aufgabe 7).</p>"
+               "<h3>★ Wartezeiten wie im echten Verkehr</h3><p><b>Ändere</b> die Wartezeiten so, dass Grün doppelt so lange leuchtet wie Rot und die Übergänge Rot-Gelb und Gelb nur eine Sekunde dauern.</p>"
+               "<h3>★★ Fußgängerampel</h3><p><b>Erweitere</b> deine Ampel um eine rote LED an Pin 10 und eine grüne an Pin 9. <b>Programmiere</b>, dass Fußgänger:innen nur Grün haben, solange die Autos Rot haben. Plane zuerst eine Tabelle mit fünf Spalten. Tipp: Eine kurze „Räumzeit“, in der alle Rot haben, macht die Kreuzung sicher.</p>"
+               "<h3>★★★ Fehlersuche</h3><p>Dieser Code soll eine Ampel steuern. <b>Erkläre</b>, warum nach dem ersten Durchlauf alle Lampen dauerhaft leuchten, und <b>korrigiere</b> ihn.</p>"
+               "<pre style=\"background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:.7rem;overflow:auto\"><code>void loop() {\n  digitalWrite(13, HIGH); delay(3000);   // Rot\n  digitalWrite(12, HIGH); delay(1000);   // Rot-Gelb\n  digitalWrite(11, HIGH); delay(3000);   // Grün\n  digitalWrite(12, HIGH); delay(1000);   // Gelb\n}</code></pre>"
+               "<style>.vertiefung h3{font-size:1rem;margin:1.1rem 0 .4rem;color:var(--key)}</style>"),
+             sicherung=("💾 Leistungsnachweis · Ergebnissicherung",
+                        "Stelle die Code-Ansicht von „Blöcke“ auf <b>„Text“</b>, <b>kopiere</b> den C++-Code in ein Google-Dokument oder <b>lade</b> ihn mit dem Pfeil als <b>.ino</b>-Datei herunter. "
+                        "Benenne die Datei z. B. „06 Ampel Lena“ und <b>gib</b> sie im <b>Google Classroom</b> ab. Bewertet wird (je 20 %): Dateiname mit Bezug zur Stunde, dein Vorname, Textformat (.docx, .txt oder .ino), "
+                        "alle vier Phasen in richtiger Reihenfolge, Zyklus läuft endlos ohne Dauerlicht und ohne Dunkelphase."),
+             rlp=["RLP 2.2 · Algorithmen", "2.3 · Informatiksysteme", "neu · Simulation & Physical Computing"],
              quiz=[
-               dict(q="In welcher Reihenfolge ist eine einfache LED-Schaltung aufgebaut?",
-                    done="Richtig — LED, Widerstand, Mikrocontroller, Steckplatine.",
-                    opts=[
-                      ("LED, Widerstand, Mikrocontroller, Steckplatine", True, None),
-                      ("Steckplatine, Mikrocontroller, LED, Widerstand", False, "Das ist nicht die übliche Bauteil-Reihenfolge im Stromkreis."),
-                      ("nur LED und Mikrocontroller, ohne Widerstand", False, "Ohne Widerstand würde die LED durchbrennen."),
-                      ("die Reihenfolge ist beliebig", False, "Die Bauteile stehen in einer festen, sinnvollen Reihenfolge im Stromkreis."),
-                    ]),
-               dict(q="Wozu muss eine LED mit GND (Minuspol) verbunden sein?",
-                    done="Genau — sonst fließt kein Strom.",
-                    opts=[
-                      ("damit der Stromkreis geschlossen ist und Strom fließen kann", True, None),
-                      ("damit sie heller leuchtet", False, "Die Helligkeit hängt vom Widerstand ab, nicht von GND allein."),
-                      ("GND wird für LEDs nicht benötigt", False, "Ohne GND-Verbindung ist der Stromkreis nicht geschlossen."),
-                      ("damit sie vor Wasser geschützt ist", False, "GND hat nichts mit Wasserschutz zu tun."),
-                    ]),
-               dict(q="Was können Digitalpins am Arduino Uno?",
-                    done="Stimmt — nur HIGH oder LOW.",
-                    opts=[
-                      ("nur HIGH oder LOW (an/aus) erkennen bzw. ausgeben", True, None),
-                      ("beliebige Zwischenwerte messen", False, "Das können Analogpins, nicht die digitalen Pins."),
-                      ("nur Ton ausgeben", False, "Digitalpins sind nicht auf Toncodierung beschränkt."),
-                      ("nur WLAN-Signale senden", False, "Der Arduino Uno hat serienmäßig kein WLAN."),
-                    ]),
-               dict(q="Was können Analogpins, was Digitalpins nicht können?",
-                    done="Richtig — Zwischenwerte messen.",
-                    opts=[
-                      ("Zwischenwerte (nicht nur an/aus) messen", True, None),
-                      ("nur HIGH/LOW erkennen", False, "Das ist die Einschränkung der Digitalpins, nicht die Fähigkeit der Analogpins."),
-                      ("den Arduino aufladen", False, "Analogpins dienen dem Messen/Ausgeben von Werten, nicht dem Aufladen."),
-                      ("Programme speichern", False, "Programme werden im Speicher des Mikrocontrollers abgelegt, nicht über Analogpins."),
-                    ]),
+               dict(fig="06-bild1-tinkercad.png", cap="Bild 1 · Tinkercad: die wichtigsten Bestandteile",
+                    q="Was ist Teil 1 in Bild 1?", done="Richtig, auf der Arbeitsfläche baust du die Schaltung.",
+                    opts=[("die Arbeitsfläche, auf der die Schaltung gebaut wird", True, None),
+                          ("die Komponenten-Bibliothek", False, "Die Bibliothek mit den Bauteilen ist rechts (Teil 4)."),
+                          ("der Code-Editor", False, "Der Code-Editor öffnet sich erst über die Schaltfläche „Code“ (Teil 2)."),
+                          ("das Schaltbild (Schema)", False, "Das Schema ist eine eigene Ansicht oben rechts, hier ist die Bauansicht zu sehen.")]),
+               dict(q="Was öffnet Teil 2 („Code“)?", done="Genau, dort programmierst du den Arduino.",
+                    opts=[("die Liste aller Bauteile", False, "Die Bauteile findest du in der Komponenten-Bibliothek (Teil 4)."),
+                          ("den Code-Editor mit den Codeblöcken für den Arduino", True, None),
+                          ("die Simulation", False, "Die Simulation startet Teil 3."),
+                          ("die Tinkercad-Startseite", False, "Dafür klickst du auf das Tinkercad-Logo oben links.")]),
+               dict(q="Was passiert, wenn du Teil 3 anklickst?", done="Stimmt, der Arduino führt dein Programm virtuell aus.",
+                    opts=[("Der Code wird auf den echten Arduino geladen.", False, "Tinkercad ist ein Simulator, zum echten Arduino kommt der Code erst in LP07."),
+                          ("Die Schaltung wird gelöscht.", False, "Löschen geht mit dem Papierkorb in der Werkzeugleiste."),
+                          ("Der Arduino führt das Programm virtuell aus (Simulation).", True, None),
+                          ("Die Schaltung wird an andere geschickt.", False, "Das wäre „Senden an“ ganz rechts.")]),
+               dict(q="Wozu dient Teil 4?", done="Richtig, aus der Bibliothek ziehst du die Bauteile.",
+                    opts=[("Codeblöcke auswählen", False, "Codeblöcke gibt es erst im Code-Editor (Bild 2)."),
+                          ("die Farbe der Kabel einstellen", False, "Die Kabelfarbe stellst du in der Werkzeugleiste oben ein."),
+                          ("Fehlermeldungen anzeigen", False, "Teil 4 enthält Bauteile wie Widerstand, LED und Drucktaster."),
+                          ("Bauteile wie LED, Widerstand und Arduino auf die Arbeitsfläche ziehen", True, None)]),
+               dict(fig="06-bild2-codebloecke.png", cap="Bild 2 · Die Codeblöcke",
+                    q="Was stellst du bei Teil 1 in Bild 2 ein?", done="Genau, in der Ansicht „Text“ siehst du den C++-Code.",
+                    opts=[("die Ansicht: Blöcke, Blöcke + Text oder nur Text (C++)", True, None),
+                          ("die Version des Arduino", False, "Das Board steht rechts („1 (Arduino Uno R3)“)."),
+                          ("die Sprache von Tinkercad", False, "Die Sprache stellst du in deinem Profil ein."),
+                          ("die Geschwindigkeit der Simulation", False, "Die Geschwindigkeit hängt von deinen Warten-Blöcken ab.")]),
+               dict(q="In welcher Kategorie (Teil 2) findest du „Anschluss … auf HOCH einstellen“?", done="Richtig, eine LED ist ein Ausgang.",
+                    opts=[("Eingang", False, "Eingänge lesen etwas ein, z. B. einen Taster. Eine LED gibt etwas aus."),
+                          ("Ausgang", True, None),
+                          ("Steuerung", False, "In „Steuerung“ stehen „für immer“, „warten“ und „falls“."),
+                          ("Mathematik", False, "Dort stehen Rechen- und Vergleichsblöcke.")]),
+               dict(q="Was bedeutet „für immer“ bei Teil 3?", done="Stimmt, in C++ heißt das loop().",
+                    opts=[("Die Blöcke darin laufen genau einmal beim Start.", False, "Das wäre „beim Start“, in C++ setup()."),
+                          ("Die Blöcke darin laufen nur, wenn eine Taste gedrückt wird.", False, "Dafür bräuchtest du einen Eingang und „falls“."),
+                          ("Die Blöcke darin werden nie ausgeführt.", False, "Sie laufen sogar endlos."),
+                          ("Die Blöcke darin wiederholen sich endlos, in C++ loop().", True, None)]),
+               dict(q="Was erhältst du über Teil 4 (Pfeil nach unten)?", done="Richtig, die .ino-Datei öffnet die Arduino-Software.",
+                    opts=[("den Code als .ino-Datei für die Arduino-Software", True, None),
+                          ("ein Foto der Schaltung", False, "Ein Foto machst du mit einem Screenshot."),
+                          ("eine PDF mit dem Schaltplan", False, "Den Schaltplan zeigt die Ansicht „Schema“."),
+                          ("eine Kopie der Komponenten-Bibliothek", False, "Die Bibliothek bleibt in Tinkercad.")]),
+               dict(fig="ampel-loesung", cap="Der Ampelzyklus",
+                    q="Welche Phase folgt bei einer deutschen Ampel auf Grün?", done="Genau, Gelb kündigt Rot an.",
+                    opts=[("Rot-Gelb", False, "Rot-Gelb kommt nach Rot und kündigt Grün an."),
+                          ("Rot", False, "Direkt von Grün auf Rot wäre gefährlich, dazwischen kommt eine Phase."),
+                          ("Gelb", True, None),
+                          ("Grün blinkend", False, "Blinkendes Grün gibt es in Deutschland nicht.")]),
+               dict(q="Ein Ampelprogramm stellt nie eine Lampe auf NIEDRIG. Was passiert?", done="Richtig, deshalb gehört zu jeder Phase: alle Lampen einstellen.",
+                    opts=[("Die Lampen gehen nach dem Warten automatisch aus.", False, "Ein Pin bleibt HOCH, bis das Programm ihn auf NIEDRIG stellt."),
+                          ("Nach dem ersten Durchlauf leuchten alle Lampen dauerhaft.", True, None),
+                          ("Die Simulation stoppt mit einer Fehlermeldung.", False, "Der Code ist gültig, er tut nur nicht, was du willst."),
+                          ("Die Ampel läuft trotzdem richtig.", False, "Probiere es in der Simulation aus: Alle Lampen bleiben an.")]),
              ],
-             solution=["Reihenfolge: LED, Widerstand, Mikrocontroller, Steckplatine.",
-                       "LEDs benötigen Stromkreisschluss zum Minuspol (GND).",
-                       "Digitalpins kennen nur HIGH/LOW, Analogpins messen Zwischenwerte."]),
-        dict(no=7, sjw=7, kind="lernpfad", title="Erster Sketch: die interne LED blinkt",
-             goal="Du schreibst einen Arduino-Sketch mit <code>setup()</code>, <code>loop()</code>, <code>digitalWrite()</code> und <code>delay()</code>, der die interne LED (Pin 13) im Sekundentakt blinken lässt.",
-             tasks=["Struktur eines Sketches verstehen: <code>setup()</code> läuft einmal, <code>loop()</code> endlos.",
-                    "LED an Pin 13 in einer Dauerschleife 1 s an / 1 s aus schalten.",
-                    "Sketch simulieren (Tinkercad) oder auf echte Hardware laden."],
-             tools=["arduino", "tinker"],
-             fast="Lass die LED ein Morsezeichen (z. B. SOS) blinken, indem du die delay-Zeiten variierst.",
-             rlp=["RLP 2.2 · Algorithmen", "3.3 Textbasierte Steuerung", "neu · Arduino-Sketch"],
-             vorwissen=[
-               dict(fig="fig1", cap="Bild 1 · Sketch-Struktur", quiz=[
-                 dict(q="Was passiert im Block bei Teil 1, setup()?",
-                      done="Richtig — setup() läuft nur einmal.",
-                      opts=[
-                        ("Der Code darin läuft genau einmal beim Start.", True, None),
-                        ("Der Code darin läuft endlos.", False, "Das ist die Aufgabe von loop(), nicht von setup()."),
-                        ("setup() wird nie ausgeführt.", False, "setup() wird beim Start immer einmal ausgeführt."),
-                        ("setup() pausiert das Programm.", False, "Pausieren übernimmt delay(), nicht setup() selbst."),
-                      ]),
-                 dict(q="Wozu dient die Zeile bei Teil 2, pinMode(13, OUTPUT)?",
-                      done="Genau — Pin 13 wird zum Ausgang.",
-                      opts=[
-                        ("Sie legt fest, dass Pin 13 ein Ausgang ist.", True, None),
-                        ("Sie liest einen Sensorwert an Pin 13.", False, "Das würde digitalRead() erledigen, nicht pinMode()."),
-                        ("Sie schaltet Pin 13 sofort ein.", False, "Das übernimmt digitalWrite(), nicht pinMode()."),
-                        ("Sie hat keine Wirkung im Sketch.", False, "Ohne pinMode() weiß der Pin nicht, ob er Ein- oder Ausgang ist."),
-                      ]),
-                 dict(q="Was passiert im Block bei Teil 3, loop()?",
-                      done="Stimmt — loop() wiederholt sich endlos.",
-                      opts=[
-                        ("Der Code darin wiederholt sich endlos.", True, None),
-                        ("Der Code darin läuft nur einmal.", False, "Das ist die Aufgabe von setup(), nicht von loop()."),
-                        ("loop() wird nur bei Fehlern ausgeführt.", False, "loop() läuft immer wieder, unabhängig von Fehlern."),
-                        ("loop() startet den Computer neu.", False, "loop() betrifft nur den Arduino-Sketch, nicht den Computer."),
-                      ]),
-                 dict(q="Was bewirkt die Sequenz bei Teil 4?",
-                      done="Richtig — LED blinkt im Sekundentakt.",
-                      opts=[
-                        ("Sie schaltet die LED abwechselnd 1 Sekunde an und 1 Sekunde aus.", True, None),
-                        ("Sie schaltet die LED dauerhaft ein.", False, "Die delay-Befehle sorgen für einen Wechsel zwischen an und aus."),
-                        ("Sie liest einen Tasterzustand.", False, "Das würde digitalRead() erledigen, hier wird nur geschrieben."),
-                        ("Sie hat keine sichtbare Wirkung.", False, "Die LED blinkt dadurch sichtbar im Sekundentakt."),
-                      ]),
-               ]),
-               dict(fig="fig2", cap="Bild 2 · LED-Blink-Ablauf", quiz=[
-                 dict(q="Was passiert bei Schritt 1?",
-                      done="Richtig — die LED wird eingeschaltet.",
-                      opts=[
-                        ("digitalWrite(13,HIGH) — die LED wird eingeschaltet.", True, None),
-                        ("delay(1000) — das Programm wartet.", False, "Das Warten ist Schritt 2, nicht Schritt 1."),
-                        ("digitalWrite(13,LOW) — die LED wird ausgeschaltet.", False, "Das Ausschalten ist Schritt 3, nicht Schritt 1."),
-                        ("Das Programm startet neu.", False, "Der Ablauf beginnt mit dem Einschalten der LED, nicht mit einem Neustart."),
-                      ]),
-                 dict(q="Was passiert bei Schritt 2?",
-                      done="Genau — 1 Sekunde Pause.",
-                      opts=[
-                        ("delay(1000) — das Programm pausiert für 1 Sekunde.", True, None),
-                        ("Die LED wird sofort ausgeschaltet.", False, "Das Ausschalten kommt erst danach, in Schritt 3."),
-                        ("Der Sketch wird beendet.", False, "Der Sketch läuft in loop() endlos weiter."),
-                        ("Pin 13 wird neu konfiguriert.", False, "Die Pin-Konfiguration passiert nur einmal in setup()."),
-                      ]),
-                 dict(q="Was passiert bei Schritt 3?",
-                      done="Stimmt — die LED wird ausgeschaltet.",
-                      opts=[
-                        ("digitalWrite(13,LOW) — die LED wird ausgeschaltet.", True, None),
-                        ("digitalWrite(13,HIGH) — die LED wird eingeschaltet.", False, "Das Einschalten ist Schritt 1, nicht Schritt 3."),
-                        ("Das Programm wartet 1 Sekunde.", False, "Das Warten nach dem Ausschalten ist Schritt 4."),
-                        ("loop() wird verlassen.", False, "loop() wiederholt sich endlos, sie wird nicht verlassen."),
-                      ]),
-               ]),
-             ],
+             solution=["Aufgabe 1: Rot → Rot-Gelb → Grün → Gelb → wieder Rot. Rot-Gelb kündigt Grün an, Gelb allein kündigt Rot an.",
+                       "Aufgabe 2 (Pin 13 rot / 12 gelb / 11 grün): Rot = HOCH/NIEDRIG/NIEDRIG, 3 s · Rot-Gelb = HOCH/HOCH/NIEDRIG, 1 s · Grün = NIEDRIG/NIEDRIG/HOCH, 3 s · Gelb = NIEDRIG/HOCH/NIEDRIG, 1 s.",
+                       "Aufgabe 3 (Bild 1): (1) Arbeitsfläche, (2) Code, öffnet die Codeblöcke, (3) Simulation starten, (4) Komponenten-Bibliothek.",
+                       "Aufgabe 4 (Bild 2): (1) Ansicht Blöcke / Blöcke + Text / Text, (2) Kategorien (Ausgang, Steuerung …), (3) Programm im Block „für immer“, (4) Code als .ino herunterladen. Zuordnung: für immer = <code>void loop() { … }</code>, Anschluss 13 auf HOCH = <code>digitalWrite(13, HIGH);</code>, 3 Sekunden warten = <code>delay(3000);</code>.",
+                       "Aufgabe 5/6: <code>void setup() { pinMode(13, OUTPUT); pinMode(12, OUTPUT); pinMode(11, OUTPUT); }</code> und in <code>loop()</code> je Phase alle drei <code>digitalWrite</code> plus <code>delay</code>, z. B. Rot-Gelb: <code>digitalWrite(13, HIGH); digitalWrite(12, HIGH); digitalWrite(11, LOW); delay(1000);</code>",
+                       "Aufgabe 7 Fehlersuche: Keine Lampe wird je auf LOW gestellt, deshalb bleibt jede an. Vor Grün <code>digitalWrite(13, LOW); digitalWrite(12, LOW);</code>, vor Gelb <code>digitalWrite(11, LOW);</code>, am Ende von Gelb <code>digitalWrite(12, LOW);</code>."],
+             solution_figs=[dict(fig="ampel-loesung", cap="Lösung · Ampelzyklus")]),
+        dict(no=7, sjw=7, kind="lernpfad", title="Mein Arduino-Projekt: Tinkercad trifft echte Hardware",
+             goal="Du wählst ein Arduino-Projekt (einfach, mittel oder knifflig), planst es nach dem EVA-Prinzip, baust und programmierst es in Tinkercad und lädst den C++-Code auf einen echten Arduino.",
+             # Quelle: <Lektion>/Tutory/Typst/07 Mein Arduino-Projekt – Vorlage.typ, Projektkarten aus extras/lp07/projekte.json
+             material=LP07_MATERIAL,
+             tasks=["<b>Wähle</b> eine der neun Projektkarten unten (Aufgabe 1).",
+                    "<b>Plane</b> dein Projekt nach dem EVA-Prinzip: Was liest es ein, was entscheidet das Programm, was gibt es aus? <b>Lege</b> für jedes Bauteil den Pin fest. Pins 0 und 1 bleiben frei (Aufgabe 2).",
+                    "<b>Baue</b> und <b>programmiere</b> das Projekt in Tinkercad, lass Messwerte im Seriellen Monitor anzeigen und ergänze mindestens drei Kommentare (Aufgabe 3).",
+                    "<b>Übertrage</b> den Code mit dem Arduino Cloud Editor auf den echten Arduino (Anleitung oben, Aufgabe 4).",
+                    "<b>Sichere</b> Code und Foto/Video im Classroom (Leistungsnachweis unten) und <b>beschreibe</b>, was in Tinkercad anders war als am echten Arduino."],
+             tools=["tinker", "cloud"],
+             fast="Nimm dir die Erweiterung auf deiner Projektkarte vor oder steige eine Stufe höher.",
+             vertiefung=LP07_PROJEKTE,
+             sicherung=("💾 Leistungsnachweis · Ergebnissicherung",
+                        "Gib im <b>Google Classroom</b> zwei Dateien ab: deinen <b>Code</b> (.ino, .txt oder Google-Dokument) und ein <b>Foto oder kurzes Video</b> deines Aufbaus (echt oder Tinkercad-Screenshot). "
+                        "Dateiname z. B. „07 M2 Füllstandswarner Lena“. Bewertet wird (je 20 %): Dateiname mit Projekt und Vorname, Code als Text, mindestens drei sinnvolle Kommentare, Grundfunktion der Karte erfüllt, Nachweis per Foto/Video."),
+             rlp=["RLP 2.2 · Algorithmen", "2.3 · Informatiksysteme", "neu · Physical Computing"],
              quiz=[
-               dict(q="Was passiert im Block setup()?",
-                    done="Richtig — setup() läuft nur einmal.",
-                    opts=[
-                      ("Der Code darin läuft genau einmal beim Start.", True, None),
-                      ("Der Code darin läuft endlos.", False, "Das ist die Aufgabe von loop(), nicht von setup()."),
-                      ("setup() wird nie ausgeführt.", False, "setup() wird beim Start immer einmal ausgeführt."),
-                      ("setup() pausiert das Programm.", False, "Pausieren übernimmt delay(), nicht setup() selbst."),
-                    ]),
-               dict(q="Was passiert im Block loop()?",
-                    done="Genau — loop() wiederholt sich endlos.",
-                    opts=[
-                      ("Der Code darin wiederholt sich endlos.", True, None),
-                      ("Der Code darin läuft nur einmal.", False, "Das ist die Aufgabe von setup(), nicht von loop()."),
-                      ("loop() wird nur bei Fehlern ausgeführt.", False, "loop() läuft immer wieder, unabhängig von Fehlern."),
-                      ("loop() startet den Computer neu.", False, "loop() betrifft nur den Arduino-Sketch, nicht den Computer."),
-                    ]),
-               dict(q="Wozu dient digitalWrite(13, HIGH)?",
-                    done="Stimmt — es schaltet Pin 13 ein.",
-                    opts=[
-                      ("Es schaltet Pin 13 (z. B. eine LED) ein.", True, None),
-                      ("Es liest einen Sensorwert an Pin 13.", False, "Das würde digitalRead() oder analogRead() erledigen, nicht digitalWrite()."),
-                      ("Es wartet eine Sekunde.", False, "Das Warten übernimmt delay(1000), nicht digitalWrite()."),
-                      ("Es startet das Programm neu.", False, "digitalWrite() schaltet nur einen Pin, startet kein Programm neu."),
-                    ]),
-               dict(q="Wozu dient delay(1000)?",
-                    done="Richtig — eine Sekunde Pause.",
-                    opts=[
-                      ("Das Programm pausiert für 1000 Millisekunden (1 Sekunde).", True, None),
-                      ("Das Programm läuft 1000-mal schneller.", False, "delay() verlangsamt den Ablauf durch eine Pause, es beschleunigt nicht."),
-                      ("Es schaltet eine LED aus.", False, "Das Schalten übernimmt digitalWrite(), delay() nur das Warten."),
-                      ("Es hat keine Wirkung im Sketch.", False, "delay() blockiert den Ablauf tatsächlich für die angegebene Zeit."),
-                    ]),
+               dict(q="Welcher Befehl liest einen Sensor, der viele Zwischenwerte liefert (z. B. Wasserstand)?", done="Richtig, analogRead liefert 0 bis 1023.",
+                    opts=[("digitalRead(2)", False, "digitalRead kennt nur HIGH oder LOW."),
+                          ("analogRead(A0)", True, None),
+                          ("digitalWrite(A0, HIGH)", False, "digitalWrite schreibt, es liest nichts ein."),
+                          ("delay(A0)", False, "delay wartet nur.")]),
+               dict(q="Ein Taster hängt an Pin 2 mit <code>pinMode(2, INPUT_PULLUP)</code>. Was liefert <code>digitalRead(2)</code>, solange er gedrückt ist?", done="Genau, der Taster verbindet Pin 2 mit GND.",
+                    opts=[("HIGH", False, "HIGH liefert der Pin, solange der Taster nicht gedrückt ist (Pull-up)."),
+                          ("LOW", True, None),
+                          ("1023", False, "Das wäre der größte Wert von analogRead."),
+                          ("nichts, der Arduino stürzt ab", False, "Der Arduino liest ganz normal einen Zustand.")]),
+               dict(q="Warum lässt du am echten Arduino die Pins 0 und 1 frei?", done="Richtig, das sind RX und TX.",
+                    opts=[("Sie liefern nur 3,3 Volt.", False, "Alle Digitalpins liefern 5 V."),
+                          ("Sie sind nur für Sensoren gedacht.", False, "Grundsätzlich könnten sie beides, aber sie sind schon belegt."),
+                          ("Über sie spricht der Arduino per USB mit dem Computer (RX/TX), sonst stört es beim Hochladen.", True, None),
+                          ("Sie gibt es in Tinkercad nicht.", False, "In Tinkercad gibt es sie und dort funktionieren sie auch.")]),
+               dict(q="Wozu dient <code>Serial.println(wert)</code>?", done="Stimmt, so siehst du, was der Arduino misst.",
+                    opts=[("Der Messwert erscheint im Seriellen Monitor am Computer.", True, None),
+                          ("Die LED blinkt so oft, wie der Wert angibt.", False, "Mit LEDs hat Serial nichts zu tun."),
+                          ("Der Wert wird dauerhaft im Arduino gespeichert.", False, "Der Wert wird nur angezeigt."),
+                          ("Der Sensor wird neu gestartet.", False, "Serial schickt nur Text an den Computer.")]),
+               dict(q="Warum steht im Code für den LED-Ring <code>ring.setBrightness(40)</code>?", done="Richtig, 12 LEDs voll weiß brauchen etwa 720 mA.",
+                    opts=[("Damit die Farben schöner werden.", False, "Die Farben bleiben gleich, nur dunkler."),
+                          ("Damit der Ring schneller läuft.", False, "Das Tempo bestimmen delay und das Potentiometer."),
+                          ("Weil Tinkercad sonst einen Fehler meldet.", False, "In Tinkercad ginge es auch heller."),
+                          ("Damit 12 helle LEDs nicht mehr Strom ziehen, als der USB-Anschluss liefern kann.", True, None)]),
              ],
-             solution=["<code>pinMode(13, OUTPUT);</code> in setup(); in loop(): <code>digitalWrite(13,HIGH); delay(1000); digitalWrite(13,LOW); delay(1000);</code>",
-                       "<code>loop()</code> sorgt für die Dauerschleife (Wiederholung).",
-                       "<code>delay(ms)</code> pausiert das Programm für Millisekunden."]),
+             solution=LP07_LOESUNG),
         dict(no=8, sjw=8, kind="lernpfad", title="Steuerstrukturen im Sketch: das Ampelprogramm",
              goal="Du überträgst Verzweigung und Schleife in Arduino-Code und programmierst eine Fußgänger-/Auto-Ampel mit mehreren LEDs.",
              tasks=["Rot–Gelb–Grün-Phasen als Sequenz in <code>loop()</code> umsetzen.",

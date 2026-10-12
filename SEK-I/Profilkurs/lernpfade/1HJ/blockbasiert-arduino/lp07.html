@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LP07 · Erster Sketch: die interne LED blinkt</title>
+<title>LP07 · Mein Arduino-Projekt: Tinkercad trifft echte Hardware</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
@@ -368,6 +368,11 @@ footer{background:#04060c;border-top:1px solid var(--line);padding:3rem 6vw 2.4r
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}
   #matrix-canvas{display:none}}
+/* Fotos in Abbildungen, Informationstext (Material) */
+.fig img{width:100%;height:auto;display:block;border-radius:8px}
+.task-list+.fig,.sol-list+.fig{margin-top:1rem}
+.mat p+p{margin-top:.7rem}
+.mat b{color:var(--ink)}
 
 </style>
 </head>
@@ -377,17 +382,417 @@ footer{background:#04060c;border-top:1px solid var(--line);padding:3rem 6vw 2.4r
   <a class="back" href="../../../index.html#hj1-content">← zur Kursübersicht</a>
   <div class="lp-hero">
     <div class="lp-meta"><span>Einheit 02 · Blockbasiert II — Tinkercad &amp; Arduino</span><span>SJW 7 · 12.10.2026</span><span>Lernpfad</span></div>
-    <h1>Erster Sketch: die interne LED blinkt</h1>
+    <h1>Mein Arduino-Projekt: Tinkercad trifft echte Hardware</h1>
     <div class="lp-big">07</div>
   </div>
-  <section class="lp-sec"><h2>Das lernst du</h2><p>Du schreibst einen Arduino-Sketch mit <code>setup()</code>, <code>loop()</code>, <code>digitalWrite()</code> und <code>delay()</code>, der die interne LED (Pin 13) im Sekundentakt blinken lässt.</p><div data-selfcheck="lp07"></div></section>
-  
-  <section class="lp-sec"><h2>Aufgaben</h2><ul class="task-list"><li>Struktur eines Sketches verstehen: <code>setup()</code> läuft einmal, <code>loop()</code> endlos.</li><li>LED an Pin 13 in einer Dauerschleife 1 s an / 1 s aus schalten.</li><li>Sketch simulieren (Tinkercad) oder auf echte Hardware laden.</li></ul></section>
-  <section class="lp-sec"><h2>Wissens-Check</h2><div class="qz-wrap" data-qz><div class="qz-progress"><span class="qz-count">0 / 4 richtig</span><span class="qz-bar"><span class="qz-fill"></span></span></div><div class="qz-item"><div class="qz-text"><span class="qn">1.</span>Was passiert im Block setup()?</div><div class="qz-opts"><button class="qz-opt" data-correct="true">Der Code darin läuft genau einmal beim Start.</button><button class="qz-opt" data-hint="Das ist die Aufgabe von loop(), nicht von setup().">Der Code darin läuft endlos.</button><button class="qz-opt" data-hint="setup() wird beim Start immer einmal ausgeführt.">setup() wird nie ausgeführt.</button><button class="qz-opt" data-hint="Pausieren übernimmt delay(), nicht setup() selbst.">setup() pausiert das Programm.</button></div><div class="qz-hint"></div><div class="qz-done">Richtig — setup() läuft nur einmal.</div></div><div class="qz-item"><div class="qz-text"><span class="qn">2.</span>Was passiert im Block loop()?</div><div class="qz-opts"><button class="qz-opt" data-correct="true">Der Code darin wiederholt sich endlos.</button><button class="qz-opt" data-hint="Das ist die Aufgabe von setup(), nicht von loop().">Der Code darin läuft nur einmal.</button><button class="qz-opt" data-hint="loop() läuft immer wieder, unabhängig von Fehlern.">loop() wird nur bei Fehlern ausgeführt.</button><button class="qz-opt" data-hint="loop() betrifft nur den Arduino-Sketch, nicht den Computer.">loop() startet den Computer neu.</button></div><div class="qz-hint"></div><div class="qz-done">Genau — loop() wiederholt sich endlos.</div></div><div class="qz-item"><div class="qz-text"><span class="qn">3.</span>Wozu dient digitalWrite(13, HIGH)?</div><div class="qz-opts"><button class="qz-opt" data-correct="true">Es schaltet Pin 13 (z. B. eine LED) ein.</button><button class="qz-opt" data-hint="Das würde digitalRead() oder analogRead() erledigen, nicht digitalWrite().">Es liest einen Sensorwert an Pin 13.</button><button class="qz-opt" data-hint="Das Warten übernimmt delay(1000), nicht digitalWrite().">Es wartet eine Sekunde.</button><button class="qz-opt" data-hint="digitalWrite() schaltet nur einen Pin, startet kein Programm neu.">Es startet das Programm neu.</button></div><div class="qz-hint"></div><div class="qz-done">Stimmt — es schaltet Pin 13 ein.</div></div><div class="qz-item"><div class="qz-text"><span class="qn">4.</span>Wozu dient delay(1000)?</div><div class="qz-opts"><button class="qz-opt" data-correct="true">Das Programm pausiert für 1000 Millisekunden (1 Sekunde).</button><button class="qz-opt" data-hint="delay() verlangsamt den Ablauf durch eine Pause, es beschleunigt nicht.">Das Programm läuft 1000-mal schneller.</button><button class="qz-opt" data-hint="Das Schalten übernimmt digitalWrite(), delay() nur das Warten.">Es schaltet eine LED aus.</button><button class="qz-opt" data-hint="delay() blockiert den Ablauf tatsächlich für die angegebene Zeit.">Es hat keine Wirkung im Sketch.</button></div><div class="qz-hint"></div><div class="qz-done">Richtig — eine Sekunde Pause.</div></div><div class="qz-solved">✔ Stark — Wissens-Check komplett gelöst!</div></div></section>
-  <section class="lp-sec"><h2>Werkzeuge</h2><div class="tool-list"><a class="tool" href="https://www.arduino.cc/en/software" target="_blank" rel="noopener">Arduino <span class="ex">↗</span></a><a class="tool" href="https://www.tinkercad.com/circuits" target="_blank" rel="noopener">Tinkercad Circuits <span class="ex">↗</span></a></div></section>
-  <section class="lp-sec"><div class="fast-box"><span class="fb-t">⚡ Schnellläufer:in</span>Lass die LED ein Morsezeichen (z. B. SOS) blinken, indem du die delay-Zeiten variierst.</div></section>
-  <section class="lp-sec"><div class="backup-box"><span class="bb-t">💾 Ergebnissicherung</span>Sichere deine Ergebnisse am Stundenende <b>einfach wiederverwendbar</b> (sinnvoll benannt) an <b>zwei Orten</b> — Rechner und Cloud/USB. Achte selbstständig auf Backups.</div></section>
-  <section class="sol" id="loesung" data-unlock="2026-10-20"><h2>Musterlösung <span class="sol-status">…</span></h2><p class="sol-countdown"></p><div class="sol-body" hidden><ul class="sol-list"><li><code>pinMode(13, OUTPUT);</code> in setup(); in loop(): <code>digitalWrite(13,HIGH); delay(1000); digitalWrite(13,LOW); delay(1000);</code></li><li><code>loop()</code> sorgt für die Dauerschleife (Wiederholung).</li><li><code>delay(ms)</code> pausiert das Programm für Millisekunden.</li></ul></div><p class="sol-hint">Die Lösung wird automatisch zum angegebenen Datum sichtbar — die Seite prüft das bei jedem Laden.</p></section>
+  <section class="lp-sec"><h2>Das lernst du</h2><p>Du wählst ein Arduino-Projekt (einfach, mittel oder knifflig), planst es nach dem EVA-Prinzip, baust und programmierst es in Tinkercad und lädst den C++-Code auf einen echten Arduino.</p><div data-selfcheck="lp07"></div></section>
+  <section class="lp-sec mat"><h2>Material · Informationstext</h2><p><b>Vom Tinkercad zum echten Arduino.</b> Tinkercad simuliert nur. Damit dein Projekt wirklich leuchtet, misst oder piept, lädst du den C++-Code auf einen echten Arduino Uno. Das geht im Browser mit dem <b>Arduino Cloud Editor</b> (Chrome oder Edge, kostenloses Arduino-Konto):</p><ol class="task-list" style="list-style:decimal;padding-left:1.4rem"><li>In Tinkercad: <b>Code</b> › Ansicht <b>„Text“</b> › gesamten Code markieren (Strg+A) und kopieren (Strg+C). Alternativ lädt der Pfeil ⬇ eine <code>.ino</code>-Datei herunter.</li><li><b>app.arduino.cc</b> öffnen › <b>Sketches</b> › <b>„+ Sketch“</b>, Beispielcode löschen, eigenen Code einfügen. Bei M3 und K3 nimmst du die <b>Echt-Version</b> von der Karte (DHT22 statt TMP36).</li><li>Schaltung auf dem Steckbrett nachbauen, <b>ohne</b> dass der Arduino am USB-Kabel hängt. Pins 0 und 1 bleiben frei.</li><li>Arduino per USB anstecken, oben <b>„Arduino Uno“</b> und den Anschluss (Port) wählen. Beim ersten Mal fragt der Editor nach dem <b>Arduino Cloud Agent</b>, ein kleines Hilfsprogramm, das die Schule einmalig installiert.</li><li><b>✓ Überprüfen</b>, dann <b>→ Hochladen</b>. Messwerte zeigt der <b>Serial Monitor</b> (9600 Baud).</li></ol><p><b>Bibliotheken</b> wie <code>Adafruit_NeoPixel</code> (LED-Ring) und <code>DHT</code> (DHT22) sind im Cloud Editor schon vorhanden, du musst nichts installieren. <b>Sicherheit:</b> nur ohne Strom umstecken, jede LED mit Vorwiderstand, den LED-Ring mit <code>ring.setBrightness(40)</code> dimmen (USB liefert nur etwa 500 mA).</p><p><b>Tinkercad und Kurskiste</b> unterscheiden sich manchmal: Für den Wasserstandssensor nimmst du in Tinkercad den <i>Bodenfeuchtigkeitssensor</i>, für den DHT22 den <i>Temperatursensor TMP36</i>, für den TDS-Sensor ein <i>Potentiometer</i>. Den LED-Ring WS2812 gibt es in Tinkercad als <i>NeoPixel-Ring 12</i>.</p></section>
+  <section class="lp-sec"><h2>Aufgaben</h2><ul class="task-list"><li><b>Wähle</b> eine der neun Projektkarten unten (Aufgabe 1).</li><li><b>Plane</b> dein Projekt nach dem EVA-Prinzip: Was liest es ein, was entscheidet das Programm, was gibt es aus? <b>Lege</b> für jedes Bauteil den Pin fest. Pins 0 und 1 bleiben frei (Aufgabe 2).</li><li><b>Baue</b> und <b>programmiere</b> das Projekt in Tinkercad, lass Messwerte im Seriellen Monitor anzeigen und ergänze mindestens drei Kommentare (Aufgabe 3).</li><li><b>Übertrage</b> den Code mit dem Arduino Cloud Editor auf den echten Arduino (Anleitung oben, Aufgabe 4).</li><li><b>Sichere</b> Code und Foto/Video im Classroom (Leistungsnachweis unten) und <b>beschreibe</b>, was in Tinkercad anders war als am echten Arduino.</li></ul></section>
+  <section class="lp-sec"><h2>Wissens-Check</h2><div class="qz-wrap" data-qz><div class="qz-progress"><span class="qz-count">0 / 5 richtig</span><span class="qz-bar"><span class="qz-fill"></span></span></div><div class="qz-item"><div class="qz-text"><span class="qn">1.</span>Welcher Befehl liest einen Sensor, der viele Zwischenwerte liefert (z. B. Wasserstand)?</div><div class="qz-opts"><button class="qz-opt" data-hint="digitalRead kennt nur HIGH oder LOW.">digitalRead(2)</button><button class="qz-opt" data-correct="true">analogRead(A0)</button><button class="qz-opt" data-hint="digitalWrite schreibt, es liest nichts ein.">digitalWrite(A0, HIGH)</button><button class="qz-opt" data-hint="delay wartet nur.">delay(A0)</button></div><div class="qz-hint"></div><div class="qz-done">Richtig, analogRead liefert 0 bis 1023.</div></div><div class="qz-item"><div class="qz-text"><span class="qn">2.</span>Ein Taster hängt an Pin 2 mit <code>pinMode(2, INPUT_PULLUP)</code>. Was liefert <code>digitalRead(2)</code>, solange er gedrückt ist?</div><div class="qz-opts"><button class="qz-opt" data-hint="HIGH liefert der Pin, solange der Taster nicht gedrückt ist (Pull-up).">HIGH</button><button class="qz-opt" data-correct="true">LOW</button><button class="qz-opt" data-hint="Das wäre der größte Wert von analogRead.">1023</button><button class="qz-opt" data-hint="Der Arduino liest ganz normal einen Zustand.">nichts, der Arduino stürzt ab</button></div><div class="qz-hint"></div><div class="qz-done">Genau, der Taster verbindet Pin 2 mit GND.</div></div><div class="qz-item"><div class="qz-text"><span class="qn">3.</span>Warum lässt du am echten Arduino die Pins 0 und 1 frei?</div><div class="qz-opts"><button class="qz-opt" data-hint="Alle Digitalpins liefern 5 V.">Sie liefern nur 3,3 Volt.</button><button class="qz-opt" data-hint="Grundsätzlich könnten sie beides, aber sie sind schon belegt.">Sie sind nur für Sensoren gedacht.</button><button class="qz-opt" data-correct="true">Über sie spricht der Arduino per USB mit dem Computer (RX/TX), sonst stört es beim Hochladen.</button><button class="qz-opt" data-hint="In Tinkercad gibt es sie und dort funktionieren sie auch.">Sie gibt es in Tinkercad nicht.</button></div><div class="qz-hint"></div><div class="qz-done">Richtig, das sind RX und TX.</div></div><div class="qz-item"><div class="qz-text"><span class="qn">4.</span>Wozu dient <code>Serial.println(wert)</code>?</div><div class="qz-opts"><button class="qz-opt" data-correct="true">Der Messwert erscheint im Seriellen Monitor am Computer.</button><button class="qz-opt" data-hint="Mit LEDs hat Serial nichts zu tun.">Die LED blinkt so oft, wie der Wert angibt.</button><button class="qz-opt" data-hint="Der Wert wird nur angezeigt.">Der Wert wird dauerhaft im Arduino gespeichert.</button><button class="qz-opt" data-hint="Serial schickt nur Text an den Computer.">Der Sensor wird neu gestartet.</button></div><div class="qz-hint"></div><div class="qz-done">Stimmt, so siehst du, was der Arduino misst.</div></div><div class="qz-item"><div class="qz-text"><span class="qn">5.</span>Warum steht im Code für den LED-Ring <code>ring.setBrightness(40)</code>?</div><div class="qz-opts"><button class="qz-opt" data-hint="Die Farben bleiben gleich, nur dunkler.">Damit die Farben schöner werden.</button><button class="qz-opt" data-hint="Das Tempo bestimmen delay und das Potentiometer.">Damit der Ring schneller läuft.</button><button class="qz-opt" data-hint="In Tinkercad ginge es auch heller.">Weil Tinkercad sonst einen Fehler meldet.</button><button class="qz-opt" data-correct="true">Damit 12 helle LEDs nicht mehr Strom ziehen, als der USB-Anschluss liefern kann.</button></div><div class="qz-hint"></div><div class="qz-done">Richtig, 12 LEDs voll weiß brauchen etwa 720 mA.</div></div><div class="qz-solved">✔ Stark — Wissens-Check komplett gelöst!</div></div></section>
+  <section class="lp-sec"><h2>Werkzeuge</h2><div class="tool-list"><a class="tool" href="https://www.tinkercad.com/circuits" target="_blank" rel="noopener">Tinkercad Circuits <span class="ex">↗</span></a><a class="tool" href="https://app.arduino.cc/sketches" target="_blank" rel="noopener">Arduino Cloud Editor <span class="ex">↗</span></a></div></section>
+  <section class="lp-sec vertiefung"><h2>⚡ Vertiefung</h2><p>Wähle <b>ein</b> Projekt. ★ einfach: nur Ausgänge · ★★ mittel: Sensor oder Taster und eine Entscheidung · ★★★ knifflig: Bibliothek, Zeitmessung oder mehrere Sensoren. Jede Karte zeigt, welche Bauteile du in Tinkercad und in der Kurskiste nimmst.</p><div class="pk-grid"><details class="pk" style="--pk:#2e9e5b"><summary><span class="pk-id">E1</span> Lauflicht <span class="pk-st">★ einfach</span><span class="pk-an">💡 Licht &amp; Deko</span></summary><p>Vier farbige LEDs leuchten nacheinander auf und laufen wie eine Lichterkette hin und her.</p><div class="pk-2"><div><b>Tinkercad</b><ul><li>4 LEDs (blau, gelb, weiß, grün)</li><li>4 Widerstände 220 Ω</li></ul></div><div><b>Echter Arduino (Kurskiste)</b><ul><li>4 LEDs (blau, gelb, weiß, grün)</li><li>4 Widerstände 220 Ω</li><li>Jumperkabel</li></ul></div><div><b>Schaltung</b><ul><li>LEDs über je 220 Ω an Pin 2, 3, 4, 5</li><li>alle Kathoden (kurzes Bein) an GND</li></ul></div><div><b>Neu für dich</b><ul><li><code>digitalWrite(pin, HIGH/LOW)</code></li><li><code>delay(ms)</code></li></ul></div></div><b>So gehst du vor</b><ol><li><b>Baue</b> die vier LEDs nebeneinander auf die Steckplatine.</li><li><b>Programmiere</b> mit Blöcken: LED an, kurz warten, LED aus, nächste LED.</li><li><b>Ergänze</b> den Rückweg, sodass das Licht hin- und herläuft.</li></ol><b>Code-Baustein</b><pre><code>digitalWrite(2, HIGH); delay(150); digitalWrite(2, LOW);
+digitalWrite(3, HIGH); delay(150); digitalWrite(3, LOW);
+// ... Pin 4 und 5, dann zurück</code></pre><p><b>Erweiterung:</b> Schreibe den Hinweg mit einer for-Schleife (for (int pin = 2; pin &lt;= 5; pin++)) und baue ein zweites Muster ein, z. B. alle blinken gleichzeitig.</p></details><details class="pk" style="--pk:#2e9e5b"><summary><span class="pk-id">E2</span> SOS-Leuchtfeuer <span class="pk-st">★ einfach</span><span class="pk-an">🆘 Kommunikation &amp; Seenot</span></summary><p>Eine LED und ein Summer senden zusammen das Notsignal SOS im Morsecode: drei kurz, drei lang, drei kurz.</p><div class="pk-2"><div><b>Tinkercad</b><ul><li>1 LED (weiß)</li><li>1 Widerstand 220 Ω</li><li>Piezo</li></ul></div><div><b>Echter Arduino (Kurskiste)</b><ul><li>1 LED (weiß)</li><li>1 Widerstand 220 Ω</li><li>Buzzer</li><li>Jumperkabel</li></ul></div><div><b>Schaltung</b><ul><li>LED über 220 Ω an Pin 8</li><li>Piezo/Buzzer: + an Pin 9, − an GND</li></ul></div><div><b>Neu für dich</b><ul><li><code>tone(pin, frequenz) / noTone(pin)</code></li><li><code>eigene Funktion: void zeichen(int dauer)</code></li></ul></div></div><b>So gehst du vor</b><ol><li><b>Plane</b> die Zeiten: kurz = 200 ms, lang = 600 ms, Pause = 200 ms.</li><li><b>Programmiere</b> ein kurzes Zeichen: LED an, Ton an, warten, beides aus, Pause.</li><li><b>Setze</b> S, O, S zusammen und <b>teste</b>, ob man das Signal erkennt.</li></ol><b>Code-Baustein</b><pre><code>void zeichen(int dauer) {
+  digitalWrite(8, HIGH); tone(9, 880);
+  delay(dauer);
+  digitalWrite(8, LOW); noTone(9);
+  delay(200);
+}</code></pre><p><b>Erweiterung:</b> Morse deinen Vornamen. Eine Morsetabelle findest du unter „Morsecode“ in jedem Lexikon.</p></details><details class="pk" style="--pk:#2e9e5b"><summary><span class="pk-id">E3</span> Ampel mit Fußgängerampel <span class="pk-st">★ einfach</span><span class="pk-an">🚦 Verkehr</span></summary><p>Deine Ampel aus LP06 bekommt eine Fußgängerampel, die nur Grün zeigt, solange die Autos Rot haben.</p><div class="pk-2"><div><b>Tinkercad</b><ul><li>5 LEDs (2 × rot, gelb, 2 × grün)</li><li>5 Widerstände 220 Ω</li></ul></div><div><b>Echter Arduino (Kurskiste)</b><ul><li>5 LEDs</li><li>5 Widerstände 220 Ω</li><li>Jumperkabel</li></ul></div><div><b>Schaltung</b><ul><li>Autos: rot 13, gelb 12, grün 11</li><li>Fußgänger: rot 10, grün 9</li><li>alle Kathoden an GND</li></ul></div><div><b>Neu für dich</b><ul><li><code>mehrere digitalWrite je Phase</code></li><li><code>eigene Funktion setze(…) (Erweiterung)</code></li></ul></div></div><b>So gehst du vor</b><ol><li><b>Erweitere</b> deine Planungstabelle aus LP06 um zwei Spalten (Fußgänger rot/grün).</li><li><b>Plane</b> eine Räumzeit: Alle haben kurz Rot, bevor jemand Grün bekommt.</li><li><b>Programmiere</b> die Phasen in „für immer“ und <b>prüfe</b>, dass nie beide Grün haben.</li></ol><b>Code-Baustein</b><pre><code>// Phase: Fußgänger gehen
+digitalWrite(13, HIGH); digitalWrite(12, LOW); digitalWrite(11, LOW);
+digitalWrite(10, LOW);  digitalWrite(9, HIGH);
+delay(4000);</code></pre><p><b>Erweiterung:</b> Lass das Fußgänger-Grün vor dem Umschalten dreimal blinken.</p></details><details class="pk" style="--pk:#e0a100"><summary><span class="pk-id">M1</span> Bedarfsampel mit Taster <span class="pk-st">★★ mittel</span><span class="pk-an">🚦 Verkehr</span></summary><p>Die Autos haben Dauergrün. Erst wenn jemand den Taster drückt, schaltet die Ampel für Fußgänger:innen um.</p><div class="pk-2"><div><b>Tinkercad</b><ul><li>5 LEDs</li><li>5 Widerstände 220 Ω</li><li>Drucktaster</li></ul></div><div><b>Echter Arduino (Kurskiste)</b><ul><li>5 LEDs</li><li>5 Widerstände 220 Ω</li><li>Taster</li><li>Jumperkabel</li></ul></div><div><b>Schaltung</b><ul><li>Ampeln wie E3 (Pins 13 bis 9)</li><li>Taster: ein Bein an Pin 2, das gegenüberliegende an GND</li></ul></div><div><b>Neu für dich</b><ul><li><code>pinMode(2, INPUT_PULLUP): gedrückt = LOW</code></li><li><code>digitalRead(pin)</code></li><li><code>if (…) { … }</code></li></ul></div></div><b>So gehst du vor</b><ol><li><b>Baue</b> E3 auf und <b>ergänze</b> den Taster quer über den Mittelgraben.</li><li><b>Lies</b> den Taster mit digitalRead(2) und <b>prüfe</b> mit „falls … dann“.</li><li><b>Starte</b> den Umschaltablauf nur, wenn der Taster gedrückt ist.</li></ol><b>Code-Baustein</b><pre><code>pinMode(2, INPUT_PULLUP);   // in setup()
+
+if (digitalRead(2) == LOW) {  // Taster gedrückt
+  // Umschaltablauf
+}</code></pre><p><b>Erweiterung:</b> Zähle im Seriellen Monitor, wie oft gedrückt wurde (Variable + Serial.println).</p></details><details class="pk" style="--pk:#e0a100"><summary><span class="pk-id">M2</span> Füllstandswarner <span class="pk-st">★★ mittel</span><span class="pk-an">🌊 Umwelt &amp; Hochwasser</span></summary><p>Ein Sensor misst, wie hoch Wasser steht. Grün heißt trocken, Gelb heißt „steigt“, Blau und ein Ton heißen Alarm.</p><div class="pk-2"><div><b>Tinkercad</b><ul><li>Bodenfeuchtigkeitssensor (statt Wasserstandssensor)</li><li>3 LEDs (grün, gelb, blau)</li><li>3 Widerstände 220 Ω</li><li>Piezo</li></ul></div><div><b>Echter Arduino (Kurskiste)</b><ul><li>Wasserstandssensor (6 im Kurs)</li><li>3 LEDs</li><li>3 Widerstände 220 Ω</li><li>Buzzer</li><li>Becher mit Wasser</li></ul></div><div><b>Schaltung</b><ul><li>Sensor: S an A0, + an 5V, − an GND</li><li>LEDs: grün 11, gelb 12, blau 13</li><li>Buzzer an Pin 9</li></ul></div><div><b>Neu für dich</b><ul><li><code>analogRead(A0): Wert von 0 bis 1023</code></li><li><code>Serial.begin(9600) / Serial.println(wert)</code></li><li><code>if … else if … else</code></li></ul></div></div><b>So gehst du vor</b><ol><li><b>Lies</b> den Sensor mit analogRead(A0) und <b>gib</b> den Wert im Seriellen Monitor aus.</li><li><b>Miss</b> die Werte für trocken, halb und voll und <b>lege</b> zwei Grenzwerte fest.</li><li><b>Programmiere</b> mit falls … sonst falls … sonst die passende LED.</li></ol><b>Code-Baustein</b><pre><code>int wert = analogRead(A0);
+Serial.println(wert);
+if (wert &lt; 100) { /* grün */ }
+else if (wert &lt; 350) { /* gelb */ }
+else { /* blau + Ton */ }</code></pre><p><b>Erweiterung:</b> Am echten Sensor nur den unteren Teil mit den Streifen eintauchen. Profi: den Sensor über einen Digitalpin nur beim Messen mit Strom versorgen, dann rostet er langsamer.</p></details><details class="pk" style="--pk:#e0a100"><summary><span class="pk-id">M3</span> Klimawächter fürs Klassenzimmer <span class="pk-st">★★ mittel</span><span class="pk-an">🌡️ Gesundheit &amp; Klima</span></summary><p>Die Station misst die Raumtemperatur und zeigt mit LEDs: zu kalt (blau), angenehm (grün), zu warm (gelb).</p><div class="pk-2"><div><b>Tinkercad</b><ul><li>Temperatursensor TMP36</li><li>3 LEDs (blau, grün, gelb)</li><li>3 Widerstände 220 Ω</li></ul></div><div><b>Echter Arduino (Kurskiste)</b><ul><li>DHT22 Temperatur- und Feuchtesensor (11 im Kurs)</li><li>4 LEDs (blau, grün, gelb, weiß)</li><li>4 Widerstände 220 Ω</li></ul></div><div><b>Schaltung</b><ul><li>Tinkercad: TMP36 Mitte an A0, links 5V, rechts GND</li><li>echt: DHT22 + an 5V, out an Pin 2, − an GND</li><li>LEDs: gelb 10, grün 11, blau 12 (weiß 9: lüften)</li></ul></div><div><b>Neu für dich</b><ul><li><code>float (Kommazahlen)</code></li><li><code>Umrechnung Spannung → °C</code></li><li><code>Bibliothek einbinden: #include &lt;DHT.h&gt;</code></li></ul></div></div><b>So gehst du vor</b><ol><li><b>Baue</b> die Tinkercad-Version mit TMP36 und <b>lass</b> die Temperatur im Seriellen Monitor anzeigen.</li><li><b>Programmiere</b> die drei Bereiche unter 20 °C, 20 bis 24 °C, über 24 °C.</li><li><b>Übertrage</b> es auf den DHT22 (andere Code-Version, Bibliothek „DHT sensor library“).</li></ol><b>Code-Baustein</b><pre><code>// Tinkercad (TMP36)
+float spannung = analogRead(A0) * 5.0 / 1024.0;
+float temperatur = (spannung - 0.5) * 100.0;
+
+// echt (DHT22)
+float temperatur = dht.readTemperature();</code></pre><p><b>Erweiterung:</b> Echte Version: Die weiße LED leuchtet, wenn die Luftfeuchte über 60 % liegt (Zeit zum Lüften).</p></details><details class="pk" style="--pk:#d0342c"><summary><span class="pk-id">K1</span> Lichtring mit Drehregler <span class="pk-st">★★★ knifflig</span><span class="pk-an">🌈 Licht &amp; Design</span></summary><p>Ein Ring aus 12 Farb-LEDs zeigt einen Regenbogen-Schweif, der im Kreis läuft. Ein Drehregler bestimmt das Tempo.</p><div class="pk-2"><div><b>Tinkercad</b><ul><li>NeoPixel-Ring 12</li><li>Potentiometer</li></ul></div><div><b>Echter Arduino (Kurskiste)</b><ul><li>LED-Ring WS2812 mit 12 LEDs (3 im Kurs)</li><li>Widerstand 330 Ω (Datenleitung)</li><li>Potentiometer</li><li>Jumperkabel</li></ul></div><div><b>Schaltung</b><ul><li>Ring: IN/DI an Pin 6 (echt über 330 Ω), 5V an 5V, GND an GND</li><li>Potentiometer: Mitte an A0, außen 5V und GND</li></ul></div><div><b>Neu für dich</b><ul><li><code>#include &lt;Adafruit_NeoPixel.h&gt;</code></li><li><code>ring.setPixelColor(nr, ring.Color(r, g, b)); ring.show();</code></li><li><code>map(wert, 0, 1023, 30, 300)</code></li><li><code>Modulo %</code></li></ul></div></div><b>So gehst du vor</b><ol><li><b>Wechsle</b> in Tinkercad auf die Ansicht „Text“ und <b>binde</b> die Bibliothek Adafruit_NeoPixel ein.</li><li><b>Färbe</b> zuerst eine einzelne LED, dann alle zwölf nacheinander (for-Schleife).</li><li><b>Lies</b> das Potentiometer und <b>rechne</b> den Wert mit map() in eine Wartezeit um.</li></ol><b>Code-Baustein</b><pre><code>#include &lt;Adafruit_NeoPixel.h&gt;
+Adafruit_NeoPixel ring(12, 6, NEO_GRB + NEO_KHZ800);
+
+void setup() { ring.begin(); ring.setBrightness(40); }
+void loop() {
+  ring.setPixelColor(0, ring.Color(255, 0, 0));  // LED 0 rot
+  ring.show();
+}</code></pre><p><b>Erweiterung:</b> Baue einen zweiten Modus (z. B. alle LEDs pulsieren), den ein Taster umschaltet.</p></details><details class="pk" style="--pk:#d0342c"><summary><span class="pk-id">K2</span> Reaktionsspiel <span class="pk-st">★★★ knifflig</span><span class="pk-an">🎮 Spiel &amp; Sport</span></summary><p>Nach einer zufälligen Wartezeit geht die LED an. Wer schnell drückt, sieht seine Reaktionszeit in Millisekunden. Wer zu früh drückt, fliegt raus.</p><div class="pk-2"><div><b>Tinkercad</b><ul><li>1 LED (grün)</li><li>1 Widerstand 220 Ω</li><li>Drucktaster</li><li>Piezo</li></ul></div><div><b>Echter Arduino (Kurskiste)</b><ul><li>1 LED</li><li>1 Widerstand 220 Ω</li><li>Taster</li><li>Buzzer</li><li>Jumperkabel</li></ul></div><div><b>Schaltung</b><ul><li>LED über 220 Ω an Pin 8</li><li>Taster zwischen Pin 2 und GND</li><li>Piezo/Buzzer an Pin 9</li></ul></div><div><b>Neu für dich</b><ul><li><code>random(min, max)</code></li><li><code>millis(): Millisekunden seit dem Start</code></li><li><code>while-Schleife</code></li><li><code>Variable für den Rekord</code></li></ul></div></div><b>So gehst du vor</b><ol><li><b>Programmiere</b> eine Zufallswartezeit mit random(2000, 5000).</li><li><b>Miss</b> die Zeit mit millis() vom Aufleuchten bis zum Tastendruck.</li><li><b>Ergänze</b> den Mogelschutz und einen Rekord, der sich die beste Zeit merkt.</li></ol><b>Code-Baustein</b><pre><code>digitalWrite(8, HIGH);
+unsigned long start = millis();
+while (digitalRead(2) == HIGH) { }   // warten auf Druck
+unsigned long zeit = millis() - start;
+Serial.println(zeit);</code></pre><p><b>Erweiterung:</b> Zwei Spieler:innen mit zwei Tastern: Wer zuerst drückt, gewinnt die Runde.</p></details><details class="pk" style="--pk:#d0342c"><summary><span class="pk-id">K3</span> Umweltstation mit Lichtring <span class="pk-st">★★★ knifflig</span><span class="pk-an">🔬 Umwelt &amp; Chemie</span></summary><p>Der Lichtring wird zum Thermometer: Je wärmer, desto mehr LEDs leuchten, die Farbe zeigt kalt, angenehm oder warm. Bonus: ein TDS-Sensor misst gelöste Stoffe im Wasser.</p><div class="pk-2"><div><b>Tinkercad</b><ul><li>Temperatursensor TMP36</li><li>NeoPixel-Ring 12</li><li>Potentiometer (Platzhalter für den TDS-Sensor)</li></ul></div><div><b>Echter Arduino (Kurskiste)</b><ul><li>DHT22</li><li>LED-Ring WS2812 (12 LEDs)</li><li>Widerstand 330 Ω</li><li>Bonus: TDS-Sensor CQRobot (4 im Kurs)</li><li>Wasserproben</li></ul></div><div><b>Schaltung</b><ul><li>Tinkercad: TMP36 an A0, Ring an Pin 6, Potentiometer an A1</li><li>echt: DHT22 out an Pin 2, Ring DI über 330 Ω an Pin 6</li><li>TDS-Platine: A an A1, + an 5V, − an GND</li></ul></div><div><b>Neu für dich</b><ul><li><code>map() und constrain()</code></li><li><code>eigene Funktion zeigeTemperatur(float t)</code></li><li><code>zwei Bibliotheken gleichzeitig</code></li></ul></div></div><b>So gehst du vor</b><ol><li><b>Baue</b> M3 (Temperatur messen) und K1 (Ring ansteuern) zusammen.</li><li><b>Rechne</b> die Temperatur 15 bis 30 °C mit map() in 1 bis 12 LEDs um.</li><li><b>Wähle</b> die Farbe mit falls … sonst und <b>teste</b> am echten Arduino mit dem DHT22.</li><li>Bonus: <b>Vergleiche</b> Leitungswasser, Mineralwasser und destilliertes Wasser mit dem TDS-Sensor.</li></ol><b>Code-Baustein</b><pre><code>int an = map((int)(t * 10), 150, 300, 1, 12);
+an = constrain(an, 1, 12);
+for (int i = 0; i &lt; 12; i++) {
+  ring.setPixelColor(i, i &lt; an ? farbe : 0);
+}
+ring.show();</code></pre><p><b>Erweiterung:</b> Zeige abwechselnd Temperatur und Luftfeuchte auf dem Ring (z. B. Feuchte in Weiß).</p></details></div><style>.vertiefung h3{font-size:1rem;margin:1.1rem 0 .4rem;color:var(--key)}.pk-grid{display:grid;gap:.7rem}.pk{border:1px solid var(--line);border-left:6px solid var(--pk);border-radius:12px;background:var(--panel-2);padding:.2rem .9rem}.pk summary{cursor:pointer;font-weight:700;padding:.55rem 0;display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline}.pk-id{color:var(--pk)}.pk-st{font-size:.8rem;color:var(--pk);font-weight:700}.pk-an{margin-left:auto;font-weight:400;font-size:.85rem;color:var(--ink-soft)}.pk-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.3rem 1rem;font-size:.92rem}.pk ul,.pk ol{margin:.2rem 0 .6rem;padding-left:1.2rem}.pk pre{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:.6rem;overflow:auto;font-size:.82rem}</style></section>
+  <section class="lp-sec"><div class="backup-box"><span class="bb-t">💾 Leistungsnachweis · Ergebnissicherung</span>Gib im <b>Google Classroom</b> zwei Dateien ab: deinen <b>Code</b> (.ino, .txt oder Google-Dokument) und ein <b>Foto oder kurzes Video</b> deines Aufbaus (echt oder Tinkercad-Screenshot). Dateiname z. B. „07 M2 Füllstandswarner Lena“. Bewertet wird (je 20 %): Dateiname mit Projekt und Vorname, Code als Text, mindestens drei sinnvolle Kommentare, Grundfunktion der Karte erfüllt, Nachweis per Foto/Video.</div></section>
+  <section class="sol" id="loesung" data-unlock="2026-11-03"><h2>Musterlösung <span class="sol-status">…</span></h2><p class="sol-countdown"></p><div class="sol-body" hidden><ul class="sol-list"><li>Aufgabe 2 (Beispiel M2 Füllstandswarner): Eingabe = Wasserstandssensor an A0 (0 bis 1023) · Verarbeitung = wenn Wert &lt; 100 Grün, sonst wenn &lt; 350 Gelb, sonst Blau + Ton, Wert im Seriellen Monitor · Ausgabe = LEDs 11/12/13, Buzzer 9.</li><li><details><summary><b>E1 Lauflicht</b> · E1-lauflicht.ino</summary><pre style="overflow:auto;font-size:.8rem"><code>// E1 Lauflicht (Lichterkette) · Tinkercad und echter Arduino
+// 4 LEDs (blau, gelb, weiß, grün) je mit 220-Ω-Widerstand an Pin 2, 3, 4, 5; Kathoden an GND.
+
+void setup() {
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(5, OUTPUT);
+}
+
+void loop() {
+  // Hinweg: jede LED kurz an, dann wieder aus
+  digitalWrite(2, HIGH); delay(150); digitalWrite(2, LOW);
+  digitalWrite(3, HIGH); delay(150); digitalWrite(3, LOW);
+  digitalWrite(4, HIGH); delay(150); digitalWrite(4, LOW);
+  digitalWrite(5, HIGH); delay(150); digitalWrite(5, LOW);
+  // Rückweg (wie beim Auto „K.I.T.T.“)
+  digitalWrite(4, HIGH); delay(150); digitalWrite(4, LOW);
+  digitalWrite(3, HIGH); delay(150); digitalWrite(3, LOW);
+}
+
+// Erweiterung: dieselbe Bewegung mit einer for-Schleife
+// for (int pin = 2; pin &lt;= 5; pin++) { digitalWrite(pin, HIGH); delay(150); digitalWrite(pin, LOW); }
+</code></pre></details></li><li><details><summary><b>E2 SOS-Leuchtfeuer</b> · E2-sos-leuchtfeuer.ino</summary><pre style="overflow:auto;font-size:.8rem"><code>// E2 SOS-Leuchtfeuer · Tinkercad und echter Arduino
+// LED (weiß) mit 220 Ω an Pin 8, Piezo/Buzzer an Pin 9 und GND.
+// Morse: kurz = 1 Einheit, lang = 3 Einheiten, Pause zwischen Buchstaben = 3 Einheiten.
+
+const int LED = 8;
+const int TON = 9;
+const int EINHEIT = 200;   // Millisekunden
+
+void zeichen(int dauer) {
+  digitalWrite(LED, HIGH);
+  tone(TON, 880);          // Ton mit 880 Hz
+  delay(dauer);
+  digitalWrite(LED, LOW);
+  noTone(TON);
+  delay(EINHEIT);          // kurze Pause nach jedem Zeichen
+}
+
+void setup() {
+  pinMode(LED, OUTPUT);
+}
+
+void loop() {
+  zeichen(EINHEIT); zeichen(EINHEIT); zeichen(EINHEIT);              // S  · · ·
+  delay(2 * EINHEIT);
+  zeichen(3 * EINHEIT); zeichen(3 * EINHEIT); zeichen(3 * EINHEIT);  // O  − − −
+  delay(2 * EINHEIT);
+  zeichen(EINHEIT); zeichen(EINHEIT); zeichen(EINHEIT);              // S  · · ·
+  delay(7 * EINHEIT);      // Pause vor der Wiederholung
+}
+</code></pre></details></li><li><details><summary><b>E3 Ampel mit Fußgängerampel</b> · E3-fussgaengerampel.ino</summary><pre style="overflow:auto;font-size:.8rem"><code>// E3 Ampel mit Fußgängerampel · Tinkercad und echter Arduino
+// Autoampel: rot 13, gelb 12, grün 11 · Fußgängerampel: rot 10, grün 9 · je 220 Ω, Kathoden an GND.
+
+void setze(int rot, int gelb, int gruen, int fRot, int fGruen, int ms) {
+  digitalWrite(13, rot);
+  digitalWrite(12, gelb);
+  digitalWrite(11, gruen);
+  digitalWrite(10, fRot);
+  digitalWrite(9, fGruen);
+  delay(ms);
+}
+
+void setup() {
+  for (int pin = 9; pin &lt;= 13; pin++) pinMode(pin, OUTPUT);
+}
+
+void loop() {
+  //    rot   gelb  grün  F-rot F-grün  Dauer
+  setze(LOW,  LOW,  HIGH, HIGH, LOW,   5000);  // Autos fahren
+  setze(LOW,  HIGH, LOW,  HIGH, LOW,   1000);  // Gelb
+  setze(HIGH, LOW,  LOW,  HIGH, LOW,   1000);  // Räumzeit: alle Rot
+  setze(HIGH, LOW,  LOW,  LOW,  HIGH,  4000);  // Fußgänger gehen
+  setze(HIGH, LOW,  LOW,  HIGH, LOW,   1000);  // Räumzeit
+  setze(HIGH, HIGH, LOW,  HIGH, LOW,   1000);  // Rot-Gelb
+}
+</code></pre></details></li><li><details><summary><b>M1 Bedarfsampel mit Taster</b> · M1-bedarfsampel.ino</summary><pre style="overflow:auto;font-size:.8rem"><code>// M1 Bedarfsampel mit Taster · Tinkercad und echter Arduino
+// Autoampel rot 13, gelb 12, grün 11 · Fußgänger rot 10, grün 9 (je 220 Ω)
+// Taster: ein Bein an Pin 2, das gegenüberliegende an GND (INPUT_PULLUP: gedrückt = LOW).
+
+const int TASTER = 2;
+
+void setze(int rot, int gelb, int gruen, int fRot, int fGruen, int ms) {
+  digitalWrite(13, rot); digitalWrite(12, gelb); digitalWrite(11, gruen);
+  digitalWrite(10, fRot); digitalWrite(9, fGruen);
+  delay(ms);
+}
+
+void setup() {
+  for (int pin = 9; pin &lt;= 13; pin++) pinMode(pin, OUTPUT);
+  pinMode(TASTER, INPUT_PULLUP);
+}
+
+void loop() {
+  setze(LOW, LOW, HIGH, HIGH, LOW, 0);       // Grundzustand: Autos grün, Fußgänger rot
+  if (digitalRead(TASTER) == LOW) {          // jemand drückt
+    delay(2000);                             // kurze Wartezeit wie an einer echten Ampel
+    setze(LOW,  HIGH, LOW, HIGH, LOW,  1000); // Gelb
+    setze(HIGH, LOW,  LOW, HIGH, LOW,  1000); // alle Rot
+    setze(HIGH, LOW,  LOW, LOW,  HIGH, 5000); // Fußgänger grün
+    setze(HIGH, LOW,  LOW, HIGH, LOW,  1000); // Räumzeit
+    setze(HIGH, HIGH, LOW, HIGH, LOW,  1000); // Rot-Gelb
+  }
+}
+</code></pre></details></li><li><details><summary><b>M2 Füllstandswarner</b> · M2-fuellstandswarner.ino</summary><pre style="overflow:auto;font-size:.8rem"><code>// M2 Füllstandswarner (Hochwasser-Alarm) · Tinkercad und echter Arduino
+// Tinkercad: Bodenfeuchtigkeitssensor · echt: Wasserstandssensor (S an A0, + an 5V, − an GND)
+// LEDs mit 220 Ω: grün 11, gelb 12, blau 13 (Alarm); Buzzer/Piezo an Pin 9.
+// Die Grenzwerte 100 und 350 sind Startwerte: im Seriellen Monitor messen und anpassen!
+
+const int SENSOR = A0;
+
+void setup() {
+  pinMode(11, OUTPUT);
+  pinMode(12, OUTPUT);
+  pinMode(13, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int wert = analogRead(SENSOR);     // 0 (trocken) bis 1023
+  Serial.print(&quot;Wasserstand: &quot;);
+  Serial.println(wert);
+
+  digitalWrite(11, LOW); digitalWrite(12, LOW); digitalWrite(13, LOW);
+  noTone(9);
+  if (wert &lt; 100) {
+    digitalWrite(11, HIGH);          // trocken bis niedrig
+  } else if (wert &lt; 350) {
+    digitalWrite(12, HIGH);          // Wasser steigt
+  } else {
+    digitalWrite(13, HIGH);          // Alarm
+    tone(9, 1000);
+  }
+  delay(500);
+}
+</code></pre></details></li><li><details><summary><b>M3 Klimawächter fürs Klassenzimmer</b> · M3-klimawaechter-tinkercad.ino</summary><pre style="overflow:auto;font-size:.8rem"><code>// M3 Klimawächter fürs Klassenzimmer · Version für TINKERCAD (Temperatursensor TMP36)
+// TMP36: linkes Bein 5V, Mitte an A0, rechtes Bein GND (flache Seite zu dir).
+// LEDs mit 220 Ω: blau 12 (zu kalt), grün 11 (angenehm), gelb 10 (zu warm).
+
+void setup() {
+  pinMode(10, OUTPUT);
+  pinMode(11, OUTPUT);
+  pinMode(12, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  float spannung = analogRead(A0) * 5.0 / 1024.0;   // Messwert in Volt
+  float temperatur = (spannung - 0.5) * 100.0;      // TMP36: 0,5 V = 0 °C, 10 mV pro °C
+  Serial.print(&quot;Temperatur: &quot;);
+  Serial.print(temperatur);
+  Serial.println(&quot; °C&quot;);
+
+  digitalWrite(10, LOW); digitalWrite(11, LOW); digitalWrite(12, LOW);
+  if (temperatur &lt; 20) {
+    digitalWrite(12, HIGH);
+  } else if (temperatur &lt;= 24) {
+    digitalWrite(11, HIGH);
+  } else {
+    digitalWrite(10, HIGH);
+  }
+  delay(1000);
+}
+</code></pre></details></li><li><details><summary><b>M3 Klimawächter fürs Klassenzimmer</b> · M3-klimawaechter-echt-dht22.ino</summary><pre style="overflow:auto;font-size:.8rem"><code>// M3 Klimawächter fürs Klassenzimmer · Version für den ECHTEN Arduino mit DHT22
+// Bibliothek: „DHT sensor library“ (Adafruit), im Cloud Editor schon vorhanden.
+// DHT22-Modul: + an 5V, out an Pin 2, − an GND. (Sensor ohne Platine: Pin 1 5V, Pin 2 Daten + 10 kΩ nach 5V, Pin 4 GND)
+// LEDs mit 220 Ω: blau 12 (zu kalt), grün 11 (angenehm), gelb 10 (zu warm), weiß 9 (Luft zu feucht: lüften!)
+#include &lt;DHT.h&gt;
+
+DHT dht(2, DHT22);
+
+void setup() {
+  for (int pin = 9; pin &lt;= 12; pin++) pinMode(pin, OUTPUT);
+  Serial.begin(9600);
+  dht.begin();
+}
+
+void loop() {
+  delay(2000);                              // der DHT22 misst höchstens alle 2 Sekunden
+  float temperatur = dht.readTemperature();
+  float feuchte = dht.readHumidity();
+  if (isnan(temperatur) || isnan(feuchte)) {
+    Serial.println(&quot;Sensorfehler: Kabel prüfen&quot;);
+    return;
+  }
+  Serial.print(&quot;Temperatur: &quot;); Serial.print(temperatur); Serial.print(&quot; °C   &quot;);
+  Serial.print(&quot;Luftfeuchte: &quot;); Serial.print(feuchte); Serial.println(&quot; %&quot;);
+
+  digitalWrite(10, LOW); digitalWrite(11, LOW); digitalWrite(12, LOW);
+  if (temperatur &lt; 20) {
+    digitalWrite(12, HIGH);
+  } else if (temperatur &lt;= 24) {
+    digitalWrite(11, HIGH);
+  } else {
+    digitalWrite(10, HIGH);
+  }
+  digitalWrite(9, feuchte &gt; 60 ? HIGH : LOW);
+}
+</code></pre></details></li><li><details><summary><b>K1 Lichtring mit Drehregler</b> · K1-lichtring.ino</summary><pre style="overflow:auto;font-size:.8rem"><code>// K1 Lichtring mit Drehregler · Tinkercad (NeoPixel-Ring 12) und echter Arduino (WS2812-Ring, 12 LEDs)
+// Ring: DI/IN an Pin 6 (echt: über 330 Ω), 5V an 5V, GND an GND. Potentiometer: Mitte an A0, außen 5V und GND.
+// Bibliothek: „Adafruit NeoPixel“ (in Tinkercad und im Cloud Editor vorhanden).
+#include &lt;Adafruit_NeoPixel.h&gt;
+
+const int ANZAHL = 12;
+Adafruit_NeoPixel ring(ANZAHL, 6, NEO_GRB + NEO_KHZ800);
+
+// Farbrad: 0..255 → Regenbogenfarbe (aus dem Adafruit-Beispiel „strandtest“)
+uint32_t farbrad(byte pos) {
+  pos = 255 - pos;
+  if (pos &lt; 85) return ring.Color(255 - pos * 3, 0, pos * 3);
+  if (pos &lt; 170) { pos -= 85; return ring.Color(0, pos * 3, 255 - pos * 3); }
+  pos -= 170;
+  return ring.Color(pos * 3, 255 - pos * 3, 0);
+}
+
+int start = 0;
+
+void setup() {
+  ring.begin();
+  ring.setBrightness(40);   // WICHTIG am echten Ring: USB liefert nur ca. 500 mA
+}
+
+void loop() {
+  int poti = analogRead(A0);                 // 0..1023
+  int tempo = map(poti, 0, 1023, 30, 300);   // Wartezeit in ms
+  for (int i = 0; i &lt; ANZAHL; i++) {
+    ring.setPixelColor(i, 0);                // alle aus
+  }
+  for (int k = 0; k &lt; 4; k++) {              // Schweif aus 4 LEDs mit Regenbogenfarben
+    int pos = (start + k) % ANZAHL;
+    ring.setPixelColor(pos, farbrad((pos * 256 / ANZAHL) &amp; 255));
+  }
+  ring.show();
+  start = (start + 1) % ANZAHL;
+  delay(tempo);
+}
+</code></pre></details></li><li><details><summary><b>K2 Reaktionsspiel</b> · K2-reaktionsspiel.ino</summary><pre style="overflow:auto;font-size:.8rem"><code>// K2 Reaktionsspiel · Tinkercad und echter Arduino
+// LED (grün) mit 220 Ω an Pin 8, Taster zwischen Pin 2 und GND, Piezo/Buzzer an Pin 9.
+// Ergebnisse im Seriellen Monitor (9600 Baud).
+
+const int LED = 8, TASTER = 2, TON = 9;
+unsigned long rekord = 0;    // 0 = noch kein Rekord
+
+void setup() {
+  pinMode(LED, OUTPUT);
+  pinMode(TASTER, INPUT_PULLUP);
+  Serial.begin(9600);
+  randomSeed(analogRead(A5)); // offener Pin liefert Zufallsrauschen
+}
+
+void loop() {
+  Serial.println(&quot;Mach dich bereit ...&quot;);
+  while (digitalRead(TASTER) == LOW) {}      // warten, bis der Taster losgelassen ist
+  unsigned long ziel = millis() + random(2000, 5000);
+  while (millis() &lt; ziel) {
+    if (digitalRead(TASTER) == LOW) {        // Mogelschutz
+      Serial.println(&quot;Zu früh gedrückt!&quot;);
+      tone(TON, 200, 400);
+      delay(1500);
+      return;                                // neue Runde
+    }
+  }
+  digitalWrite(LED, HIGH);
+  tone(TON, 1000, 100);
+  unsigned long start = millis();
+  while (digitalRead(TASTER) == HIGH) {}     // warten auf den Druck
+  unsigned long zeit = millis() - start;
+  digitalWrite(LED, LOW);
+
+  Serial.print(&quot;Reaktionszeit: &quot;);
+  Serial.print(zeit);
+  Serial.println(&quot; ms&quot;);
+  if (rekord == 0 || zeit &lt; rekord) {
+    rekord = zeit;
+    Serial.println(&quot;Neuer Rekord!&quot;);
+    tone(TON, 1500, 300);
+  }
+  delay(2000);
+}
+</code></pre></details></li><li><details><summary><b>K3 Umweltstation mit Lichtring</b> · K3-umweltstation-tinkercad.ino</summary><pre style="overflow:auto;font-size:.8rem"><code>// K3 Umweltstation: Temperatur auf dem Lichtring · Version für TINKERCAD
+// TMP36 an A0 (wie M3), NeoPixel-Ring 12 an Pin 6, Potentiometer an A1 als Ersatz für den TDS-Sensor.
+#include &lt;Adafruit_NeoPixel.h&gt;
+
+Adafruit_NeoPixel ring(12, 6, NEO_GRB + NEO_KHZ800);
+
+void zeigeTemperatur(float t) {
+  // 15 °C → 1 LED, 30 °C → 12 LEDs
+  int an = map((int)(t * 10), 150, 300, 1, 12);
+  an = constrain(an, 1, 12);
+  uint32_t farbe;
+  if (t &lt; 20)       farbe = ring.Color(0, 0, 255);    // kalt: blau
+  else if (t &lt;= 24) farbe = ring.Color(0, 255, 0);    // angenehm: grün
+  else              farbe = ring.Color(255, 0, 0);    // warm: rot
+  for (int i = 0; i &lt; 12; i++) {
+    ring.setPixelColor(i, i &lt; an ? farbe : 0);
+  }
+  ring.show();
+}
+
+void setup() {
+  ring.begin();
+  ring.setBrightness(40);
+  Serial.begin(9600);
+}
+
+void loop() {
+  float t = (analogRead(A0) * 5.0 / 1024.0 - 0.5) * 100.0;
+  int wasser = analogRead(A1);             // Platzhalter für den TDS-Sensor
+  Serial.print(&quot;Temperatur: &quot;); Serial.print(t); Serial.print(&quot; °C   Wasserwert: &quot;); Serial.println(wasser);
+  zeigeTemperatur(t);
+  delay(1000);
+}
+</code></pre></details></li><li><details><summary><b>K3 Umweltstation mit Lichtring</b> · K3-umweltstation-echt.ino</summary><pre style="overflow:auto;font-size:.8rem"><code>// K3 Umweltstation: Temperatur auf dem Lichtring · Version für den ECHTEN Arduino
+// DHT22 an Pin 2 (wie M3), WS2812-Ring (12 LEDs) DI über 330 Ω an Pin 6, 5V, GND.
+// Bonus: TDS-Sensor (CQRobot) A an A1, + an 5V, − an GND: misst gelöste Stoffe im Wasser in ppm.
+// Bibliotheken: „Adafruit NeoPixel“, „DHT sensor library“.
+#include &lt;Adafruit_NeoPixel.h&gt;
+#include &lt;DHT.h&gt;
+
+Adafruit_NeoPixel ring(12, 6, NEO_GRB + NEO_KHZ800);
+DHT dht(2, DHT22);
+
+void zeigeTemperatur(float t) {
+  int an = map((int)(t * 10), 150, 300, 1, 12);
+  an = constrain(an, 1, 12);
+  uint32_t farbe;
+  if (t &lt; 20)       farbe = ring.Color(0, 0, 255);
+  else if (t &lt;= 24) farbe = ring.Color(0, 255, 0);
+  else              farbe = ring.Color(255, 0, 0);
+  for (int i = 0; i &lt; 12; i++) {
+    ring.setPixelColor(i, i &lt; an ? farbe : 0);
+  }
+  ring.show();
+}
+
+float tdsMessen(float temperatur) {
+  float u = analogRead(A1) * 5.0 / 1024.0;                // Spannung in V
+  float u25 = u / (1.0 + 0.02 * (temperatur - 25.0));     // auf 25 °C umrechnen
+  return (133.42 * u25 * u25 * u25 - 255.86 * u25 * u25 + 857.39 * u25) * 0.5;  // Formel des Herstellers
+}
+
+void setup() {
+  ring.begin();
+  ring.setBrightness(40);   // USB liefert nur ca. 500 mA
+  Serial.begin(9600);
+  dht.begin();
+}
+
+void loop() {
+  delay(2000);
+  float t = dht.readTemperature();
+  float h = dht.readHumidity();
+  if (isnan(t)) {
+    Serial.println(&quot;Sensorfehler: DHT22-Kabel prüfen&quot;);
+    return;
+  }
+  Serial.print(&quot;Temperatur: &quot;); Serial.print(t); Serial.print(&quot; °C   Luftfeuchte: &quot;); Serial.print(h);
+  Serial.print(&quot; %   TDS: &quot;); Serial.print(tdsMessen(t)); Serial.println(&quot; ppm&quot;);
+  zeigeTemperatur(t);
+}
+</code></pre></details></li></ul></div><p class="sol-hint">Die Lösung wird automatisch zum angegebenen Datum sichtbar — die Seite prüft das bei jedem Laden.</p></section>
   <a class="back" href="../../../index.html#hj1-content" style="margin-top:1.6rem">← zurück zur Kursübersicht</a>
 </div>
 <script>
