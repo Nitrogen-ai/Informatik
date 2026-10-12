@@ -985,26 +985,26 @@ UNITS = [
                             dict(fig="foto-aufbau-echt.jpg", cap="Abgleich · So sieht der Aufbau am echten Arduino aus")]),
         dict(no=6, sjw=6, kind="lernpfad", title="Arduino: Einführung in Tinkercad (die Ampel)",
              goal="Du planst eine Ampelschaltung mit Arduino, LEDs und Widerständen, konstruierst sie digital in Tinkercad und programmierst den Ampelzyklus mit Codeblöcken, die Tinkercad in C++ übersetzt.",
-             # Quelle Arbeits-/Lösungsblatt: <Lektion>/Tutory/Typst/06 Arduino - Einführung in Tinkercad – Vorlage.typ
+             # Quelle Arbeits-/Lösungsblatt: <Lektion>/Tutory/Typst/06 Arduino - Einführung in Tinkercad – Vorlage.typ (2 S. + Vertiefungsseite)
              # (gestrafft aus dem Arbeitsblatt des Praxissemesterstudenten), Bilder: plickers/fig1.png, fig2.png
              material=(
                "<p><b>Vom Stecken zum Programmieren.</b> In LP05 hat deine LED direkt an 5V und GND geleuchtet, also immer. Steckt sie stattdessen an einem <b>Digitalpin</b> (0–13), kann ein Programm sie schalten: <b>HOCH</b> (engl. <code>HIGH</code>) legt 5 V an, die LED leuchtet, <b>NIEDRIG</b> (<code>LOW</code>) legt 0 V an, sie ist aus. Jede LED braucht weiterhin ihren eigenen 220-Ω-Vorwiderstand, die kurzen Beinchen (Kathoden) führen zu GND.</p>"
                "<p><b>Tinkercad Circuits</b> ist ein kostenloser Simulator im Browser. Du ziehst Arduino, Steckbrett, LEDs und Widerstände aus der Komponenten-Bibliothek auf die Arbeitsfläche, verbindest sie mit Kabeln und startest die Simulation. Nichts kann kaputtgehen, und du siehst sofort, ob dein Programm funktioniert.</p>"
                "<p><b>Codeblöcke und C++.</b> Programmiert wird mit Blöcken, die an Scratch erinnern. Tinkercad übersetzt sie automatisch in die Sprache C++, die der echte Arduino versteht (Ansicht „Text“). Der Block „für immer“ heißt in C++ <code>void loop()</code> und wird endlos wiederholt, „Anschluss 13 auf HOCH einstellen“ wird zu <code>digitalWrite(13, HIGH);</code> und „3 Sekunden warten“ zu <code>delay(3000);</code>.</p>"
                "<p><b>Der Ampelzyklus</b> in Deutschland: <b>Rot</b> → <b>Rot-Gelb</b> (gleich wird es Grün) → <b>Grün</b> → <b>Gelb</b> (gleich wird es Rot) → wieder Rot. Jede Phase besteht im Programm aus zwei Schritten: alle drei Lampen einstellen und dann warten. Eine Lampe bleibt so lange an, bis du sie ausdrücklich auf NIEDRIG stellst.</p>"),
-             tasks=["<b>Zeichne</b> den Ablauf einer Ampelphase (Aufgabe 1) und <b>plane</b> in der Tabelle für jede Phase, welche Pins (rot 13, gelb 12, grün 11) auf HOCH oder NIEDRIG stehen und wie lange gewartet wird (Aufgabe 2).",
-                    "<b>Benenne</b> die vier markierten Bestandteile von Tinkercad (Bild 1) und der Codeblöcke (Bild 2) und <b>ordne</b> den Blöcken ihren C++-Befehl zu (Aufgabe 3 und 4).",
-                    "<b>Baue</b> die Ampel in Tinkercad und <b>programmiere</b> deinen Plan im Block „für immer“. Achtung: Tinkercad setzt Widerstände auf 1 kΩ, stelle sie auf 220 Ω (Aufgabe 5).",
-                    "<b>Sichere</b> deinen C++-Code im Classroom (siehe Leistungsnachweis unten, Aufgabe 6).",
-                    "Vertiefung (Wahl, siehe unten, Aufgabe 7): Wartezeiten anpassen, Fußgängerampel, Fehlersuche."],
+             tasks=["<b>Zeichne</b> den Ablauf einer Ampelphase, indem du die leuchtenden Lampen ausmalst (Aufgabe 1). Deine Skizze ist später dein Bauplan für das Programm.",
+                    "<b>Benenne</b> die vier markierten Bestandteile von Tinkercad (Bild 1, Aufgabe 2) und der Codeblöcke (Bild 2, Aufgabe 3) und <b>ordne</b> den Blöcken ihren C++-Befehl zu.",
+                    "<b>Baue</b> in Tinkercad eine Ampel aus Arduino, Steckbrett und drei LEDs (rot, gelb, grün), jede mit Vorwiderstand. <b>Programmiere</b> sie mit Codeblöcken so, dass sie den Ampelzyklus aus Aufgabe 1 endlos anzeigt, und <b>überprüfe</b> sie mit der Simulation (Aufgabe 4).",
+                    "<b>Sichere</b> deinen C++-Code im Classroom (siehe Leistungsnachweis unten, Aufgabe 5).",
+                    "Vertiefung (Wahl, siehe unten, Vertiefungsblatt Aufgabe 6): Wartezeiten anpassen, Fußgängerampel, Fehlersuche."],
              task_figs=[dict(fig="06-bild1-tinkercad.png", cap="Bild 1 · Tinkercad: die wichtigsten Bestandteile"),
                         dict(fig="06-bild2-codebloecke.png", cap="Bild 2 · Die Codeblöcke")],
              tools=["tinker"],
              fast="Erweitere deine Ampel um eine Fußgängerampel, die nur Grün zeigt, solange die Autos Rot haben.",
              vertiefung=(
-               "<p>Wähle eine oder mehrere Vertiefungen (auf dem Arbeitsblatt Aufgabe 7).</p>"
+               "<p>Wähle eine oder mehrere Vertiefungen (Vertiefungsblatt, Aufgabe 6).</p>"
                "<h3>★ Wartezeiten wie im echten Verkehr</h3><p><b>Ändere</b> die Wartezeiten so, dass Grün doppelt so lange leuchtet wie Rot und die Übergänge Rot-Gelb und Gelb nur eine Sekunde dauern.</p>"
-               "<h3>★★ Fußgängerampel</h3><p><b>Erweitere</b> deine Ampel um eine rote LED an Pin 10 und eine grüne an Pin 9. <b>Programmiere</b>, dass Fußgänger:innen nur Grün haben, solange die Autos Rot haben. Plane zuerst eine Tabelle mit fünf Spalten. Tipp: Eine kurze „Räumzeit“, in der alle Rot haben, macht die Kreuzung sicher.</p>"
+               "<h3>★★ Fußgängerampel</h3><p><b>Erweitere</b> deine Ampel um eine rote LED an Pin 10 und eine grüne an Pin 9. <b>Programmiere</b>, dass Fußgänger:innen nur Grün haben, solange die Autos Rot haben. Plane die Phasen zuerst in einer Tabelle mit je einer Spalte pro LED. Tipp: Eine kurze „Räumzeit“, in der alle Rot haben, macht die Kreuzung sicher.</p>"
                "<h3>★★★ Fehlersuche</h3><p>Dieser Code soll eine Ampel steuern. <b>Erkläre</b>, warum nach dem ersten Durchlauf alle Lampen dauerhaft leuchten, und <b>korrigiere</b> ihn.</p>"
                "<pre style=\"background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:.7rem;overflow:auto\"><code>void loop() {\n  digitalWrite(13, HIGH); delay(3000);   // Rot\n  digitalWrite(12, HIGH); delay(1000);   // Rot-Gelb\n  digitalWrite(11, HIGH); delay(3000);   // Grün\n  digitalWrite(12, HIGH); delay(1000);   // Gelb\n}</code></pre>"
                "<style>.vertiefung h3{font-size:1rem;margin:1.1rem 0 .4rem;color:var(--key)}</style>"),
@@ -1069,11 +1069,10 @@ UNITS = [
                           ("Die Ampel läuft trotzdem richtig.", False, "Probiere es in der Simulation aus: Alle Lampen bleiben an.")]),
              ],
              solution=["Aufgabe 1: Rot → Rot-Gelb → Grün → Gelb → wieder Rot. Rot-Gelb kündigt Grün an, Gelb allein kündigt Rot an.",
-                       "Aufgabe 2 (Pin 13 rot / 12 gelb / 11 grün): Rot = HOCH/NIEDRIG/NIEDRIG, 3 s · Rot-Gelb = HOCH/HOCH/NIEDRIG, 1 s · Grün = NIEDRIG/NIEDRIG/HOCH, 3 s · Gelb = NIEDRIG/HOCH/NIEDRIG, 1 s.",
-                       "Aufgabe 3 (Bild 1): (1) Arbeitsfläche, (2) Code, öffnet die Codeblöcke, (3) Simulation starten, (4) Komponenten-Bibliothek.",
-                       "Aufgabe 4 (Bild 2): (1) Ansicht Blöcke / Blöcke + Text / Text, (2) Kategorien (Ausgang, Steuerung …), (3) Programm im Block „für immer“, (4) Code als .ino herunterladen. Zuordnung: für immer = <code>void loop() { … }</code>, Anschluss 13 auf HOCH = <code>digitalWrite(13, HIGH);</code>, 3 Sekunden warten = <code>delay(3000);</code>.",
-                       "Aufgabe 5/6: <code>void setup() { pinMode(13, OUTPUT); pinMode(12, OUTPUT); pinMode(11, OUTPUT); }</code> und in <code>loop()</code> je Phase alle drei <code>digitalWrite</code> plus <code>delay</code>, z. B. Rot-Gelb: <code>digitalWrite(13, HIGH); digitalWrite(12, HIGH); digitalWrite(11, LOW); delay(1000);</code>",
-                       "Aufgabe 7 Fehlersuche: Keine Lampe wird je auf LOW gestellt, deshalb bleibt jede an. Vor Grün <code>digitalWrite(13, LOW); digitalWrite(12, LOW);</code>, vor Gelb <code>digitalWrite(11, LOW);</code>, am Ende von Gelb <code>digitalWrite(12, LOW);</code>."],
+                       "Aufgabe 2 (Bild 1): (1) Arbeitsfläche, (2) Code, öffnet die Codeblöcke, (3) Simulation starten, (4) Komponenten-Bibliothek.",
+                       "Aufgabe 3 (Bild 2): (1) Ansicht Blöcke / Blöcke + Text / Text, (2) Kategorien (Ausgang, Steuerung …), (3) Programm im Block „für immer“, (4) Code als .ino herunterladen. Zuordnung: für immer = <code>void loop() { … }</code>, Anschluss 13 auf HOCH = <code>digitalWrite(13, HIGH);</code>, 3 Sekunden warten = <code>delay(3000);</code>.",
+                       "Aufgabe 4/5 (rot 13, gelb 12, grün 11): Rot = HOCH/NIEDRIG/NIEDRIG, 3 s · Rot-Gelb = HOCH/HOCH/NIEDRIG, 1 s · Grün = NIEDRIG/NIEDRIG/HOCH, 3 s · Gelb = NIEDRIG/HOCH/NIEDRIG, 1 s. <code>void setup() { pinMode(13, OUTPUT); pinMode(12, OUTPUT); pinMode(11, OUTPUT); }</code> und in <code>loop()</code> je Phase alle drei <code>digitalWrite</code> plus <code>delay</code>, z. B. Rot-Gelb: <code>digitalWrite(13, HIGH); digitalWrite(12, HIGH); digitalWrite(11, LOW); delay(1000);</code>",
+                       "Aufgabe 6 Fußgängerampel: Autos grün + F-rot → Gelb + F-rot → Räumzeit alle rot → Autos rot + F-grün → Räumzeit → Rot-Gelb + F-rot. Fehlersuche: Keine Lampe wird je auf LOW gestellt, deshalb bleibt jede an. Vor Grün <code>digitalWrite(13, LOW); digitalWrite(12, LOW);</code>, vor Gelb <code>digitalWrite(11, LOW);</code>, am Ende von Gelb <code>digitalWrite(12, LOW);</code>."],
              solution_figs=[dict(fig="ampel-loesung", cap="Lösung · Ampelzyklus")]),
         dict(no=7, sjw=7, kind="lernpfad", title="Mein Arduino-Projekt: Tinkercad trifft echte Hardware",
              goal="Du wählst ein Arduino-Projekt (einfach, mittel oder knifflig), planst es nach dem EVA-Prinzip, baust und programmierst es in Tinkercad und lädst den C++-Code auf einen echten Arduino.",
