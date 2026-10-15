@@ -393,16 +393,26 @@ async function resetBoard(){
   await port.setSignals({dataTerminalReady: true, requestToSend: true});
   await sleep(50);
 }
+// Nach dem Reset blinkt Optiboot erst die LED „L“ (ca. 0,3 s). Anfragen in dieser Zeit stauen sich
+// im UART und bringen den Bootloader aus dem Takt (er springt dann ins alte Programm). Deshalb erst
+// warten, dann synchronisieren und die Synchronisation mit einer zweiten Anfrage bestätigen.
+async function syncOnce(timeout){
+  rx.length = 0;
+  await send([0x30, EOP]);
+  try { var r = await recv(2, timeout); return r[0] === STK_INSYNC && r[1] === STK_OK; }
+  catch (e) { return false; }
+}
 async function sync(){
-  for (var attempt = 0; attempt < 3; attempt++) {
+  var waits = [350, 200, 550];
+  for (var attempt = 0; attempt < waits.length; attempt++) {
     await resetBoard();
-    for (var i = 0; i < 12; i++) {
-      rx.length = 0;
-      await send([0x30, EOP]);
-      try {
-        var r = await recv(2, 120);
-        if (r[0] === STK_INSYNC && r[1] === STK_OK) { await sleep(20); rx.length = 0; return true; }
-      } catch (e) {}
+    await sleep(waits[attempt]);
+    for (var i = 0; i < 6; i++) {
+      if (await syncOnce(200)) {
+        await sleep(30);
+        if (await syncOnce(300)) { rx.length = 0; return true; }
+        break;                                        // aus dem Takt: neu zurücksetzen
+      }
     }
   }
   return false;
@@ -493,6 +503,7 @@ async function startMonitor(silent){
   rx.length = 0;
   mode = "monitor";
   await openPort(9600);
+  try { await resetBoard(); } catch (e) {}           // Neustart, damit auch Ausgaben aus setup() erscheinen
   setMonitorUi(true);
   if (!silent) say("ok", "🖥 Monitor verbunden. Der Arduino startet neu und schickt seine Ausgaben hierher.");
 }
