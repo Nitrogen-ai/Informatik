@@ -44,6 +44,7 @@ T = {
   "tinker": ("Tinkercad Circuits", "https://www.tinkercad.com/circuits"),
   "arduino": ("Arduino", "https://www.arduino.cc/en/software"),
   "cloud": ("Arduino Cloud Editor", "https://app.arduino.cc/sketches"),
+  "upload": ("Arduino hochladen (ohne Konto)", "https://nitrogen-ai.github.io/Informatik/SEK-I/Profilkurs/werkzeuge/arduino-hochladen.html"),
   "wtj": ("WebTigerJython", "https://webtigerjython.ethz.ch/"),
   "jsfiddle": ("jsfiddle.net", "https://jsfiddle.net/"),
   "github": ("GitHub", "https://github.com/"),
@@ -176,17 +177,21 @@ LP05_VERTIEFUNG = (
   '})();</script>'
 )
 
+UPLOAD_URL = T["upload"][1]
+
 # ---------------------------------------------------------------- LP07 · Projektkarten (Quelle: extras/lp07/projekte.py → projekte.json)
 LP07_MATERIAL = (
   "<p><b>Vom Tinkercad zum echten Arduino.</b> Tinkercad simuliert nur. Damit dein Schloss wirklich leuchtet und piept, lädst du den C++-Code auf einen echten Arduino Uno. "
-  "Das geht im Browser mit dem <b>Arduino Cloud Editor</b> (Chrome oder Edge, kostenloses Arduino-Konto):</p>"
+  "Das geht mit unserer Seite <a href=\"" + UPLOAD_URL + "\" target=\"_blank\" rel=\"noopener\"><b>Arduino hochladen</b></a>: ohne Konto, ohne Installation, im Browser <b>Chrome</b> oder <b>Edge</b>.</p>"
   "<ol class=\"task-list\" style=\"list-style:decimal;padding-left:1.4rem\">"
-  "<li>In Tinkercad: <b>Code</b> › Ansicht <b>„Text“</b>. Dort steht der C++-Code, den Tinkercad aus deinen Blöcken erzeugt.</li>"
-  "<li><b>app.arduino.cc</b> öffnen › <b>Sketches</b> › <b>„+ Sketch“</b>, Beispielcode löschen und den Code aus Tinkercad <b>Zeile für Zeile nachbauen</b>. So verstehst du jede Zeile. Vergleiche am Ende mit Tinkercad.</li>"
   "<li>Schaltung auf dem Steckbrett nachbauen, <b>ohne</b> dass der Arduino am USB-Kabel hängt. Pins 0 und 1 bleiben frei.</li>"
-  "<li>Arduino per USB anstecken, oben <b>„Arduino Uno“</b> und den Anschluss (Port) wählen. Beim ersten Mal fragt der Editor nach dem <b>Arduino Cloud Agent</b>, ein kleines Hilfsprogramm, das die Schule einmalig installiert.</li>"
-  "<li><b>✓ Überprüfen</b>, dann <b>→ Hochladen</b>. Messwerte zeigt der <b>Serial Monitor</b> (9600 Baud).</li>"
+  "<li>In Tinkercad: <b>Code</b> › oben <b>„Blöcke“</b> auf <b>„Text“</b> umstellen › in den Code klicken › <b>Strg + A</b>, <b>Strg + C</b>.</li>"
+  "<li><a href=\"" + UPLOAD_URL + "\" target=\"_blank\" rel=\"noopener\"><b>Arduino hochladen</b></a> öffnen und den Code ins Feld einfügen (<b>Strg + V</b>).</li>"
+  "<li>Arduino per USB anstecken › <b>„⬆ Auf Arduino laden“</b> › im Fenster oben den Arduino wählen (z. B. „Arduino Uno (COM3)“ oder „USB-SERIAL CH340“) › <b>Verbinden</b>.</li>"
+  "<li>Nach „✅ Fertig!“ läuft dein Programm. Was der Arduino mit <code>Serial.println</code> schreibt, steht unten im <b>Monitor</b>.</li>"
   "</ol>"
+  "<p><b>Klappt etwas nicht?</b> Hat der Code Fehler, markiert die Seite die Zeile rot und erklärt den Fehler auf Deutsch. Mit <b>„💡 Arduino testen“</b> prüfst du, ob der Arduino überhaupt erreichbar ist (die kleine LED „L“ blinkt). "
+  "Mit <b>„💾 Als .ino speichern“</b> sicherst du deinen Code für die Abgabe.</p>"
   "<p><b>Sicherheit:</b> nur ohne Strom umstecken, jede LED mit Vorwiderstand, jeder Taster mit 10-kΩ-Widerstand nach GND.</p>")
 
 def _code(datei):
@@ -1057,12 +1062,12 @@ UNITS = [
                     "<b>Setze</b> die Codeblöcke aus Abb. 2, <b>starte</b> die Simulation mit Serien-Monitor und <b>erkläre</b>, was die Variable Tastendruck speichert (Aufgabe 2).",
                     "<b>Erweitere</b> auf vier Taster, vier LEDs (blau, grün, gelb, weiß) und einen Piezo (Abb. 3) und <b>berechne</b> Codes aus Farbfolgen (Aufgabe 3 und 4).",
                     "<b>Programmiere</b> das Farbschloss nach dem Gerüst auf dem Arbeitsblatt mit eigenem Geheimcode (Aufgabe 5).",
-                    "<b>Baue</b> den C++-Code im Arduino Cloud Editor nach und <b>teste</b> das Schloss am echten Arduino (Aufgabe 6, Anleitung oben).",
+                    "<b>Lade</b> den C++-Code mit „Arduino hochladen“ auf den echten Arduino und <b>teste</b> das Schloss (Aufgabe 6, Anleitung oben).",
                     "<b>Entwickle</b> ein eigenes Escape-Room-Schloss (Aufgabe 7, siehe Vertiefung)."],
              task_figs=[dict(fig="07-schaltung-1-taster.png", cap="Abb. 1 · Taster an Pin 12, LED an Pin 7"),
                         dict(fig="07-bloecke-tastendruck.png", cap="Abb. 2 · Codeblöcke für einen Tastendruck"),
                         dict(fig="07-schaltung-4-taster.png", cap="Abb. 3 · Farbschloss: vier Taster, vier LEDs, Piezo an Pin 8")],
-             tools=["tinker", "cloud"],
+             tools=["tinker", "upload"],
              fast="Baue dein Farbschloss zu einem Symbol-, Duft- oder Tonschloss für einen Escape Room um.",
              vertiefung=LP07_VERTIEFUNG,
              sicherung=("💾 Leistungsnachweis · Ergebnissicherung",
