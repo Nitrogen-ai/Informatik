@@ -67,8 +67,6 @@ LESSON_DIRS = {
   7: "07 Arduino-Projekte - Tinkercad trifft echte Hardware/Version 3",
   8: "08 Sensor-Projekte bauen und testen",
   9: "09 Sensor-Projekte Galerie",
-  # alte Lektionen 08–10 (Ampel, OOP, Mini-Projekt) liegen seit 2026-10-16 im Archiv der Einheit
-  10: "Archiv/10 Mini-Projekt Arduino - Ergebnissicherung",
 }
 
 # Die Lektionsordner (mit typst/figN.svg) liegen in der iCloud-Materialablage unter
@@ -947,117 +945,6 @@ LP09_V3_LOESUNG = [
 # Jedes LP: no, sjw, title, goal, tasks[], tools[keys], fast, rlp[], solution[], kind
 # optional: vorwissen[], quiz[], material (HTML, Informationstext), task_figs[] / solution_figs[]
 #           (dict(fig=..., cap=...); fig = SVG-Name ohne Endung oder Foto .jpg/.png aus <Lektion>/typst/)
-# ---------------------------------------------------------------- Archiv: LP10 Mini-Projekt Arduino
-# Seit 2026-10-16 nicht mehr im Kurs, die Sensor-Projekte LP07–09 schließen die Arduino-Reihe ab.
-# Seite: extras/lp10/archiv/lp10.html, Material: iCloud 02 Blockbasiert II …/Archiv/10 Mini-Projekt …
-LP10_ARCHIV = dict(no=10, sjw=11, kind="projekt", title="Mini-Projekt Arduino + Ergebnissicherung",
-     goal="Du planst und baust eine eigene kleine Schaltung (Lichtorgel, Würfel, Reaktionsspiel), dokumentierst sie und sicherst Code + Schaltplan als Backup.",
-     tasks=["Projektidee wählen, Bauteile & Ablauf planen.",
-            "Schaltung in Tinkercad aufbauen und Sketch schreiben & testen.",
-            "Ergebnis sichern: Sketch (.ino), Screenshot des Schaltplans, kurze Doku — lokal + Cloud."],
-     tools=["tinker", "arduino"],
-     fast="Baue eine Zusatzfunktion ein (z. B. Helligkeitssteuerung per Poti) und beschreibe sie in der Doku.",
-     rlp=["RLP 2.4 · Umsetzen", "2.6 Kommunizieren", "3.3 Projekt"],
-     vorwissen=[
-       dict(fig="fig1", cap="Bild 1 · Projektablauf", quiz=[
-         dict(q="Was ist Schritt 1 im Projektablauf?",
-              done="Richtig — die Projektidee wählen.",
-              opts=[
-                ("Projektidee wählen", True, None),
-                ("Bauteile und Ablauf planen", False, "Das Planen folgt erst, nachdem eine Idee feststeht."),
-                ("Aufbauen und Testen", False, "Aufgebaut wird erst nach Idee und Planung."),
-                ("Ergebnis sichern", False, "Das Sichern steht ganz am Ende des Ablaufs."),
-              ]),
-         dict(q="Was ist Schritt 3 im Projektablauf?",
-              done="Genau — Aufbauen und Testen in Tinkercad.",
-              opts=[
-                ("Aufbauen und Testen in Tinkercad", True, None),
-                ("Projektidee wählen", False, "Die Idee steht ganz am Anfang, Schritt 1."),
-                ("Bauteile und Ablauf planen", False, "Das Planen ist Schritt 2, vor dem Aufbauen."),
-                ("Ergebnis sichern", False, "Das Sichern folgt erst nach dem Testen, als Schritt 4."),
-              ]),
-         dict(q="Warum führt vom Testen ein gestrichelter Pfeil zurück zum Planen?",
-              done="Richtig — Anpassen ist erlaubt.",
-              opts=[
-                ("Weil man die Planung nach dem Testen bei Bedarf anpassen darf.", True, None),
-                ("Weil das Testen komplett übersprungen werden soll.", False, "Getestet werden soll gerade gründlich, nicht übersprungen."),
-                ("Weil ein Fehler das ganze Projekt ungültig macht.", False, "Ein Fehler beim Testen führt nur zu einer Anpassung, nicht zum Abbruch."),
-                ("Das ist nur Dekoration ohne Bedeutung.", False, "Der Pfeil zeigt den iterativen Charakter eines echten Projekts."),
-              ]),
-         dict(q="Was passiert im letzten Schritt, dem Sichern?",
-              done="Stimmt — Sketch, Schaltplan und Doku an zwei Orten.",
-              opts=[
-                ("Sketch, Schaltplan-Screenshot und Doku werden an zwei Orten gespeichert.", True, None),
-                ("Das Projekt wird sofort gelöscht.", False, "Sichern bedeutet Aufbewahren, nicht Löschen."),
-                ("Nur der Sketch wird auf dem Arduino belassen.", False, "Ohne separate Sicherung geht die Arbeit bei einem Defekt verloren."),
-                ("Es passiert nichts Wichtiges mehr.", False, "Die Ergebnissicherung ist ein zentraler, bewerteter Schritt."),
-              ]),
-       ]),
-       dict(fig="fig2", cap="Bild 2 · Bewertungskriterien", quiz=[
-         dict(q="Was bedeutet Kriterium 1, Funktion?",
-              done="Richtig — die Schaltung funktioniert wie geplant.",
-              opts=[
-                ("Die Schaltung funktioniert wie geplant.", True, None),
-                ("Der Code ist besonders kurz.", False, "Die Länge des Codes ist kein Bewertungskriterium."),
-                ("Es wurden viele Bauteile verwendet.", False, "Die Anzahl der Bauteile sagt nichts über die Funktion aus."),
-                ("Das Projekt wurde schnell fertig.", False, "Geschwindigkeit ist kein Bewertungskriterium, Funktion schon."),
-              ]),
-         dict(q="Was bedeutet Kriterium 2, Verdrahtung?",
-              done="Genau — sauber und sicher aufgebaut.",
-              opts=[
-                ("Die Schaltung ist sauber und sicher aufgebaut.", True, None),
-                ("Der Code ist kommentiert.", False, "Das gehört zum Kriterium Code, nicht zur Verdrahtung."),
-                ("Es gibt eine Dokumentation.", False, "Das ist ein eigenes Kriterium, nicht die Verdrahtung."),
-                ("Das Backup liegt an zwei Orten.", False, "Das betrifft die Dokumentation/Ergebnissicherung, nicht die Verdrahtung."),
-              ]),
-         dict(q="Was bedeutet Kriterium 3, Code?",
-              done="Stimmt — kommentiert und lesbar.",
-              opts=[
-                ("Der Code ist kommentiert und lesbar.", True, None),
-                ("Die Schaltung funktioniert wie geplant.", False, "Das ist das Kriterium Funktion, nicht Code."),
-                ("Die Verdrahtung ist sauber.", False, "Das ist ein eigenes Kriterium, nicht der Code."),
-                ("Es gibt ein Backup.", False, "Das gehört zur Dokumentation, nicht zum Code selbst."),
-              ]),
-       ]),
-     ],
-     quiz=[
-       dict(q="Was gehört zu einer guten Projektplanung vor dem Bauen?",
-            done="Richtig — Idee, Bauteile und Ablauf zuerst planen.",
-            opts=[
-              ("Projektidee wählen sowie Bauteile und Ablauf planen", True, None),
-              ("direkt ohne Plan drauflos bauen", False, "Ohne Plan führt der Aufbau meist zu unnötigen Umbauten und Fehlern."),
-              ("nur den Sketch schreiben, ohne Schaltung zu planen", False, "Sketch und Schaltung müssen zusammenpassen — beides gehört zur Planung."),
-              ("die Dokumentation erst nach der Abgabe beginnen", False, "Dann fehlen oft wichtige Details — Dokumentation sollte parallel entstehen."),
-            ]),
-       dict(q="Was bedeutet „Ergebnissicherung“ bei diesem Projekt?",
-            done="Genau — Sketch, Schaltplan und Doku an zwei Orten sichern.",
-            opts=[
-              ("Sketch (.ino), Schaltplan-Screenshot und Doku sichern — lokal und in der Cloud", True, None),
-              ("nur den Sketch auf dem Arduino lassen", False, "Ohne separate Sicherung geht die Arbeit bei einem Defekt verloren."),
-              ("nichts, das Projekt bleibt nur im Kopf", False, "Ohne dokumentierte Sicherung ist das Projekt nicht nachvollziehbar oder abgebbar."),
-              ("nur ein Foto des fertigen Aufbaus", False, "Ein Foto allein sichert weder den Code noch den Schaltplan im Detail."),
-            ]),
-       dict(q="Wonach wird das Mini-Projekt vor allem bewertet?",
-            done="Stimmt — Funktion, Verdrahtung, Code, Doku.",
-            opts=[
-              ("Funktion, saubere Verdrahtung, kommentierter Code und Doku", True, None),
-              ("nur die Originalität der Idee", False, "Originalität allein reicht nicht — die Umsetzung zählt ebenso."),
-              ("nur die Geschwindigkeit der Fertigstellung", False, "Schnelligkeit ist kein Bewertungskriterium, Qualität schon."),
-              ("nur die Anzahl der verwendeten Bauteile", False, "Mehr Bauteile bedeuten nicht automatisch ein besseres Projekt."),
-            ]),
-       dict(q="Warum ist ein kommentierter Code Teil der Bewertung?",
-            done="Richtig — Kommentare machen den Code nachvollziehbar.",
-            opts=[
-              ("Er macht nachvollziehbar, was der Code tut, und erleichtert Verständnis und Korrektur.", True, None),
-              ("Kommentare beschleunigen das Programm.", False, "Kommentare haben keinen Einfluss auf die Ausführungsgeschwindigkeit."),
-              ("Kommentare sind für den Arduino zwingend nötig, sonst läuft der Sketch nicht.", False, "Ein Sketch läuft auch ganz ohne Kommentare — sie dienen nur dem Verständnis."),
-              ("Kommentare ersetzen die Doku vollständig.", False, "Kommentare ergänzen die Doku, ersetzen sie aber nicht vollständig."),
-            ]),
-     ],
-     solution=["Bewertet werden Funktion, saubere Verdrahtung, kommentierter Code und die Doku.",
-               "Ergebnissicherung = reproduzierbar abgeben: .ino + Schaltplan + Beschreibung.",
-               "Backup an zwei Orten (Rechner + Cloud/USB)."])
-
 UNITS = [
  # =================== HALBJAHR 1 ===================
  dict(hj=1, num="00", title="Systemstart — Was ist Informatik?",
