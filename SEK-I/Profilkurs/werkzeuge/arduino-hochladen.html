@@ -124,7 +124,7 @@ details.raw pre{white-space:pre-wrap;font-family:'JetBrains Mono',monospace;marg
       <ul>
         <li>Steckt das USB-Kabel fest? Leuchtet auf dem Arduino die grüne <b>ON</b>-LED?</li>
         <li>Anderen USB-Anschluss am Rechner probieren. Manche Kabel sind reine Ladekabel, dann ein anderes Kabel nehmen.</li>
-        <li>Der Arduino heißt im Fenster z. B. <b>„Arduino Uno (COM3)“</b> oder bei Nachbauten <b>„USB-SERIAL CH340 (COM4)“</b>. Beides ist richtig. <b>Nicht</b> „Kommunikationsanschluss (COM1)“ wählen, das ist ein Anschluss des Rechners.</li>
+        <li>Der Arduino heißt im Fenster z. B. <b>„Arduino Uno (COM3)“</b> oder bei Nachbauten <b>„USB-SERIAL CH340 (COM4)“</b>. Beides ist richtig. <b>Nicht</b> „Kommunikationsanschluss“ oder „Serieller PCI-Anschluss“ wählen, das sind Anschlüsse des Rechners.</li>
         <li>Steht gar nichts da, fehlt bei einem Nachbau evtl. der Treiber (CH340). Sag deiner Lehrperson Bescheid.</li>
       </ul>
     </details>
@@ -512,7 +512,7 @@ async function upload(src, label){
       var wrong = port && !isUsb(port);
       await forgetPort();                             // beim nächsten Versuch neu auswählen lassen
       say("bad", "<b>❌ Der Arduino antwortet nicht.</b><ul>" +
-        (wrong ? "<li><b>Falscher Anschluss gewählt</b> („Kommunikationsanschluss“ ist kein Arduino). Beim nächsten Versuch den Eintrag mit <b>Arduino</b>, <b>CH340</b> oder <b>USB</b> im Namen wählen.</li>"
+        (wrong ? "<li><b>Falscher Anschluss gewählt.</b> „Kommunikationsanschluss“ und „Serieller PCI-Anschluss“ gehören zum Rechner, nicht zum Arduino. Richtig ist ein Eintrag mit <b>Arduino</b>, <b>CH340</b> oder <b>USB</b> im Namen.</li><li><b>Gab es keinen solchen Eintrag?</b> Dann erkennt Windows den Arduino nicht. Bei Nachbauten fehlt meist der <b>CH340-Treiber</b>. Sag deiner Lehrperson Bescheid.</li>"
                : "<li>Beim nächsten Versuch fragt das Fenster neu: Wähle den Eintrag mit <b>Arduino</b>, <b>CH340</b> oder <b>USB</b> im Namen, nicht „Kommunikationsanschluss“.</li>") +
         "<li>Kabel an <b>Pin 0 und 1</b> abziehen.</li><li>USB-Kabel kurz ab- und wieder anstecken, dann nochmal versuchen.</li><li>Hilft das nicht: beim nächsten Versuch, sobald „Verbinde …“ erscheint, kurz den <b>RESET</b>-Knopf am Arduino drücken.</li></ul>" + details);
     }
