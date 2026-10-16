@@ -44,6 +44,7 @@ T = {
   "tinker": ("Tinkercad Circuits", "https://www.tinkercad.com/circuits"),
   "arduino": ("Arduino", "https://www.arduino.cc/en/software"),
   "cloud": ("Arduino Cloud Editor", "https://app.arduino.cc/sketches"),
+  "tinker3d": ("Tinkercad 3D-Entwurf (Gehäuse)", "https://www.tinkercad.com/"),
   "upload": ("Arduino hochladen (ohne Konto)", "https://nitrogen-ai.github.io/Informatik/SEK-I/Profilkurs/werkzeuge/arduino-hochladen.html"),
   "wtj": ("WebTigerJython", "https://webtigerjython.ethz.ch/"),
   "jsfiddle": ("jsfiddle.net", "https://jsfiddle.net/"),
@@ -62,10 +63,12 @@ LESSON_DIRS = {
   4: "04 Makey Makey - die Welt wird zum Controller",
   5: "05 Tinkercad Circuits - Stromkreis simulieren",
   6: "06 Arduino - Einführung in Tinkercad",
-  7: "07 Arduino-Projekte - Tinkercad trifft echte Hardware/Version 2",
-  8: "08 Steuerstrukturen im Sketch - das Ampelprogramm",
-  9: "09 Objektorientierung entdecken - Attribute & Methoden",
-  10: "10 Mini-Projekt Arduino - Ergebnissicherung",
+  # 07–09 Sensor-Projekte: 07 aus Version 3 des Projektordners, 08 und 09 mit eigenem Lektionsordner
+  7: "07 Arduino-Projekte - Tinkercad trifft echte Hardware/Version 3",
+  8: "08 Sensor-Projekte bauen und testen",
+  9: "09 Sensor-Projekte Galerie",
+  # alte Lektionen 08–10 (Ampel, OOP, Mini-Projekt) liegen seit 2026-10-16 im Archiv der Einheit
+  10: "Archiv/10 Mini-Projekt Arduino - Ergebnissicherung",
 }
 
 # Die Lektionsordner (mit typst/figN.svg) liegen in der iCloud-Materialablage unter
@@ -80,7 +83,8 @@ def find_material(lp_no, filename):
         return None
     candidates = []
     # Nach dem Tutory-Einsatz liegt typst/ im Archiv der Lektion: Tutory/Stundenvorschlag/typst/
-    for sub in ("typst", os.path.join("Tutory", "Stundenvorschlag", "typst"), "plickers"):
+    for sub in ("typst", os.path.join("Tutory", "Stundenvorschlag", "typst"), "plickers",
+                os.path.join("Tutory", "Typst", "grafiken")):
         rel = os.path.join(folder, sub, filename)
         candidates += [os.path.join(BASE, rel)] + sorted(glob.glob(os.path.join(MATERIAL_ROOT, "*", rel)))
     for path in candidates:
@@ -217,10 +221,843 @@ LP07_LOESUNG = [
   '<details><summary><b>C++ Schritt 2</b> · 07-2-farbschloss.ino</summary><pre style="overflow:auto;font-size:.8rem"><code>%s</code></pre></details>' % esc(_code("07-2-farbschloss.ino")),
 ]
 
+# ---------------------------------------------------------------- Stufen: Impulsfragen → Erwartungshorizont (LP07 Version 3)
+# lp["stufen"] = dict(intro, projekte=[(kürzel, name, ort)], aufgaben=[dict(nr, titel, auftrag, fragen, eh)])
+# fragen: Quiz-Dicts wie bei quiz, optional proj="AB" (nur für diese Projekte); eh: {kürzel: HTML}.
+# Jede Aufgabe hat je Projekt einen eigenen Fragenblock. Sind alle Fragen richtig, erscheint der Erwartungshorizont.
+STUFEN_CSS = (
+  '<style>'
+  '.stufen .st-wahl{display:flex;flex-wrap:wrap;gap:.5rem;margin:.8rem 0 1rem}'
+  '.stufen .st-wahl button{font:inherit;font-weight:700;color:var(--ink);background:var(--panel-2);border:1px solid var(--line);'
+  'border-radius:10px;padding:.55rem .9rem;cursor:pointer;text-align:left}'
+  '.stufen .st-wahl button small{display:block;font-weight:500;color:var(--ink-soft);font-size:.78rem}'
+  '.stufen .st-wahl button.on{border-color:var(--key);box-shadow:0 0 0 2px var(--key) inset}'
+  '.stufen .st-aufgabe{border-top:1px solid var(--line);padding-top:1rem;margin-top:1.2rem}'
+  '.stufen h3{font-size:1.05rem;margin:0 0 .4rem;color:var(--key)}'
+  '.stufen .st-proj,.stufen .st-aufgabe{display:none}'
+  '.stufen[data-wahl] .st-aufgabe{display:block}.stufen[data-wahl] .st-leer{display:none}'
+  '.stufen[data-wahl="A"] .st-proj[data-p="A"],.stufen[data-wahl="B"] .st-proj[data-p="B"],.stufen[data-wahl="C"] .st-proj[data-p="C"]{display:block}'
+  '.stufen .st-leer{color:var(--amber);font-weight:600}'
+  '.stufen .st-lock{margin-top:.8rem;padding:.6rem .8rem;border:1px dashed var(--line);border-radius:10px;color:var(--ink-soft);font-size:.9rem}'
+  '.stufen .st-eh{display:none;margin-top:1rem;padding:1rem;border:1px solid var(--matrix);border-radius:14px;background:rgba(52,255,158,.05)}'
+  '.stufen .st-proj.offen .st-eh{display:block}.stufen .st-proj.offen .st-lock{display:none}'
+  '.stufen .st-eh h4{margin:0 0 .6rem;color:var(--matrix);font-size:1rem}'
+  '.stufen .st-eh h5{margin:1rem 0 .4rem;font-size:.92rem;color:var(--key)}'
+  '.stufen table{width:100%;border-collapse:collapse;font-size:.86rem;margin:.4rem 0 .8rem}'
+  '.stufen th,.stufen td{border:1px solid var(--line);padding:.35rem .45rem;text-align:left;vertical-align:top}'
+  '.stufen th{background:var(--panel-2)}.stufen .gr{color:var(--ink-soft)}'
+  '.stufen .tbl{overflow-x:auto}'
+  '.stufen .st-tipp{border-left:4px solid var(--amber);padding:.5rem .7rem;background:rgba(255,194,61,.07);border-radius:8px;font-size:.88rem;margin:.6rem 0}'
+  '.stufen pre{overflow:auto;font-size:.8rem}'
+  '.led{display:inline-block;width:.8em;height:.8em;border-radius:50%;vertical-align:-.05em;margin-right:.2em}'
+  '.led.g{background:#3fbf5a}.led.r{background:#e0414f}'
+  # Struktogramm (Nassi-Shneiderman)
+  '.ns{border:1.5px solid var(--ink-soft);max-width:540px;font-size:.86rem;background:var(--panel);margin:.4rem 0 .6rem}'
+  '.ns-t{padding:.35rem .5rem;font-weight:700}'
+  '.ns-a{padding:.35rem .5rem;border-top:1.5px solid var(--ink-soft)}'
+  '.ns-l{border-top:1.5px solid var(--ink-soft)}.ns-l>.ns-k{padding:.35rem .5rem}'
+  '.ns-lb{margin-left:1.4rem;border-left:1.5px solid var(--ink-soft)}'
+  '.ns-w{border-top:1.5px solid var(--ink-soft)}'
+  '.ns-wk{position:relative;height:3.4rem}.ns-wk svg{position:absolute;inset:0;width:100%;height:100%}'
+  '.ns-wk line{stroke:var(--ink-soft);stroke-width:1.5;vector-effect:non-scaling-stroke}'
+  '.ns-wk .ns-b{position:absolute;left:20%;right:20%;top:.25rem;text-align:center}'
+  '.ns-wk .ns-ja,.ns-wk .ns-nein{position:absolute;bottom:.15rem;font-size:.74rem;color:var(--ink-soft)}'
+  '.ns-wk .ns-ja{left:.4rem}.ns-wk .ns-nein{right:.4rem}'
+  '.ns-wz{display:grid;grid-template-columns:1fr 1fr}.ns-wz>div:first-child{border-right:1.5px solid var(--ink-soft)}'
+  '</style>')
+
+STUFEN_JS = (
+  '<script>(function(){'
+  'document.querySelectorAll("[data-stufen]").forEach(function(sec){'
+  'var key="stufen-"+location.pathname;'
+  'function setze(p){sec.setAttribute("data-wahl",p);'
+  'sec.querySelectorAll(".st-wahl button").forEach(function(b){b.classList.toggle("on",b.dataset.p===p);});'
+  'try{localStorage.setItem(key,p);}catch(e){}}'
+  'sec.querySelectorAll(".st-wahl button").forEach(function(b){b.addEventListener("click",function(){setze(b.dataset.p);});});'
+  'try{var alt=localStorage.getItem(key);if(alt)setze(alt);}catch(e){}'
+  'sec.querySelectorAll(".st-proj").forEach(function(box){'
+  'box.addEventListener("click",function(){setTimeout(function(){'
+  'var items=box.querySelectorAll(".qz-item"),ok=box.querySelectorAll(".qz-opt.correct").length;'
+  'if(items.length&&ok===items.length&&!box.classList.contains("offen")){box.classList.add("offen");'
+  'var eh=box.querySelector(".st-eh");if(eh)eh.scrollIntoView({behavior:"smooth",block:"nearest"});}'
+  '},0);});});});'
+  '})();</script>')
+
+def ns_anw(x):
+    return '<div class="ns-a">%s</div>' % x
+
+def ns_immer(kopf, *body):
+    return '<div class="ns-l"><div class="ns-k">%s</div><div class="ns-lb">%s</div></div>' % (kopf, "".join(body))
+
+def ns_wenn(bed, ja, nein):
+    return ('<div class="ns-w"><div class="ns-wk"><svg viewBox="0 0 100 10" preserveAspectRatio="none">'
+            '<line x1="0" y1="0" x2="50" y2="10"/><line x1="100" y1="0" x2="50" y2="10"/></svg>'
+            '<span class="ns-b">%s</span><span class="ns-ja">ja</span><span class="ns-nein">nein</span></div>'
+            '<div class="ns-wz"><div>%s</div><div>%s</div></div></div>') % (bed, "".join(ja), "".join(nein))
+
+def struktogramm(name, *body):
+    return '<div class="ns"><div class="ns-t">Programm: %s</div>%s</div>' % (name, "".join(body))
+
+def render_stufen(lp):
+    st = lp["stufen"]
+    wahl = "".join('<button type="button" data-p="%s">%s · %s<small>%s</small></button>' % (k, k, esc(n), esc(o))
+                   for k, n, o in st["projekte"])
+    aufgaben = ""
+    for a in st["aufgaben"]:
+        bloecke = ""
+        for k, n, _ in st["projekte"]:
+            fragen = [q for q in a["fragen"] if k in q.get("proj", "ABC")]
+            items = ""
+            for i, q in enumerate(fragen, 1):
+                opts = ""
+                for text, correct, hint in q["opts"]:
+                    attr = ' data-correct="true"' if correct else (' data-hint="%s"' % esc(hint) if hint else "")
+                    opts += '<button class="qz-opt"%s>%s</button>' % (attr, text)
+                items += ('<div class="qz-item"><div class="qz-text"><span class="qn">%d.</span>%s</div>'
+                          '<div class="qz-opts">%s</div><div class="qz-hint"></div><div class="qz-done">%s</div></div>'
+                          ) % (i, q["q"], opts, q.get("done", "Richtig!"))
+            bloecke += (
+                '<div class="st-proj" data-p="%s">'
+                '<div class="qz-wrap" data-qz><div class="qz-progress"><span class="qz-count">0 / %d richtig</span>'
+                '<span class="qz-bar"><span class="qz-fill"></span></span></div>%s'
+                '<div class="qz-solved">✔ Alle Impulse geschafft. Vergleicht jetzt mit dem Erwartungshorizont.</div></div>'
+                '<div class="st-lock">🔒 Beantwortet alle Fragen richtig, dann erscheint hier der Erwartungshorizont zu Aufgabe %d für Projekt %s.</div>'
+                '<div class="st-eh"><h4>🔓 Erwartungshorizont · Aufgabe %d · Projekt %s %s</h4>%s</div>'
+                '</div>') % (k, len(fragen), items, a["nr"], k, a["nr"], k, esc(n), a["eh"][k])
+        aufgaben += ('<div class="st-aufgabe"><h3>Aufgabe %d · %s</h3><p>%s</p>%s</div>'
+                     % (a["nr"], esc(a["titel"]), a["auftrag"], bloecke))
+    return ('<section class="lp-sec stufen" data-stufen><h2>Schritt für Schritt: prüfen und vergleichen</h2>%s'
+            '<div class="st-wahl">%s</div><p class="st-leer">Wählt zuerst euer Projekt, dann erscheinen die Impulsfragen.</p>%s%s%s</section>'
+            ) % (st["intro"], wahl, aufgaben, STUFEN_CSS, STUFEN_JS)
+
+# ---------------------------------------------------------------- LP07–09 Version 3 · Sensor-Projekte (Wächter mit grüner und roter LED)
+# Quelle: iCloud <07 Arduino-Projekte …>/Version 3/Tutory/Typst/: „07 Sensor-Projekte planen.typ“ (+ Erwartungshorizont),
+# „07 Sensoren anschließen.typ“; <08 Sensor-Projekte bauen und testen>/ und <09 Sensor-Projekte Galerie>/ je mit Tutory/Typst/.
+# Baupläne (Steckplan, Gehäuse): build_bauplan.py → grafiken/bauplan-*.svg, Code: extras/lp07/code/*.ino
+SP_PROJEKTE = [("A", "Gießwächter", "Zimmerpflanze im Wohnzimmer"),
+               ("B", "Filterwächter", "Wasserfilter in der Küche"),
+               ("C", "Lüftungswächter", "Heizkeller im Haus")]
+
+def _tab(kopf, zeilen):
+    th = "".join("<th>%s</th>" % k for k in kopf)
+    tr = "".join("<tr>%s</tr>" % "".join("<td>%s</td>" % z for z in zeile) for zeile in zeilen)
+    return '<div class="tbl"><table><tr>%s</tr>%s</table></div>' % (th, tr)
+
+def _fig(no, fig, cap):
+    media = load_fig(no, fig, cap)
+    return '<div class="fig">%s<div class="fig-cap">%s</div></div>' % (media, esc(cap)) if media else ""
+
+def _codeblock(datei, titel):
+    return ('<details><summary><b>%s</b> · %s</summary><pre><code>%s</code></pre></details>'
+            % (titel, datei, esc(_code(datei))))
+
+GRUEN_AN = ns_anw('<span class="led g"></span>Pin 7 auf HOCH<br><span class="led r"></span>Pin 8 auf NIEDRIG')
+ROT_AN = ns_anw('<span class="led g"></span>Pin 7 auf NIEDRIG<br><span class="led r"></span>Pin 8 auf HOCH')
+
+SP_ABLAUF = (
+  '<div class="sp-ablauf">'
+  '<div%s><b>Sitzung 07 · Planen &amp; programmieren</b><br>Tinkercad: Schaltung, Code, Gehäuse</div>'
+  '<div%s><b>Sitzung 08 · Bauen &amp; testen</b><br>Gehäuse, echter Arduino, Projektbericht</div>'
+  '<div%s><b>Sitzung 09 · Galerie</b><br>Gallery Walk, Bewertung, Rückmeldung</div></div>')
+SP_CSS = (
+  '<style>'
+  '.sp-ablauf{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.5rem;margin:.4rem 0 1rem}'
+  '.sp-ablauf div{border:1px solid var(--line);border-radius:10px;padding:.55rem .7rem;font-size:.88rem;color:var(--ink-soft)}'
+  '.sp-ablauf div.an{border-color:var(--key);background:rgba(53,224,255,.08);color:var(--ink)}'
+  '.sp-karten{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.7rem;margin:.6rem 0 1rem}'
+  '.sp-karte{border:1px solid var(--line);border-radius:12px;padding:.8rem;background:var(--panel-2);font-size:.9rem}'
+  '.sp-karte h3{margin:0 0 .15rem;font-size:1rem;color:var(--key)}.sp-karte .ort{color:var(--ink-soft);font-size:.8rem;margin-bottom:.4rem}'
+  '.sp-karte p{margin:.3rem 0}.sp-karte .tk{color:var(--ink-soft);font-size:.82rem}'
+  '.mat table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.4rem 0 .9rem}'
+  '.mat th,.mat td{border:1px solid var(--line);padding:.35rem .45rem;text-align:left;vertical-align:top}.mat th{background:var(--panel-2)}'
+  '.mat .tbl{overflow-x:auto}.mat h3{font-size:1rem;margin:1.1rem 0 .4rem;color:var(--key)}'
+  '.mat pre{overflow:auto;font-size:.8rem}'
+  '.led{display:inline-block;width:.8em;height:.8em;border-radius:50%;vertical-align:-.05em;margin-right:.2em}'
+  '.led.g{background:#3fbf5a}.led.r{background:#e0414f}'
+  '.sp-hinweis{border-left:4px solid var(--amber);padding:.5rem .7rem;background:rgba(255,194,61,.07);border-radius:8px;font-size:.9rem;margin:.6rem 0}'
+  '</style>')
+
+def sp_ablauf(aktiv):
+    return SP_ABLAUF % tuple(' class="an"' if n == aktiv else "" for n in ("07", "08", "09"))
+
+def sp_karte(k, name, ort, kontext, sensor, gruen, rot, ersatz):
+    return ('<div class="sp-karte"><h3>%s · %s</h3><div class="ort">%s</div><p>%s</p><p><b>Sensor:</b> %s</p>'
+            '<p><span class="led g"></span>%s<br><span class="led r"></span>%s</p><p class="tk"><b>Tinkercad:</b> %s</p></div>'
+            % (k, name, ort, kontext, sensor, gruen, rot, ersatz))
+
+LP07_V3_MATERIAL = (
+  sp_ablauf("07")
+  + '<p>In <b>Zweierteams</b> baut ihr in drei Sitzungen einen <b>Wächter</b>: Ein echter Sensor misst, der Arduino vergleicht mit einem '
+    '<b>Schwellenwert</b>, und zwei LEDs zeigen an: <span class="led g"></span><b>grün</b> = alles in Ordnung, <span class="led r"></span><b>rot</b> = jetzt handeln. '
+    'Heute <b>plant</b> ihr, <b>programmiert</b> in Tinkercad, <b>übersetzt</b> die Blöcke in C++ und <b>modelliert</b> ein Gehäuse für den 3D-Drucker. Entscheidet euch für ein Projekt:</p>'
+  + '<div class="sp-karten">'
+  + sp_karte("A", "Gießwächter", "Zimmerpflanze im Wohnzimmer",
+             "Die Pflanzen stehen in Übertöpfen mit Wasservorrat. Von außen sieht niemand, wie viel Wasser noch drin ist.",
+             "Wasserstandssensor an A0, steht im Wasservorrat.", "genug Wasser im Topf",
+             "Wasserstand unter dem Schwellenwert: gießen!", "Potentiometer an A0 als Ersatz für den Wasserstandssensor.")
+  + sp_karte("B", "Filterwächter", "Wasserfilter in der Küche",
+             "Der Tischwasserfilter holt gelöste Salze aus dem Leitungswasser. Ist die Kartusche verbraucht, schmeckt man es nicht sofort.",
+             "TDS-Sensor an A1, misst gelöste Stoffe in ppm im gefilterten Wasser.", "Filter arbeitet",
+             "TDS über dem Schwellenwert: Kartusche wechseln!", "Potentiometer an A1 als Ersatz für den TDS-Sensor.")
+  + sp_karte("C", "Lüftungswächter", "Heizkeller im Haus",
+             "Im Heizkeller ist es warm, oft trocknet dort Wäsche. Wird zu selten gelüftet, bildet sich Schimmel an den Wänden.",
+             "DHT11 an Pin 2, misst Temperatur und Luftfeuchte.", "Luft in Ordnung",
+             "Temperatur <b>und</b> Luftfeuchte zu hoch: lüften!",
+             "TMP36 an A2 (Temperatur) und Potentiometer an A3 (Luftfeuchte), einen DHT11 gibt es dort nicht.")
+  + '</div>'
+  + '<h3>Für alle Projekte gleich: die Anzeige</h3>'
+    '<p>LED grün an <b>Pin 7</b>, LED rot an <b>Pin 8</b>, jede über <b>220 Ω</b> (rot-rot-braun) an GND. Es leuchtet immer genau eine LED. '
+    'Den Schwellenwert wählt ihr heute vorläufig, in Sitzung 08 messt ihr ihn am echten Sensor nach.</p>'
+  + '<h3>Gehäuse aus dem 3D-Drucker: so geht\'s</h3><ol class="task-list" style="list-style:decimal;padding-left:1.4rem">'
+    '<li>Tinkercad › <b>3D-Entwurf</b> anlegen, Quader auf <b>Außenmaß</b> ziehen. Einen zweiten Quader im <b>Innenmaß</b> als <b>Bohrung</b> einsetzen, 2 mm über dem Boden: Wand und Boden bleiben 2 mm stark.</li>'
+    '<li><b>Aussparungen</b> als Bohrung: Zylinder Ø 5,2 mm für jede LED, Quader für USB-Buchse (12 × 11 mm) und Sensorkabel. Plant je Seite 0,5 mm Spiel ein.</li>'
+    '<li><b>Deckel</b> als flache Platte extra bauen, gern mit eingeprägtem Namen (Text als Bohrung, 1 mm tief).</li>'
+    '<li>Alles markieren, <b>gruppieren</b>, <b>Exportieren › .STL</b>. Die Lehrkraft druckt die Gehäuse bis Sitzung 08. Je kleiner, desto schneller.</li></ol>'
+  + SP_CSS)
+
+# Erwartungshorizont Aufgabe 1: gemeinsame Bauteile + projektabhängige Zeilen + Steckplan
+_EH1_KOPF = ["Bauteil", "Material / Typ / Wert", "Anzahl", "Anschluss am Arduino"]
+_EH1_ALLE = [
+  ["Arduino Uno R3", "Mikrocontroller-Platine", "1", "USB-Buchse → Rechner"],
+  ["USB-Kabel", "Typ A auf B", "1", "USB-Buchse des Arduino"],
+  ["Steckbrett", "halbes, 400 Kontakte", "1", "Plus-Leiste an <b>5V</b>, Minus-Leiste an <b>GND</b>"],
+  ['<span class="led g"></span>LED grün', "5 mm, Kunststoff", "1", "langes Bein an <b>Pin 7</b>"],
+  ['<span class="led r"></span>LED rot', "5 mm, Kunststoff", "1", "langes Bein an <b>Pin 8</b>"],
+  ["Widerstand", "<b>220 Ω</b> (rot-rot-braun)", "2", "je kurzes LED-Bein → <b>GND</b>"],
+  ["Steckkabel", "Stecker–Stecker", "ca. 5–6", "5V, GND, Pin 7, Pin 8, Brücken"],
+  ["Gehäuse + Deckel", "PLA, 3D-Druck", "1 + 1", "–"],
+]
+_EH1_PROJ = {
+  "A": [["Wasserstandssensor", "Platine, analog, Pins S + −", "1", "S → <b>A0</b>, + → 5V, − → GND"],
+        ["Steckkabel", "Buchse–Stecker, lang", "3", "vom Sensor im Übertopf zum Arduino"],
+        ['<span class="gr">Tinkercad: Potentiometer</span>', "10 kΩ, Drehregler", "1", "Schleifer → A0, äußere Beine → 5V / GND"]],
+  "B": [["TDS-Sensor (CQRobot)", "Sonde + Signalplatine", "1", "Signal (grün) → <b>A1</b>, + (rot) → 5V, − (schwarz) → GND"],
+        ["Anschlusskabel", "3-adrig, aus der Packung", "1", "Platine (− + A) → Arduino"],
+        ['<span class="gr">Tinkercad: Potentiometer</span>', "10 kΩ, Drehregler", "1", "Schleifer → A1, äußere Beine → 5V / GND"]],
+  "C": [["DHT11", "Temperatur + Luftfeuchte, digital, 4 Beine", "1", "Bein 1 → 5V, Bein 2 → <b>Pin 2</b>, Bein 3 frei, Bein 4 → GND"],
+        ["Widerstand", "<b>10 kΩ</b> (braun-schwarz-orange)", "1", "zwischen Bein 1 und Bein 2 (Pull-up)"],
+        ['<span class="gr">Tinkercad: TMP36</span>', "Temperatursensor, analog", "1", "mittleres Bein → A2, außen → 5V / GND"],
+        ['<span class="gr">Tinkercad: Potentiometer</span>', "10 kΩ, ersetzt Luftfeuchte", "1", "Schleifer → A3, äußere Beine → 5V / GND"]],
+}
+_EH1_LUECKE = {"A": "das Tinkercad-Ersatzteil steht statt des echten Sensors da",
+               "B": "das Anschlusskabel der TDS-Platine fehlt, das Tinkercad-Ersatzteil steht statt des echten Sensors da",
+               "C": "der 10-kΩ-Widerstand am DHT11 fehlt, TMP36 und Potentiometer fehlen für die Tinkercad-Fassung"}
+
+def _eh1(k):
+    return ('<h5>Für alle Projekte gleich (Anzeige und Grundaufbau)</h5>' + _tab(_EH1_KOPF, _EH1_ALLE)
+            + '<h5>Projekt %s (echter Sensor in Sitzung 08, Ersatzteil in Tinkercad grau)</h5>' % k + _tab(_EH1_KOPF, _EH1_PROJ[k])
+            + '<div class="st-tipp"><b>Woran man eine gute Liste erkennt:</b> Sie enthält <b>Kabel, Steckbrett und Gehäuse</b>. Pins und Widerstände stimmen mit dem Infokasten überein. '
+              '<b>Häufige Lücken:</b> Vorwiderstände der LEDs fehlen, GND fehlt, %s. Beides eintragen ist ideal, eines genügt, wenn es gekennzeichnet ist.</div>' % _EH1_LUECKE[k]
+            + '<h5>Bauplan · Steckplan in Tinkercad</h5>'
+            + _fig(7, "bauplan-%s-steckplan" % k.lower(), "Steckplan Projekt %s · Tinkercad-Fassung" % k))
+
+# Erwartungshorizont Aufgabe 2: Struktogramme
+_EH2_NS = {
+  "A": struktogramm("Gießwächter", ns_anw("schwelle ← 200"),
+        ns_immer("wiederhole <b>für immer</b>", ns_anw("wert ← analogen Pin <b>A0</b> lesen"), ns_anw("wert im seriellen Monitor ausgeben"),
+                 ns_wenn("wert <b>&lt;</b> schwelle ?", [ROT_AN], [GRUEN_AN]), ns_anw("warte 1 Sekunde"))),
+  "B": struktogramm("Filterwächter", ns_anw("schwelle ← 600"),
+        ns_immer("wiederhole <b>für immer</b>", ns_anw("wert ← analogen Pin <b>A1</b> lesen"), ns_anw("wert im seriellen Monitor ausgeben"),
+                 ns_wenn("wert <b>&gt;</b> schwelle ?", [ROT_AN], [GRUEN_AN]), ns_anw("warte 1 Sekunde"))),
+  "C": struktogramm("Lüftungswächter", ns_anw("maxT ← 25 &nbsp; maxH ← 60"),
+        ns_immer("wiederhole <b>für immer</b>", ns_anw("t ← Temperatursensor an <b>A2</b> in °C lesen"),
+                 ns_anw("h ← analogen Pin <b>A3</b> lesen, auf 0–100 abbilden"), ns_anw("t und h im seriellen Monitor ausgeben"),
+                 ns_wenn("t <b>&gt;</b> maxT <b>und</b> h <b>&gt;</b> maxH ?", [ROT_AN], [GRUEN_AN]), ns_anw("warte 2 Sekunden"))),
+}
+_EH2_TIPP = {
+  "A": "Rot heißt: zu wenig Wasser, also ein <b>kleiner</b> Wert. In Tinkercad liefert das Potentiometer 0 bis 1023, jeder Schwellenwert in diesem Bereich ist zulässig.",
+  "B": "Rot heißt: viele gelöste Stoffe, also ein <b>großer</b> Wert, umgekehrt als bei A. Der Rohwert ersetzt heute die ppm. "
+       "Mittelwert aus 30 Messungen und TDS-Formel kommen in Sitzung 08 hinzu, als Zusatz geht schon jetzt eine Zählschleife „wiederhole 30-mal“.",
+  "C": "Rot nur, wenn <b>beide</b> Werte zu hoch sind. Gleichwertig ist eine <b>verschachtelte</b> Verzweigung: wenn t &gt; maxT, dann (wenn h &gt; maxH, dann rot, sonst grün), sonst grün. "
+       "Ein <b>oder</b> ist fachlich falsch. Das Abbilden auf 0–100 % ist ein Plus, der Rohwert mit passend großem Schwellenwert (z. B. 600) ist auch richtig.",
+}
+_EH2_BEWERTUNG = (
+  '<h5>Daran prüft ihr euer Struktogramm</h5><ul class="task-list">'
+  '<li>Die Wiederholung „für immer“ umschließt Lesen, Vergleich und Anzeige.</li>'
+  '<li>Der Sensorwert wird in einer <b>Variablen</b> gespeichert, am richtigen Pin.</li>'
+  '<li>Die Verzweigung prüft in die richtige Richtung (A: &lt;, B: &gt;, C: und).</li>'
+  '<li>Beide Zweige schalten <b>beide</b> LEDs, sonst bleibt eine an.</li>'
+  '<li>Am Ende wird gewartet, sonst rauscht der Monitor.</li></ul>'
+  '<p class="gr">Nicht verlangt: <code>pinMode</code> und <code>Serial.begin</code>, die erzeugt Tinkercad selbst in <code>setup()</code>.</p>')
+
+def _eh2(k):
+    return ('<h5>Bauplan · Struktogramm (Tinkercad-Fassung)</h5>' + _EH2_NS[k]
+            + '<div class="st-tipp">%s</div>' % _EH2_TIPP[k] + _EH2_BEWERTUNG)
+
+# Erwartungshorizont Aufgabe 3: Gehäuse
+_EH3 = {
+  "A": ("Wasserstandssensor ca. 62 × 20 × 8, <b>bleibt außen</b> im Übertopf, kommt nicht ins Innenmaß",
+        "≈ 160 × 60 × 35", "L: 2 + 68,6 + 3 + 82 + 2 · B: 55 + 2 · 2 · H: 15 + 20", "≈ 164 × 64 × 37",
+        "Kabeldurchführung für 3 Adern zum Sensor, ca. 10 × 5, seitlich unten"),
+  "B": ("Signalplatine ca. 42 × 32 × 10 <b>innen</b>, die Sonde bleibt außen im Wasser",
+        "≈ 160 × 95 × 35", "wie A, Platine vor dem Arduino · B: 53,3 + 3 + 32 + 2 · 3", "≈ 164 × 99 × 37",
+        "Durchführung für das Sondenkabel samt Stecker, ca. 10 × 8"),
+  "C": ("DHT11 ca. 15,5 × 12 × 5,5, sitzt auf dem Steckbrett und braucht keinen eigenen Platz",
+        "≈ 160 × 60 × 35", "wie A", "≈ 164 × 64 × 37",
+        "<b>Lüftungsschlitze</b> (z. B. 4 × 2 × 15) direkt neben dem DHT11, damit er die Raumluft misst und nicht die warme Luft im Gehäuse"),
+}
+
+def _eh3(k):
+    sensor, innen, rechnung, aussen, oeffnung = _EH3[k]
+    tab = _tab(["Teil", "Projekt %s · Richtwert in mm (L × B × H)" % k], [
+        ["Arduino Uno", "68,6 × 53,3 × 15 (vorgegeben)"],
+        ["Steckbrett (halb, 400)", "ca. 82 × 55 × 8,5"],
+        ["Sensor / Platine", sensor],
+        ["Kabelreserve oben", "ca. 20 mm (Steckkabel, LED-Beine ragen über das Steckbrett)"],
+        ["<b>Innenmaß</b>", "<b>%s</b><br><span class=\"gr\">%s</span>" % (innen, rechnung)],
+        ["<b>Außenmaß</b> (Innenmaß + 2 · 2 mm)", "<b>%s</b>" % aussen],
+        ["Öffnungen (alle)", "2 × Ø 5,2 mm für die LEDs im Deckel über dem Steckbrett · USB-Buchse ca. 13 × 12 an der Stirnseite beim Arduino (12 × 11 + Spiel)"],
+        ["Öffnungen (Projekt %s)" % k, oeffnung]])
+    return ('<p>Annahme: <b>Arduino und Steckbrett liegen nebeneinander</b>, je 2–3 mm Luft zwischen den Teilen und zur Wand. '
+            'Andere sinnvolle Anordnungen sind gleichwertig, wenn die Rechnung stimmt. Gemessene Werte dürfen um einige Millimeter abweichen.</p>'
+            + tab
+            + '<div class="st-tipp"><b>Höhe: + 2 oder + 4 mm?</b> Für die Höhe reicht + 2 mm (nur der Boden), weil der Deckel als eigene Platte gebaut wird. '
+              'Beides ist richtig. <b>Länge und Breite</b> müssen + 4 mm sein (zwei Wände).</div>'
+            + '<h5>Bauplan · Gehäuse</h5>' + _fig(7, "bauplan-%s-gehaeuse" % k.lower(), "Gehäuse Projekt %s · Draufsicht und Seitenansicht" % k)
+            + '<h5>Daran prüft ihr euer Gehäuse</h5><ul class="task-list">'
+              '<li>Alle Zeilen mit drei Maßen gefüllt, Einheit mm, Messwerte plausibel (± 5 mm).</li>'
+              '<li>Das Innenmaß ergibt sich nachvollziehbar aus den Teilen plus Luft, nicht nur aus dem größten Teil.</li>'
+              '<li>Außenmaß = Innenmaß + Wandstärken, richtig gerechnet.</li>'
+              '<li>Öffnungen für LEDs, USB und Sensorkabel genannt%s.</li>'
+              '<li><b>Plus:</b> 0,5 mm Spiel je Seite bei den Aussparungen, Name im Deckel, Gehäuse so klein wie möglich.</li></ul>'
+            % (", bei C zusätzlich Lüftung" if k == "C" else ""))
+
+# Erwartungshorizont Aufgabe 4: Block → C++
+def _eh4(k):
+    lesen = {"A": ["analogen Pin A0 lesen", "<code>analogRead(A0)</code>"],
+             "B": ["analogen Pin A1 lesen", "<code>analogRead(A1)</code>"],
+             "C": ["Temperatursensor an Pin A2 in °C lesen; analogen Pin A3 lesen",
+                   "<code>-40 + 0.488155 * (analogRead(A2) - 20)</code><br><code>analogRead(A3)</code>"]}[k]
+    festlegen = {"A": "<code>wert = analogRead(A0);</code>", "B": "<code>wert = analogRead(A1);</code>",
+                 "C": "<code>t = -40 + 0.488155 * (analogRead(A2) - 20);</code><br><code>h = map(analogRead(A3), 0, 1023, 0, 100);</code>"}[k]
+    variable = {"A": "Variable erstellen: wert", "B": "Variable erstellen: wert", "C": "Variablen erstellen: t, h, maxT, maxH"}[k]
+    var_cpp = {"A": "<code>int wert = 0;</code> (oben, vor <code>setup</code>)", "B": "<code>int wert = 0;</code> (oben, vor <code>setup</code>)",
+               "C": "<code>int t = 0;</code> usw. (oben, vor <code>setup</code>)"}[k]
+    bed = {"A": ["wert &lt; schwelle", "<code>if (wert &lt; schwelle)</code>"], "B": ["wert &gt; schwelle", "<code>if (wert &gt; schwelle)</code>"],
+           "C": ["(t &gt; maxT) und (h &gt; maxH)", "<code>if (t &gt; maxT &amp;&amp; h &gt; maxH)</code>"]}[k]
+    warten = ["2 Sekunden warten", "<code>delay(2000);</code>"] if k == "C" else ["1 Sekunden warten", "<code>delay(1000);</code>"]
+    tab = _tab(["Steuerelement", "Block in Tinkercad", "C++-Syntax"], [
+        ["Wiederholung", "für immer", "<code>void loop() { … }</code>"],
+        ["Ausgabe: LED an", "Pin 8 auf HOCH setzen", "<code>digitalWrite(8, HIGH);</code>"],
+        ["Ausgabe: LED aus", "Pin 7 auf NIEDRIG setzen", "<code>digitalWrite(7, LOW);</code>"],
+        ["Eingabe: Sensor lesen"] + lesen,
+        ["Variable", variable + "<br>… festlegen auf …", var_cpp + "<br>" + festlegen],
+        ["Verzweigung", "wenn … dann … sonst", "<code>if (…) { … } else { … }</code>"],
+        ["Bedingung / Vergleich"] + bed,
+        ["Warten"] + warten,
+        ["Serieller Monitor", "auf seriellem Monitor ausgeben: wert, mit Zeilenumbruch",
+         "<code>Serial.println(wert);</code><br>dazu in <code>setup()</code>: <code>Serial.begin(9600);</code>"]])
+    weiter = {"A": "Nur der Schwellenwert wird am echten Sensor nachgemessen (Muster: 200).",
+              "B": "Mittelwert aus 30 Messungen und TDS-Formel aus der Anschlusskarte, Vergleich in ppm (Muster: 400 ppm).",
+              "C": "Bibliothek <code>DHT.h</code>: <code>dht.readTemperature()</code> und <code>dht.readHumidity()</code> ersetzen TMP36 und Potentiometer, Grenzen 25 °C und 60 %."}[k]
+    datei = "tinkercad-projekt-%s.ino" % k.lower()
+    return (tab
+            + '<div class="st-tipp"><b>Worauf achten:</b> Semikolon nach jeder Anweisung, geschweifte Klammern bei <code>loop</code>, <code>if</code> und <code>else</code>. '
+              '<code>HIGH</code>/<code>LOW</code> großgeschrieben, <code>analogRead</code> und <code>digitalWrite</code> mit großem R bzw. W. '
+              '<code>=</code> legt fest, <code>&lt;</code> und <code>&gt;</code> vergleichen, „und“ heißt in C++ <code>&amp;&amp;</code>. '
+              'Zeilen wie <code>pinMode(7, OUTPUT);</code> schreibt Tinkercad automatisch in <code>setup()</code>.</div>'
+            + '<h5>Bauplan · Musterprogramm für Tinkercad</h5>' + _codeblock(datei, "Projekt %s · C++" % k)
+            + '<p><b>Ausblick auf Sitzung 08:</b> %s</p>' % weiter)
+
+# Impulsfragen (richtige Antwort an wechselnder Stelle; proj = nur für diese Projekte)
+LP07_V3_STUFEN = dict(
+  intro=('<p>Arbeitet zuerst auf dem Planungsblatt (Rückseite, Aufgaben 1–4). Kommt ihr nicht weiter oder seid fertig, helfen euch die <b>Impulsfragen</b>: '
+         'Jede falsche Antwort gibt einen Tipp. Habt ihr alle Fragen einer Aufgabe richtig, erscheint der <b>Erwartungshorizont</b> mit dem passenden '
+         '<b>Bauplan</b> (Steckplan, Struktogramm, Gehäuse, Musterprogramm). Ergänzt dann euer Blatt in einer anderen Farbe. Jede:r kann die Fragen für sich durchgehen.</p>'),
+  projekte=SP_PROJEKTE,
+  aufgaben=[
+    dict(nr=1, titel="Bauteile und Materialien",
+         auftrag="Tragt alle Bauteile ein, die ihr braucht, auch Kabel, Steckbrett und Gehäuse: Material / Typ / Wert, Anzahl und Anschluss am Arduino.",
+         eh={k: _eh1(k) for k in "ABC"},
+         fragen=[
+           dict(q="Jede LED braucht einen Vorwiderstand. Welchen nehmt ihr, und wie viele?", done="Richtig: zwei Widerstände mit 220 Ω, je vom kurzen LED-Bein nach GND.",
+                opts=[("10 kΩ (braun-schwarz-orange), einer für beide LEDs", False, "10 kΩ ist viel zu groß, die LED bliebe fast dunkel. Und jede LED bekommt ihren eigenen Widerstand."),
+                      ("keinen, der Arduino begrenzt den Strom selbst", False, "Ohne Vorwiderstand fließt zu viel Strom, LED oder Pin können kaputtgehen."),
+                      ("220 Ω (rot-rot-braun), je LED einer, also zwei", True, None),
+                      ("220 Ω, einer reicht für beide LEDs", False, "Laut Infokasten geht jede LED über ihren eigenen 220-Ω-Widerstand an GND.")]),
+           dict(q="An welchen Pin kommt das lange Bein (Anode) der roten LED?", done="Genau: rot an Pin 8, grün an Pin 7.",
+                opts=[("Pin 7", False, "Pin 7 ist für die grüne LED."),
+                      ("GND", False, "An GND kommt das kurze Bein, über den Widerstand."),
+                      ("5V", False, "An 5V würde die LED immer leuchten, der Arduino könnte sie nicht schalten."),
+                      ("Pin 8", True, None)]),
+           dict(q="Was fehlt in vielen Bauteillisten, obwohl es ausdrücklich in der Aufgabe steht?", done="Richtig, ohne Kabel, Steckbrett und Gehäuse lässt sich nichts nachbauen.",
+                opts=[("der Arduino selbst", False, "Der steht meist drin. Lies die Aufgabe noch einmal: Was soll ausdrücklich mit in die Liste?"),
+                      ("Kabel, Steckbrett und Gehäuse", True, None),
+                      ("der Rechner, an dem programmiert wird", False, "Der Rechner gehört nicht zum Wächter."),
+                      ("die Uhrzeit der Messung", False, "Das ist kein Bauteil.")]),
+           dict(q="Wie bekommen Sensor und LEDs auf dem Steckbrett Strom (5V) und Masse (GND)?", done="Genau, die Leisten am Rand verteilen 5V und GND an alle Bauteile.",
+                opts=[("Jedes Bauteil bekommt ein eigenes Kabel direkt zum Pin 5V.", False, "Der Arduino hat nur einen 5V-Pin. Dafür gibt es die langen Leisten am Rand des Steckbretts."),
+                      ("Über das USB-Kabel, das direkt im Steckbrett steckt.", False, "Das USB-Kabel steckt nur im Arduino."),
+                      ("Plus-Leiste an 5V, Minus-Leiste an GND, die Bauteile holen sich Strom und Masse von dort.", True, None),
+                      ("Die Leisten am Rand sind schon von selbst angeschlossen.", False, "Erst Kabel von 5V und GND verbinden die Leisten mit dem Arduino.")]),
+           dict(proj="A", q="Tinkercad hat keinen Wasserstandssensor. Was nehmt ihr dort, und wie wird es angeschlossen?", done="Richtig, das Potentiometer liefert wie der Sensor Werte von 0 bis 1023.",
+                opts=[("einen Taster an Pin 2", False, "Ein Taster kennt nur gedrückt oder nicht. Der Wasserstand hat viele Stufen."),
+                      ("eine dritte LED an A0", False, "Eine LED ist eine Ausgabe. Gesucht ist eine Eingabe mit vielen Werten."),
+                      ("einen TMP36 an A2", False, "Der TMP36 ist der Ersatz in Projekt C. Schaut auf eure Projektkarte."),
+                      ("ein Potentiometer: mittleres Bein (Schleifer) an A0, äußere Beine an 5V und GND", True, None)]),
+           dict(proj="A", q="Wo steckt der echte Wasserstandssensor, und was braucht ihr dafür zusätzlich?", done="Genau, deshalb gehören drei lange Kabel in die Liste.",
+                opts=[("im Übertopf; ihr braucht drei lange Kabel (Buchse–Stecker) zum Arduino", True, None),
+                      ("auf dem Steckbrett, er braucht nichts extra", False, "Er muss im Wasservorrat der Pflanze stecken, weit weg vom Steckbrett."),
+                      ("im Gehäuse neben dem Arduino", False, "Im Gehäuse misst er keinen Wasserstand. Er bleibt außen im Übertopf."),
+                      ("Er braucht einen 10-kΩ-Widerstand.", False, "Den Widerstand braucht der DHT11 aus Projekt C.")]),
+           dict(proj="B", q="Was ersetzt in Tinkercad den TDS-Sensor?", done="Richtig, das Potentiometer liefert Werte von 0 bis 1023.",
+                opts=[("ein Wasserstandssensor an A0", False, "Den gibt es in Tinkercad nicht, und A0 gehört zu Projekt A."),
+                      ("ein Potentiometer: Schleifer an A1, äußere Beine an 5V und GND", True, None),
+                      ("ein Fotowiderstand an Pin 7", False, "Pin 7 ist für die grüne LED reserviert, der TDS-Wert kommt an A1."),
+                      ("gar nichts, das Programm erfindet Werte", False, "Ohne Eingabe gibt es nichts zu messen. Ihr braucht ein Bauteil mit Werten von 0 bis 1023.")]),
+           dict(proj="B", q="Woraus besteht der echte TDS-Sensor?", done="Genau, Sonde, Platine und das Kabel aus der Packung gehören alle in die Liste.",
+                opts=[("nur aus einer Sonde, die direkt in A1 steckt", False, "Zwischen Sonde und Arduino sitzt eine Platine, die das Signal aufbereitet."),
+                      ("aus einem Taster und einer LED", False, "Das wäre eine Anzeige, kein Sensor."),
+                      ("aus Sonde und Signalplatine, dazu das 3-adrige Kabel aus der Packung (grün an A1, rot an 5V, schwarz an GND)", True, None),
+                      ("aus vier Beinchen wie der DHT11", False, "Vier Beinchen hat der DHT11 aus Projekt C.")]),
+           dict(proj="C", q="Was braucht der DHT11 zusätzlich auf dem Steckbrett?", done="Richtig, ohne diesen Pull-up meldet er meist „Sensorfehler“.",
+                opts=[("einen 10-kΩ-Widerstand (braun-schwarz-orange) zwischen Bein 1 und Bein 2", True, None),
+                      ("einen 220-Ω-Widerstand vor Bein 4", False, "220 Ω sind für die LEDs. Der DHT11 braucht einen Widerstand zwischen Bein 1 (5V) und Bein 2 (Daten)."),
+                      ("ein Potentiometer an Bein 3", False, "Bein 3 bleibt frei."),
+                      ("nichts, er wird direkt in A0 gesteckt", False, "Der DHT11 sendet digitale Daten an Pin 2, nicht an einen Analog-Pin.")]),
+           dict(proj="C", q="Tinkercad hat keinen DHT11. Womit messt ihr dort Temperatur und Luftfeuchte?", done="Genau, zwei Ersatzteile für zwei Messwerte.",
+                opts=[("mit zwei Tastern, einer für warm, einer für feucht", False, "Taster liefern nur an oder aus. Ihr braucht Bauteile mit vielen Messwerten."),
+                      ("mit einem TMP36 für beide Werte", False, "Der TMP36 misst nur die Temperatur. Für die Feuchte braucht ihr ein zweites Bauteil."),
+                      ("mit einem Potentiometer an Pin 2", False, "Ein Potentiometer liefert einen analogen Wert und gehört an einen A-Pin."),
+                      ("mit einem TMP36 an A2 (Temperatur) und einem Potentiometer an A3 (Ersatz für die Luftfeuchte)", True, None)]),
+         ]),
+    dict(nr=2, titel="Struktogramm",
+         auftrag="Plant das Programm mit Anweisung, Verzweigung (wenn … dann … sonst) und Wiederholung (für immer), bevor ihr Blöcke setzt.",
+         eh={k: _eh2(k) for k in "ABC"},
+         fragen=[
+           dict(q="Welcher Baustein umschließt Messen, Vergleichen und Anzeigen?", done="Richtig, der Wächter misst ständig neu.",
+                opts=[("eine Verzweigung wenn … dann", False, "Die Verzweigung entscheidet nur. Der Wächter soll aber immer wieder neu messen."),
+                      ("die Wiederholung „für immer“", True, None),
+                      ("eine einzelne Anweisung", False, "Eine Anweisung läuft nur einmal."),
+                      ("gar keiner, das Programm läuft einmal durch", False, "Dann würde der Wächter nur beim Start messen.")]),
+           dict(q="Wo merkt sich das Programm den gemessenen Wert?", done="Genau, eine Variable ist das Gedächtnis des Programms.",
+                opts=[("in der LED", False, "Die LED zeigt nur an, sie speichert nichts."),
+                      ("im Schwellenwert", False, "Der Schwellenwert ist die feste Grenze. Der Messwert ändert sich und braucht einen eigenen Speicherplatz."),
+                      ("im seriellen Monitor", False, "Der Monitor zeigt den Wert nur an."),
+                      ("in einer Variablen, z. B. wert (bei C: t und h)", True, None)]),
+           dict(proj="A", q="Wann soll beim Gießwächter die rote LED leuchten?", done="Richtig: wenig Wasser, kleiner Messwert.",
+                opts=[("wenn wert > schwelle", False, "Ein großer Wert heißt: Der Sensor steckt tief im Wasser. Dann ist genug da."),
+                      ("wenn wert < schwelle", True, None),
+                      ("erst wenn wert = 0 ist", False, "Dann wäre der Topf schon ganz trocken. Ihr wollt vorher gewarnt werden."),
+                      ("immer abwechselnd mit grün", False, "Die Farbe hängt vom Messwert ab, nicht von der Zeit.")]),
+           dict(proj="B", q="Wann soll beim Filterwächter die rote LED leuchten?", done="Richtig: viele gelöste Stoffe, großer Messwert.",
+                opts=[("wenn wert < schwelle", False, "Ein kleiner TDS-Wert heißt: wenig gelöste Stoffe, der Filter arbeitet."),
+                      ("wenn wert genau gleich schwelle ist", False, "Genau gleich kommt fast nie vor. Ihr braucht einen Bereich."),
+                      ("wenn wert > schwelle", True, None),
+                      ("nie, ein Filter hält ewig", False, "Genau dafür baut ihr den Wächter.")]),
+           dict(proj="C", q="Wann soll beim Lüftungswächter die rote LED leuchten?", done="Richtig, erst warm und feucht zusammen ist ein Schimmelrisiko.",
+                opts=[("wenn t > maxT und h > maxH", True, None),
+                      ("wenn t > maxT oder h > maxH", False, "Lest die Projektkarte: Temperatur und Luftfeuchte zu hoch. Nur warm ist noch kein Schimmelrisiko."),
+                      ("wenn nur h > maxH", False, "Die Karte nennt zwei Bedingungen."),
+                      ("wenn t < maxT", False, "Kühle Luft ist nicht das Problem.")]),
+           dict(q="Im Ja-Zweig steht nur „Pin 8 auf HOCH“. Was passiert, wenn danach wieder der Nein-Zweig mit „Pin 7 auf HOCH“ läuft?", done="Genau, deshalb schaltet jeder Zweig beide LEDs.",
+                opts=[("Das Programm stürzt ab.", False, "Der Code läuft, er tut nur nicht das Gewünschte."),
+                      ("Die rote LED geht von selbst aus.", False, "Ein Pin bleibt HOCH, bis das Programm ihn auf NIEDRIG stellt."),
+                      ("Am Ende leuchten beide LEDs, weil Pin 8 nie auf NIEDRIG gestellt wird.", True, None),
+                      ("Nichts Besonderes, es leuchtet weiter nur eine LED.", False, "Probiert es in der Simulation aus: Rot bleibt an.")]),
+           dict(q="Wozu steht am Ende der Wiederholung „warte 1 Sekunde“ (bei C 2 Sekunden)?", done="Richtig. Der DHT11 misst ohnehin nur alle 2 Sekunden neu.",
+                opts=[("damit die LED heller wird", False, "Die Wartezeit hat mit der Helligkeit nichts zu tun."),
+                      ("damit der Arduino abkühlt", False, "Der Arduino wird dabei nicht heiß."),
+                      ("damit der Schwellenwert neu berechnet wird", False, "Der Schwellenwert bleibt fest."),
+                      ("damit der Monitor nicht rauscht und die Werte lesbar bleiben", True, None)]),
+           dict(proj="AB", q="Welche Werte liefert das Potentiometer in Tinkercad am Analog-Pin?", done="Genau, analogRead kennt 1024 Stufen. Jeder Schwellenwert dazwischen ist erlaubt.",
+                opts=[("0 bis 5", False, "5 V ist die Spannung. analogRead übersetzt sie in eine Zahl mit 1024 Stufen."),
+                      ("nur HOCH oder NIEDRIG", False, "Das liefert ein Digitalpin. Ein Analogpin kennt viele Stufen."),
+                      ("0 bis 1023", True, None),
+                      ("0 bis 100", False, "Auf 0 bis 100 rechnet erst map() um, wie bei Projekt C.")]),
+           dict(proj="C", q="Wie wird aus dem Potentiometerwert an A3 eine Luftfeuchte in Prozent?", done="Richtig. Den Rohwert mit einem großen Schwellenwert (z. B. 600) zu vergleichen, ist auch erlaubt.",
+                opts=[("Man teilt ihn durch 2.", False, "1023 / 2 wären über 500 %."),
+                      ("Mit map: von 0 bis 1023 auf 0 bis 100 abbilden.", True, None),
+                      ("Gar nicht, man vergleicht den Rohwert direkt mit 60.", False, "Der Rohwert geht bis 1023, 60 wäre fast immer überschritten. Entweder umrechnen oder den Schwellenwert anpassen."),
+                      ("Der TMP36 rechnet das aus.", False, "Der TMP36 misst nur die Temperatur.")]),
+         ]),
+    dict(nr=3, titel="Gehäuse vermessen",
+         auftrag="Messt mit Lineal oder Messschieber, alle Maße in mm. Rechnet Innen- und Außenmaß aus und plant die Öffnungen an Seite und Deckel. Baut das Gehäuse dann im Tinkercad-3D-Entwurf.",
+         eh={k: _eh3(k) for k in "ABC"},
+         fragen=[
+           dict(q="Wie dick sind Wand und Boden des Gehäuses?", done="Richtig, 2 mm sind stabil und drucken schnell.",
+                opts=[("0,5 mm", False, "0,5 mm ist das Spiel für Aussparungen, nicht die Wand."),
+                      ("2 cm", False, "Das wäre ein schwerer Klotz mit sehr langer Druckzeit."),
+                      ("10 mm", False, "Schaut in die Anleitung „Gehäuse aus dem 3D-Drucker“, Schritt 1."),
+                      ("2 mm", True, None)]),
+           dict(q="Arduino und Steckbrett liegen nebeneinander. Wie berechnet ihr die Innenlänge?", done="Genau: 2 + 68,6 + 3 + 82 + 2 ≈ 160 mm.",
+                opts=[("nur die Länge des Steckbretts, weil es das größte Teil ist", False, "Beide Teile liegen nebeneinander, ihre Längen addieren sich."),
+                      ("Länge Arduino + Länge Steckbrett + etwas Luft dazwischen und zur Wand", True, None),
+                      ("Länge des Arduino mal 2", False, "Das Steckbrett ist länger als der Arduino. Messt beide Teile."),
+                      ("Außenmaß minus 10 cm", False, "Ihr startet innen mit den Teilen und rechnet dann nach außen.")]),
+           dict(q="Wie kommt ihr bei Länge und Breite vom Innenmaß zum Außenmaß?", done="Richtig, links und rechts je eine Wand.",
+                opts=[("+ 2 mm", False, "Es gibt zwei Wände, auf jeder Seite eine."),
+                      ("mal 2", False, "Das Gehäuse wäre doppelt so groß wie nötig."),
+                      ("+ 4 mm (2 · 2 mm, zwei Wände)", True, None),
+                      ("gar nicht, innen und außen sind gleich", False, "Die Wand hat eine Dicke. Die kommt außen dazu.")]),
+           dict(q="Warum reicht bei der Höhe + 2 mm?", done="Genau. Wer + 4 mm rechnet, liegt auch richtig.",
+                opts=[("Weil der Deckel eine eigene Platte ist, gerechnet wird nur der Boden.", True, None),
+                      ("Weil das Gehäuse oben offen bleibt.", False, "Es gibt einen Deckel, er wird nur extra gebaut."),
+                      ("Weil der Arduino nur 2 mm hoch ist.", False, "Der Arduino ist mit Buchsen etwa 15 mm hoch."),
+                      ("Das stimmt nicht, man muss + 6 mm rechnen.", False, "Ein Boden von 2 mm, der Deckel kommt extra.")]),
+           dict(q="Welcher Durchmesser passt für die Bohrung einer 5-mm-LED?", done="Richtig, ein wenig Spiel gleicht Ungenauigkeiten beim Druck aus.",
+                opts=[("5,0 mm", False, "Ganz ohne Spiel klemmt die LED, der Druck wird nie ganz genau."),
+                      ("3 mm", False, "Da passt die LED nicht durch."),
+                      ("8 mm", False, "Dann fällt die LED durch."),
+                      ("5,2 mm", True, None)]),
+           dict(proj="A", q="Was gehört beim Gießwächter nicht ins Innenmaß?", done="Richtig, er steckt im Übertopf. Ins Gehäuse kommt nur eine Kabeldurchführung.",
+                opts=[("der Arduino", False, "Der Arduino ist das Herz des Wächters und gehört ins Gehäuse."),
+                      ("der Wasserstandssensor, er bleibt außen im Übertopf", True, None),
+                      ("das Steckbrett", False, "Das Steckbrett liegt im Gehäuse."),
+                      ("die Kabelreserve oben", False, "Ohne Reserve passt der Deckel nicht auf die Steckkabel.")]),
+           dict(proj="B", q="Was macht das Gehäuse beim Filterwächter breiter als bei A?", done="Genau, deshalb wird es innen etwa 95 statt 60 mm breit.",
+                opts=[("die TDS-Sonde", False, "Die Sonde hängt im Wasser, also außen."),
+                      ("der längere Arduino", False, "Alle Projekte nutzen denselben Arduino Uno."),
+                      ("die Signalplatine (ca. 42 × 32 mm), sie liegt innen vor dem Arduino", True, None),
+                      ("die Lüftungsschlitze", False, "Lüftungsschlitze braucht Projekt C.")]),
+           dict(proj="C", q="Welche Öffnung braucht nur der Lüftungswächter?", done="Richtig, sonst misst der DHT11 die warme Luft im Gehäuse.",
+                opts=[("eine Durchführung für die Sonde", False, "Eine Sonde hat Projekt B."),
+                      ("Lüftungsschlitze direkt neben dem DHT11, damit er die Raumluft misst", True, None),
+                      ("eine zweite USB-Öffnung", False, "Ein USB-Anschluss reicht."),
+                      ("ein Loch für einen Wasserschlauch", False, "Im Heizkeller wird Luft gemessen, kein Wasser.")]),
+         ]),
+    dict(nr=4, titel="Vom Block zur C++-Zeile",
+         auftrag="Stellt in Tinkercad den Code auf „Blöcke + Text“ und tragt für jedes Steuerelement euren Block und die C++-Zeile daneben ein.",
+         eh={k: _eh4(k) for k in "ABC"},
+         fragen=[
+           dict(q="Welche C++-Zeile gehört zum Block „Pin 8 auf HOCH setzen“?", done="Richtig, digitalWrite schaltet einen Ausgang.",
+                opts=[("pinMode(8, HIGH);", False, "pinMode legt nur fest, ob der Pin Eingang oder Ausgang ist."),
+                      ("digitalWrite(8, HIGH);", True, None),
+                      ("analogRead(8);", False, "analogRead liest einen Wert ein. Eine LED ist eine Ausgabe."),
+                      ("digitalwrite(8, high);", False, "C++ unterscheidet Groß- und Kleinschreibung: digitalWrite und HIGH.")]),
+           dict(q="Wie heißt der Block „für immer“ in C++?", done="Genau, loop() wiederholt sich, solange der Arduino Strom hat.",
+                opts=[("void setup() { … }", False, "setup() läuft nur einmal beim Start."),
+                      ("if (immer) { … }", False, "if ist eine Verzweigung, keine Wiederholung."),
+                      ("void loop() { … }", True, None),
+                      ("delay(immer);", False, "delay wartet nur eine bestimmte Zeit.")]),
+           dict(proj="A", q="Welche Zeile liest den Wert an A0 und speichert ihn?", done="Richtig, links die Variable, rechts der Messwert.",
+                opts=[("wert == analogRead(A0);", False, "== vergleicht. Zum Festlegen braucht ihr ein einzelnes =."),
+                      ("analogRead(A0) = wert;", False, "Links steht immer die Variable, die den Wert bekommt."),
+                      ("digitalRead(A0);", False, "digitalRead kennt nur HIGH oder LOW, und gespeichert wird so nichts."),
+                      ("wert = analogRead(A0);", True, None)]),
+           dict(proj="B", q="Welche Zeile liest den Wert an A1 und speichert ihn?", done="Richtig, links die Variable, rechts der Messwert.",
+                opts=[("wert = analogRead(A1);", True, None),
+                      ("wert == analogRead(A1);", False, "== vergleicht. Zum Festlegen braucht ihr ein einzelnes =."),
+                      ("analogRead(A1) = wert;", False, "Links steht immer die Variable, die den Wert bekommt."),
+                      ("digitalRead(A1);", False, "digitalRead kennt nur HIGH oder LOW, und gespeichert wird so nichts.")]),
+           dict(proj="C", q="Wie heißt die Bedingung „(t > maxT) und (h > maxH)“ in C++?", done="Richtig, && ist das „und“ in C++.",
+                opts=[("if (t > maxT || h > maxH)", False, "|| bedeutet oder. Gesucht ist und."),
+                      ("if (t > maxT && h > maxH)", True, None),
+                      ("if (t > maxT und h > maxH)", False, "C++ versteht kein deutsches „und“."),
+                      ("if (t > maxT; h > maxH)", False, "Ein Semikolon trennt Anweisungen, keine Bedingungen.")]),
+           dict(q="Was ist der Unterschied zwischen = und < im Programm?", done="Genau, festlegen und vergleichen sind zwei verschiedene Dinge.",
+                opts=[("Es gibt keinen, beide vergleichen.", False, "= legt einen Wert fest, < vergleicht zwei Werte."),
+                      ("= vergleicht, < legt einen Wert fest.", False, "Genau umgekehrt."),
+                      ("= legt einen Wert fest (wert = …), < vergleicht zwei Werte (wert < schwelle).", True, None),
+                      ("< gibt es nur für Kommazahlen.", False, "< funktioniert für alle Zahlen.")]),
+           dict(q="Welche Zeile wartet 1 Sekunde?", done="Richtig, delay zählt in Millisekunden. Bei C sind es 2000.",
+                opts=[("delay(1000);", True, None),
+                      ("delay(1);", False, "delay zählt in Millisekunden. 1 ms ist viel zu kurz."),
+                      ("wait(1);", False, "Diesen Befehl kennt Arduino nicht."),
+                      ("sleep(1000);", False, "Arduino nutzt delay, nicht sleep.")]),
+           dict(q="In eurer Tabelle fehlen pinMode(…) und Serial.begin(9600). Ist das schlimm?", done="Richtig. Wer sie trotzdem erklärt, zeigt gutes Verständnis.",
+                opts=[("Ja, ohne sie ist die Tabelle falsch.", False, "Für die Tabelle sind sie nicht verlangt, weil ihr dafür keinen eigenen Block setzt."),
+                      ("Nein, Tinkercad schreibt sie selbst in setup().", True, None),
+                      ("Nein, weil der Arduino sie nicht braucht.", False, "Der Arduino braucht sie, Tinkercad ergänzt sie nur automatisch."),
+                      ("Ja, man muss sie in loop() schreiben.", False, "Sie gehören in setup(), weil sie nur einmal nötig sind.")]),
+         ]),
+  ])
+
+LP07_V3_LOESUNG = [
+  "Die Erwartungshorizonte zu den Aufgaben 1–4 erscheinen oben im Abschnitt „Schritt für Schritt“, sobald alle Impulsfragen eurer Aufgabe richtig beantwortet sind.",
+  "Rot leuchtet bei A, wenn <code>wert &lt; schwelle</code> (wenig Wasser), bei B, wenn <code>wert &gt; schwelle</code> (viele gelöste Stoffe), bei C nur, wenn <code>t &gt; maxT &amp;&amp; h &gt; maxH</code>. Jeder Zweig schaltet beide LEDs.",
+  "Gehäuse: innen ≈ 160 × 60 × 35 mm (A, C) bzw. 160 × 95 × 35 mm (B), außen + 4 mm in Länge und Breite, + 2 mm in der Höhe.",
+  _codeblock("tinkercad-projekt-a.ino", "Projekt A · Gießwächter (Tinkercad)"),
+  _codeblock("tinkercad-projekt-b.ino", "Projekt B · Filterwächter (Tinkercad)"),
+  _codeblock("tinkercad-projekt-c.ino", "Projekt C · Lüftungswächter (Tinkercad)"),
+]
+
+LP07_V3_VERTIEFUNG = (
+  "<p>Fertig und alles verglichen? Wählt eine Erweiterung, die ihr in Sitzung 08 am echten Arduino weiterbaut.</p>"
+  "<h3>🟡 Vorwarnung</h3><p>Ergänzt eine <b>gelbe LED</b> an Pin 9 und einen zweiten Schwellenwert: grün = alles gut, gelb = bald handeln, rot = jetzt handeln. "
+  "Im Struktogramm wird daraus eine verschachtelte Verzweigung.</p>"
+  "<h3>🔁 Ruhige Messwerte (B)</h3><p>Messt mit einer Zählschleife „wiederhole 30-mal“ und bildet den Mittelwert. So arbeitet auch das Musterprogramm für den echten TDS-Sensor.</p>"
+  "<h3>🏷️ Gehäuse mit Namen</h3><p>Prägt den Namen eures Wächters 1 mm tief in den Deckel und macht das Gehäuse so klein wie möglich: Jede gesparte Minute Druckzeit zählt.</p>"
+  "<style>.vertiefung h3{font-size:1rem;margin:1.1rem 0 .4rem;color:var(--key)}</style>")
+
+# ---------------------------------------------------------------- LP08 · Bauen und testen
+def _anschlusskarte(nr, name, fig, kabel, stecker, monitor, achtung, code):
+    rows = "".join("<tr><td>%s</td><td><b>%s</b></td><td>%s</td></tr>" % z for z in kabel)
+    return ('<h3>Sensor %d · %s</h3>%s'
+            '<div class="tbl"><table><tr><th>Kabel</th><th>Sensor</th><th>Arduino</th></tr>%s</table></div>'
+            '<p>%s</p><p><b>Im Monitor:</b> %s</p><div class="sp-hinweis"><b>⚠ Achtung:</b> %s</div>%s'
+            ) % (nr, name, _fig(8, fig, "Anschlusskarte Sensor %d · %s" % (nr, name)), rows, stecker, monitor, achtung,
+                 _codeblock(code, "Testprogramm Sensor %d" % nr))
+
+LP08_V3_MATERIAL = (
+  sp_ablauf("08")
+  + '<p>Heute zieht euer Wächter vom Bildschirm ins echte Leben: Ihr <b>baut</b> ihn ins gedruckte Gehäuse, <b>ersetzt</b> im Code das Ersatzbauteil durch den echten Sensor, '
+    '<b>testet</b> ihn live und <b>legt</b> den Schwellenwert fest.</p>'
+  + '<h3>Vom Ersatzbauteil zum echten Sensor</h3><p>Ersetzt im C++-Code nur die Zeilen, die den Sensor lesen, durch die Zeilen aus der Anschlusskarte. Vergleich und LEDs bleiben.</p>'
+  + _tab(["Projekt", "in Tinkercad", "am echten Arduino"], [
+      ["<b>A</b> Gießwächter", "Potentiometer an A0", "<code>analogRead(A0)</code> bleibt. Neu ist der Wertebereich: trocken etwa 0, tief im Wasser bis etwa 650."],
+      ["<b>B</b> Filterwächter", "Potentiometer an A1", "Die <b>30 Messungen</b> und die <b>TDS-Formel</b> aus der Anschlusskarte einfügen, dann <code>tds</code> mit dem Schwellenwert vergleichen."],
+      ["<b>C</b> Lüftungswächter", "TMP36 an A2, Potentiometer an A3", "<code>#include &lt;DHT.h&gt;</code> und <code>DHT dht(2, DHT11);</code> oben, <code>dht.begin();</code> im Setup, dann <code>dht.readTemperature()</code> und <code>dht.readHumidity()</code>."]])
+  + '<h3>So ladet ihr den Code hoch</h3><ol class="task-list" style="list-style:decimal;padding-left:1.4rem">'
+    '<li><b>USB-Kabel ab</b>, dann die Kabel nach der Anschlusskarte stecken. Die Farbe im Bild zeigt den Pin, das farbige Schild am Arduino den Namen.</li>'
+    '<li>Arduino anstecken und <a href="' + UPLOAD_URL + '" target="_blank" rel="noopener"><b>Arduino hochladen</b></a> öffnen (Chrome oder Edge, ohne Konto).</li>'
+    '<li>Code einfügen oder mit <b>„Datei öffnen“</b> laden, dann <b>„⬆ Auf Arduino laden“</b> klicken und den Arduino auswählen.</li>'
+    '<li>Im <b>Monitor</b> unten auf der Seite erscheinen die Messwerte.</li></ol>'
+  + _anschlusskarte(1, "DHT11: Temperatur und Luftfeuchte", "sensor-1-dht11",
+      [("rot", "Bein 1", "5V"), ("blau", "Bein 2", "Pin 2"), ("–", "Bein 3", "frei"), ("schwarz", "Bein 4", "GND"), ("10 kΩ", "Widerstand", "zwischen Bein 1 und Bein 2")],
+      "Haltet den Sensor mit dem <b>Gitter zu euch</b>: Die Beinchen zählen von links 1, 2, 3, 4.",
+      "<code>Temperatur: 22.00 C, Luftfeuchte: 45.00 %</code>. Haucht den Sensor an: Die Luftfeuchte steigt.",
+      "Ohne den 10-kΩ-Widerstand (braun-schwarz-orange) kommt meist „Sensorfehler“. Bein 3 bleibt frei. Der DHT11 misst nur ganze Zahlen und ist auf etwa ±2 °C genau.",
+      "sensor-1-dht11.ino")
+  + _anschlusskarte(2, "Wasserstandssensor", "sensor-2-wasserstand",
+      [("gelb", "S", "A0"), ("rot", "+", "5V"), ("schwarz", "−", "GND")],
+      "Die Beschriftung <b>S + −</b> steht auf der roten Platine unter den Pins. Die Kabelfarben dürft ihr frei wählen, wichtig ist, wo sie stecken.",
+      "<code>Wasserstand: 412</code>. Trocken steht dort etwa 0, je tiefer der Sensor im Wasser steckt, desto größer die Zahl (bis etwa 600–700).",
+      "Nur die Fläche mit den Streifen ins Wasser tauchen, Pins und Bauteile oben bleiben trocken. Den Sensor danach abtrocknen.",
+      "sensor-2-wasserstand.ino")
+  + _anschlusskarte(3, "CQRobot TDS: Leitfähigkeit von Wasser", "sensor-3-tds",
+      [("grün", "Signal", "A1"), ("rot", "+", "5V"), ("schwarz", "−", "GND")],
+      "Das Kabel aus der Packung steckt im <b>dreipoligen</b> Stecker der schwarzen Platine (− + A), die Sonde im <b>zweipoligen</b>. Die ersten Werte nach dem Start sind zu hoch, nach etwa 10 s ist die Messung ruhig.",
+      "<code>Spannung: 1.47 V, TDS: 565 ppm</code> (Leitungswasser). Eine Prise Salz lässt den Wert steigen. Über etwa 1000 ppm misst der Sensor ungenau.",
+      "Nur die Sonde ins Wasser, die Platine bleibt trocken. Sonde danach mit destilliertem Wasser abspülen. Nicht zusammen mit dem Wasserstandssensor im selben Gefäß messen.",
+      "sensor-3-tds.ino")
+  + '<h3>Wenn es nicht klappt</h3><ul class="task-list">'
+    '<li><b>Keine LED leuchtet:</b> Das lange Bein der LED zeigt zum Pin, das kurze über den Widerstand zu GND.</li>'
+    '<li><b>Monitor bleibt leer:</b> <code>Serial.begin(9600);</code> im Setup? Richtigen Anschluss gewählt?</li>'
+    '<li><b>DHT11 meldet „Sensorfehler“:</b> 10-kΩ-Widerstand zwischen Bein 1 und Bein 2 prüfen.</li>'
+    '<li><b>TDS-Werte springen:</b> Die ersten 10 s nach dem Start sind zu hoch, dann ist der Wert ruhig.</li>'
+    '<li><b>Gehäuse noch nicht fertig:</b> Erst auf dem Steckbrett testen, dann einbauen.</li></ul>'
+  + SP_CSS)
+
+LP08_V3_TASKS = [
+  "<b>Aufgabe 1 · Einbauen:</b> Baut den Wächter ins Gehäuse und schließt den Sensor nach der Anschlusskarte an. Hakt ab: Arduino passt, USB erreichbar · LEDs mit 220 Ω an Pin 7 und Pin 8 · Sensor mit USB ab gesteckt · Sensor bzw. Sonde außen, Platine trocken.",
+  "<b>Aufgabe 2 · Vom Ersatzbauteil zum echten Sensor:</b> Ersetzt im C++-Code nur die Zeilen, die den Sensor lesen (Tabelle oben).",
+  "<b>Aufgabe 3 · Hochladen:</b> Ladet den Code mit „Arduino hochladen“ auf den Arduino und beobachtet die Messwerte im Monitor.",
+  "<b>Aufgabe 4 · Testen und Schwellenwert festlegen:</b> Testet mindestens drei Situationen, notiert Messwert, welche LED leuchten soll und welche wirklich leuchtet. Legt den Schwellenwert fest und begründet ihn.",
+  "<b>Aufgabe 5 · Ergebnis prüfen und anpassen:</b> Notiert, was noch nicht wie geplant lief, und was ihr geändert habt (Code, Kabel, Gehäuse, Schwellenwert).",
+  "<b>Aufgabe 6 · Projektbericht (3–5 Seiten):</b> 1 Problem und Ziel · 2 Aufbau (Bauteilliste, Schaltplan, Foto) · 3 Programm (Struktogramm, wichtige C++-Zeilen erklärt) · 4 Gehäuse · 5 Test (Tabelle, Schwellenwert) · 6 Reflexion · 7 Quellen.",
+  "<b>Aufgabe 7 · Übersicht für die Galerie (1 Seite):</b> Name und Team, Problem in einem Satz, Foto, So funktioniert's (Sensor → Arduino → LED), Schwellenwert und Bedeutung von grün und rot, ein Testergebnis.",
+]
+
+LP08_V3_QUIZ = [
+  dict(q="Was ändert ihr am Tinkercad-Code für den echten Sensor?", done="Richtig, nur das Lesen des Sensors ändert sich.",
+       opts=[("alles, der echte Arduino braucht ein ganz neues Programm", False, "Vergleich, LEDs und Wiederholung bleiben genau gleich."),
+             ("nur die Zeilen, die den Sensor lesen", True, None),
+             ("nur die Pins der LEDs", False, "Die LEDs bleiben an Pin 7 und Pin 8."),
+             ("gar nichts", False, "Bei B und C liest der echte Sensor anders als das Ersatzbauteil.")]),
+  dict(q="Der DHT11 meldet im Monitor „Sensorfehler“. Was prüft ihr zuerst?", done="Genau, das ist die häufigste Ursache.",
+       opts=[("den Schwellenwert", False, "Der Schwellenwert hat mit dem Lesen nichts zu tun."),
+             ("die Farbe der LED", False, "Die LED ist nicht beteiligt."),
+             ("die Wartezeit", False, "Zwei Sekunden Wartezeit sind richtig."),
+             ("den 10-kΩ-Widerstand zwischen Bein 1 und Bein 2", True, None)]),
+  dict(q="Der Monitor bleibt leer, obwohl der Upload geklappt hat. Woran kann es liegen?", done="Richtig, ohne Serial.begin schreibt der Arduino nichts.",
+       opts=[("Serial.begin(9600); fehlt im Setup", True, None),
+             ("die rote LED ist kaputt", False, "Eine kaputte LED hält den Monitor nicht an."),
+             ("das Gehäuse ist zu klein", False, "Das Gehäuse beeinflusst den Monitor nicht."),
+             ("der Schwellenwert ist zu hoch", False, "Auch dann würden Werte im Monitor erscheinen.")]),
+  dict(q="Wie findet ihr einen guten Schwellenwert?", done="Genau, der Schwellenwert stammt aus euren eigenen Messungen.",
+       opts=[("Man nimmt immer 500.", False, "Jeder Sensor und jede Situation liefert andere Werte. Messt nach."),
+             ("Man misst die Situation „in Ordnung“ und die Situation „handeln“ und legt den Wert dazwischen.", True, None),
+             ("Man schaut, welcher Wert gerade im Monitor steht.", False, "Ein einzelner Wert sagt nichts über die Grenze zwischen gut und schlecht."),
+             ("Man übernimmt den Wert aus Tinkercad.", False, "In Tinkercad lief ein Potentiometer, der echte Sensor liefert andere Werte.")]),
+  dict(q="Warum soll jemand den Wächter nach eurem Projektbericht nachbauen können?", done="Richtig, das ist das Kriterium „Nachvollziehbarkeit“ in Sitzung 09.",
+       opts=[("Weil Berichte immer lang sein müssen.", False, "Es geht nicht um Länge, sondern darum, dass alles drinsteht."),
+             ("Weil nur so der Drucker funktioniert.", False, "Der Bericht hat mit dem Drucker nichts zu tun."),
+             ("Weil Bauteile, Schaltplan, Programm und Tests vollständig und verständlich drinstehen müssen.", True, None),
+             ("Weil die Lehrkraft den Wächter sonst nicht einschalten kann.", False, "Einschalten geht über USB, dafür braucht niemand den Bericht.")]),
+]
+
+LP08_V3_LOESUNG = [
+  "Aufgabe 2: A behält <code>analogRead(A0)</code>, B mittelt 30 Messungen und rechnet mit der TDS-Formel in ppm, C liest mit <code>dht.readTemperature()</code> und <code>dht.readHumidity()</code>.",
+  "Aufgabe 4: Der Schwellenwert liegt zwischen den gemessenen Werten für „in Ordnung“ und „handeln“, z. B. A: trocken ≈ 0, halb voll ≈ 400 → Schwelle 200; B: Leitungswasser ≈ 565 ppm, frisch gefiltert ≈ 100 ppm → Schwelle 400 ppm; C: 25 °C und 60 %.",
+  _codeblock("projekt-a-pflanze.ino", "Musterlösung A · Gießwächter (echter Sensor)"),
+  _codeblock("projekt-b-wasserfilter.ino", "Musterlösung B · Filterwächter (echter Sensor)"),
+  _codeblock("projekt-c-heizkeller.ino", "Musterlösung C · Lüftungswächter (echter Sensor)"),
+]
+
+LP08_V3_VERTIEFUNG = (
+  "<p>Euer Wächter läuft zuverlässig? Dann macht ihn alltagstauglicher.</p>"
+  "<h3>🔔 Alarm</h3><p>Schließt einen <b>Piezo-Summer</b> an und lasst ihn bei Rot alle zehn Sekunden kurz piepen (<code>tone()</code>, <code>noTone()</code>).</p>"
+  "<h3>🟡 Vorwarnung</h3><p>Eine gelbe LED zeigt an, dass sich der Wert dem Schwellenwert nähert. Belegt im Bericht, ab welchem Wert sie leuchtet.</p>"
+  "<style>.vertiefung h3{font-size:1rem;margin:1.1rem 0 .4rem;color:var(--key)}</style>")
+
+# ---------------------------------------------------------------- LP09 · Galerie
+LP09_V3_MATERIAL = (
+  sp_ablauf("09")
+  + '<p>Heute <b>präsentiert</b> ihr euren Wächter, <b>bewertet</b> andere Projekte anhand von zwei Kriterien und <b>gebt</b> eine wertschätzende, konkrete Rückmeldung.</p>'
+  + '<h3>Ablauf des Gallery Walks</h3>'
+  + _tab(["Phase", "Was passiert?"], [
+      ["<b>Aufbauen</b>", "Wächter (läuft am USB-Strom), ausgedruckte Übersicht und Projektbericht auf euren Tisch legen."],
+      ["<b>Runde 1</b>", "<b>Person 1</b> bleibt als Expert:in am Projekt und erklärt. <b>Person 2</b> besucht zwei andere Projekte und bewertet sie."],
+      ["<b>Runde 2</b>", "Tauschen: Jetzt erklärt Person 2, Person 1 besucht zwei <b>andere</b> Projekte."],
+      ["<b>Rückmelden</b>", "Im Team die Bewertungen besprechen. Jede:r schreibt für die zwei besuchten Projekte je eine Rückmeldekarte und gibt sie ab."],
+      ["<b>Abschluss</b>", "Eure eigenen Karten lesen: Was nehmt ihr für die nächste Version mit?"]])
+  + '<h3>Bewertungsmatrix</h3><p>Testet den Wächter selbst (z. B. Sensor ins Wasser, anhauchen) und lest in Bericht und Übersicht. Kreuzt je Aussage eine Stufe an: '
+    '<b>++</b> voll erfüllt · <b>+</b> überwiegend · <b>o</b> teilweise · <b>–</b> noch nicht erfüllt.</p>'
+  + _tab(["Kriterium", "Aussage"], [
+      ["<b>1 · Funktion des Wächters</b><br>Sensor, Steuerung, Anzeige und Gehäuse arbeiten zusammen",
+       "Der Sensor liefert glaubwürdige Messwerte.<br>Die LEDs wechseln am Schwellenwert zuverlässig zwischen grün und rot.<br>"
+       "Das Gehäuse schützt die Technik, Anzeige und Sensor sind gut zugänglich.<br>Der Wächter löst das Alltagsproblem, der Schwellenwert ist begründet."],
+      ["<b>2 · Nachvollziehbarkeit und Übersichtlichkeit des Projektberichts</b>",
+       "Problem, Ziel und die Bedeutung von grün und rot sind klar.<br>Bauteile und Schaltplan reichen zum Nachbauen.<br>"
+       "Das Programm ist mit Struktogramm und Code verständlich erklärt.<br>Tests und Reflexion sind mit Messwerten belegt.<br>Die Übersicht ist auf einen Blick verständlich."]])
+  + '<h3>Rückmeldekarte</h3><p>Rückmeldung an Team … von …</p><ul class="task-list">'
+    '<li><b>Das ist euch besonders gelungen:</b> …</li><li><b>Mein Tipp für die nächste Version:</b> …</li><li><b>Meine Frage an euch:</b> …</li></ul>'
+    '<div class="sp-hinweis"><b>Satzanfänge:</b> „Besonders überzeugt hat uns …, weil …“ · „Ihr könntet noch …, dann …“ · „Uns ist aufgefallen, dass …“ · „Wie habt ihr … gelöst?“</div>'
+  + SP_CSS)
+
+LP09_V3_TASKS = [
+  "<b>Aufgabe 1 · Gallery Walk:</b> Baut euren Wächter mit Übersicht und Bericht auf. In Runde 1 erklärt Person 1, Person 2 besucht zwei Projekte, in Runde 2 wird getauscht.",
+  "<b>Aufgabe 2 · Bewerten:</b> Testet die besuchten Wächter selbst, lest Bericht und Übersicht und kreuzt in der Bewertungsmatrix je Aussage eine Stufe an.",
+  "<b>Aufgabe 3 · Rückmeldekarten schreiben:</b> Schreibt für jedes besuchte Projekt eine Karte: Was ist gelungen, welcher umsetzbare Tipp, welche Frage. Gebt sie dem Team.",
+  "<b>Aufgabe 4 · Unser Fazit:</b> Lest eure eigenen Karten. Was ändert ihr in einer nächsten Version eures Wächters zuerst?",
+]
+
+LP09_V3_QUIZ = [
+  dict(q="Welche Rückmeldung hilft einem Team am meisten weiter?", done="Richtig: konkret, begründet und umsetzbar.",
+       opts=[("„War gut.“", False, "Das freut, aber das Team weiß nicht, was genau gut war."),
+             ("„Euer Gehäuse ist hässlich.“", False, "Das ist weder wertschätzend noch hilfreich. Was genau könnte besser werden?"),
+             ("„Ihr könntet die rote LED näher an den Rand setzen, dann sieht man sie auch von der Tür aus.“", True, None),
+             ("„Keine Ahnung, wie das funktioniert.“", False, "Stellt lieber eine konkrete Frage an das Team.")]),
+  dict(q="Was bewertet ihr im Kriterium „Funktion des Wächters“?", done="Genau, Sensor, Steuerung, Anzeige und Gehäuse im Zusammenspiel.",
+       opts=[("wie schön die Übersicht gestaltet ist", False, "Das gehört zu Kriterium 2, dem Bericht."),
+             ("ob Sensor, Steuerung, Anzeige und Gehäuse zusammenarbeiten und der Schwellenwert begründet ist", True, None),
+             ("wie lange das Team gearbeitet hat", False, "Bewertet wird das Ergebnis, nicht die Zeit."),
+             ("welches Projekt (A, B oder C) gewählt wurde", False, "Alle drei Projekte sind gleich viel wert.")]),
+  dict(q="Wie prüft ihr, ob die Anzeige zuverlässig umschaltet?", done="Richtig, selbst ausprobieren ist der beste Test.",
+       opts=[("Man fragt das Team, ob es klappt.", False, "Glauben ist gut, testen ist besser."),
+             ("Man liest nur den Code.", False, "Der Code zeigt die Idee, aber nicht, ob der echte Sensor mitspielt."),
+             ("Man schaut, ob das Gehäuse zu ist.", False, "Ein geschlossenes Gehäuse sagt nichts über die Anzeige."),
+             ("Man verändert die Messgröße selbst (Wasser, Salz, Anhauchen) und beobachtet, ob die LED am Schwellenwert wechselt.", True, None)]),
+  dict(q="Was macht ihr mit den Rückmeldekarten, die ihr bekommt?", done="Genau, daraus entsteht euer Fazit für die nächste Version.",
+       opts=[("Lesen, im Team besprechen und auswählen, was ihr zuerst verbessert.", True, None),
+             ("Wegwerfen, das Projekt ist ja fertig.", False, "Die Karten zeigen euch, was andere sehen. Das ist wertvoll für eine nächste Version."),
+             ("Nur die positiven Karten lesen.", False, "Gerade die Tipps helfen beim Verbessern."),
+             ("Dem anderen Team widersprechen.", False, "Nachfragen ist erlaubt, aber erst einmal zuhören und überlegen.")]),
+]
+
+LP09_V3_LOESUNG = [
+  "Gute Rückmeldungen sind <b>konkret</b> (was genau?), <b>begründet</b> (warum?) und <b>umsetzbar</b> (was könnte das Team tun?).",
+  "Beispiel gelungen: „Besonders überzeugt hat uns, dass eure LED schon bei einer Prise Salz auf Rot springt, weil ihr den Schwellenwert mit Leitungs- und Filterwasser gemessen habt.“",
+  "Beispiel Tipp: „Ihr könntet im Bericht ein Foto vom offenen Gehäuse zeigen, dann sieht man, wie die Kabel verlegt sind.“",
+  "Beispiel Frage: „Wie habt ihr verhindert, dass der DHT11 die warme Luft vom Arduino misst?“",
+]
+
 # ---------------------------------------------------------------- Kursinhalt
 # Jedes LP: no, sjw, title, goal, tasks[], tools[keys], fast, rlp[], solution[], kind
 # optional: vorwissen[], quiz[], material (HTML, Informationstext), task_figs[] / solution_figs[]
 #           (dict(fig=..., cap=...); fig = SVG-Name ohne Endung oder Foto .jpg/.png aus <Lektion>/typst/)
+# ---------------------------------------------------------------- Archiv: LP10 Mini-Projekt Arduino
+# Seit 2026-10-16 nicht mehr im Kurs, die Sensor-Projekte LP07–09 schließen die Arduino-Reihe ab.
+# Seite: extras/lp10/archiv/lp10.html, Material: iCloud 02 Blockbasiert II …/Archiv/10 Mini-Projekt …
+LP10_ARCHIV = dict(no=10, sjw=11, kind="projekt", title="Mini-Projekt Arduino + Ergebnissicherung",
+     goal="Du planst und baust eine eigene kleine Schaltung (Lichtorgel, Würfel, Reaktionsspiel), dokumentierst sie und sicherst Code + Schaltplan als Backup.",
+     tasks=["Projektidee wählen, Bauteile & Ablauf planen.",
+            "Schaltung in Tinkercad aufbauen und Sketch schreiben & testen.",
+            "Ergebnis sichern: Sketch (.ino), Screenshot des Schaltplans, kurze Doku — lokal + Cloud."],
+     tools=["tinker", "arduino"],
+     fast="Baue eine Zusatzfunktion ein (z. B. Helligkeitssteuerung per Poti) und beschreibe sie in der Doku.",
+     rlp=["RLP 2.4 · Umsetzen", "2.6 Kommunizieren", "3.3 Projekt"],
+     vorwissen=[
+       dict(fig="fig1", cap="Bild 1 · Projektablauf", quiz=[
+         dict(q="Was ist Schritt 1 im Projektablauf?",
+              done="Richtig — die Projektidee wählen.",
+              opts=[
+                ("Projektidee wählen", True, None),
+                ("Bauteile und Ablauf planen", False, "Das Planen folgt erst, nachdem eine Idee feststeht."),
+                ("Aufbauen und Testen", False, "Aufgebaut wird erst nach Idee und Planung."),
+                ("Ergebnis sichern", False, "Das Sichern steht ganz am Ende des Ablaufs."),
+              ]),
+         dict(q="Was ist Schritt 3 im Projektablauf?",
+              done="Genau — Aufbauen und Testen in Tinkercad.",
+              opts=[
+                ("Aufbauen und Testen in Tinkercad", True, None),
+                ("Projektidee wählen", False, "Die Idee steht ganz am Anfang, Schritt 1."),
+                ("Bauteile und Ablauf planen", False, "Das Planen ist Schritt 2, vor dem Aufbauen."),
+                ("Ergebnis sichern", False, "Das Sichern folgt erst nach dem Testen, als Schritt 4."),
+              ]),
+         dict(q="Warum führt vom Testen ein gestrichelter Pfeil zurück zum Planen?",
+              done="Richtig — Anpassen ist erlaubt.",
+              opts=[
+                ("Weil man die Planung nach dem Testen bei Bedarf anpassen darf.", True, None),
+                ("Weil das Testen komplett übersprungen werden soll.", False, "Getestet werden soll gerade gründlich, nicht übersprungen."),
+                ("Weil ein Fehler das ganze Projekt ungültig macht.", False, "Ein Fehler beim Testen führt nur zu einer Anpassung, nicht zum Abbruch."),
+                ("Das ist nur Dekoration ohne Bedeutung.", False, "Der Pfeil zeigt den iterativen Charakter eines echten Projekts."),
+              ]),
+         dict(q="Was passiert im letzten Schritt, dem Sichern?",
+              done="Stimmt — Sketch, Schaltplan und Doku an zwei Orten.",
+              opts=[
+                ("Sketch, Schaltplan-Screenshot und Doku werden an zwei Orten gespeichert.", True, None),
+                ("Das Projekt wird sofort gelöscht.", False, "Sichern bedeutet Aufbewahren, nicht Löschen."),
+                ("Nur der Sketch wird auf dem Arduino belassen.", False, "Ohne separate Sicherung geht die Arbeit bei einem Defekt verloren."),
+                ("Es passiert nichts Wichtiges mehr.", False, "Die Ergebnissicherung ist ein zentraler, bewerteter Schritt."),
+              ]),
+       ]),
+       dict(fig="fig2", cap="Bild 2 · Bewertungskriterien", quiz=[
+         dict(q="Was bedeutet Kriterium 1, Funktion?",
+              done="Richtig — die Schaltung funktioniert wie geplant.",
+              opts=[
+                ("Die Schaltung funktioniert wie geplant.", True, None),
+                ("Der Code ist besonders kurz.", False, "Die Länge des Codes ist kein Bewertungskriterium."),
+                ("Es wurden viele Bauteile verwendet.", False, "Die Anzahl der Bauteile sagt nichts über die Funktion aus."),
+                ("Das Projekt wurde schnell fertig.", False, "Geschwindigkeit ist kein Bewertungskriterium, Funktion schon."),
+              ]),
+         dict(q="Was bedeutet Kriterium 2, Verdrahtung?",
+              done="Genau — sauber und sicher aufgebaut.",
+              opts=[
+                ("Die Schaltung ist sauber und sicher aufgebaut.", True, None),
+                ("Der Code ist kommentiert.", False, "Das gehört zum Kriterium Code, nicht zur Verdrahtung."),
+                ("Es gibt eine Dokumentation.", False, "Das ist ein eigenes Kriterium, nicht die Verdrahtung."),
+                ("Das Backup liegt an zwei Orten.", False, "Das betrifft die Dokumentation/Ergebnissicherung, nicht die Verdrahtung."),
+              ]),
+         dict(q="Was bedeutet Kriterium 3, Code?",
+              done="Stimmt — kommentiert und lesbar.",
+              opts=[
+                ("Der Code ist kommentiert und lesbar.", True, None),
+                ("Die Schaltung funktioniert wie geplant.", False, "Das ist das Kriterium Funktion, nicht Code."),
+                ("Die Verdrahtung ist sauber.", False, "Das ist ein eigenes Kriterium, nicht der Code."),
+                ("Es gibt ein Backup.", False, "Das gehört zur Dokumentation, nicht zum Code selbst."),
+              ]),
+       ]),
+     ],
+     quiz=[
+       dict(q="Was gehört zu einer guten Projektplanung vor dem Bauen?",
+            done="Richtig — Idee, Bauteile und Ablauf zuerst planen.",
+            opts=[
+              ("Projektidee wählen sowie Bauteile und Ablauf planen", True, None),
+              ("direkt ohne Plan drauflos bauen", False, "Ohne Plan führt der Aufbau meist zu unnötigen Umbauten und Fehlern."),
+              ("nur den Sketch schreiben, ohne Schaltung zu planen", False, "Sketch und Schaltung müssen zusammenpassen — beides gehört zur Planung."),
+              ("die Dokumentation erst nach der Abgabe beginnen", False, "Dann fehlen oft wichtige Details — Dokumentation sollte parallel entstehen."),
+            ]),
+       dict(q="Was bedeutet „Ergebnissicherung“ bei diesem Projekt?",
+            done="Genau — Sketch, Schaltplan und Doku an zwei Orten sichern.",
+            opts=[
+              ("Sketch (.ino), Schaltplan-Screenshot und Doku sichern — lokal und in der Cloud", True, None),
+              ("nur den Sketch auf dem Arduino lassen", False, "Ohne separate Sicherung geht die Arbeit bei einem Defekt verloren."),
+              ("nichts, das Projekt bleibt nur im Kopf", False, "Ohne dokumentierte Sicherung ist das Projekt nicht nachvollziehbar oder abgebbar."),
+              ("nur ein Foto des fertigen Aufbaus", False, "Ein Foto allein sichert weder den Code noch den Schaltplan im Detail."),
+            ]),
+       dict(q="Wonach wird das Mini-Projekt vor allem bewertet?",
+            done="Stimmt — Funktion, Verdrahtung, Code, Doku.",
+            opts=[
+              ("Funktion, saubere Verdrahtung, kommentierter Code und Doku", True, None),
+              ("nur die Originalität der Idee", False, "Originalität allein reicht nicht — die Umsetzung zählt ebenso."),
+              ("nur die Geschwindigkeit der Fertigstellung", False, "Schnelligkeit ist kein Bewertungskriterium, Qualität schon."),
+              ("nur die Anzahl der verwendeten Bauteile", False, "Mehr Bauteile bedeuten nicht automatisch ein besseres Projekt."),
+            ]),
+       dict(q="Warum ist ein kommentierter Code Teil der Bewertung?",
+            done="Richtig — Kommentare machen den Code nachvollziehbar.",
+            opts=[
+              ("Er macht nachvollziehbar, was der Code tut, und erleichtert Verständnis und Korrektur.", True, None),
+              ("Kommentare beschleunigen das Programm.", False, "Kommentare haben keinen Einfluss auf die Ausführungsgeschwindigkeit."),
+              ("Kommentare sind für den Arduino zwingend nötig, sonst läuft der Sketch nicht.", False, "Ein Sketch läuft auch ganz ohne Kommentare — sie dienen nur dem Verständnis."),
+              ("Kommentare ersetzen die Doku vollständig.", False, "Kommentare ergänzen die Doku, ersetzen sie aber nicht vollständig."),
+            ]),
+     ],
+     solution=["Bewertet werden Funktion, saubere Verdrahtung, kommentierter Code und die Doku.",
+               "Ergebnissicherung = reproduzierbar abgeben: .ino + Schaltplan + Beschreibung.",
+               "Backup an zwei Orten (Rechner + Cloud/USB)."])
+
 UNITS = [
  # =================== HALBJAHR 1 ===================
  dict(hj=1, num="00", title="Systemstart — Was ist Informatik?",
@@ -1050,380 +1887,50 @@ UNITS = [
                        "Aufgabe 4/5 (rot 13, gelb 12, grün 11): Rot = HOCH/NIEDRIG/NIEDRIG, 3 s · Rot-Gelb = HOCH/HOCH/NIEDRIG, 1 s · Grün = NIEDRIG/NIEDRIG/HOCH, 3 s · Gelb = NIEDRIG/HOCH/NIEDRIG, 1 s. <code>void setup() { pinMode(13, OUTPUT); pinMode(12, OUTPUT); pinMode(11, OUTPUT); }</code> und in <code>loop()</code> je Phase alle drei <code>digitalWrite</code> plus <code>delay</code>, z. B. Rot-Gelb: <code>digitalWrite(13, HIGH); digitalWrite(12, HIGH); digitalWrite(11, LOW); delay(1000);</code>",
                        "Aufgabe 6 Fußgängerampel: Autos grün + F-rot → Gelb + F-rot → Räumzeit alle rot → Autos rot + F-grün → Räumzeit → Rot-Gelb + F-rot. Fehlersuche: Keine Lampe wird je auf LOW gestellt, deshalb bleibt jede an. Vor Grün <code>digitalWrite(13, LOW); digitalWrite(12, LOW);</code>, vor Gelb <code>digitalWrite(11, LOW);</code>, am Ende von Gelb <code>digitalWrite(12, LOW);</code>."],
              solution_figs=[dict(fig="ampel-loesung", cap="Lösung · Ampelzyklus")]),
-        dict(no=7, sjw=7, kind="lernpfad", title="Tastendruck und Farbschloss: ein Escape-Room-Schloss mit Arduino",
-             goal="Du speicherst Tastendrücke in einer Variablen, programmierst damit ein Farbschloss für einen Escape Room, überträgst den C++-Code auf den echten Arduino und entwickelst ein eigenes Schloss.",
-             # Quelle: <Lektion>/Version 2/Tutory/Typst/07 Tastendruck und Farbschloss – Vorlage.typ (nach Vorlage „Farbschloss Escape Room Arduino“)
-             material=(
-               "<p><b>Der Taster als Eingabe.</b> Ein Taster verbindet beim Drücken Pin 12 mit 5V, der Arduino liest dann <b>HOCH</b>. Ein 10-kΩ-Widerstand (braun-schwarz-orange) zieht den Pin sonst sicher auf GND, er liest <b>NIEDRIG</b> (Pull-down). Die LED an Pin 7 zeigt jeden Tastendruck an.</p>"
-               "<p><b>Variablen sind das Gedächtnis des Programms.</b> Die Variable <code>Tastendruck</code> ist ein benannter Speicherplatz für eine Zahl. Mit „Tastendruck auf Tastendruck + 1 einstellen“ zählt das Programm jeden Druck mit, im Serien-Monitor siehst du den aktuellen Wert.</p>"
-               "<p><b>Aus Farben wird eine Zahl.</b> Beim Farbschloss ist jede Farbe eine Ziffer (blau 1, grün 2, gelb 3, weiß 4). Bei jedem Tastendruck rechnet das Programm <code>Code = Code · 10 + Ziffer</code>: blau, gelb, gelb, weiß ergibt 1 → 13 → 133 → 1334. Nach vier Tastendrücken vergleicht es den Code mit dem Geheimcode.</p>"
-               + LP07_MATERIAL),
-             tasks=["<b>Baue</b> die Schaltung aus Abb. 1 (ein Taster an Pin 12 mit 10 kΩ, blaue LED mit 220 Ω an Pin 7) in Tinkercad und auf dem echten Steckbrett (Aufgabe 1).",
-                    "<b>Setze</b> die Codeblöcke aus Abb. 2, <b>starte</b> die Simulation mit Serien-Monitor und <b>erkläre</b>, was die Variable Tastendruck speichert (Aufgabe 2).",
-                    "<b>Erweitere</b> auf vier Taster, vier LEDs (blau, grün, gelb, weiß) und einen Piezo (Abb. 3) und <b>berechne</b> Codes aus Farbfolgen (Aufgabe 3 und 4).",
-                    "<b>Programmiere</b> das Farbschloss nach dem Gerüst auf dem Arbeitsblatt mit eigenem Geheimcode (Aufgabe 5).",
-                    "<b>Lade</b> den C++-Code mit „Arduino hochladen“ auf den echten Arduino und <b>teste</b> das Schloss (Aufgabe 6, Anleitung oben).",
-                    "<b>Entwickle</b> ein eigenes Escape-Room-Schloss (Aufgabe 7, siehe Vertiefung)."],
-             task_figs=[dict(fig="07-schaltung-1-taster.png", cap="Abb. 1 · Taster an Pin 12, LED an Pin 7"),
-                        dict(fig="07-bloecke-tastendruck.png", cap="Abb. 2 · Codeblöcke für einen Tastendruck"),
-                        dict(fig="07-schaltung-4-taster.png", cap="Abb. 3 · Farbschloss: vier Taster, vier LEDs, Piezo an Pin 8")],
-             tools=["tinker", "upload"],
-             fast="Baue dein Farbschloss zu einem Symbol-, Duft- oder Tonschloss für einen Escape Room um.",
-             vertiefung=LP07_VERTIEFUNG,
-             sicherung=("💾 Leistungsnachweis · Ergebnissicherung",
-                        "Gib im <b>Google Classroom</b> deinen <b>C++-Code des Farbschlosses</b> (.ino, .txt oder Google-Dokument) und ein <b>kurzes Video</b> ab, in dem sich das Schloss am echten Arduino öffnet. "
-                        "Dateiname z. B. „07 Farbschloss Lena“."),
-             rlp=["RLP 2.2 · Algorithmen", "2.3 · Informatiksysteme", "neu · Physical Computing"],
-             quiz=[
-               dict(fig="07-schaltung-1-taster.png", cap="Abb. 1 · Taster an Pin 12, LED an Pin 7",
-                    q="Wozu dient die Variable Tastendruck?", done="Richtig, sie ist das Gedächtnis für die Anzahl der Drücke.",
-                    opts=[("Sie schaltet die LED ein.", False, "Die LED schaltet der Block „Anschluss 7 auf HOCH einstellen“."),
-                          ("Sie speichert, wie oft der Taster schon gedrückt wurde.", True, None),
-                          ("Sie misst die Spannung am Taster.", False, "Gelesen wird nur HOCH oder NIEDRIG, gespeichert wird die Anzahl."),
-                          ("Sie legt fest, an welchem Pin der Taster steckt.", False, "Der Pin steht im Block „Digitalen Anschluss 12 lesen“.")]),
-               dict(q="Was liefert „Digitalen Anschluss 12 lesen“, solange der Taster gedrückt ist (Pull-down-Schaltung)?", done="Genau, der Taster verbindet Pin 12 mit 5V.",
-                    opts=[("NIEDRIG", False, "NIEDRIG liest der Pin, solange der Taster nicht gedrückt ist (10 kΩ nach GND)."),
-                          ("HOCH", True, None),
-                          ("5", False, "Ein Digitalpin kennt nur HOCH oder NIEDRIG."),
-                          ("nichts", False, "Der Pin liefert immer einen Zustand.")]),
-               dict(q="Wann endet „bis Tastendruck = 5 wiederholen“?", done="Richtig, dann ist die Bedingung erfüllt.",
-                    opts=[("nach fünf Sekunden", False, "Die Bedingung prüft die Variable, nicht die Zeit."),
-                          ("sofort beim Start", False, "Beim Start ist Tastendruck 0, also noch nicht 5."),
-                          ("nach dem fünften Tastendruck", True, None),
-                          ("nie", False, "Sobald Tastendruck 5 ist, endet die Wiederholung.")]),
-               dict(q="Das Programm rechnet Code = Code · 10 + Ziffer. Welcher Code entsteht bei blau (1), gelb (3), gelb (3), weiß (4)?", done="Genau: 1 → 13 → 133 → 1334.",
-                    opts=[("11", False, "Hier wurden die Ziffern addiert, nicht als Stellen aneinandergereiht."),
-                          ("4331", False, "Die erste Farbe steht vorn, weil sie am häufigsten mit 10 malgenommen wird."),
-                          ("1334", True, None),
-                          ("13", False, "Das ist der Code nach zwei Tastendrücken.")]),
-               dict(q="Warum werden Code und Tastendruck nach vier Tastendrücken auf 0 gesetzt?", done="Richtig, sonst wächst der Code immer weiter.",
-                    opts=[("Damit die LEDs heller leuchten.", False, "Die Variablen haben mit der Helligkeit nichts zu tun."),
-                          ("Weil der Arduino sonst ausgeht.", False, "Der Arduino läuft weiter, aber der Code würde fünfstellig."),
-                          ("Damit der Geheimcode gelöscht wird.", False, "Der Geheimcode steht fest im Programm."),
-                          ("Damit der nächste Versuch wieder von vorn beginnt.", True, None)]),
-             ],
-             solution=LP07_LOESUNG),
-        dict(no=8, sjw=8, kind="lernpfad", title="Steuerstrukturen im Sketch: das Ampelprogramm",
-             goal="Du überträgst Verzweigung und Schleife in Arduino-Code und programmierst eine Fußgänger-/Auto-Ampel mit mehreren LEDs.",
-             tasks=["Rot–Gelb–Grün-Phasen als Sequenz in <code>loop()</code> umsetzen.",
-                    "Die Steuerstruktur im Ampelprogramm benennen (Dauerschleife).",
-                    "Einen Taster als Eingabe ergänzen (Fußgängeranforderung, Verzweigung)."],
-             tools=["arduino", "tinker"],
-             fast="Ergänze eine zweite, um 90° versetzte Kreuzungsampel, die niemals gleichzeitig grün zeigt.",
-             rlp=["RLP 2.2 · Kontrollstrukturen", "3.3 Verzweigung & Schleife"],
-             vorwissen=[
-               dict(fig="fig1", cap="Bild 1 · Ampelphasen als Sequenz", quiz=[
-                 dict(q="Welche Phase zeigt Teil 1?",
-                      done="Richtig — Rot.",
-                      opts=[
-                        ("Rot — die Ampel steht auf Halt.", True, None),
-                        ("Gelb — Achtung, es wechselt gleich.", False, "Gelb ist Teil 2, das mittlere Feld."),
-                        ("Grün — freie Fahrt.", False, "Grün ist Teil 3, das letzte Feld der Sequenz."),
-                        ("Der Taster wird ausgewertet.", False, "Der Taster kommt erst in der nächsten Stunde vor, nicht in diesem Bild."),
-                      ]),
-                 dict(q="Welche Phase zeigt Teil 3?",
-                      done="Genau — Grün.",
-                      opts=[
-                        ("Grün — freie Fahrt.", True, None),
-                        ("Rot — die Ampel steht auf Halt.", False, "Rot ist Teil 1, das erste Feld."),
-                        ("Gelb — Achtung, es wechselt gleich.", False, "Gelb ist Teil 2, das mittlere Feld."),
-                        ("Der Sketch startet neu.", False, "Das Bild zeigt eine Ampelphase, keinen Neustart."),
-                      ]),
-                 dict(q="Wie heißt die Steuerstruktur bei Teil 4, die das Ganze wiederholt?",
-                      done="Stimmt — die Dauerschleife.",
-                      opts=[
-                        ("die Dauerschleife (loop())", True, None),
-                        ("eine einmalige Verzweigung", False, "Eine Verzweigung entscheidet einmalig, sie wiederholt nichts von selbst."),
-                        ("eine Variable", False, "Eine Variable speichert nur einen Wert, sie wiederholt keine Abläufe."),
-                        ("ein Kommentar im Code", False, "Kommentare haben keine Auswirkung auf den Programmablauf."),
-                      ]),
-                 dict(q="Warum müssen die drei Phasen ausgerechnet in loop() stehen?",
-                      done="Richtig — sie sollen sich wiederholen.",
-                      opts=[
-                        ("Weil sie sich wiederholen sollen, solange die Ampel läuft.", True, None),
-                        ("Weil sie nur einmal beim Start gebraucht werden.", False, "Genau das wäre die Aufgabe von setup(), nicht von loop()."),
-                        ("Weil setup() dafür zu langsam ist.", False, "Geschwindigkeit ist nicht der Grund — es geht um Wiederholung."),
-                        ("Das ist egal, sie könnten auch in setup() stehen.", False, "In setup() würden die Phasen nur einmal ablaufen, nicht wiederholt."),
-                      ]),
-               ]),
-               dict(fig="fig2", cap="Bild 2 · Taster als Verzweigung", quiz=[
-                 dict(q="Was ist Teil 1?",
-                      done="Richtig — der Taster.",
-                      opts=[
-                        ("der Taster — er liefert HIGH oder LOW", True, None),
-                        ("der Mikrocontroller", False, "Der Mikrocontroller ist der violette Chip, Teil 2."),
-                        ("die Verzweigung", False, "Die Verzweigung ist die Raute weiter unten, Teil 3."),
-                        ("eine LED", False, "In diesem Bild ist keine LED als eigenes Bauteil markiert."),
-                      ]),
-                 dict(q="Was ist Teil 2, der violette Chip?",
-                      done="Genau — der Mikrocontroller.",
-                      opts=[
-                        ("der Mikrocontroller — er liest den Tasterzustand ein", True, None),
-                        ("der Taster", False, "Der Taster ist das Bauteil links im Bild, Teil 1."),
-                        ("die Steckplatine", False, "Eine Steckplatine ist in diesem Schaubild nicht eigens markiert."),
-                        ("das USB-Kabel", False, "Ein USB-Kabel ist in diesem Bild nicht dargestellt."),
-                      ]),
-                 dict(q="Was ist Teil 3, die Raute?",
-                      done="Stimmt — die Verzweigung.",
-                      opts=[
-                        ("die Verzweigung (if) — sie prüft den Tasterzustand", True, None),
-                        ("die Dauerschleife", False, "Die Dauerschleife ist keine Raute, sie steckt im loop()-Block."),
-                        ("eine Variable", False, "Eine Variable würde man nicht als Raute darstellen."),
-                        ("der Mikrocontroller", False, "Der Mikrocontroller ist der Chip weiter oben, Teil 2."),
-                      ]),
-               ]),
-             ],
-             quiz=[
-               dict(q="Welche Steuerstruktur sorgt dafür, dass sich die Ampelphasen ständig wiederholen?",
-                    done="Richtig — die Dauerschleife.",
-                    opts=[
-                      ("die Dauerschleife (loop())", True, None),
-                      ("eine einmalige Verzweigung", False, "Eine Verzweigung entscheidet einmalig, sie wiederholt nichts von selbst."),
-                      ("eine Variable", False, "Eine Variable speichert nur einen Wert, sie wiederholt keine Abläufe."),
-                      ("ein Kommentar im Code", False, "Kommentare haben keine Auswirkung auf den Programmablauf."),
-                    ]),
-               dict(q="Wie liest man einen Taster im Arduino-Sketch aus?",
-                    done="Genau — als HIGH/LOW-Signal.",
-                    opts=[
-                      ("als HIGH- oder LOW-Signal, meist mit einer Verzweigung (if) abgefragt", True, None),
-                      ("nur als Text", False, "Taster liefern elektrische Zustände (HIGH/LOW), keinen Text."),
-                      ("er kann nicht ausgelesen werden", False, "Taster lassen sich sehr wohl über einen Digitalpin auslesen."),
-                      ("nur über WLAN", False, "Ein einfacher Taster wird über ein Kabel am Digitalpin ausgelesen, nicht über WLAN."),
-                    ]),
-               dict(q="Wozu dient eine Verzweigung (if) beim Taster?",
-                    done="Stimmt — sie entscheidet abhängig vom Tasterzustand.",
-                    opts=[
-                      ("um abhängig vom Tasterzustand zu entscheiden, was als Nächstes passiert (z. B. Fußgängeranforderung)", True, None),
-                      ("um die Ampel dauerhaft auszuschalten", False, "Eine Verzweigung schaltet nicht automatisch alles aus, sie trifft eine Entscheidung."),
-                      ("um die Schleife zu beenden", False, "Die Dauerschleife läuft weiter, die Verzweigung entscheidet nur über die nächste Aktion."),
-                      ("um Strom zu sparen", False, "Das ist nicht die Funktion einer Verzweigung im Code."),
-                    ]),
-               dict(q="Wie setzt man die Reihenfolge Rot-Gelb-Grün typischerweise um?",
-                    done="Richtig — als feste Sequenz mit digitalWrite und delay.",
-                    opts=[
-                      ("als Sequenz aus digitalWrite- und delay-Befehlen in fester Reihenfolge", True, None),
-                      ("als zufällige Reihenfolge", False, "Eine Ampel muss eine feste, vorhersagbare Reihenfolge einhalten."),
-                      ("nur mit einer einzigen LED", False, "Für Rot-Gelb-Grün braucht es mindestens drei separate LEDs."),
-                      ("ganz ohne delay-Befehle", False, "Ohne delay() würden die Phasen nicht sichtbar lange anhalten."),
-                    ]),
-             ],
-             solution=["Die Ampel wiederholt sich → Dauerschleife (<code>loop()</code>).",
-                       "Taster liefert HIGH/LOW → Verzweigung mit <code>if</code>.",
-                       "Phasen über <code>digitalWrite</code> + <code>delay</code> nacheinander."]),
-        dict(no=9, sjw=9, kind="lernpfad", title="Objektorientierung entdecken: Attribute & Methoden",
-             goal="Du lernst die Grundidee moderner Software (OOP): Objekte bündeln Daten (Attribute) und Fähigkeiten (Methoden). Du ordnest Code-Bereiche korrekt zu.",
-             tasks=["An einem Beispiel Attribute (Eigenschaften) und Methoden (Aktionen) unterscheiden.",
-                    "Fachbegriffe im Code zuordnen: Dauerschleife, Fallunterscheidung, Attribut, Methode.",
-                    "Ein Alltagsobjekt (z. B. „Ampel“) als Klasse mit Attributen/Methoden skizzieren."],
+        dict(no=7, sjw=8, kind="lernpfad", title="Sensor-Projekte planen: ein Wächter mit Arduino",
+             goal="Ihr wählt ein Sensor-Projekt (Gießwächter, Filterwächter oder Lüftungswächter), plant Bauteile, Struktogramm und Gehäuse, programmiert den Wächter in Tinkercad, übersetzt die Blöcke in C++ und prüft eure Ergebnisse Schritt für Schritt am Erwartungshorizont.",
+             # Quelle: <Lektion>/Version 3/Tutory/Typst/07 Sensor-Projekte planen.typ + Erwartungshorizont-07 Sensor-Projekte planen.typ
+             material=LP07_V3_MATERIAL,
+             tasks=["<b>Aufgabe 1 · Bauteile und Materialien:</b> Tragt alle Bauteile ein, die ihr braucht, auch Kabel, Steckbrett und Gehäuse (Material / Typ / Wert, Anzahl, Anschluss am Arduino).",
+                    "<b>Aufgabe 2 · Struktogramm:</b> Plant das Programm mit Anweisung, Verzweigung (wenn … dann … sonst) und Wiederholung (für immer), bevor ihr Blöcke setzt.",
+                    "<b>Aufgabe 3 · Gehäuse vermessen:</b> Messt Arduino, Steckbrett und Sensor, rechnet Innen- und Außenmaß aus, plant die Öffnungen und baut das Gehäuse im Tinkercad-3D-Entwurf.",
+                    "<b>Aufgabe 4 · Vom Block zur C++-Zeile:</b> Programmiert den Wächter in Tinkercad mit Blöcken, stellt auf „Blöcke + Text“ und tragt zu jedem Steuerelement Block und C++-Zeile ein.",
+                    "<b>Prüfen:</b> Wählt unten euer Projekt und beantwortet zu jeder Aufgabe die Impulsfragen. Sind alle richtig, erscheint der Erwartungshorizont mit Bauplan: Vergleicht und verbessert euer Blatt."],
+             stufen=LP07_V3_STUFEN,
+             tools=["tinker", "tinker3d"],
+             fast="Ergänzt eine gelbe LED als Vorwarnung mit zweitem Schwellenwert oder prägt den Namen eures Wächters in den Gehäusedeckel.",
+             vertiefung=LP07_V3_VERTIEFUNG,
+             sicherung=("💾 Leistungsnachweis 07 · Abgabe im Classroom (eine Abgabe pro Team)",
+                        "<b>1.</b> Programm als <b>.ino</b>: in Tinkercad „Code“ › „Text“ › Herunterladen-Symbol. <b>2.</b> Gehäuse und Deckel als <b>.stl</b> aus dem 3D-Entwurf. "
+                        "Dateiname: <code>Projekt-A_Name1_Name2.ino</code> bzw. <code>.stl</code>"),
+             rlp=["RLP 2.1 · Modellieren", "2.2 · Algorithmen", "neu · Physical Computing & 3D-Druck"],
+             solution=LP07_V3_LOESUNG),
+        dict(no=8, sjw=9, kind="projekt", title="Sensor-Projekte bauen und testen: der Wächter am echten Arduino",
+             goal="Ihr baut euren Wächter ins gedruckte Gehäuse, ersetzt im Code das Ersatzbauteil durch den echten Sensor, testet ihn live, legt den Schwellenwert begründet fest und dokumentiert das Projekt in einem Bericht.",
+             # Quelle: <08 Sensor-Projekte bauen und testen>/Tutory/Typst/08 Sensor-Projekte bauen und testen.typ + <07 …>/Version 3/Tutory/Typst/07 Sensoren anschließen.typ
+             material=LP08_V3_MATERIAL,
+             tasks=LP08_V3_TASKS,
+             tools=["upload", "tinker"],
+             fast="Ergänzt einen Piezo-Summer, der bei Rot piept, oder eine gelbe LED als Vorwarnung.",
+             vertiefung=LP08_V3_VERTIEFUNG,
+             sicherung=("💾 Leistungsnachweis 08 · Abgabe im Classroom (eine Abgabe pro Team)",
+                        "<b>1.</b> Projektbericht als <b>PDF</b> <b>2.</b> Galerie-Übersicht als <b>PDF</b>. Gern zusätzlich die Originaldateien (z. B. .docx, .pages, Canva-Link) und den endgültigen Code als <b>.ino</b>. "
+                        "Bringt den Wächter zu Sitzung 09 fertig mit."),
+             rlp=["RLP 2.4 · Umsetzen", "2.3 · Informatiksysteme", "2.6 Kommunizieren"],
+             quiz=LP08_V3_QUIZ,
+             solution=LP08_V3_LOESUNG),
+        dict(no=9, sjw=10, kind="lernpfad", title="Sensor-Projekte: Galerie und Rückmeldung",
+             goal="Ihr präsentiert euren Wächter im Gallery Walk, bewertet andere Projekte nach Funktion und Projektbericht und gebt eine wertschätzende, konkrete Rückmeldung.",
+             # Quelle: <09 Sensor-Projekte Galerie>/Tutory/Typst/09 Sensor-Projekte Galerie.typ
+             material=LP09_V3_MATERIAL,
+             tasks=LP09_V3_TASKS,
              tools=[],
-             fast="Modelliere das Objekt „Spielfigur“ mit drei Attributen und drei Methoden auf Papier.",
-             rlp=["RLP 2.1 · Modellieren", "3.4 Objektorientierung", "neu · OOP-Einstieg"],
-             vorwissen=[
-               dict(fig="fig1", cap="Bild 1 · Klasse Ampel", quiz=[
-                 dict(q="Was ist Teil 1?",
-                      done="Richtig — der Klassenname.",
-                      opts=[
-                        ("der Klassenname (Ampel) — der Bauplan", True, None),
-                        ("ein Attribut", False, "Attribute stehen im mittleren Bereich der Klassenbox, nicht im Kopf."),
-                        ("eine Methode", False, "Methoden stehen im unteren Bereich der Klassenbox."),
-                        ("ein konkretes Objekt", False, "Das konkrete Objekt ist die separate Box rechts im Bild."),
-                      ]),
-                 dict(q="Was zeigt Teil 3, der untere Bereich der Klassenbox?",
-                      done="Genau — die Methoden.",
-                      opts=[
-                        ("die Methoden — ausführbare Aktionen wie naechstePhase()", True, None),
-                        ("die Attribute — Eigenschaften wie aktuellePhase", False, "Attribute stehen im mittleren Bereich, nicht im unteren."),
-                        ("den Klassennamen", False, "Der Klassenname steht ganz oben in der Box."),
-                        ("ein konkretes Objekt", False, "Das konkrete Objekt ist eine eigene Box rechts im Bild."),
-                      ]),
-                 dict(q="Was ist Teil 4, die Box rechts?",
-                      done="Stimmt — ein konkretes Objekt.",
-                      opts=[
-                        ("ein konkretes Objekt (meineAmpel) mit eigenen Werten", True, None),
-                        ("die Klasse selbst", False, "Die Klasse ist die linke Box, der Bauplan."),
-                        ("eine Methode", False, "Methoden stehen innerhalb einer Klassenbox, nicht als eigene Box."),
-                        ("ein Attribut ohne Wert", False, "Die Werte rechts sind konkret gefüllt, nicht leer."),
-                      ]),
-                 dict(q='Warum hat das Objekt rechts konkrete Werte wie "rot" oder 3000?',
-                      done="Richtig — ein Objekt ist eine Instanz mit echten Werten.",
-                      opts=[
-                        ("Weil ein Objekt eine Instanz der Klasse mit eigenen, echten Werten ist.", True, None),
-                        ("Weil die Klasse ihre Attribute verliert, sobald ein Objekt entsteht.", False, "Die Klasse bleibt unverändert der Bauplan für beliebig viele Objekte."),
-                        ("Weil Methoden automatisch Werte erzeugen.", False, "Die Werte kommen aus der konkreten Instanz, nicht automatisch aus Methoden."),
-                        ("Das ist Zufall, es hat keine Bedeutung.", False, "Die konkreten Werte sind der ganze Sinn eines Objekts."),
-                      ]),
-               ]),
-               dict(fig="fig2", cap="Bild 2 · Fachbegriffe im Code", quiz=[
-                 dict(q="Wie heißt der Codeabschnitt 1?",
-                      done="Richtig — die Dauerschleife.",
-                      opts=[
-                        ("die Dauerschleife — sie wiederholt sich endlos", True, None),
-                        ("die Fallunterscheidung", False, "Die Fallunterscheidung ist der if/else-Abschnitt weiter unten."),
-                        ("das Attribut", False, "Das Attribut ist die einzelne Variablenzeile ganz oben."),
-                        ("die Methode", False, "Die Methode ist der Abschnitt mit dem Funktionskopf darüber."),
-                      ]),
-                 dict(q="Wie heißt der Codeabschnitt 2?",
-                      done="Genau — die Fallunterscheidung.",
-                      opts=[
-                        ("die Fallunterscheidung — sie prüft eine Bedingung mit if/else", True, None),
-                        ("die Dauerschleife", False, "Die Dauerschleife ist der loop()-Abschnitt darüber."),
-                        ("das Attribut", False, "Das Attribut ist die einzelne Variablenzeile ganz oben."),
-                        ("die Methode", False, "Die Methode hat einen eigenen Funktionskopf, keine if/else-Struktur."),
-                      ]),
-                 dict(q="Wie heißt der Codeabschnitt 3?",
-                      done="Stimmt — das Attribut.",
-                      opts=[
-                        ("das Attribut — eine gespeicherte Eigenschaft", True, None),
-                        ("die Methode", False, "Die Methode hat einen Funktionskopf mit Klammern, das Attribut nicht."),
-                        ("die Dauerschleife", False, "Die Dauerschleife ist der loop()-Abschnitt."),
-                        ("die Fallunterscheidung", False, "Die Fallunterscheidung ist der if/else-Abschnitt."),
-                      ]),
-               ]),
-             ],
-             quiz=[
-               dict(q="Was ist ein Attribut in der Objektorientierung?",
-                    done="Richtig — eine Eigenschaft bzw. ein Zustand.",
-                    opts=[
-                      ("eine Eigenschaft bzw. ein Zustand eines Objekts (z. B. farbe)", True, None),
-                      ("eine ausführbare Aktion", False, "Das beschreibt eine Methode, kein Attribut."),
-                      ("eine Dauerschleife", False, "Eine Dauerschleife ist eine Kontrollstruktur, kein Attribut."),
-                      ("ein Kommentar im Code", False, "Kommentare sind reine Erklärtexte, keine Objekteigenschaften."),
-                    ]),
-               dict(q="Was ist eine Methode in der Objektorientierung?",
-                    done="Genau — eine ausführbare Aktion.",
-                    opts=[
-                      ("eine ausführbare Aktion eines Objekts (z. B. schalteUm())", True, None),
-                      ("eine Eigenschaft eines Objekts", False, "Das beschreibt ein Attribut, keine Methode."),
-                      ("eine Variable ohne Funktion", False, "Methoden sind Aktionen, keine reinen Werte."),
-                      ("ein Bauteil der Hardware", False, "Methoden gehören zur Softwarestruktur, nicht zur Hardware."),
-                    ]),
-               dict(q="Was gehört bei einer Klasse „Ampel“ zu den Attributen?",
-                    done="Stimmt — die aktuelle Phase.",
-                    opts=[
-                      ("die aktuelle Phase (z. B. „rot“)", True, None),
-                      ("die Methode naechstePhase()", False, "Das ist eine Methode (Aktion), kein Attribut."),
-                      ("der Quellcode der Klasse", False, "Der Quellcode ist die Klasse selbst, kein einzelnes Attribut."),
-                      ("die Steckplatine", False, "Die Steckplatine ist ein Hardware-Bauteil, kein Software-Attribut."),
-                    ]),
-               dict(q="Was bezeichnet man als Fallunterscheidung im Code?",
-                    done="Richtig — eine if/else-Struktur.",
-                    opts=[
-                      ("eine if/else-Struktur, die abhängig von einer Bedingung entscheidet", True, None),
-                      ("eine Dauerschleife", False, "Das ist eine Wiederholung, keine Entscheidung."),
-                      ("eine Methode ohne Rückgabewert", False, "Das beschreibt eine bestimmte Art von Methode, keine Fallunterscheidung."),
-                      ("ein Attribut", False, "Attribute speichern Eigenschaften, sie treffen keine Entscheidungen."),
-                    ]),
-             ],
-             solution=["Attribut = Eigenschaft/Zustand (z. B. farbe); Methode = ausführbare Aktion (z. B. schalteUm()).",
-                       "Dauerschleife = wiederholender Codeblock; Fallunterscheidung = if/else.",
-                       "Klasse „Ampel“: Attribute (aktuellePhase), Methoden (naechstePhase())."]),
-        dict(no=10, sjw=10, kind="projekt", title="Mini-Projekt Arduino + Ergebnissicherung",
-             goal="Du planst und baust eine eigene kleine Schaltung (Lichtorgel, Würfel, Reaktionsspiel), dokumentierst sie und sicherst Code + Schaltplan als Backup.",
-             tasks=["Projektidee wählen, Bauteile & Ablauf planen.",
-                    "Schaltung in Tinkercad aufbauen und Sketch schreiben & testen.",
-                    "Ergebnis sichern: Sketch (.ino), Screenshot des Schaltplans, kurze Doku — lokal + Cloud."],
-             tools=["tinker", "arduino"],
-             fast="Baue eine Zusatzfunktion ein (z. B. Helligkeitssteuerung per Poti) und beschreibe sie in der Doku.",
-             rlp=["RLP 2.4 · Umsetzen", "2.6 Kommunizieren", "3.3 Projekt"],
-             vorwissen=[
-               dict(fig="fig1", cap="Bild 1 · Projektablauf", quiz=[
-                 dict(q="Was ist Schritt 1 im Projektablauf?",
-                      done="Richtig — die Projektidee wählen.",
-                      opts=[
-                        ("Projektidee wählen", True, None),
-                        ("Bauteile und Ablauf planen", False, "Das Planen folgt erst, nachdem eine Idee feststeht."),
-                        ("Aufbauen und Testen", False, "Aufgebaut wird erst nach Idee und Planung."),
-                        ("Ergebnis sichern", False, "Das Sichern steht ganz am Ende des Ablaufs."),
-                      ]),
-                 dict(q="Was ist Schritt 3 im Projektablauf?",
-                      done="Genau — Aufbauen und Testen in Tinkercad.",
-                      opts=[
-                        ("Aufbauen und Testen in Tinkercad", True, None),
-                        ("Projektidee wählen", False, "Die Idee steht ganz am Anfang, Schritt 1."),
-                        ("Bauteile und Ablauf planen", False, "Das Planen ist Schritt 2, vor dem Aufbauen."),
-                        ("Ergebnis sichern", False, "Das Sichern folgt erst nach dem Testen, als Schritt 4."),
-                      ]),
-                 dict(q="Warum führt vom Testen ein gestrichelter Pfeil zurück zum Planen?",
-                      done="Richtig — Anpassen ist erlaubt.",
-                      opts=[
-                        ("Weil man die Planung nach dem Testen bei Bedarf anpassen darf.", True, None),
-                        ("Weil das Testen komplett übersprungen werden soll.", False, "Getestet werden soll gerade gründlich, nicht übersprungen."),
-                        ("Weil ein Fehler das ganze Projekt ungültig macht.", False, "Ein Fehler beim Testen führt nur zu einer Anpassung, nicht zum Abbruch."),
-                        ("Das ist nur Dekoration ohne Bedeutung.", False, "Der Pfeil zeigt den iterativen Charakter eines echten Projekts."),
-                      ]),
-                 dict(q="Was passiert im letzten Schritt, dem Sichern?",
-                      done="Stimmt — Sketch, Schaltplan und Doku an zwei Orten.",
-                      opts=[
-                        ("Sketch, Schaltplan-Screenshot und Doku werden an zwei Orten gespeichert.", True, None),
-                        ("Das Projekt wird sofort gelöscht.", False, "Sichern bedeutet Aufbewahren, nicht Löschen."),
-                        ("Nur der Sketch wird auf dem Arduino belassen.", False, "Ohne separate Sicherung geht die Arbeit bei einem Defekt verloren."),
-                        ("Es passiert nichts Wichtiges mehr.", False, "Die Ergebnissicherung ist ein zentraler, bewerteter Schritt."),
-                      ]),
-               ]),
-               dict(fig="fig2", cap="Bild 2 · Bewertungskriterien", quiz=[
-                 dict(q="Was bedeutet Kriterium 1, Funktion?",
-                      done="Richtig — die Schaltung funktioniert wie geplant.",
-                      opts=[
-                        ("Die Schaltung funktioniert wie geplant.", True, None),
-                        ("Der Code ist besonders kurz.", False, "Die Länge des Codes ist kein Bewertungskriterium."),
-                        ("Es wurden viele Bauteile verwendet.", False, "Die Anzahl der Bauteile sagt nichts über die Funktion aus."),
-                        ("Das Projekt wurde schnell fertig.", False, "Geschwindigkeit ist kein Bewertungskriterium, Funktion schon."),
-                      ]),
-                 dict(q="Was bedeutet Kriterium 2, Verdrahtung?",
-                      done="Genau — sauber und sicher aufgebaut.",
-                      opts=[
-                        ("Die Schaltung ist sauber und sicher aufgebaut.", True, None),
-                        ("Der Code ist kommentiert.", False, "Das gehört zum Kriterium Code, nicht zur Verdrahtung."),
-                        ("Es gibt eine Dokumentation.", False, "Das ist ein eigenes Kriterium, nicht die Verdrahtung."),
-                        ("Das Backup liegt an zwei Orten.", False, "Das betrifft die Dokumentation/Ergebnissicherung, nicht die Verdrahtung."),
-                      ]),
-                 dict(q="Was bedeutet Kriterium 3, Code?",
-                      done="Stimmt — kommentiert und lesbar.",
-                      opts=[
-                        ("Der Code ist kommentiert und lesbar.", True, None),
-                        ("Die Schaltung funktioniert wie geplant.", False, "Das ist das Kriterium Funktion, nicht Code."),
-                        ("Die Verdrahtung ist sauber.", False, "Das ist ein eigenes Kriterium, nicht der Code."),
-                        ("Es gibt ein Backup.", False, "Das gehört zur Dokumentation, nicht zum Code selbst."),
-                      ]),
-               ]),
-             ],
-             quiz=[
-               dict(q="Was gehört zu einer guten Projektplanung vor dem Bauen?",
-                    done="Richtig — Idee, Bauteile und Ablauf zuerst planen.",
-                    opts=[
-                      ("Projektidee wählen sowie Bauteile und Ablauf planen", True, None),
-                      ("direkt ohne Plan drauflos bauen", False, "Ohne Plan führt der Aufbau meist zu unnötigen Umbauten und Fehlern."),
-                      ("nur den Sketch schreiben, ohne Schaltung zu planen", False, "Sketch und Schaltung müssen zusammenpassen — beides gehört zur Planung."),
-                      ("die Dokumentation erst nach der Abgabe beginnen", False, "Dann fehlen oft wichtige Details — Dokumentation sollte parallel entstehen."),
-                    ]),
-               dict(q="Was bedeutet „Ergebnissicherung“ bei diesem Projekt?",
-                    done="Genau — Sketch, Schaltplan und Doku an zwei Orten sichern.",
-                    opts=[
-                      ("Sketch (.ino), Schaltplan-Screenshot und Doku sichern — lokal und in der Cloud", True, None),
-                      ("nur den Sketch auf dem Arduino lassen", False, "Ohne separate Sicherung geht die Arbeit bei einem Defekt verloren."),
-                      ("nichts, das Projekt bleibt nur im Kopf", False, "Ohne dokumentierte Sicherung ist das Projekt nicht nachvollziehbar oder abgebbar."),
-                      ("nur ein Foto des fertigen Aufbaus", False, "Ein Foto allein sichert weder den Code noch den Schaltplan im Detail."),
-                    ]),
-               dict(q="Wonach wird das Mini-Projekt vor allem bewertet?",
-                    done="Stimmt — Funktion, Verdrahtung, Code, Doku.",
-                    opts=[
-                      ("Funktion, saubere Verdrahtung, kommentierter Code und Doku", True, None),
-                      ("nur die Originalität der Idee", False, "Originalität allein reicht nicht — die Umsetzung zählt ebenso."),
-                      ("nur die Geschwindigkeit der Fertigstellung", False, "Schnelligkeit ist kein Bewertungskriterium, Qualität schon."),
-                      ("nur die Anzahl der verwendeten Bauteile", False, "Mehr Bauteile bedeuten nicht automatisch ein besseres Projekt."),
-                    ]),
-               dict(q="Warum ist ein kommentierter Code Teil der Bewertung?",
-                    done="Richtig — Kommentare machen den Code nachvollziehbar.",
-                    opts=[
-                      ("Er macht nachvollziehbar, was der Code tut, und erleichtert Verständnis und Korrektur.", True, None),
-                      ("Kommentare beschleunigen das Programm.", False, "Kommentare haben keinen Einfluss auf die Ausführungsgeschwindigkeit."),
-                      ("Kommentare sind für den Arduino zwingend nötig, sonst läuft der Sketch nicht.", False, "Ein Sketch läuft auch ganz ohne Kommentare — sie dienen nur dem Verständnis."),
-                      ("Kommentare ersetzen die Doku vollständig.", False, "Kommentare ergänzen die Doku, ersetzen sie aber nicht vollständig."),
-                    ]),
-             ],
-             solution=["Bewertet werden Funktion, saubere Verdrahtung, kommentierter Code und die Doku.",
-                       "Ergebnissicherung = reproduzierbar abgeben: .ino + Schaltplan + Beschreibung.",
-                       "Backup an zwei Orten (Rechner + Cloud/USB)."]),
+             fast="Plant eure Version 2: Welche drei Verbesserungen aus den Rückmeldekarten setzt ihr zuerst um, und wie?",
+             sicherung=("💾 Ergebnissicherung 09",
+                        "Gebt eure <b>Rückmeldekarten</b> an die besuchten Teams. Fotografiert eure erhaltenen Karten und ladet das Foto zusammen mit eurem <b>Fazit</b> (Aufgabe 4) im Classroom hoch."),
+             rlp=["RLP 2.5 · Reflektieren", "2.6 Kommunizieren"],
+             quiz=LP09_V3_QUIZ,
+             solution=LP09_V3_LOESUNG),
       ]),
  dict(hj=1, num="03", title="Wie Computer zählen — Zahlensysteme",
       key="#ffc23d", key2="#e39a00", tint="rgba(255,194,61,0.10)",
@@ -2103,6 +2610,7 @@ def build_lp_page(u, lp):
         + ('  %s\n' % render_vorwissen(lp) if lp.get("vorwissen") else '')
         + ('  %s\n' % material if material else '')
         + '  <section class="lp-sec"><h2>Aufgaben</h2><ul class="task-list">%s</ul>%s</section>\n' % (tasks, task_figs)
+        + ('  %s\n' % render_stufen(lp) if lp.get("stufen") else '')
         + ('  %s\n' % render_quiz(lp) if lp.get("quiz") else '')
         + ('  %s\n' % tools if tools else '')
         + ('  %s\n' % fast if fast else '')
