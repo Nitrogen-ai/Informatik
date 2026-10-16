@@ -124,7 +124,7 @@ details.raw pre{white-space:pre-wrap;font-family:'JetBrains Mono',monospace;marg
       <ul>
         <li>Steckt das USB-Kabel fest? Leuchtet auf dem Arduino die grüne <b>ON</b>-LED?</li>
         <li>Anderen USB-Anschluss am Rechner probieren. Manche Kabel sind reine Ladekabel, dann ein anderes Kabel nehmen.</li>
-        <li>Der Arduino heißt im Fenster z. B. <b>„Arduino Uno (COM3)“</b> oder bei Nachbauten <b>„USB-SERIAL CH340 (COM4)“</b>. Beides ist richtig.</li>
+        <li>Der Arduino heißt im Fenster z. B. <b>„Arduino Uno (COM3)“</b> oder bei Nachbauten <b>„USB-SERIAL CH340 (COM4)“</b>. Beides ist richtig. <b>Nicht</b> „Kommunikationsanschluss (COM1)“ wählen, das ist ein Anschluss des Rechners.</li>
         <li>Steht gar nichts da, fehlt bei einem Nachbau evtl. der Treiber (CH340). Sag deiner Lehrperson Bescheid.</li>
       </ul>
     </details>
@@ -367,14 +367,32 @@ async function recv(n, timeout){
   return rx.splice(0, n);
 }
 
-// Gerät auswählen: bekannte Arduinos und Nachbauten zuerst, Wahl wird gemerkt
+// Gerät auswählen. Nur USB-Seriell-Chips von Arduinos und Nachbauten anbieten: Windows-Rechner
+// haben oft einen eingebauten Anschluss „Kommunikationsanschluss (COM1)“, an dem nie ein Arduino hängt.
+// Wurde der einmal gewählt, darf er nicht automatisch wiederverwendet werden.
+var USB_VIDS = [0x2341, 0x2A03, 0x1A86, 0x0403, 0x10C4, 0x067B, 0x1B4F, 0x239A];
+var showAllPorts = false;
+function isUsb(p){ var i = p.getInfo(); return USB_VIDS.indexOf(i.usbVendorId) >= 0; }
+function portName(p){
+  var i = p.getInfo(), h = function(n){ return n === undefined ? "?" : ("0000" + n.toString(16).toUpperCase()).slice(-4); };
+  return i.usbVendorId === undefined ? "kein USB-Gerät (z. B. COM1)" : "USB " + h(i.usbVendorId) + ":" + h(i.usbProductId);
+}
 async function choosePort(){
   if (port) return port;
-  var known = await navigator.serial.getPorts();
+  var known = (await navigator.serial.getPorts()).filter(isUsb);
   if (known.length === 1) { port = known[0]; return port; }
-  port = await navigator.serial.requestPort({});
+  try {
+    port = await navigator.serial.requestPort(showAllPorts ? {} : {filters: USB_VIDS.map(function(v){ return {usbVendorId: v}; })});
+  } catch (e) { showAllPorts = !showAllPorts; throw e; }   // abgebrochen: beim nächsten Mal alle Anschlüsse zeigen
   return port;
 }
+async function forgetPort(){
+  if (!port) return;
+  try { if (port.forget) await port.forget(); } catch (e) {}
+  port = null;
+}
+var diag = [];
+function log(t){ diag.push(((performance.now() / 1000).toFixed(2)) + " s  " + t); }
 
 // ---------------------------------------------------------------- STK500v1 (Optiboot)
 var STK_OK = 0x10, STK_INSYNC = 0x14, EOP = 0x20;
@@ -408,19 +426,24 @@ async function sync(){
     await resetBoard();
     await sleep(waits[attempt]);
     for (var i = 0; i < 6; i++) {
-      if (await syncOnce(200)) {
+      var ok1 = await syncOnce(200);
+      if (rx.length || ok1) log("Sync " + attempt + "/" + i + ": Antwort " + (ok1 ? "14 10" : rx.slice(0, 8).map(function(b){ return b.toString(16); }).join(" ")));
+      if (ok1) {
         await sleep(30);
-        if (await syncOnce(300)) { rx.length = 0; return true; }
+        if (await syncOnce(300)) { rx.length = 0; log("Sync bestätigt"); return true; }
+        log("zweite Bestätigung fehlt");
         break;                                        // aus dem Takt: neu zurücksetzen
       }
     }
   }
+  log("keine Antwort nach 3 Resets");
   return false;
 }
 async function flash(image, progress){
   mode = "flash";
   var ok = false;
   for (var baud of [115200, 57600]) {      // Uno/neue Nano: 115200, alte Nano-Bootloader: 57600
+    log("öffne " + portName(port) + " mit " + baud + " Baud");
     await openPort(baud);
     progress("connect", baud);
     if (await sync()) { ok = true; break; }
@@ -428,12 +451,14 @@ async function flash(image, progress){
   }
   if (!ok) throw new Error("NOSYNC");
   var pages = image.length / 128, step = 0, total = pages * 2;
+  log("schreibe " + pages + " Seiten");
   await stk([0x50]);                                  // Programmiermodus an
   for (var p = 0; p < pages; p++) {
     var addr = p * 128;
     await stk([0x55, (addr >> 1) & 0xFF, (addr >> 9) & 0xFF]);
     await stk([0x64, 0x00, 0x80, 0x46].concat(Array.from(image.subarray(addr, addr + 128))), 0, 1000);
     progress("write", ++step / total);
+    if (p === 0) log("erste Seite geschrieben");
   }
   for (var q = 0; q < pages; q++) {                   // Kontrolle: zurücklesen und vergleichen
     var a2 = q * 128;
@@ -451,13 +476,21 @@ async function flash(image, progress){
 async function upload(src, label){
   if (!hasSerial) return;
   busy(true);
+  diag = [];
+  log(navigator.userAgent);
   try {
     if (mode === "monitor") await stopMonitor();
     var r = await checkCode(src, label);
     if (!r) return;
     say("work", "🔌 Wähle im Fenster oben deinen Arduino aus (z. B. „Arduino Uno (COM3)“ oder „USB-SERIAL CH340“) und klicke auf <b>Verbinden</b>.");
     try { await choosePort(); }
-    catch (e) { say("bad", "Du hast keinen Arduino ausgewählt. Ist er angesteckt? Dann nochmal auf <b>„Auf Arduino laden“</b> klicken."); return; }
+    catch (e) {
+      say("bad", showAllPorts
+        ? "Du hast keinen Arduino ausgewählt. Stand er nicht in der Liste? Klick nochmal auf <b>„Auf Arduino laden“</b>, dann zeige ich <b>alle</b> Anschlüsse."
+        : "Du hast keinen Arduino ausgewählt. Ist er angesteckt? Dann nochmal auf <b>„Auf Arduino laden“</b> klicken.");
+      return;
+    }
+    log("Anschluss: " + portName(port));
     $("s2").classList.add("done");
     var image = parseHex(r.hex);
     await flash(image, function(phase, v){
@@ -473,15 +506,23 @@ async function upload(src, label){
     mode = "idle";
     try { await closePort(); } catch (x) {}
     var t = String(e && e.message || e);
-    if (/NOSYNC|timeout|nosync|nook/.test(t))
-      say("bad", "<b>❌ Der Arduino antwortet nicht.</b><ul><li>Kabel an <b>Pin 0 und 1</b> abziehen.</li><li>USB-Kabel kurz ab- und wieder anstecken, dann nochmal versuchen.</li><li>Hilft das nicht: beim nächsten Versuch, sobald „Verbinde …“ erscheint, kurz den <b>RESET</b>-Knopf am Arduino drücken.</li></ul>");
+    log("Fehler: " + t);
+    var details = '<details class="raw"><summary>Technische Details (für die Lehrperson)</summary><pre>' + esc(diag.join("\n")) + "</pre></details>";
+    if (/NOSYNC|timeout|nosync|nook/.test(t)) {
+      var wrong = port && !isUsb(port);
+      await forgetPort();                             // beim nächsten Versuch neu auswählen lassen
+      say("bad", "<b>❌ Der Arduino antwortet nicht.</b><ul>" +
+        (wrong ? "<li><b>Falscher Anschluss gewählt</b> („Kommunikationsanschluss“ ist kein Arduino). Beim nächsten Versuch den Eintrag mit <b>Arduino</b>, <b>CH340</b> oder <b>USB</b> im Namen wählen.</li>"
+               : "<li>Beim nächsten Versuch fragt das Fenster neu: Wähle den Eintrag mit <b>Arduino</b>, <b>CH340</b> oder <b>USB</b> im Namen, nicht „Kommunikationsanschluss“.</li>") +
+        "<li>Kabel an <b>Pin 0 und 1</b> abziehen.</li><li>USB-Kabel kurz ab- und wieder anstecken, dann nochmal versuchen.</li><li>Hilft das nicht: beim nächsten Versuch, sobald „Verbinde …“ erscheint, kurz den <b>RESET</b>-Knopf am Arduino drücken.</li></ul>" + details);
+    }
     else if (/VERIFY/.test(t))
       say("bad", "<b>❌ Beim Kontrollieren stimmte etwas nicht.</b> Bitte einfach nochmal hochladen.");
     else if (/already open|Failed to open|NetworkError|InvalidStateError/i.test(t))
       say("bad", "<b>❌ Der Anschluss ist belegt.</b> Schließe andere Tabs mit dieser Seite oder die Arduino-App. Notfalls USB-Kabel ab- und wieder anstecken.");
     else if (/device has been lost|disconnected/i.test(t))
       { port = null; say("bad", "<b>❌ Die Verbindung ist abgebrochen.</b> Steckt das USB-Kabel fest? Nochmal versuchen."); }
-    else say("bad", "❌ " + esc(t));
+    else say("bad", "❌ " + esc(t) + details);
   } finally { busy(false); }
 }
 $("btnUpload").onclick = function(){ upload(code.value, "Ich prüfe deinen Code"); };
