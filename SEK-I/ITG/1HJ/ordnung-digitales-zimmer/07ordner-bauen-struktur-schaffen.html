@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LP 07 · Ordner bauen — Struktur schaffen — ITG Klasse 6</title>
+<title>LP 07 · Ordner bauen, Struktur schaffen · ITG Klasse 6</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -12,6 +12,7 @@
     --key: #17b98a; --edge: #0d8f68; --tint: #e0f7ef; --ktext: #ffffff;
     --ink: #211a4d; --ink-soft: #4f4880; --bg: #f1f0fb; --card: #fff;
     --line: rgba(33,26,77,0.12); --sun: #ffc23d;
+    --ok: #39b56a; --ok-dk: #248049; --no: #e8607a; --no-dk: #b83a56;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -59,12 +60,8 @@
   .rlp .tag { display: inline-block; background: #e7e5fb; padding: 0.06rem 0.42rem; border-radius: 6px; margin: 0 0.15rem 0.25rem 0; }
   .rlp .tag.neu { background: var(--sun); color: var(--ink); }
 
-  .draft-note {
-    display: flex; align-items: center; gap: 0.6rem;
-    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 12px;
-    padding: 0.7rem 0.9rem; margin: 1.4rem 0; font-size: 0.9rem; font-weight: 700; color: #8a5a00;
-  }
-  .draft-note svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .intro { font-size: 1.05rem; margin: 1.4rem 0 1.6rem; }
+  .intro .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
 
   .block { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 1.4rem 1.5rem; margin-bottom: 1.1rem; }
   .block h2 {
@@ -72,15 +69,94 @@
     display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem;
   }
   .block h2 .dot { width: 14px; height: 14px; border-radius: 5px; background: var(--key); box-shadow: 0 2px 0 var(--edge); flex-shrink: 0; }
-  .todo {
-    border: 2px dashed var(--line); border-radius: 12px; padding: 1rem 1.1rem;
-    color: var(--ink-soft); font-style: italic; background: rgba(91,75,230,0.03);
+  .block p { margin-bottom: 0.6rem; }
+
+  /* figure */
+  .fig { background: var(--tint); border-radius: 14px; padding: 1rem; margin: 0.4rem 0 1rem; }
+  .fig svg { width: 100%; height: auto; display: block; }
+  .fig-cap { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); text-align: center; margin-top: 0.5rem; }
+
+  /* step list */
+  ol.steps { list-style: none; counter-reset: st; }
+  ol.steps li { counter-increment: st; position: relative; padding: 0.55rem 0 0.55rem 2.7rem; border-bottom: 1px dashed var(--line); }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li::before {
+    content: counter(st); position: absolute; left: 0; top: 0.5rem;
+    width: 30px; height: 30px; border-radius: 9px; background: var(--key); color: var(--ktext);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; box-shadow: 0 2px 0 var(--edge);
   }
+  ol.steps b { color: var(--edge); }
+
+  /* exercises + diff chips */
+  .task { border: 1.5px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; margin-bottom: 0.8rem; }
+  .chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.66rem;
+    letter-spacing: 0.05em; padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.5rem; }
+  .chip.basis { background: #e2f6ea; color: var(--ok-dk); border: 1.5px solid var(--ok); }
+  .chip.mittel { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+  .chip.knifflig { background: #fff3d1; color: #8a5a00; border: 1.5px solid var(--sun); }
+  .task ul { margin: 0.4rem 0 0 1.1rem; }
+  .task li { margin-bottom: 0.2rem; }
 
   .block.fast { border-color: var(--sun); background: #fff7e2; }
   .block.fast h2 { color: #8a5a00; }
   .block.fast h2 .rocket { width: 22px; height: 22px; color: #8a5a00; }
-  .fast-text { font-size: 1.02rem; font-weight: 600; }
+  .fast-text { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .fast-list { margin: 0.4rem 0 0.8rem 1.1rem; }
+  .fast-list li { margin-bottom: 0.3rem; }
+  .auftrag { border: 1.5px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0 0 0.9rem; background: #fff; }
+  .auftrag p { margin: 0; }
+  .auftrag-no, .task-no { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); background: var(--tint); border-radius: 6px; padding: 0.1rem 0.45rem; margin-right: 0.2rem; }
+  .auftrag details, .fast-sol { margin-top: 0.5rem; }
+  .auftrag summary, .fast-sol summary { cursor: pointer; font-weight: 700; color: var(--edge); font-size: 0.92rem; }
+  .auftrag ol, .fast-sol ul { margin: 0.4rem 0 0 1.3rem; }
+  .fast-sol { margin-bottom: 0.8rem; }
+  .fill { display: inline-block; min-width: 10rem; border-bottom: 1.5px dotted currentColor; }
+  .merke-box { margin-top: 0.9rem; background: var(--tint); border-left: 6px solid var(--key); border-radius: 10px; padding: 0.7rem 0.9rem; }
+  .fast-extra { font-size: 0.95rem; font-weight: 600; background: #fff; border-radius: 10px; padding: 0.7rem 0.9rem; border: 1.5px dashed var(--sun); }
+
+  /* merksatz */
+  .merk { background: var(--tint); border: 2px solid var(--key); border-left: 8px solid var(--key); border-radius: 14px; padding: 1.1rem 1.3rem; }
+  .merk .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+  .merk b { color: var(--edge); }
+  .secret { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.9rem; padding: 0.7rem 0.9rem;
+    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 10px; font-weight: 700; color: #8a5a00; font-size: 0.95rem; }
+  .secret svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  /* ---- QUIZ ENGINE ---- */
+  .quiz { margin-top: 0.4rem; }
+  .quiz-progress { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.74rem; color: var(--ink-soft); }
+  .pbar { flex: 1; height: 10px; background: #e7e5fb; border-radius: 999px; overflow: hidden; }
+  .pfill { height: 100%; width: 0; background: var(--ok); border-radius: 999px; transition: width 0.3s ease; }
+  .q { margin-bottom: 1.1rem; padding-bottom: 1.1rem; border-bottom: 1px dashed var(--line); }
+  .q:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .q-text { font-weight: 800; margin-bottom: 0.6rem; }
+  .q-text .qn { color: var(--edge); font-family: 'JetBrains Mono', monospace; }
+  .opts { display: grid; gap: 0.5rem; }
+  .opt {
+    display: flex; align-items: center; gap: 0.7rem; width: 100%; text-align: left;
+    font-family: 'Nunito', sans-serif; font-size: 0.98rem; font-weight: 700; color: var(--ink);
+    background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 0.6rem 0.8rem; cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .opt:hover:not([disabled]) { border-color: var(--key); transform: translateX(2px); }
+  .opt .lett { flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px; background: var(--tint); color: var(--edge);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; font-size: 0.85rem; }
+  .opt.correct { border-color: var(--ok); background: #e9f8ef; }
+  .opt.correct .lett { background: var(--ok); color: #fff; }
+  .opt.wrong { border-color: var(--no); background: #fdecf0; }
+  .opt.wrong .lett { background: var(--no); color: #fff; }
+  .opt[disabled] { cursor: default; opacity: 0.75; }
+  .opt.correct[disabled], .opt.wrong[disabled] { opacity: 1; }
+  .q-hint { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--no-dk);
+    background: #fdecf0; border-radius: 9px; padding: 0.5rem 0.7rem; display: none; }
+  .q-hint.show { display: block; }
+  .q-done { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--ok-dk); display: none; }
+  .q-done.show { display: block; }
+  .quiz-solved { margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 12px; background: #e9f8ef;
+    border: 2px solid var(--ok); color: var(--ok-dk); font-family: 'Fredoka', sans-serif; font-weight: 600;
+    display: none; align-items: center; gap: 0.6rem; }
+  .quiz-solved.show { display: flex; }
+  .quiz-solved svg { width: 22px; height: 22px; flex-shrink: 0; }
 
   .selfcheck-wrap {
     display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem;
@@ -128,45 +204,277 @@
     </div>
     <div class="hero-row">
       <div class="keycap">07</div>
-      <h1>Ordner bauen — Struktur schaffen</h1>
+      <h1>Ordner bauen, Struktur schaffen</h1>
     </div>
     <p class="goal"><b>Das lernst du:</b> Ordner und Unterordner anlegen, Dateien verschieben und kopieren und Dateitypen erkennen (.docx, .pdf, .jpg …).</p>
     <p class="rlp"><span class="tag">RLP 3.2</span><span class="tag">2.4 · Struktur/Modell</span></p>
   </header>
 
-  <div class="draft-note">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
-    <span>Diese Seite ist das Ger&uuml;st f&uuml;r diesen Lernpfad &mdash; Inhalte werden noch erg&auml;nzt.</span>
-  </div>
+  <p class="intro">In Stunde 06 lag alles in <b>einem</b> Ordner ITG. Mit vielen Fächern wird daraus schnell ein großer Haufen. Heute baust du einen <span class="hl">Ordnerbaum</span> mit einem Unterordner für jedes Fach und räumst jede Datei an <span class="hl">ihren Platz</span>. Zuerst schaust du mit ein paar schnellen Fragen, was du schon weißt. Danach probierst du alles selbst am Rechner aus. Los geht’s!</p>
 
   <main>
+
+    <!-- ===================== VORWISSEN ===================== -->
     <section class="block">
-      <h2><span class="dot"></span>Los geht es &mdash; worum geht es heute?</h2>
-      <div class="todo">Hier kommt der Einstieg hin: eine kurze, spannende Hinf&uuml;hrung zum Thema.</div>
+      <h2><span class="dot"></span>Schau genau hin: Was weißt du schon?</h2>
+      <p>Sieh dir die drei Bilder an. Zu jedem Bild gehören einige Fragen. Tippe die richtige Antwort an. Wird sie <b style="color:var(--ok-dk)">grün</b>, ist sie richtig. Bei <b style="color:var(--no-dk)">rot</b> bekommst du einen Tipp.</p>
+
+      <!-- Fig 1 -->
+      <div class="fig"><svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 1" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="700" height="400" fill="#ffffff"/><rect x="20" y="20" width="660" height="360" rx="14" fill="#ffffff" stroke="#0d8f68" stroke-width="3"/><path d="M21.5 58 V34 a12.5 12.5 0 0 1 12.5 -12.5 H666 a12.5 12.5 0 0 1 12.5 12.5 V58 z" fill="#17b98a"/><text x="38" y="46" text-anchor="start" font-family="Fredoka, Open Sans, sans-serif" font-weight="700" font-size="16" fill="#ffffff">Explorer</text><path d="M582 40 h14" stroke="#ffffff" stroke-width="2.4"/><rect x="610" y="33" width="13" height="13" rx="2" fill="none" stroke="#ffffff" stroke-width="2"/><path d="M640 33 l13 13 M653 33 l-13 13" stroke="#ffffff" stroke-width="2.2"/><rect x="40" y="72" width="580" height="28" rx="6" fill="#ffffff" stroke="#9a93c9" stroke-width="1.6"/><path d="M50 80.7 h6.3 l1.8 -2.7 h8.1 v12.6 h-16.2 z" fill="#ffc23d" stroke="#c8890a" stroke-width="1.4" stroke-linejoin="round"/><text x="76" y="91" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="13.5" fill="#211a4d">Dokumente  ›  Schule  ›  Deutsch</text><rect x="40" y="110" width="170" height="250" rx="6" fill="#f6f7fb" stroke="#c9c6e0" stroke-width="1.4"/><path d="M50 127.0 h7.0 l2.0 -3.0 h9.0 v14.0 h-18.0 z" fill="#ffc23d" stroke="#c8890a" stroke-width="1.4" stroke-linejoin="round"/><text x="75" y="137" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="12.5" fill="#211a4d">Dokumente</text><path d="M59 138 V166 H67" fill="none" stroke="#b9b4da" stroke-width="1.4"/><path d="M70 161.0 h7.0 l2.0 -3.0 h9.0 v14.0 h-18.0 z" fill="#ffc23d" stroke="#c8890a" stroke-width="1.4" stroke-linejoin="round"/><text x="95" y="171" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="12.5" fill="#211a4d">Schule</text><path d="M79 172 V200 H87" fill="none" stroke="#b9b4da" stroke-width="1.4"/><rect x="86" y="188" width="118" height="24" rx="5" fill="#e0f7ef" stroke="#17b98a" stroke-width="1.4"/><path d="M90 195.0 h7.0 l2.0 -3.0 h9.0 v14.0 h-18.0 z" fill="#ffc23d" stroke="#c8890a" stroke-width="1.4" stroke-linejoin="round"/><text x="115" y="205" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="12.5" fill="#211a4d">Deutsch</text><path d="M79 206 V234 H87" fill="none" stroke="#b9b4da" stroke-width="1.4"/><path d="M90 229.0 h7.0 l2.0 -3.0 h9.0 v14.0 h-18.0 z" fill="#ffc23d" stroke="#c8890a" stroke-width="1.4" stroke-linejoin="round"/><text x="115" y="239" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="12.5" fill="#211a4d">ITG</text><path d="M79 240 V268 H87" fill="none" stroke="#b9b4da" stroke-width="1.4"/><path d="M90 263.0 h7.0 l2.0 -3.0 h9.0 v14.0 h-18.0 z" fill="#ffc23d" stroke="#c8890a" stroke-width="1.4" stroke-linejoin="round"/><text x="115" y="273" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="12.5" fill="#211a4d">Mathe</text><path d="M59 274 V302 H67" fill="none" stroke="#b9b4da" stroke-width="1.4"/><path d="M70 297.0 h7.0 l2.0 -3.0 h9.0 v14.0 h-18.0 z" fill="#ffc23d" stroke="#c8890a" stroke-width="1.4" stroke-linejoin="round"/><text x="95" y="307" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="12.5" fill="#211a4d">Bilder</text><path d="M59 308 V336 H67" fill="none" stroke="#b9b4da" stroke-width="1.4"/><path d="M70 331.0 h7.0 l2.0 -3.0 h9.0 v14.0 h-18.0 z" fill="#ffc23d" stroke="#c8890a" stroke-width="1.4" stroke-linejoin="round"/><text x="95" y="341" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="12.5" fill="#211a4d">Musik</text><rect x="220" y="110" width="400" height="250" rx="6" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.4"/><text x="234" y="132" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="12" fill="#4f4880">Name</text><text x="612" y="132" text-anchor="end" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="12" fill="#4f4880">Größe</text><line x1="228" y1="142" x2="612" y2="142" stroke="#e1def0" stroke-width="1.4"/><rect x="226" y="150" width="388" height="30" rx="5" fill="#fff1cc"/><path d="M234 156 h10 l5 5 v15 h-15 z" fill="#ffffff" stroke="#4f4880" stroke-width="1.4" stroke-linejoin="round"/><path d="M244 156 v5 h5" fill="none" stroke="#4f4880" stroke-width="1.4"/><text x="258" y="170" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="600" font-size="11.5" fill="#211a4d">2026-10-12_Deutsch_Aufsatz.docx</text><text x="612" y="170" text-anchor="end" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="12" fill="#4f4880">18 KB</text><path d="M234 194 h10 l5 5 v15 h-15 z" fill="#ffffff" stroke="#4f4880" stroke-width="1.4" stroke-linejoin="round"/><path d="M244 194 v5 h5" fill="none" stroke="#4f4880" stroke-width="1.4"/><text x="258" y="208" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="600" font-size="11.5" fill="#211a4d">2026-10-05_Deutsch_Gedicht.pdf</text><text x="612" y="208" text-anchor="end" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="12" fill="#4f4880">64 KB</text><path d="M234 232 h10 l5 5 v15 h-15 z" fill="#ffffff" stroke="#4f4880" stroke-width="1.4" stroke-linejoin="round"/><path d="M244 232 v5 h5" fill="none" stroke="#4f4880" stroke-width="1.4"/><text x="258" y="246" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="600" font-size="11.5" fill="#211a4d">2026-09-28_Deutsch_Lesetagebuch.docx</text><text x="612" y="246" text-anchor="end" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="12" fill="#4f4880">22 KB</text><circle cx="190" cy="166" r="17" fill="#0d8f68" stroke="#ffffff" stroke-width="3"/><text x="190" y="173" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><circle cx="190" cy="200" r="17" fill="#c8890a" stroke="#ffffff" stroke-width="3"/><text x="190" y="207" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><circle cx="632" cy="162" r="17" fill="#5a39cf" stroke="#ffffff" stroke-width="3"/><text x="632" y="169" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><circle cx="650" cy="86" r="17" fill="#b83a56" stroke="#ffffff" stroke-width="3"/><text x="650" y="93" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text></svg><div class="fig-cap">Bild 1 &middot; Der Ordnerbaum</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 1</span> <b>Benenne</b> die vier Teile des Ordnerbaums. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>Hauptordner: Schule enthält die Ordner für die Fächer.</li><li>Unterordner: Deutsch liegt im Ordner Schule.</li><li>Datei: liegt im Ordner Deutsch.</li><li>Pfad: der Weg zum geöffneten Ordner, Dokumente › Schule › Deutsch.</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 4 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.1</span> &nbsp;<b>Nenne</b>, was <b>Teil 1</b>, der Ordner Schule, ist.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Der Hauptordner, der die Ordner für die Fächer enthält.</button>
+            <button class="opt" data-hint="Dateien haben eine Endung wie .docx. Schule hat ein Ordnersymbol.">Eine einzelne Datei.</button>
+            <button class="opt" data-hint="Der Papierkorb ist nicht im Ordnerbaum unter Dokumente.">Der Papierkorb.</button>
+            <button class="opt" data-hint="Schau auf das Symbol: Es ist ein Ordner.">Ein Programm zum Schreiben.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Schule ist der Hauptordner, darin liegen die Fächer.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.2</span> &nbsp;<b>Nenne</b>, was <b>Teil 2</b>, der Ordner Deutsch, ist.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Ein Unterordner, also ein Ordner im Ordner Schule.</button>
+            <button class="opt" data-hint="Deutsch steht eingerückt unter Schule, liegt also darin.">Der Hauptordner, der alles enthält.</button>
+            <button class="opt" data-hint="Deutsch hat ein Ordnersymbol und keine Endung.">Eine Textdatei.</button>
+            <button class="opt" data-hint="Ein Laufwerk hat einen Buchstaben wie C: oder H:.">Das Laufwerk des Computers.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Deutsch ist ein Unterordner von Schule.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.3</span> &nbsp;<b>Nenne</b>, was <b>Teil 3</b> ist.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Eine Datei, die im Ordner Deutsch liegt.</button>
+            <button class="opt" data-hint="Achte auf die Endung .docx: Ordner haben keine.">Ein weiterer Unterordner.</button>
+            <button class="opt" data-hint="Der Pfad steht oben in der Adresszeile.">Der Pfad zum Ordner.</button>
+            <button class="opt" data-hint="Das Symbol ist ein Blatt, kein Ordner.">Ein Ordner ohne Inhalt.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt: Das ist eine Datei im Ordner Deutsch.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.4</span> &nbsp;<b>Nenne</b>, was die Adresszeile (<b>Teil 4</b>) zeigt.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Den Pfad, also den Weg zum geöffneten Ordner.</button>
+            <button class="opt" data-hint="Dort stehen Ordnernamen, getrennt durch ›.">Den Namen der Lehrperson.</button>
+            <button class="opt" data-hint="Die Uhrzeit steht unten in der Taskleiste.">Die Uhrzeit.</button>
+            <button class="opt" data-hint="Die Größe steht in der Spalte rechts in der Dateiliste.">Die Größe aller Dateien.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Dokumente › Schule › Deutsch ist der Pfad.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Super: Bild 1 komplett gelöst!</div>
+      </div>
+
+      <!-- Fig 2 -->
+      <div class="fig"><svg viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 2" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="700" height="340" fill="#ffffff"/><rect x="20" y="20" width="660" height="300" rx="18" fill="#f4fbf8" stroke="#0d8f68" stroke-width="3"/><path d="M68 70 h60 l24 24 v86 h-84 z" fill="#ffffff" stroke="#0d8f68" stroke-width="2.6" stroke-linejoin="round"/><path d="M128 70 v24 h24" fill="#d7f3e8" stroke="#0d8f68" stroke-width="2.2" stroke-linejoin="round"/><line x1="80" y1="108" x2="140" y2="108" stroke="#4f4880" stroke-width="3" stroke-linecap="round"/><line x1="80" y1="120" x2="140" y2="120" stroke="#4f4880" stroke-width="3" stroke-linecap="round"/><line x1="80" y1="132" x2="140" y2="132" stroke="#4f4880" stroke-width="3" stroke-linecap="round"/><line x1="80" y1="144" x2="140" y2="144" stroke="#4f4880" stroke-width="3" stroke-linecap="round"/><line x1="80" y1="156" x2="128" y2="156" stroke="#4f4880" stroke-width="3" stroke-linecap="round"/><circle cx="110" cy="48" r="17" fill="#0d8f68" stroke="#ffffff" stroke-width="3"/><text x="110" y="55" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><text x="110" y="206" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="13" fill="#211a4d">Aufsatz</text><rect x="76" y="214" width="68" height="26" rx="6" fill="#d7f3e8" stroke="#0d8f68" stroke-width="2"/><text x="110" y="233" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="16" fill="#211a4d">.docx</text><line x1="110" y1="241" x2="110" y2="256" stroke="#0d8f68" stroke-width="2" stroke-dasharray="4,3"/><rect x="38" y="258" width="144" height="50" rx="8" fill="#ffffff" stroke="#0d8f68" stroke-width="1.8"/><path d="M228 70 h60 l24 24 v86 h-84 z" fill="#ffffff" stroke="#c8890a" stroke-width="2.6" stroke-linejoin="round"/><path d="M288 70 v24 h24" fill="#fff1cc" stroke="#c8890a" stroke-width="2.2" stroke-linejoin="round"/><rect x="238" y="102" width="40" height="18" rx="3" fill="#c8890a"/><text x="258" y="116" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="12" fill="#ffffff">PDF</text><line x1="240" y1="134" x2="300" y2="134" stroke="#4f4880" stroke-width="3" stroke-linecap="round"/><line x1="240" y1="146" x2="300" y2="146" stroke="#4f4880" stroke-width="3" stroke-linecap="round"/><line x1="240" y1="158" x2="300" y2="158" stroke="#4f4880" stroke-width="3" stroke-linecap="round"/><circle cx="270" cy="48" r="17" fill="#c8890a" stroke="#ffffff" stroke-width="3"/><text x="270" y="55" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><text x="270" y="206" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="13" fill="#211a4d">Stundenplan</text><rect x="236" y="214" width="68" height="26" rx="6" fill="#fff1cc" stroke="#c8890a" stroke-width="2"/><text x="270" y="233" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="16" fill="#211a4d">.pdf</text><line x1="270" y1="241" x2="270" y2="256" stroke="#c8890a" stroke-width="2" stroke-dasharray="4,3"/><rect x="198" y="258" width="144" height="50" rx="8" fill="#ffffff" stroke="#c8890a" stroke-width="1.8"/><path d="M388 70 h60 l24 24 v86 h-84 z" fill="#ffffff" stroke="#5a39cf" stroke-width="2.6" stroke-linejoin="round"/><path d="M448 70 v24 h24" fill="#ece7fe" stroke="#5a39cf" stroke-width="2.2" stroke-linejoin="round"/><rect x="398" y="104" width="64" height="54" rx="4" fill="#ece7fe" stroke="#5a39cf" stroke-width="1.6"/><circle cx="446" cy="118" r="7" fill="#ffc23d"/><path d="M400 156 l18 -24 l14 16 l8 -9 l20 17 z" fill="#5a39cf"/><circle cx="430" cy="48" r="17" fill="#5a39cf" stroke="#ffffff" stroke-width="3"/><text x="430" y="55" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><text x="430" y="206" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="13" fill="#211a4d">Ausflug</text><rect x="396" y="214" width="68" height="26" rx="6" fill="#ece7fe" stroke="#5a39cf" stroke-width="2"/><text x="430" y="233" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="16" fill="#211a4d">.jpg</text><line x1="430" y1="241" x2="430" y2="256" stroke="#5a39cf" stroke-width="2" stroke-dasharray="4,3"/><rect x="358" y="258" width="144" height="50" rx="8" fill="#ffffff" stroke="#5a39cf" stroke-width="1.8"/><path d="M548 70 h60 l24 24 v86 h-84 z" fill="#ffffff" stroke="#b83a56" stroke-width="2.6" stroke-linejoin="round"/><path d="M608 70 v24 h24" fill="#fdecf0" stroke="#b83a56" stroke-width="2.2" stroke-linejoin="round"/><rect x="558" y="104" width="64" height="40" rx="3" fill="#fdecf0" stroke="#b83a56" stroke-width="1.6"/><line x1="566" y1="116" x2="602" y2="116" stroke="#b83a56" stroke-width="3.4" stroke-linecap="round"/><rect x="566" y="124" width="22" height="13" rx="2" fill="#b83a56"/><rect x="566" y="150" width="14" height="10" rx="2" fill="none" stroke="#b83a56" stroke-width="1.4"/><rect x="584" y="150" width="14" height="10" rx="2" fill="none" stroke="#b83a56" stroke-width="1.4"/><rect x="602" y="150" width="14" height="10" rx="2" fill="none" stroke="#b83a56" stroke-width="1.4"/><circle cx="590" cy="48" r="17" fill="#b83a56" stroke="#ffffff" stroke-width="3"/><text x="590" y="55" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text><text x="590" y="206" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="13" fill="#211a4d">Referat</text><rect x="556" y="214" width="68" height="26" rx="6" fill="#fdecf0" stroke="#b83a56" stroke-width="2"/><text x="590" y="233" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="16" fill="#211a4d">.pptx</text><line x1="590" y1="241" x2="590" y2="256" stroke="#b83a56" stroke-width="2" stroke-dasharray="4,3"/><rect x="518" y="258" width="144" height="50" rx="8" fill="#ffffff" stroke="#b83a56" stroke-width="1.8"/></svg><div class="fig-cap">Bild 2 &middot; Dateitypen erkennen</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 2</span> <b>Benenne</b> die vier Dateitypen. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>.docx: Textdokument, z.&nbsp;B. aus Word</li><li>.pdf: PDF-Dokument, sieht auf jedem Gerät gleich aus</li><li>.jpg: Bild oder Foto</li><li>.pptx: Präsentation mit Folien</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 4 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.1</span> &nbsp;<b>Nenne</b>, was für eine Datei <b>Teil 1</b> (.docx) ist.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Ein Textdokument, zum Beispiel aus Word.</button>
+            <button class="opt" data-hint="Fotos enden meist auf .jpg.">Ein Foto.</button>
+            <button class="opt" data-hint="Präsentationen enden auf .pptx.">Eine Präsentation mit Folien.</button>
+            <button class="opt" data-hint="Musik endet zum Beispiel auf .mp3.">Ein Musikstück.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: .docx ist ein Textdokument.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.2</span> &nbsp;<b>Nenne</b>, was für eine Datei <b>Teil 2</b> (.pdf) ist.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Ein PDF-Dokument, das auf jedem Gerät gleich aussieht.</button>
+            <button class="opt" data-hint="Tabellen enden zum Beispiel auf .xlsx.">Eine Tabelle mit Formeln.</button>
+            <button class="opt" data-hint="Videos enden zum Beispiel auf .mp4.">Ein Video.</button>
+            <button class="opt" data-hint="Ordner haben keine Endung.">Ein Ordner.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Ein PDF sieht überall gleich aus, zum Beispiel ein Arbeitsblatt.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.3</span> &nbsp;<b>Nenne</b>, was für eine Datei <b>Teil 3</b> (.jpg) ist.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Ein Bild oder Foto.</button>
+            <button class="opt" data-hint="Textdokumente enden auf .docx oder .txt.">Ein Textdokument.</button>
+            <button class="opt" data-hint="Präsentationen enden auf .pptx.">Eine Präsentation.</button>
+            <button class="opt" data-hint="Programme enden zum Beispiel auf .exe.">Ein Programm zum Installieren.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt: .jpg ist ein Bild.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.4</span> &nbsp;<b>Nenne</b>, was für eine Datei <b>Teil 4</b> (.pptx) ist.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Eine Präsentation mit Folien.</button>
+            <button class="opt" data-hint="PDF-Dokumente enden auf .pdf.">Ein PDF-Dokument.</button>
+            <button class="opt" data-hint="Fotos enden meist auf .jpg.">Ein Foto.</button>
+            <button class="opt" data-hint="Textdokumente enden auf .docx.">Ein Textdokument.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: .pptx ist eine Präsentation.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Klasse: Bild 2 komplett gelöst!</div>
+      </div>
+
+      <!-- Fig 3 -->
+      <div class="fig"><svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 3" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="700" height="400" fill="#ffffff"/><rect x="20" y="20" width="660" height="360" rx="14" fill="#ffffff" stroke="#0d8f68" stroke-width="3"/><path d="M21.5 58 V34 a12.5 12.5 0 0 1 12.5 -12.5 H666 a12.5 12.5 0 0 1 12.5 12.5 V58 z" fill="#17b98a"/><text x="38" y="46" text-anchor="start" font-family="Fredoka, Open Sans, sans-serif" font-weight="700" font-size="16" fill="#ffffff">Explorer</text><path d="M582 40 h14" stroke="#ffffff" stroke-width="2.4"/><rect x="610" y="33" width="13" height="13" rx="2" fill="none" stroke="#ffffff" stroke-width="2"/><path d="M640 33 l13 13 M653 33 l-13 13" stroke="#ffffff" stroke-width="2.2"/><rect x="40" y="72" width="580" height="28" rx="6" fill="#ffffff" stroke="#9a93c9" stroke-width="1.6"/><path d="M50 80.7 h6.3 l1.8 -2.7 h8.1 v12.6 h-16.2 z" fill="#ffc23d" stroke="#c8890a" stroke-width="1.4" stroke-linejoin="round"/><text x="76" y="91" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="13.5" fill="#211a4d">Dokumente  ›  Schule  ›  Mathe</text><rect x="40" y="110" width="170" height="250" rx="6" fill="#f6f7fb" stroke="#c9c6e0" stroke-width="1.4"/><path d="M50 127.0 h7.0 l2.0 -3.0 h9.0 v14.0 h-18.0 z" fill="#ffc23d" stroke="#c8890a" stroke-width="1.4" stroke-linejoin="round"/><text x="75" y="137" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="12.5" fill="#211a4d">Dokumente</text><path d="M59 138 V166 H67" fill="none" stroke="#b9b4da" stroke-width="1.4"/><path d="M70 161.0 h7.0 l2.0 -3.0 h9.0 v14.0 h-18.0 z" fill="#ffc23d" stroke="#c8890a" stroke-width="1.4" stroke-linejoin="round"/><text x="95" y="171" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="12.5" fill="#211a4d">Schule</text><path d="M79 172 V200 H87" fill="none" stroke="#b9b4da" stroke-width="1.4"/><path d="M90 195.0 h7.0 l2.0 -3.0 h9.0 v14.0 h-18.0 z" fill="#ffc23d" stroke="#c8890a" stroke-width="1.4" stroke-linejoin="round"/><text x="115" y="205" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="12.5" fill="#211a4d">Deutsch</text><path d="M79 206 V234 H87" fill="none" stroke="#b9b4da" stroke-width="1.4"/><path d="M90 229.0 h7.0 l2.0 -3.0 h9.0 v14.0 h-18.0 z" fill="#ffc23d" stroke="#c8890a" stroke-width="1.4" stroke-linejoin="round"/><text x="115" y="239" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="12.5" fill="#211a4d">ITG</text><path d="M79 240 V268 H87" fill="none" stroke="#b9b4da" stroke-width="1.4"/><rect x="86" y="256" width="118" height="24" rx="5" fill="#e0f7ef" stroke="#17b98a" stroke-width="1.4"/><path d="M90 263.0 h7.0 l2.0 -3.0 h9.0 v14.0 h-18.0 z" fill="#ffc23d" stroke="#c8890a" stroke-width="1.4" stroke-linejoin="round"/><text x="115" y="273" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="12.5" fill="#211a4d">Mathe</text><path d="M59 274 V302 H67" fill="none" stroke="#b9b4da" stroke-width="1.4"/><path d="M70 297.0 h7.0 l2.0 -3.0 h9.0 v14.0 h-18.0 z" fill="#ffc23d" stroke="#c8890a" stroke-width="1.4" stroke-linejoin="round"/><text x="95" y="307" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="12.5" fill="#211a4d">Bilder</text><path d="M59 308 V336 H67" fill="none" stroke="#b9b4da" stroke-width="1.4"/><path d="M70 331.0 h7.0 l2.0 -3.0 h9.0 v14.0 h-18.0 z" fill="#ffc23d" stroke="#c8890a" stroke-width="1.4" stroke-linejoin="round"/><text x="95" y="341" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="12.5" fill="#211a4d">Musik</text><rect x="220" y="110" width="400" height="250" rx="6" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.4"/><text x="234" y="132" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="12" fill="#4f4880">Name</text><line x1="228" y1="142" x2="612" y2="142" stroke="#e1def0" stroke-width="1.4"/><path d="M234 156 h10 l5 5 v15 h-15 z" fill="#ffffff" stroke="#4f4880" stroke-width="1.4" stroke-linejoin="round"/><path d="M244 156 v5 h5" fill="none" stroke="#4f4880" stroke-width="1.4"/><text x="258" y="170" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="600" font-size="12" fill="#211a4d">2026-10-08_Mathe_Hausaufgabe.txt</text><rect x="226" y="188" width="388" height="30" rx="5" fill="#e0f7ef" stroke="#17b98a" stroke-width="1.4"/><path d="M234 194 h10 l5 5 v15 h-15 z" fill="#ffffff" stroke="#4f4880" stroke-width="1.4" stroke-linejoin="round"/><path d="M244 194 v5 h5" fill="none" stroke="#4f4880" stroke-width="1.4"/><text x="258" y="208" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="600" font-size="12" fill="#211a4d">Ausflug.jpg</text><rect x="364" y="217" width="236" height="152" rx="8" fill="#000000" opacity="0.12"/><rect x="360" y="212" width="236" height="152" rx="8" fill="#ffffff" stroke="#9a93c9" stroke-width="1.6"/><rect x="365" y="219" width="226" height="24" rx="5" fill="#d7f3e8"/><text x="376" y="236" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="13.5" fill="#211a4d">Ausschneiden</text><text x="582" y="236" text-anchor="end" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="12.5" fill="#4f4880">Strg+X</text><rect x="365" y="245" width="226" height="24" rx="5" fill="#fff1cc"/><text x="376" y="262" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="13.5" fill="#211a4d">Kopieren</text><text x="582" y="262" text-anchor="end" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="12.5" fill="#4f4880">Strg+C</text><rect x="365" y="271" width="226" height="24" rx="5" fill="#ece7fe"/><text x="376" y="288" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="13.5" fill="#211a4d">Einfügen</text><text x="582" y="288" text-anchor="end" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="12.5" fill="#4f4880">Strg+V</text><line x1="370" y1="301" x2="586" y2="301" stroke="#e1def0" stroke-width="1.4"/><text x="376" y="324" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="13.5" fill="#211a4d">Umbenennen</text><text x="582" y="324" text-anchor="end" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="12.5" fill="#4f4880">F2</text><text x="376" y="350" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="13.5" fill="#211a4d">Löschen</text><text x="582" y="350" text-anchor="end" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="12.5" fill="#4f4880">Entf</text><path d="M356 204 l0 22 l6 -5 l4 9 l4 -2 l-4 -9 l8 0 z" fill="#ffffff" stroke="#211a4d" stroke-width="1.6" stroke-linejoin="round"/><circle cx="620" cy="231" r="17" fill="#0d8f68" stroke="#ffffff" stroke-width="3"/><text x="620" y="238" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><circle cx="652" cy="257" r="17" fill="#c8890a" stroke="#ffffff" stroke-width="3"/><text x="652" y="264" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><circle cx="620" cy="283" r="17" fill="#5a39cf" stroke="#ffffff" stroke-width="3"/><text x="620" y="290" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text></svg><div class="fig-cap">Bild 3 &middot; Verschieben und kopieren</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 3</span> <b>Beschreibe</b>, was die drei Befehle bewirken. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>Ausschneiden (Strg+X): Die Datei soll umziehen.</li><li>Kopieren (Strg+C): Ein Duplikat wird vorbereitet.</li><li>Einfügen (Strg+V): Die Datei wird im Zielordner abgelegt.</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.1</span> &nbsp;<b>Beschreibe</b>, was Ausschneiden (<b>Teil 1</b>, Strg+X) bewirkt.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Die Datei wird zum Umziehen vorgemerkt und verschwindet beim Einfügen am alten Ort.</button>
+            <button class="opt" data-hint="Ausschneiden löscht nichts, erst Einfügen legt die Datei neu ab.">Die Datei wird sofort endgültig gelöscht.</button>
+            <button class="opt" data-hint="Die Datei bleibt ganz, sie zieht nur um.">Die Datei wird in zwei Teile geschnitten.</button>
+            <button class="opt" data-hint="Umbenennen geht mit F2.">Die Datei wird umbenannt.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Ausschneiden und Einfügen verschiebt die Datei.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.2</span> &nbsp;<b>Beschreibe</b>, was Kopieren (<b>Teil 2</b>, Strg+C) bewirkt.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Ein Duplikat wird vorbereitet, das Original bleibt am alten Ort.</button>
+            <button class="opt" data-hint="Das passiert beim Ausschneiden.">Die Datei verschwindet am alten Ort.</button>
+            <button class="opt" data-hint="Drucken geht mit Strg+P.">Die Datei wird gedruckt.</button>
+            <button class="opt" data-hint="Kopieren schließt nichts.">Die Datei wird geschlossen.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Nach dem Einfügen gibt es die Datei zweimal.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.3</span> &nbsp;<b>Beschreibe</b>, was Einfügen (<b>Teil 3</b>, Strg+V) bewirkt.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Die ausgeschnittene oder kopierte Datei wird im geöffneten Ordner abgelegt.</button>
+            <button class="opt" data-hint="Einen Ordner legst du mit Neu › Ordner an.">Ein neuer, leerer Ordner entsteht.</button>
+            <button class="opt" data-hint="Löschen ist ein eigener Befehl im Menü.">Die Datei wird gelöscht.</button>
+            <button class="opt" data-hint="Einfügen legt nur etwas ab.">Der Explorer schließt sich.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt: Strg+V legt die Datei im geöffneten Ordner ab.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Stark: Bild 3 komplett gelöst!</div>
+      </div>
     </section>
 
+    <!-- ===================== SCHRITT FÜR SCHRITT ===================== -->
     <section class="block">
-      <h2><span class="dot"></span>Schritt f&uuml;r Schritt</h2>
-      <div class="todo">Hier kommt die Anleitung hin: die einzelnen Arbeitsschritte, gerne mit Screenshots.</div>
+      <h2><span class="dot"></span>Schritt für Schritt am Rechner</h2>
+      <p><span class="task-no">Aufgabe 4</span></p>
+      <ol class="steps">
+        <li><b>Explorer öffnen.</b> Drücke Windows+E und klicke links auf Dokumente.</li>
+        <li><b>Hauptordner anlegen.</b> Rechtsklick auf eine freie Fläche › Neu › Ordner. Nenne ihn Schule.</li>
+        <li><b>Unterordner anlegen.</b> Öffne Schule mit Doppelklick und lege darin Deutsch und Mathe an.</li>
+        <li><b>Ausschneiden.</b> Klicke deinen Ordner ITG aus Stunde 06 an und drücke Strg+X.</li>
+        <li><b>Einfügen.</b> Öffne den Ordner Schule und drücke Strg+V. ITG zieht dorthin um.</li>
+        <li><b>Pfad lesen.</b> Öffne ITG. In der Adresszeile steht jetzt Dokumente › Schule › ITG.</li>
+        <li><b>Kopieren.</b> Klicke deine Datei aus Stunde 06 an und drücke Strg+C.</li>
+        <li><b>Duplikat einfügen.</b> Öffne Deutsch und drücke Strg+V. Die Datei gibt es jetzt zweimal.</li>
+        <li><b>Endungen zeigen.</b> Klicke auf Anzeigen › Einblenden › Dateinamenerweiterungen. Jetzt siehst du .txt, .docx oder .pdf.</li>
+      </ol>
+      <div class="fig"><svg viewBox="0 0 760 276" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 4" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="760" height="276" fill="#ffffff"/><rect x="20" y="20" width="350" height="236" rx="16" fill="#f6f3ff" stroke="#5a39cf" stroke-width="2.6"/><text x="40" y="52" text-anchor="start" font-family="Fredoka, Open Sans, sans-serif" font-weight="800" font-size="18" fill="#5a39cf">Verschieben</text><text x="40" y="74" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="13" fill="#4f4880">Strg+X, dann Strg+V</text><path d="M50 105.6 h8.4 l2.4 -3.5999999999999996 h10.799999999999999 v16.8 h-21.599999999999998 z" fill="#ffc23d" stroke="#c8890a" stroke-width="1.4" stroke-linejoin="round"/><text x="78" y="117" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="14" fill="#211a4d">Mathe</text><rect x="40" y="92" width="130" height="120" rx="10" fill="none" stroke="#c8890a" stroke-width="2"/><path d="M90 140 h20 l10 10 v30 h-30 z" fill="none" stroke="#b9b4da" stroke-width="2" stroke-dasharray="4,3" stroke-linejoin="round"/><text x="105" y="200" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="12" fill="#9a93c9">leer</text><path d="M230 105.6 h8.4 l2.4 -3.5999999999999996 h10.799999999999999 v16.8 h-21.599999999999998 z" fill="#ffc23d" stroke="#c8890a" stroke-width="1.4" stroke-linejoin="round"/><text x="258" y="117" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="14" fill="#211a4d">Bilder</text><rect x="220" y="92" width="130" height="120" rx="10" fill="none" stroke="#c8890a" stroke-width="2"/><path d="M270 140 h20 l10 10 v30 h-30 z" fill="#ffffff" stroke="#211a4d" stroke-width="2" stroke-linejoin="round"/><path d="M290 140 v10 h10" fill="none" stroke="#211a4d" stroke-width="2"/><text x="285" y="200" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="12" fill="#211a4d">Ausflug.jpg</text><line x1="176" y1="152" x2="202" y2="152" stroke="#5a39cf" stroke-width="4" stroke-linecap="round"/><path d="M214 152 l-16 -9 v18 z" fill="#5a39cf"/><text x="195" y="238" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="13.5" fill="#5a39cf">Die Datei zieht um.</text><rect x="390" y="20" width="350" height="236" rx="16" fill="#f4fbf8" stroke="#0d8f68" stroke-width="2.6"/><text x="410" y="52" text-anchor="start" font-family="Fredoka, Open Sans, sans-serif" font-weight="800" font-size="18" fill="#0d8f68">Kopieren</text><text x="410" y="74" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="13" fill="#4f4880">Strg+C, dann Strg+V</text><path d="M420 105.6 h8.4 l2.4 -3.5999999999999996 h10.799999999999999 v16.8 h-21.599999999999998 z" fill="#ffc23d" stroke="#c8890a" stroke-width="1.4" stroke-linejoin="round"/><text x="448" y="117" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="14" fill="#211a4d">Mathe</text><rect x="410" y="92" width="130" height="120" rx="10" fill="none" stroke="#c8890a" stroke-width="2"/><path d="M460 140 h20 l10 10 v30 h-30 z" fill="#ffffff" stroke="#211a4d" stroke-width="2" stroke-linejoin="round"/><path d="M480 140 v10 h10" fill="none" stroke="#211a4d" stroke-width="2"/><text x="475" y="200" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="12" fill="#211a4d">Ausflug.jpg</text><path d="M600 105.6 h8.4 l2.4 -3.5999999999999996 h10.799999999999999 v16.8 h-21.599999999999998 z" fill="#ffc23d" stroke="#c8890a" stroke-width="1.4" stroke-linejoin="round"/><text x="628" y="117" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="14" fill="#211a4d">Bilder</text><rect x="590" y="92" width="130" height="120" rx="10" fill="none" stroke="#c8890a" stroke-width="2"/><path d="M640 140 h20 l10 10 v30 h-30 z" fill="#ffffff" stroke="#211a4d" stroke-width="2" stroke-linejoin="round"/><path d="M660 140 v10 h10" fill="none" stroke="#211a4d" stroke-width="2"/><text x="655" y="200" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="12" fill="#211a4d">Ausflug.jpg</text><line x1="546" y1="152" x2="572" y2="152" stroke="#0d8f68" stroke-width="4" stroke-linecap="round"/><path d="M584 152 l-16 -9 v18 z" fill="#0d8f68"/><text x="565" y="238" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="13.5" fill="#0d8f68">Die Datei gibt es zweimal.</text></svg><div class="fig-cap">Verschieben nimmt die Datei mit, Kopieren lässt das Original am alten Ort.</div></div>
+      <div class="merke-box"><b>Merke:</b> Ordner sind wie Schubladen: Ein <b>Hauptordner</b> enthält <b>Unterordner</b>, zum Beispiel einen pro Fach. Der <b>Pfad</b> zeigt den Weg: Dokumente › Schule › ITG. <b>Verschieben</b> (Strg+X, Strg+V) nimmt die Datei mit, <b>Kopieren</b> (Strg+C, Strg+V) macht ein Duplikat. Die <b>Endung</b> verrät den Dateityp.</div>
     </section>
 
+    <!-- ===================== ÜBUNGEN ===================== -->
     <section class="block">
-      <h2><span class="dot"></span>&Uuml;bungsaufgaben</h2>
-      <div class="todo">Hier kommen die Aufgaben hin &mdash; mit klarer Differenzierung (Basis &middot; mittel &middot; knifflig).</div>
+      <h2><span class="dot"></span>Übungsaufgaben</h2>
+      <div class="task">
+        <span class="task-no">Aufgabe 5</span> <span class="chip basis">Basis</span>
+        <p>Lege in Schule einen Ordner für ein weiteres Fach an, zum Beispiel Englisch, und speichere dort eine Datei nach der Namens-Regel aus Stunde 06.</p>
+      </div>
+      <div class="task">
+        <span class="task-no">Aufgabe 6</span> <span class="chip mittel">mittel</span>
+        <p>Ordne jeder Datei den Dateityp und den passenden Ordner zu:</p>
+        <ul>
+          <li>„Klassenfahrt_Berlin.jpg“</li>
+          <li>„2026-10-12_Deutsch_Aufsatz.docx“</li>
+          <li>„2026-10-09_Bio_Frösche.pptx“</li>
+          <li>„Mathe_Arbeitsblatt_Brüche.pdf“</li>
+        </ul>
+        <p>Verschiebe danach eine Datei in deinen neuen Fachordner und prüfe, dass sie am alten Ort fehlt.</p>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Klassenfahrt_Berlin.jpg: Bild, gehört in Bilder</li><li>2026-10-12_Deutsch_Aufsatz.docx: Textdokument, gehört in Schule › Deutsch</li><li>2026-10-09_Bio_Frösche.pptx: Präsentation, gehört in Schule › Bio</li><li>Mathe_Arbeitsblatt_Brüche.pdf: PDF-Dokument, gehört in Schule › Mathe</li></ul></details>
+      </div>
+      <div class="task">
+        <span class="task-no">Aufgabe 7</span> <span class="chip knifflig">knifflig</span>
+        <p>Entscheide, ob du verschiebst oder kopierst, und begründe: Ein Foto liegt aus Versehen im Ordner Mathe. Du willst ein neues Referat bauen und das alte behalten. Dein Referat soll auf einen USB-Stick.</p>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Foto in Mathe: Verschieben, es gehört nur in Bilder.</li><li>Neues Referat: Kopieren, das Original bleibt erhalten.</li><li>USB-Stick: Kopieren, die Datei bleibt auch auf deinem Rechner.</li></ul></details>
+      </div>
     </section>
 
+    <!-- ===================== SCHNELLLÄUFER ===================== -->
     <section class="block fast">
-      <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnelll&auml;ufer:innen-Mission</h2>
-      <p class="fast-text">Baue eine Ordnerstruktur für ein ganzes Schuljahr und zeichne sie als Baum-Diagramm auf.</p>
+      <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnellläufer:innen-Mission</h2>
+      <p class="fast-text">Baue eine Ordnerstruktur für ein ganzes Schuljahr und zeichne sie als Baum-Diagramm auf. Der Hauptordner steht oben, darunter folgen Unterordner und ein paar Beispieldateien.</p>
+      <ul class="fast-list">
+        <li><b>Hauptordner:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Unterordner:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Beispieldatei mit Pfad:</b> <span class="fill">&nbsp;</span></li>
+      </ul>
+      <p class="fast-extra"><b>Vertiefung zur Wahl:</b> Lerne Explorer-Tricks, baue Pfade per Klick oder löse Pfad-Aufträge zu zweit. <a href="07-vertiefung-ordner-und-pfade.html">Zur Vertiefung</a> (auch per QR-Code unten rechts auf Seite 2 des Aufgabenblatts).</p>
     </section>
 
+    <!-- ===================== SICHERUNG ===================== -->
+    <section class="block">
+      <h2><span class="dot"></span>Das kann ich jetzt: kurzer Check</h2>
+      <p>Vier Fragen zum Abschluss. Wieder gilt: <b style="color:var(--ok-dk)">grün</b> = richtig, <b style="color:var(--no-dk)">rot</b> = Tipp.</p>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 4 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.1</span> &nbsp;<b>Beschreibe</b>, wie du einen neuen Ordner anlegst.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Rechtsklick auf eine freie Fläche, dann Neu und Ordner.</button>
+            <button class="opt" data-hint="Ein Doppelklick öffnet die Datei.">Doppelklick auf eine Datei.</button>
+            <button class="opt" data-hint="Strg+S speichert eine Datei.">Strg+S drücken.</button>
+            <button class="opt" data-hint="Ein Neustart legt keine Ordner an.">Den Rechner neu starten.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Rechtsklick › Neu › Ordner, dann den Namen eintippen.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.2</span> &nbsp;<b>Nenne</b> den Ordner, in dem diese Datei liegt: Dokumente › Schule › Mathe › Brüche.pdf</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Mathe</button>
+            <button class="opt" data-hint="Schule ist der Ordner darüber.">Schule</button>
+            <button class="opt" data-hint="Dokumente ist ganz oben im Pfad.">Dokumente</button>
+            <button class="opt" data-hint="Brüche.pdf ist die Datei selbst.">Brüche</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Die Datei steht ganz rechts, davor ihr Ordner.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.3</span> &nbsp;<b>Nenne</b> die Endung einer Bilddatei.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">.jpg</button>
+            <button class="opt" data-hint=".docx ist ein Textdokument.">.docx</button>
+            <button class="opt" data-hint=".pdf ist ein PDF-Dokument.">.pdf</button>
+            <button class="opt" data-hint=".pptx ist eine Präsentation.">.pptx</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: .jpg ist ein Bild.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.4</span> &nbsp;<b>Begründe</b>, wann du kopierst und nicht verschiebst.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Wenn das Original am alten Ort bleiben soll.</button>
+            <button class="opt" data-hint="Dann verschiebst du sie.">Wenn die Datei nur noch im neuen Ordner liegen soll.</button>
+            <button class="opt" data-hint="Dafür gibt es Löschen.">Wenn du die Datei löschen willst.</button>
+            <button class="opt" data-hint="Schau dir das Bild im Schritt-für-Schritt-Teil an.">Kopieren und Verschieben sind dasselbe.</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt: Beim Kopieren gibt es die Datei danach zweimal.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Perfekt: Deine Ordner sind jetzt aufgeräumt!</div>
+      </div>
+    </section>
+
+    <!-- ===================== MERKSATZ ===================== -->
     <section class="block">
       <h2><span class="dot"></span>Das nehme ich mit</h2>
-      <div class="todo">Hier kommt der Merksatz / die Zusammenfassung hin.</div>
+      <div class="merk">
+        <p>Ordner sind wie Schubladen: Ein <b>Hauptordner</b> wie Schule enthält <b>Unterordner</b>, zum Beispiel einen pro Fach. Einen neuen Ordner legst du mit <b>Rechtsklick › Neu › Ordner</b> an. Der <b>Pfad</b> zeigt den Weg zu einer Datei: Dokumente › Schule › ITG. <b>Verschieben</b> (Strg+X, dann Strg+V) nimmt die Datei mit, <b>Kopieren</b> (Strg+C, dann Strg+V) macht ein Duplikat und das Original bleibt. Die <b>Endung</b> verrät den Dateityp: .docx Textdokument, .pdf PDF, .jpg Bild, .pptx Präsentation.</p>
+        <div class="secret">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12c.5.5 1 1.2 1 2h6c0-.8.5-1.5 1-2a7 7 0 0 0-4-12z"/></svg>
+          <span>Merk&#8209;Trick: X sieht aus wie eine Schere, damit schneidest du aus. C steht für Copy, also Kopieren. Und V liegt direkt daneben zum Einfügen.</span>
+        </div>
+      </div>
     </section>
 
     <div class="selfcheck-wrap">
-      <span class="sc-label">Wie sicher f&uuml;hlst du dich nach dieser Stunde?</span>
+      <span class="sc-label">Wie sicher fühlst du dich nach dieser Stunde?</span>
       <div class="sc-stars" id="stars"></div>
       <span class="sc-feedback" id="fb"></span>
     </div>
@@ -182,9 +490,67 @@
 </div>
 
 <script>
+  /* ---------- Quiz-Engine ---------- */
+  (function(){
+    var LETTERS = ['A','B','C','D','E','F'];
+    var quizzes = document.querySelectorAll('[data-quiz]');
+    quizzes.forEach(function(quiz){
+      var questions = quiz.querySelectorAll('.q');
+      var total = questions.length;
+      var solved = 0;
+      var pcount = quiz.querySelector('.pcount');
+      var pfill = quiz.querySelector('.pfill');
+      var doneBox = quiz.querySelector('.quiz-solved');
+      function updateProgress(){
+        if (pcount) pcount.textContent = solved + ' / ' + total + ' richtig';
+        if (pfill) pfill.style.width = (total ? (solved/total*100) : 0) + '%';
+        if (doneBox && solved === total) doneBox.classList.add('show');
+      }
+      questions.forEach(function(q){
+        var optsContainer = q.querySelector('.opts');
+        var opts = Array.prototype.slice.call(q.querySelectorAll('.opt'));
+        for (var i = opts.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = opts[i]; opts[i] = opts[j]; opts[j] = tmp;
+        }
+        opts.forEach(function(opt){ optsContainer.appendChild(opt); });
+        var hint = q.querySelector('.q-hint');
+        var done = q.querySelector('.q-done');
+        var answered = false;
+        opts.forEach(function(opt, i){
+          var lett = document.createElement('span');
+          lett.className = 'lett';
+          lett.textContent = LETTERS[i];
+          opt.insertBefore(lett, opt.firstChild);
+          opt.addEventListener('click', function(){
+            if (answered) return;
+            if (opt.getAttribute('data-correct') === 'true') {
+              answered = true;
+              opt.classList.add('correct');
+              opts.forEach(function(o){ o.setAttribute('disabled','disabled'); });
+              if (hint) hint.classList.remove('show');
+              if (done) done.classList.add('show');
+              solved++;
+              updateProgress();
+            } else {
+              opt.classList.add('wrong');
+              opt.setAttribute('disabled','disabled');
+              if (hint) {
+                hint.textContent = opt.getAttribute('data-hint') || 'Nicht ganz — versuch es nochmal.';
+                hint.classList.add('show');
+              }
+            }
+          });
+        });
+      });
+      updateProgress();
+    });
+  })();
+
+  /* ---------- Selbsteinschätzung (Sterne, localStorage) ---------- */
   (function(){
     var key = 'itg_lp_07';
-    var msgs = {1:'Ganz frisch \u2014 \u00dcben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf \u2014 super!'};
+    var msgs = {1:'Ganz frisch — Üben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf — super!'};
     var svg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 18.9 6.1 21l1.2-6.5L2.5 9.9l6.6-.9z"/></svg>';
     var wrap = document.getElementById('stars'); var fb = document.getElementById('fb'); var stars = [];
     for (var n = 1; n <= 4; n++) { var b = document.createElement('button'); b.className = 'sc-star'; b.type = 'button'; b.innerHTML = svg; b.setAttribute('aria-label', 'Stufe ' + n); wrap.appendChild(b); stars.push(b); }

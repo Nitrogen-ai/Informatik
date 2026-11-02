@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vertiefung · Lokal oder Wolke? · ITG Klasse 6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --key: #17b98a; --edge: #0d8f68; --tint: #e0f7ef; --ktext: #ffffff;
+    --ink: #211a4d; --ink-soft: #4f4880; --bg: #f1f0fb; --card: #fff;
+    --line: rgba(33,26,77,0.12); --sun: #ffc23d;
+    --ok: #39b56a; --ok-dk: #248049; --no: #e8607a; --no-dk: #b83a56;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--ink);
+    line-height: 1.65; padding-bottom: 2rem;
+    background-image:
+      linear-gradient(rgba(91,75,230,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(91,75,230,0.05) 1px, transparent 1px);
+    background-size: 26px 26px, 26px 26px;
+  }
+  ::selection { background: var(--sun); color: var(--ink); }
+  :focus-visible { outline: 3px solid var(--key); outline-offset: 3px; border-radius: 6px; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 5vw; }
+
+  .topbar { background: var(--key); }
+  .back {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    max-width: 860px; margin: 0 auto; padding: 0.7rem 5vw;
+    color: var(--ktext); text-decoration: none; font-weight: 700;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; letter-spacing: 0.06em;
+  }
+  .back:hover { text-decoration: underline; }
+
+  .lp-hero { padding: 2.4rem 0 1.8rem; }
+  .badges { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  .b-sjw, .b-unit {
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.68rem;
+    letter-spacing: 0.08em; padding: 0.28rem 0.65rem; border-radius: 999px;
+  }
+  .b-sjw { background: var(--key); color: var(--ktext); box-shadow: 0 3px 0 var(--edge); }
+  .b-unit { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+
+  .hero-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.1rem; }
+  .keycap {
+    font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 1.8rem;
+    color: var(--ktext); background: var(--key); box-shadow: 0 5px 0 var(--edge);
+    width: 62px; height: 62px; border-radius: 16px; display: grid; place-items: center; flex-shrink: 0;
+  }
+  h1 { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(1.5rem, 4.5vw, 2.3rem); line-height: 1.1; }
+
+  .goal { font-size: 1.06rem; margin-bottom: 0.9rem; }
+  .goal b { color: var(--key); }
+  .rlp { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); font-weight: 700; }
+  .rlp .tag { display: inline-block; background: #e7e5fb; padding: 0.06rem 0.42rem; border-radius: 6px; margin: 0 0.15rem 0.25rem 0; }
+  .rlp .tag.neu { background: var(--sun); color: var(--ink); }
+
+  .intro { font-size: 1.05rem; margin: 1.4rem 0 1.6rem; }
+  .intro .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+
+  .block { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 1.4rem 1.5rem; margin-bottom: 1.1rem; }
+  .block h2 {
+    font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 1.25rem;
+    display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem;
+  }
+  .block h2 .dot { width: 14px; height: 14px; border-radius: 5px; background: var(--key); box-shadow: 0 2px 0 var(--edge); flex-shrink: 0; }
+  .block p { margin-bottom: 0.6rem; }
+
+  /* figure */
+  .fig { background: var(--tint); border-radius: 14px; padding: 1rem; margin: 0.4rem 0 1rem; }
+  .fig svg { width: 100%; height: auto; display: block; }
+  .fig-cap { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); text-align: center; margin-top: 0.5rem; }
+
+  /* step list */
+  ol.steps { list-style: none; counter-reset: st; }
+  ol.steps li { counter-increment: st; position: relative; padding: 0.55rem 0 0.55rem 2.7rem; border-bottom: 1px dashed var(--line); }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li::before {
+    content: counter(st); position: absolute; left: 0; top: 0.5rem;
+    width: 30px; height: 30px; border-radius: 9px; background: var(--key); color: var(--ktext);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; box-shadow: 0 2px 0 var(--edge);
+  }
+  ol.steps b { color: var(--edge); }
+
+  /* exercises + diff chips */
+  .task { border: 1.5px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; margin-bottom: 0.8rem; }
+  .chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.66rem;
+    letter-spacing: 0.05em; padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.5rem; }
+  .chip.basis { background: #e2f6ea; color: var(--ok-dk); border: 1.5px solid var(--ok); }
+  .chip.mittel { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+  .chip.knifflig { background: #fff3d1; color: #8a5a00; border: 1.5px solid var(--sun); }
+  .task ul { margin: 0.4rem 0 0 1.1rem; }
+  .task li { margin-bottom: 0.2rem; }
+
+  .block.fast { border-color: var(--sun); background: #fff7e2; }
+  .block.fast h2 { color: #8a5a00; }
+  .block.fast h2 .rocket { width: 22px; height: 22px; color: #8a5a00; }
+  .fast-text { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .fast-list { margin: 0.4rem 0 0.8rem 1.1rem; }
+  .fast-list li { margin-bottom: 0.3rem; }
+  .auftrag { border: 1.5px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0 0 0.9rem; background: #fff; }
+  .auftrag p { margin: 0; }
+  .auftrag-no, .task-no { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); background: var(--tint); border-radius: 6px; padding: 0.1rem 0.45rem; margin-right: 0.2rem; }
+  .auftrag details, .fast-sol { margin-top: 0.5rem; }
+  .auftrag summary, .fast-sol summary { cursor: pointer; font-weight: 700; color: var(--edge); font-size: 0.92rem; }
+  .auftrag ol, .fast-sol ul { margin: 0.4rem 0 0 1.3rem; }
+  .fast-sol { margin-bottom: 0.8rem; }
+  .fill { display: inline-block; min-width: 10rem; border-bottom: 1.5px dotted currentColor; }
+  .merke-box { margin-top: 0.9rem; background: var(--tint); border-left: 6px solid var(--key); border-radius: 10px; padding: 0.7rem 0.9rem; }
+  .fast-extra { font-size: 0.95rem; font-weight: 600; background: #fff; border-radius: 10px; padding: 0.7rem 0.9rem; border: 1.5px dashed var(--sun); }
+
+  /* merksatz */
+  .merk { background: var(--tint); border: 2px solid var(--key); border-left: 8px solid var(--key); border-radius: 14px; padding: 1.1rem 1.3rem; }
+  .merk .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+  .merk b { color: var(--edge); }
+  .secret { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.9rem; padding: 0.7rem 0.9rem;
+    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 10px; font-weight: 700; color: #8a5a00; font-size: 0.95rem; }
+  .secret svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  /* ---- QUIZ ENGINE ---- */
+  .quiz { margin-top: 0.4rem; }
+  .quiz-progress { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.74rem; color: var(--ink-soft); }
+  .pbar { flex: 1; height: 10px; background: #e7e5fb; border-radius: 999px; overflow: hidden; }
+  .pfill { height: 100%; width: 0; background: var(--ok); border-radius: 999px; transition: width 0.3s ease; }
+  .q { margin-bottom: 1.1rem; padding-bottom: 1.1rem; border-bottom: 1px dashed var(--line); }
+  .q:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .q-text { font-weight: 800; margin-bottom: 0.6rem; }
+  .q-text .qn { color: var(--edge); font-family: 'JetBrains Mono', monospace; }
+  .opts { display: grid; gap: 0.5rem; }
+  .opt {
+    display: flex; align-items: center; gap: 0.7rem; width: 100%; text-align: left;
+    font-family: 'Nunito', sans-serif; font-size: 0.98rem; font-weight: 700; color: var(--ink);
+    background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 0.6rem 0.8rem; cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .opt:hover:not([disabled]) { border-color: var(--key); transform: translateX(2px); }
+  .opt .lett { flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px; background: var(--tint); color: var(--edge);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; font-size: 0.85rem; }
+  .opt.correct { border-color: var(--ok); background: #e9f8ef; }
+  .opt.correct .lett { background: var(--ok); color: #fff; }
+  .opt.wrong { border-color: var(--no); background: #fdecf0; }
+  .opt.wrong .lett { background: var(--no); color: #fff; }
+  .opt[disabled] { cursor: default; opacity: 0.75; }
+  .opt.correct[disabled], .opt.wrong[disabled] { opacity: 1; }
+  .q-hint { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--no-dk);
+    background: #fdecf0; border-radius: 9px; padding: 0.5rem 0.7rem; display: none; }
+  .q-hint.show { display: block; }
+  .q-done { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--ok-dk); display: none; }
+  .q-done.show { display: block; }
+  .quiz-solved { margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 12px; background: #e9f8ef;
+    border: 2px solid var(--ok); color: var(--ok-dk); font-family: 'Fredoka', sans-serif; font-weight: 600;
+    display: none; align-items: center; gap: 0.6rem; }
+  .quiz-solved.show { display: flex; }
+  .quiz-solved svg { width: 22px; height: 22px; flex-shrink: 0; }
+
+  .selfcheck-wrap {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem;
+    background: var(--tint); border-radius: 14px; padding: 1rem 1.2rem; margin: 1.4rem 0;
+  }
+  .sc-label { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 0.98rem; }
+  .sc-stars { display: flex; gap: 0.3rem; }
+  .sc-star { width: 30px; height: 30px; background: none; border: none; padding: 0; cursor: pointer; color: rgba(33,26,77,0.22); transition: transform 0.12s ease, color 0.12s ease; }
+  .sc-star svg { width: 100%; height: 100%; display: block; }
+  .sc-star:hover { transform: scale(1.18) rotate(-6deg); }
+  .sc-star.on { color: var(--sun); }
+  .sc-feedback { font-family: 'Fredoka', sans-serif; font-weight: 600; color: var(--edge); opacity: 0; transition: opacity 0.2s ease; }
+  .sc-feedback.show { opacity: 1; }
+
+  .lp-nav { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; margin-top: 1.6rem; flex-wrap: wrap; }
+  .lp-nav a, .lp-nav span.nav-empty {
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.78rem;
+    text-decoration: none; padding: 0.6rem 0.9rem; border-radius: 10px;
+  }
+  .nav-prev, .nav-next { background: var(--card); border: 2px solid var(--key); color: var(--edge); box-shadow: 0 3px 0 var(--edge); transition: transform 0.12s ease, box-shadow 0.12s ease; }
+  .nav-prev:hover, .nav-next:hover { transform: translateY(2px); box-shadow: 0 1px 0 var(--edge); }
+  .nav-over { background: var(--key); color: var(--ktext); box-shadow: 0 3px 0 var(--edge); }
+  .nav-empty { color: rgba(33,26,77,0.28); border: 2px dashed var(--line); }
+  .nav-next.locked { color: rgba(33,26,77,0.28); border: 2px dashed var(--line); background: transparent; box-shadow: none; cursor: default; pointer-events: none; }
+  .nav-next.locked:hover { transform: none; box-shadow: none; }
+
+  footer {
+    text-align: center; margin-top: 2rem; padding: 1.4rem 5vw 0;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); font-weight: 700;
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+</style>
+<style>
+  .wahl { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.6rem; margin: 0 0 1.2rem; }
+  .wahl a { display: block; background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.65rem 0.8rem; color: var(--ink); text-decoration: none; font-weight: 700; line-height: 1.25; }
+  .wahl a:hover, .wahl a:focus-visible { border-color: var(--key); }
+  .wahl small { display: block; font-weight: 600; color: var(--ink-soft); margin-top: 0.15rem; }
+  .vk { display: inline-block; font-family: 'JetBrains Mono', Menlo, monospace; font-weight: 700; background: var(--key); color: #fff; border-radius: 8px; padding: 0.05rem 0.45rem; margin-right: 0.35rem; }
+  .regler { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; margin: 0.7rem 0 0.9rem; font-weight: 700; }
+  .regler input { flex: 1 1 200px; accent-color: var(--edge); min-height: 32px; }
+  .regler output { font-family: 'JetBrains Mono', Menlo, monospace; min-width: 8.5rem; }
+  .zeile { display: grid; grid-template-columns: 6.2rem 1fr; gap: 0.2rem 0.7rem; align-items: center; margin-bottom: 0.55rem; }
+  .zeile b { font-size: 0.95rem; }
+  .bar { height: 14px; border-radius: 999px; background: var(--tint); overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--key); border-radius: 999px; transition: width 0.2s ease; }
+  .bar.voll i { background: #d9576f; }
+  .zeile span { grid-column: 2; font-size: 0.92rem; color: var(--ink-soft); font-weight: 600; }
+  .stapel { background: var(--tint); border-radius: 12px; padding: 0.7rem 0.9rem; font-weight: 700; margin-top: 0.8rem; }
+  .weg { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.35rem; margin: 0.8rem 0; list-style: none; padding: 0; }
+  .weg li { margin: 0; }
+  .weg button { width: 100%; min-height: 64px; padding: 0.45rem 0.2rem; border-radius: 10px; border: 2px solid var(--tint); background: #fff; color: var(--ink); font: inherit; font-size: 0.82rem; font-weight: 700; line-height: 1.15; cursor: pointer; overflow-wrap: anywhere; }
+  .weg button[aria-current="step"] { background: var(--key); border-color: var(--edge); color: #fff; }
+  .weg-text { background: var(--tint); border-radius: 12px; padding: 0.8rem 0.95rem; min-height: 5.6rem; }
+  .weg-text b { display: block; margin-bottom: 0.15rem; }
+  .knopf { margin-top: 0.7rem; padding: 0.5rem 1rem; border-radius: 10px; border: 2px solid var(--edge); background: var(--key); color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+  .block > .knopf + p, .block > .steps + p { margin-top: 0.9rem; }
+  .sort { list-style: none; padding: 0; margin: 0.7rem 0 0; }
+  .sort li { background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.65rem 0.8rem; margin-bottom: 0.5rem; font-weight: 700; }
+  .sort .wk { display: flex; gap: 0.45rem; flex-wrap: wrap; margin-top: 0.4rem; }
+  .sort button { padding: 0.35rem 0.7rem; border-radius: 8px; border: 2px solid var(--tint); background: #fff; color: var(--ink); font: inherit; font-size: 0.92rem; font-weight: 700; cursor: pointer; }
+  .sort li.ok { border-color: var(--ok); }
+  .sort li.no { border-color: var(--no); }
+  .sort p { margin: 0.4rem 0 0; font-weight: 600; font-size: 0.93rem; }
+  @media (max-width: 560px) {
+    .weg { grid-template-columns: 1fr; }
+    .weg button { min-height: 0; padding: 0.55rem; }
+    .zeile { grid-template-columns: 5.4rem 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="back" href="08lokal-oder-wolke-speichern-frueher-und-heute.html">&#8592; Zur&uuml;ck zum Lernpfad 08</a>
+</div>
+
+<div class="wrap">
+  <header class="lp-hero">
+    <div class="badges">
+      <span class="b-sjw">Vertiefung zur Wahl</span>
+      <span class="b-unit">Einheit 02 · Ordnung im digitalen Zimmer</span>
+    </div>
+    <div class="hero-row">
+      <div class="keycap">08</div>
+      <h1>Lokal oder Wolke? Weiterforschen</h1>
+    </div>
+    <p class="goal"><b>So geht’s:</b> Du hast dein Aufgabenblatt fertig? Such dir aus, was dich interessiert. Du musst nicht alles machen.</p>
+  </header>
+
+  <main>
+    <nav class="wahl" aria-label="Angebote">
+      <a href="#v1">V1 · Fotorechner<small>rechnen und staunen</small></a>
+      <a href="#v2">V2 · Weg einer Datei<small>Station für Station</small></a>
+      <a href="#v3">V3 · Zeitmaschine<small>am Rechner ausprobieren</small></a>
+      <a href="#v4">V4 · Cloud-Check<small>entscheiden und begründen</small></a>
+    </nav>
+
+    <section class="block" id="v1">
+      <h2><span class="vk">V1</span>Fotorechner: Wie viel passt drauf?</h2>
+      <p>Ein Handyfoto braucht etwa 3 MB. Stelle ein, wie viele Fotos du speichern willst. Schätze zuerst, wie hoch der Stapel Disketten wird.</p>
+      <label class="regler">Fotos
+        <input type="range" id="fotos" min="10" max="5000" step="10" value="500">
+        <output id="fotos-aus" for="fotos"></output>
+      </label>
+      <div class="zeile"><b>Diskette</b><div class="bar" id="b-disk"><i></i></div><span id="t-disk"></span></div>
+      <div class="zeile"><b>CD</b><div class="bar" id="b-cd"><i></i></div><span id="t-cd"></span></div>
+      <div class="zeile"><b>USB-Stick</b><div class="bar" id="b-usb"><i></i></div><span id="t-usb"></span></div>
+      <div class="zeile"><b>Cloud</b><div class="bar" id="b-cloud"><i></i></div><span id="t-cloud"></span></div>
+      <p class="stapel" id="stapel" aria-live="polite"></p>
+      <p><b>Dein Auftrag:</b> Finde heraus, ab wie vielen Fotos die Disketten höher als eure Klassenzimmerdecke (etwa 3 m) stapeln. Eine Diskette ist 3,3 mm dick.</p>
+      <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Bei 3 m sind es etwa 910 Disketten. Das sind 1.310 MB, also ungefähr 440 Fotos.</li></ul></details>
+    </section>
+
+    <section class="block" id="v2">
+      <h2><span class="vk">V2</span>Der Weg einer Datei in die Wolke</h2>
+      <p>Klicke dich durch die Stationen. Was passiert, wenn du auf „Hochladen“ klickst?</p>
+      <ol class="weg" id="weg"></ol>
+      <div class="weg-text" id="weg-text" aria-live="polite"></div>
+      <button class="knopf" id="weg-weiter" type="button">Nächste Station</button>
+      <p><b>Dein Auftrag:</b> Erkläre einer anderen Person mit deinen Worten, warum die Cloud trotz ihres Namens auf dem Boden steht.</p>
+      <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Die Daten liegen auf echten Servern in großen Hallen, den Rechenzentren. „Wolke“ ist nur ein Bild dafür, dass du den Ort nicht siehst.</li></ul></details>
+    </section>
+
+    <section class="block" id="v3">
+      <h2><span class="vk">V3</span>Zeitmaschine: der Versionsverlauf</h2>
+      <p>Google Docs speichert automatisch, also auch deine Fehler. Zum Glück merkt es sich ältere Fassungen. So holst du einen gelöschten Satz zurück:</p>
+      <ol class="steps">
+        <li>Öffne ein <a href="https://docs.google.com/document/create" target="_blank" rel="noopener">neues Google-Dokument</a> und schreibe drei Sätze.</li>
+        <li>Klicke auf Datei › Versionsverlauf › Aktuelle Version benennen. Name: Fassung 1.</li>
+        <li>Lösche den mittleren Satz.</li>
+        <li>Klicke auf Datei › Versionsverlauf › Versionsverlauf ansehen.</li>
+        <li>Wähle rechts Fassung 1 und klicke oben auf „Diese Version wiederherstellen“.</li>
+      </ol>
+      <p><b>Dein Auftrag:</b> Erkläre, warum der Versionsverlauf das automatische Speichern sicherer macht.</p>
+      <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Fehler werden sofort gespeichert. Mit dem Versionsverlauf kommst du trotzdem zu einer älteren Fassung zurück.</li></ul></details>
+    </section>
+
+    <section class="block" id="v4">
+      <h2><span class="vk">V4</span>Cloud-Check: Was gehört in die Wolke?</h2>
+      <p>Stell dir vor, die Dateien liegen auf deinem Rechner. Entscheide bei jeder Datei und lies die Begründung.</p>
+      <ul class="sort" id="sort"></ul>
+      <p id="sort-fertig" aria-live="polite"></p>
+    </section>
+
+    <nav class="lp-nav">
+      <a class="nav-prev" href="08lokal-oder-wolke-speichern-frueher-und-heute.html">&#8592; Lernpfad 08</a>
+      <a class="nav-over" href="../../itg-kursuebersicht.html">&#8801; Kurs&uuml;bersicht</a>
+    </nav>
+  </main>
+
+  <footer>ITG &middot; Klasse 6 &middot; Schuljahr 2026/27 &middot; Einheit 02 · Ordnung im digitalen Zimmer</footer>
+</div>
+
+<script>
+(function () {
+  /* ---------- V1 Fotorechner ---------- */
+  var FOTO_MB = 3, DISK_MB = 1.44, CD_MB = 700, USB_MB = 64000, CLOUD_MB = 15000, DICKE_M = 0.0033;
+  var regler = document.getElementById('fotos');
+  var zahl = function (n) { return Math.round(n).toLocaleString('de-DE'); };
+  function balken(id, anteil) {
+    var b = document.getElementById(id);
+    b.querySelector('i').style.width = Math.min(100, Math.max(1, anteil * 100)) + '%';
+    b.classList.toggle('voll', anteil > 1);
+  }
+  function vergleich(m) {
+    if (m < 1.7) return 'etwa so hoch wie du';
+    if (m < 3.5) return 'etwa so hoch wie ein Klassenzimmer';
+    if (m < 11) return 'etwa so hoch wie ein Wohnhaus mit drei Etagen';
+    if (m < 25) return 'etwa so hoch wie ein großer Baum';
+    return 'so hoch wie ein Hochhaus mit zehn Etagen';
+  }
+  function rechne() {
+    var n = +regler.value, mb = n * FOTO_MB;
+    var disks = Math.ceil(mb / DISK_MB), cds = Math.ceil(mb / CD_MB), hoehe = disks * DICKE_M;
+    document.getElementById('fotos-aus').textContent = zahl(n) + ' Fotos';
+    balken('b-disk', mb / DISK_MB); balken('b-cd', mb / CD_MB);
+    balken('b-usb', mb / USB_MB); balken('b-cloud', mb / CLOUD_MB);
+    document.getElementById('t-disk').textContent = zahl(disks) + ' Disketten nötig';
+    document.getElementById('t-cd').textContent = cds === 1 ? 'passt auf 1 CD' : zahl(cds) + ' CDs nötig';
+    document.getElementById('t-usb').textContent = 'belegt ' + (mb / USB_MB * 100).toFixed(1).replace('.', ',') + ' % von 64 GB';
+    document.getElementById('t-cloud').textContent = 'belegt ' + (mb / CLOUD_MB * 100).toFixed(1).replace('.', ',') + ' % von 15 GB';
+    document.getElementById('stapel').textContent = 'Der Stapel Disketten wäre ' + hoehe.toFixed(1).replace('.', ',') + ' m hoch, ' + vergleich(hoehe) + '.';
+  }
+  regler.addEventListener('input', rechne);
+  rechne();
+
+  /* ---------- V2 Weg einer Datei ---------- */
+  var STATION = [
+    ['Rechner', 'Du klickst auf Hochladen. Dein Rechner zerlegt die Datei in viele kleine Datenpakete. Das Original bleibt auf dem Rechner.'],
+    ['WLAN und Router', 'Die Pakete reisen per Funk oder Kabel zum Router. Er ist das Tor zwischen eurem Netz und dem Internet.'],
+    ['Internet', 'Über viele Kabel und Knotenpunkte gelangen die Pakete zum Ziel. Sie müssen nicht alle denselben Weg nehmen.'],
+    ['Rechen&shy;zentrum', 'Eine große Halle voller Server. Sie laufen Tag und Nacht und müssen gekühlt werden. Die Pakete werden wieder zur Datei zusammengesetzt.'],
+    ['Zweite Kopie', 'Der Anbieter speichert deine Datei meist mehrfach. Fällt ein Server aus, ist sie deshalb nicht verloren.']
+  ];
+  var weg = document.getElementById('weg'), wegText = document.getElementById('weg-text'), wegWeiter = document.getElementById('weg-weiter'), aktiv = 0;
+  function zeige(i) {
+    aktiv = i;
+    weg.querySelectorAll('button').forEach(function (b, k) {
+      if (k === i) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+    });
+    wegText.innerHTML = '<b>Station ' + (i + 1) + ' von ' + STATION.length + ': ' + STATION[i][0].replace('&shy;', '') + '</b>' + STATION[i][1];
+    wegWeiter.textContent = i === STATION.length - 1 ? 'Noch einmal von vorn' : 'Nächste Station';
+  }
+  STATION.forEach(function (s, i) {
+    var li = document.createElement('li'), b = document.createElement('button');
+    b.type = 'button'; b.innerHTML = (i + 1) + '. ' + s[0];
+    b.addEventListener('click', function () { zeige(i); });
+    li.appendChild(b); weg.appendChild(li);
+  });
+  wegWeiter.addEventListener('click', function () { zeige((aktiv + 1) % STATION.length); });
+  zeige(0);
+
+  /* ---------- V4 Cloud-Check ---------- */
+  var DATEIEN = [
+    ['Vokabelliste für Englisch', true, 'Nichts Persönliches dabei, und du kannst überall damit lernen.'],
+    ['Liste mit all deinen Passwörtern', false, 'Passwörter gehören nicht in eine einfache Datei, weder lokal noch in der Cloud. Mehr dazu in Stunde 09.'],
+    ['Referat über Frösche', true, 'Das Referat enthält keine privaten Daten. Du kannst zu Hause weiterarbeiten.'],
+    ['Klassenfoto mit anderen Kindern', false, 'Andere Kinder sind darauf zu sehen. Ohne ihre Erlaubnis lädst du es nicht hoch.'],
+    ['Foto von deinem Ausweis', false, 'Das sind sehr persönliche Daten. Sprich vorher mit deinen Eltern.'],
+    ['Foto vom Sonnenuntergang', true, 'Keine Personen, keine privaten Daten. Das ist unproblematisch.']
+  ];
+  var liste = document.getElementById('sort'), beantwortet = 0;
+  DATEIEN.forEach(function (d) {
+    var li = document.createElement('li');
+    li.appendChild(document.createTextNode(d[0]));
+    var wk = document.createElement('div'); wk.className = 'wk';
+    var antwort = document.createElement('p');
+    [['Passt in die Cloud', true], ['Lieber nicht', false]].forEach(function (w) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.textContent = w[0];
+      b.addEventListener('click', function () {
+        var richtig = w[1] === d[1];
+        if (!li.dataset.fertig) { li.dataset.fertig = '1'; beantwortet++; }
+        li.classList.toggle('ok', richtig); li.classList.toggle('no', !richtig);
+        antwort.textContent = (richtig ? 'Richtig: ' : 'Schau noch einmal: ') + d[2];
+        if (beantwortet === DATEIEN.length) document.getElementById('sort-fertig').textContent = 'Alle Dateien geprüft. Im Zweifel fragst du lieber vorher nach.';
+      });
+      wk.appendChild(b);
+    });
+    li.appendChild(wk); li.appendChild(antwort); liste.appendChild(li);
+  });
+})();
+</script>
+</body>
+</html>

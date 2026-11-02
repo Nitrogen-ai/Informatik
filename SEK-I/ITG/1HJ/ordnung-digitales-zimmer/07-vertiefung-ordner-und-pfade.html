@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vertiefung · Ordner und Pfade · ITG Klasse 6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --key: #17b98a; --edge: #0d8f68; --tint: #e0f7ef; --ktext: #ffffff;
+    --ink: #211a4d; --ink-soft: #4f4880; --bg: #f1f0fb; --card: #fff;
+    --line: rgba(33,26,77,0.12); --sun: #ffc23d;
+    --ok: #39b56a; --ok-dk: #248049; --no: #e8607a; --no-dk: #b83a56;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--ink);
+    line-height: 1.65; padding-bottom: 2rem;
+    background-image:
+      linear-gradient(rgba(91,75,230,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(91,75,230,0.05) 1px, transparent 1px);
+    background-size: 26px 26px, 26px 26px;
+  }
+  ::selection { background: var(--sun); color: var(--ink); }
+  :focus-visible { outline: 3px solid var(--key); outline-offset: 3px; border-radius: 6px; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 5vw; }
+
+  .topbar { background: var(--key); }
+  .back {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    max-width: 860px; margin: 0 auto; padding: 0.7rem 5vw;
+    color: var(--ktext); text-decoration: none; font-weight: 700;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; letter-spacing: 0.06em;
+  }
+  .back:hover { text-decoration: underline; }
+
+  .lp-hero { padding: 2.4rem 0 1.8rem; }
+  .badges { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  .b-sjw, .b-unit {
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.68rem;
+    letter-spacing: 0.08em; padding: 0.28rem 0.65rem; border-radius: 999px;
+  }
+  .b-sjw { background: var(--key); color: var(--ktext); box-shadow: 0 3px 0 var(--edge); }
+  .b-unit { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+
+  .hero-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.1rem; }
+  .keycap {
+    font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 1.8rem;
+    color: var(--ktext); background: var(--key); box-shadow: 0 5px 0 var(--edge);
+    width: 62px; height: 62px; border-radius: 16px; display: grid; place-items: center; flex-shrink: 0;
+  }
+  h1 { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(1.5rem, 4.5vw, 2.3rem); line-height: 1.1; }
+
+  .goal { font-size: 1.06rem; margin-bottom: 0.9rem; }
+  .goal b { color: var(--key); }
+  .rlp { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); font-weight: 700; }
+  .rlp .tag { display: inline-block; background: #e7e5fb; padding: 0.06rem 0.42rem; border-radius: 6px; margin: 0 0.15rem 0.25rem 0; }
+  .rlp .tag.neu { background: var(--sun); color: var(--ink); }
+
+  .intro { font-size: 1.05rem; margin: 1.4rem 0 1.6rem; }
+  .intro .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+
+  .block { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 1.4rem 1.5rem; margin-bottom: 1.1rem; }
+  .block h2 {
+    font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 1.25rem;
+    display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem;
+  }
+  .block h2 .dot { width: 14px; height: 14px; border-radius: 5px; background: var(--key); box-shadow: 0 2px 0 var(--edge); flex-shrink: 0; }
+  .block p { margin-bottom: 0.6rem; }
+
+  /* figure */
+  .fig { background: var(--tint); border-radius: 14px; padding: 1rem; margin: 0.4rem 0 1rem; }
+  .fig svg { width: 100%; height: auto; display: block; }
+  .fig-cap { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); text-align: center; margin-top: 0.5rem; }
+
+  /* step list */
+  ol.steps { list-style: none; counter-reset: st; }
+  ol.steps li { counter-increment: st; position: relative; padding: 0.55rem 0 0.55rem 2.7rem; border-bottom: 1px dashed var(--line); }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li::before {
+    content: counter(st); position: absolute; left: 0; top: 0.5rem;
+    width: 30px; height: 30px; border-radius: 9px; background: var(--key); color: var(--ktext);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; box-shadow: 0 2px 0 var(--edge);
+  }
+  ol.steps b { color: var(--edge); }
+
+  /* exercises + diff chips */
+  .task { border: 1.5px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; margin-bottom: 0.8rem; }
+  .chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.66rem;
+    letter-spacing: 0.05em; padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.5rem; }
+  .chip.basis { background: #e2f6ea; color: var(--ok-dk); border: 1.5px solid var(--ok); }
+  .chip.mittel { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+  .chip.knifflig { background: #fff3d1; color: #8a5a00; border: 1.5px solid var(--sun); }
+  .task ul { margin: 0.4rem 0 0 1.1rem; }
+  .task li { margin-bottom: 0.2rem; }
+
+  .block.fast { border-color: var(--sun); background: #fff7e2; }
+  .block.fast h2 { color: #8a5a00; }
+  .block.fast h2 .rocket { width: 22px; height: 22px; color: #8a5a00; }
+  .fast-text { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .fast-list { margin: 0.4rem 0 0.8rem 1.1rem; }
+  .fast-list li { margin-bottom: 0.3rem; }
+  .auftrag { border: 1.5px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0 0 0.9rem; background: #fff; }
+  .auftrag p { margin: 0; }
+  .auftrag-no, .task-no { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); background: var(--tint); border-radius: 6px; padding: 0.1rem 0.45rem; margin-right: 0.2rem; }
+  .auftrag details, .fast-sol { margin-top: 0.5rem; }
+  .auftrag summary, .fast-sol summary { cursor: pointer; font-weight: 700; color: var(--edge); font-size: 0.92rem; }
+  .auftrag ol, .fast-sol ul { margin: 0.4rem 0 0 1.3rem; }
+  .fast-sol { margin-bottom: 0.8rem; }
+  .fill { display: inline-block; min-width: 10rem; border-bottom: 1.5px dotted currentColor; }
+  .merke-box { margin-top: 0.9rem; background: var(--tint); border-left: 6px solid var(--key); border-radius: 10px; padding: 0.7rem 0.9rem; }
+  .fast-extra { font-size: 0.95rem; font-weight: 600; background: #fff; border-radius: 10px; padding: 0.7rem 0.9rem; border: 1.5px dashed var(--sun); }
+
+  /* merksatz */
+  .merk { background: var(--tint); border: 2px solid var(--key); border-left: 8px solid var(--key); border-radius: 14px; padding: 1.1rem 1.3rem; }
+  .merk .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+  .merk b { color: var(--edge); }
+  .secret { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.9rem; padding: 0.7rem 0.9rem;
+    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 10px; font-weight: 700; color: #8a5a00; font-size: 0.95rem; }
+  .secret svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  /* ---- QUIZ ENGINE ---- */
+  .quiz { margin-top: 0.4rem; }
+  .quiz-progress { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.74rem; color: var(--ink-soft); }
+  .pbar { flex: 1; height: 10px; background: #e7e5fb; border-radius: 999px; overflow: hidden; }
+  .pfill { height: 100%; width: 0; background: var(--ok); border-radius: 999px; transition: width 0.3s ease; }
+  .q { margin-bottom: 1.1rem; padding-bottom: 1.1rem; border-bottom: 1px dashed var(--line); }
+  .q:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .q-text { font-weight: 800; margin-bottom: 0.6rem; }
+  .q-text .qn { color: var(--edge); font-family: 'JetBrains Mono', monospace; }
+  .opts { display: grid; gap: 0.5rem; }
+  .opt {
+    display: flex; align-items: center; gap: 0.7rem; width: 100%; text-align: left;
+    font-family: 'Nunito', sans-serif; font-size: 0.98rem; font-weight: 700; color: var(--ink);
+    background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 0.6rem 0.8rem; cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .opt:hover:not([disabled]) { border-color: var(--key); transform: translateX(2px); }
+  .opt .lett { flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px; background: var(--tint); color: var(--edge);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; font-size: 0.85rem; }
+  .opt.correct { border-color: var(--ok); background: #e9f8ef; }
+  .opt.correct .lett { background: var(--ok); color: #fff; }
+  .opt.wrong { border-color: var(--no); background: #fdecf0; }
+  .opt.wrong .lett { background: var(--no); color: #fff; }
+  .opt[disabled] { cursor: default; opacity: 0.75; }
+  .opt.correct[disabled], .opt.wrong[disabled] { opacity: 1; }
+  .q-hint { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--no-dk);
+    background: #fdecf0; border-radius: 9px; padding: 0.5rem 0.7rem; display: none; }
+  .q-hint.show { display: block; }
+  .q-done { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--ok-dk); display: none; }
+  .q-done.show { display: block; }
+  .quiz-solved { margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 12px; background: #e9f8ef;
+    border: 2px solid var(--ok); color: var(--ok-dk); font-family: 'Fredoka', sans-serif; font-weight: 600;
+    display: none; align-items: center; gap: 0.6rem; }
+  .quiz-solved.show { display: flex; }
+  .quiz-solved svg { width: 22px; height: 22px; flex-shrink: 0; }
+
+  .selfcheck-wrap {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem;
+    background: var(--tint); border-radius: 14px; padding: 1rem 1.2rem; margin: 1.4rem 0;
+  }
+  .sc-label { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 0.98rem; }
+  .sc-stars { display: flex; gap: 0.3rem; }
+  .sc-star { width: 30px; height: 30px; background: none; border: none; padding: 0; cursor: pointer; color: rgba(33,26,77,0.22); transition: transform 0.12s ease, color 0.12s ease; }
+  .sc-star svg { width: 100%; height: 100%; display: block; }
+  .sc-star:hover { transform: scale(1.18) rotate(-6deg); }
+  .sc-star.on { color: var(--sun); }
+  .sc-feedback { font-family: 'Fredoka', sans-serif; font-weight: 600; color: var(--edge); opacity: 0; transition: opacity 0.2s ease; }
+  .sc-feedback.show { opacity: 1; }
+
+  .lp-nav { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; margin-top: 1.6rem; flex-wrap: wrap; }
+  .lp-nav a, .lp-nav span.nav-empty {
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.78rem;
+    text-decoration: none; padding: 0.6rem 0.9rem; border-radius: 10px;
+  }
+  .nav-prev, .nav-next { background: var(--card); border: 2px solid var(--key); color: var(--edge); box-shadow: 0 3px 0 var(--edge); transition: transform 0.12s ease, box-shadow 0.12s ease; }
+  .nav-prev:hover, .nav-next:hover { transform: translateY(2px); box-shadow: 0 1px 0 var(--edge); }
+  .nav-over { background: var(--key); color: var(--ktext); box-shadow: 0 3px 0 var(--edge); }
+  .nav-empty { color: rgba(33,26,77,0.28); border: 2px dashed var(--line); }
+  .nav-next.locked { color: rgba(33,26,77,0.28); border: 2px dashed var(--line); background: transparent; box-shadow: none; cursor: default; pointer-events: none; }
+  .nav-next.locked:hover { transform: none; box-shadow: none; }
+
+  footer {
+    text-align: center; margin-top: 2rem; padding: 1.4rem 5vw 0;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); font-weight: 700;
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+</style>
+<style>
+  .wahl { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.6rem; margin: 0 0 1.2rem; }
+  .wahl a { display: block; background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.65rem 0.8rem; color: var(--ink); text-decoration: none; font-weight: 700; line-height: 1.25; }
+  .wahl a:hover, .wahl a:focus-visible { border-color: var(--key); }
+  .wahl small { display: block; font-weight: 600; color: var(--ink-soft); margin-top: 0.15rem; }
+  .vk { display: inline-block; font-family: 'JetBrains Mono', Menlo, monospace; font-weight: 700; background: var(--key); color: #fff; border-radius: 8px; padding: 0.05rem 0.45rem; margin-right: 0.35rem; }
+  .trick { display: flex; gap: 0.6rem; align-items: flex-start; background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.6rem 0.8rem; margin-bottom: 0.5rem; cursor: pointer; }
+  .trick input { width: 20px; height: 20px; margin-top: 0.15rem; flex-shrink: 0; accent-color: var(--edge); }
+  .trick:has(input:checked) { border-color: var(--key); background: var(--tint); }
+  .stand { font-weight: 700; margin: 0.6rem 0 0; }
+  .baum { background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.5rem; margin: 0.7rem 0; }
+  .baum button { display: block; width: 100%; text-align: left; border: 0; background: none; color: var(--ink); font: inherit; font-weight: 700; padding: 0.42rem 0.55rem; border-radius: 8px; cursor: pointer; }
+  .baum button:hover { background: var(--tint); }
+  .baum button[aria-pressed="true"] { background: var(--key); color: #fff; }
+  .adresse { font-family: 'JetBrains Mono', Menlo, monospace; font-weight: 700; background: var(--tint); border-radius: 10px; padding: 0.6rem 0.8rem; overflow-wrap: anywhere; }
+  .mission { font-weight: 700; }
+  .mission-fb { min-height: 1.5rem; font-weight: 700; color: var(--ok-dk); margin: 0.5rem 0 0; }
+  .auftrag-liste { list-style: none; padding: 0; margin: 0.7rem 0 0; }
+  .auftrag-liste li { background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.6rem 0.8rem; margin-bottom: 0.5rem; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="back" href="07ordner-bauen-struktur-schaffen.html">&#8592; Zur&uuml;ck zum Lernpfad 07</a>
+</div>
+
+<div class="wrap">
+  <header class="lp-hero">
+    <div class="badges">
+      <span class="b-sjw">Vertiefung zur Wahl</span>
+      <span class="b-unit">Einheit 02 · Ordnung im digitalen Zimmer</span>
+    </div>
+    <div class="hero-row">
+      <div class="keycap">07</div>
+      <h1>Ordner und Pfade: Weiterforschen</h1>
+    </div>
+    <p class="goal"><b>So geht’s:</b> Du hast dein Aufgabenblatt fertig? Such dir aus, was dich interessiert. Du musst nicht alles machen.</p>
+  </header>
+
+  <main>
+    <nav class="wahl" aria-label="Angebote">
+      <a href="#v1">V1 · Explorer-Tricks<small>am Rechner ausprobieren</small></a>
+      <a href="#v2">V2 · Pfad-Baumeister<small>Pfade per Klick bauen</small></a>
+      <a href="#v3">V3 · Pfad-Aufträge<small>allein oder zu zweit</small></a>
+    </nav>
+
+    <section class="block" id="v1">
+      <h2><span class="vk">V1</span>Explorer-Tricks</h2>
+      <p>Damit baust und räumst du schneller. Probiere die Tricks im Explorer aus und hake ab.</p>
+      <label class="trick"><input type="checkbox"><span><b>Ordner per Taste:</b> Strg+Umschalt+N legt im geöffneten Ordner sofort einen neuen Ordner an.</span></label>
+      <label class="trick"><input type="checkbox"><span><b>Ziehen mit der Maus:</b> Ziehst du eine Datei in einen anderen Ordner, wird sie verschoben. Hältst du dabei Strg gedrückt, wird sie kopiert. Am Mauszeiger erscheint dann ein Plus.</span></label>
+      <label class="trick"><input type="checkbox"><span><b>Rückgängig:</b> Aus Versehen verschoben? Strg+Z holt die Datei an ihren alten Platz zurück.</span></label>
+      <label class="trick"><input type="checkbox"><span><b>Pfad als Text:</b> Klicke in die Adresszeile. Dann steht der Pfad mit Laufwerk da, die Ordner sind mit \ getrennt, zum Beispiel H:\Schule\ITG.</span></label>
+      <p class="stand" id="stand" aria-live="polite"></p>
+    </section>
+
+    <section class="block" id="v2">
+      <h2><span class="vk">V2</span>Pfad-Baumeister</h2>
+      <p>Klicke im Ordnerbaum das Ziel an. In der Adresszeile siehst du, wie der Pfad dorthin aussieht.</p>
+      <p class="mission" id="mission" aria-live="polite"></p>
+      <div class="baum" id="baum"></div>
+      <div class="adresse" id="adresse"></div>
+      <p class="mission-fb" id="mission-fb" aria-live="polite"></p>
+    </section>
+
+    <section class="block" id="v3">
+      <h2><span class="vk">V3</span>Pfad-Aufträge</h2>
+      <p>Löse die Aufträge. Stellt euch danach zu zweit gegenseitig zwei eigene Aufträge.</p>
+      <ul class="auftrag-liste">
+        <li>Schreibe den Pfad zu deinem Ordner ITG auf.
+          <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Dokumente › Schule › ITG</li></ul></details></li>
+        <li>In welchem Ordner liegt die Datei Dokumente › Schule › Mathe › Brüche.pdf?
+          <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Im Ordner Mathe.</li></ul></details></li>
+        <li>Welcher Ordner ist der Hauptordner von Deutsch?
+          <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Schule</li></ul></details></li>
+        <li>Kopiere eine Datei durch Ziehen mit Strg. Woran erkennst du, dass kopiert wird?
+          <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Am Plus beim Mauszeiger.</li></ul></details></li>
+      </ul>
+    </section>
+
+    <nav class="lp-nav">
+      <a class="nav-prev" href="07ordner-bauen-struktur-schaffen.html">&#8592; Lernpfad 07</a>
+      <a class="nav-over" href="../../itg-kursuebersicht.html">&#8801; Kurs&uuml;bersicht</a>
+    </nav>
+  </main>
+
+  <footer>ITG &middot; Klasse 6 &middot; Schuljahr 2026/27 &middot; Einheit 02 · Ordnung im digitalen Zimmer</footer>
+</div>
+
+<script>
+(function () {
+  /* ---------- V1 Haken zählen ---------- */
+  var haken = document.querySelectorAll('.trick input'), stand = document.getElementById('stand');
+  function zaehle() {
+    var n = Array.prototype.filter.call(haken, function (h) { return h.checked; }).length;
+    stand.textContent = n === haken.length ? 'Alle Tricks geschafft: Du bist Pfad-Profi!' : n + ' von ' + haken.length + ' Tricks ausprobiert';
+  }
+  haken.forEach(function (h) { h.addEventListener('change', zaehle); });
+  zaehle();
+
+  /* ---------- V2 Pfad-Baumeister ---------- */
+  var BAUM = [
+    ['Dokumente', 0, 'd'], ['Schule', 1, 'd'], ['Deutsch', 2, 'd'], ['Aufsatz.docx', 3, 'f'],
+    ['ITG', 2, 'd'], ['Speichern.txt', 3, 'f'], ['Mathe', 2, 'd'], ['Brüche.pdf', 3, 'f'],
+    ['Bilder', 1, 'd'], ['Ausflug.jpg', 2, 'f']
+  ];
+  var MISSIONEN = [
+    ['Finde die Datei Brüche.pdf.', 'Brüche.pdf'], ['Finde den Ordner ITG.', 'ITG'],
+    ['Finde das Foto Ausflug.jpg.', 'Ausflug.jpg'], ['Finde die Datei Aufsatz.docx.', 'Aufsatz.docx']
+  ];
+  var baum = document.getElementById('baum'), adresse = document.getElementById('adresse');
+  var mission = document.getElementById('mission'), fb = document.getElementById('mission-fb'), nr = 0;
+  function pfad(i) {
+    var teile = [BAUM[i][0]], ebene = BAUM[i][1];
+    for (var k = i - 1; k >= 0 && ebene > 0; k--) {
+      if (BAUM[k][1] < ebene) { teile.unshift(BAUM[k][0]); ebene = BAUM[k][1]; }
+    }
+    return teile.join(' › ');
+  }
+  function zeigeMission() { mission.textContent = 'Auftrag ' + (nr + 1) + ' von ' + MISSIONEN.length + ': ' + MISSIONEN[nr][0]; }
+  BAUM.forEach(function (e, i) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.textContent = e[0]; b.style.paddingLeft = (0.55 + e[1] * 1.3) + 'rem';
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', function () {
+      baum.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+      b.setAttribute('aria-pressed', 'true');
+      adresse.textContent = pfad(i);
+      if (nr < MISSIONEN.length && e[0] === MISSIONEN[nr][1]) {
+        nr++;
+        if (nr === MISSIONEN.length) { mission.textContent = 'Alle Aufträge gelöst!'; fb.textContent = 'Stark: Du liest Pfade wie ein Profi.'; }
+        else { fb.textContent = 'Richtig gefunden!'; zeigeMission(); }
+      } else if (nr < MISSIONEN.length) { fb.textContent = ''; }
+    });
+    baum.appendChild(b);
+  });
+  adresse.textContent = 'Dokumente';
+  zeigeMission();
+})();
+</script>
+</body>
+</html>
