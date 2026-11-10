@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vertiefung · Passwörter und Backups · ITG Klasse 6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --key: #17b98a; --edge: #0d8f68; --tint: #e0f7ef; --ktext: #ffffff;
+    --ink: #211a4d; --ink-soft: #4f4880; --bg: #f1f0fb; --card: #fff;
+    --line: rgba(33,26,77,0.12); --sun: #ffc23d;
+    --ok: #39b56a; --ok-dk: #248049; --no: #e8607a; --no-dk: #b83a56;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--ink);
+    line-height: 1.65; padding-bottom: 2rem;
+    background-image:
+      linear-gradient(rgba(91,75,230,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(91,75,230,0.05) 1px, transparent 1px);
+    background-size: 26px 26px, 26px 26px;
+  }
+  ::selection { background: var(--sun); color: var(--ink); }
+  :focus-visible { outline: 3px solid var(--key); outline-offset: 3px; border-radius: 6px; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 5vw; }
+
+  .topbar { background: var(--key); }
+  .back {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    max-width: 860px; margin: 0 auto; padding: 0.7rem 5vw;
+    color: var(--ktext); text-decoration: none; font-weight: 700;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; letter-spacing: 0.06em;
+  }
+  .back:hover { text-decoration: underline; }
+
+  .lp-hero { padding: 2.4rem 0 1.8rem; }
+  .badges { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  .b-sjw, .b-unit {
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.68rem;
+    letter-spacing: 0.08em; padding: 0.28rem 0.65rem; border-radius: 999px;
+  }
+  .b-sjw { background: var(--key); color: var(--ktext); box-shadow: 0 3px 0 var(--edge); }
+  .b-unit { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+
+  .hero-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.1rem; }
+  .keycap {
+    font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 1.8rem;
+    color: var(--ktext); background: var(--key); box-shadow: 0 5px 0 var(--edge);
+    width: 62px; height: 62px; border-radius: 16px; display: grid; place-items: center; flex-shrink: 0;
+  }
+  h1 { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(1.5rem, 4.5vw, 2.3rem); line-height: 1.1; }
+
+  .goal { font-size: 1.06rem; margin-bottom: 0.9rem; }
+  .goal b { color: var(--key); }
+  .rlp { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); font-weight: 700; }
+  .rlp .tag { display: inline-block; background: #e7e5fb; padding: 0.06rem 0.42rem; border-radius: 6px; margin: 0 0.15rem 0.25rem 0; }
+  .rlp .tag.neu { background: var(--sun); color: var(--ink); }
+
+  .intro { font-size: 1.05rem; margin: 1.4rem 0 1.6rem; }
+  .intro .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+
+  .block { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 1.4rem 1.5rem; margin-bottom: 1.1rem; }
+  .block h2 {
+    font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 1.25rem;
+    display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem;
+  }
+  .block h2 .dot { width: 14px; height: 14px; border-radius: 5px; background: var(--key); box-shadow: 0 2px 0 var(--edge); flex-shrink: 0; }
+  .block p { margin-bottom: 0.6rem; }
+
+  /* figure */
+  .fig { background: var(--tint); border-radius: 14px; padding: 1rem; margin: 0.4rem 0 1rem; }
+  .fig svg { width: 100%; height: auto; display: block; }
+  .fig-cap { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); text-align: center; margin-top: 0.5rem; }
+
+  /* step list */
+  ol.steps { list-style: none; counter-reset: st; }
+  ol.steps li { counter-increment: st; position: relative; padding: 0.55rem 0 0.55rem 2.7rem; border-bottom: 1px dashed var(--line); }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li::before {
+    content: counter(st); position: absolute; left: 0; top: 0.5rem;
+    width: 30px; height: 30px; border-radius: 9px; background: var(--key); color: var(--ktext);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; box-shadow: 0 2px 0 var(--edge);
+  }
+  ol.steps b { color: var(--edge); }
+
+  /* exercises + diff chips */
+  .task { border: 1.5px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; margin-bottom: 0.8rem; }
+  .chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.66rem;
+    letter-spacing: 0.05em; padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.5rem; }
+  .chip.basis { background: #e2f6ea; color: var(--ok-dk); border: 1.5px solid var(--ok); }
+  .chip.mittel { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+  .chip.knifflig { background: #fff3d1; color: #8a5a00; border: 1.5px solid var(--sun); }
+  .task ul { margin: 0.4rem 0 0 1.1rem; }
+  .task li { margin-bottom: 0.2rem; }
+
+  .block.fast { border-color: var(--sun); background: #fff7e2; }
+  .block.fast h2 { color: #8a5a00; }
+  .block.fast h2 .rocket { width: 22px; height: 22px; color: #8a5a00; }
+  .fast-text { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .fast-list { margin: 0.4rem 0 0.8rem 1.1rem; }
+  .fast-list li { margin-bottom: 0.3rem; }
+  .auftrag { border: 1.5px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0 0 0.9rem; background: #fff; }
+  .auftrag p { margin: 0; }
+  .auftrag-no, .task-no { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); background: var(--tint); border-radius: 6px; padding: 0.1rem 0.45rem; margin-right: 0.2rem; }
+  .auftrag details, .fast-sol { margin-top: 0.5rem; }
+  .auftrag summary, .fast-sol summary { cursor: pointer; font-weight: 700; color: var(--edge); font-size: 0.92rem; }
+  .auftrag ol, .fast-sol ul { margin: 0.4rem 0 0 1.3rem; }
+  .fast-sol { margin-bottom: 0.8rem; }
+  .fill { display: inline-block; min-width: 10rem; border-bottom: 1.5px dotted currentColor; }
+  .merke-box { margin-top: 0.9rem; background: var(--tint); border-left: 6px solid var(--key); border-radius: 10px; padding: 0.7rem 0.9rem; }
+  .fast-extra { font-size: 0.95rem; font-weight: 600; background: #fff; border-radius: 10px; padding: 0.7rem 0.9rem; border: 1.5px dashed var(--sun); }
+
+  /* merksatz */
+  .merk { background: var(--tint); border: 2px solid var(--key); border-left: 8px solid var(--key); border-radius: 14px; padding: 1.1rem 1.3rem; }
+  .merk .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+  .merk b { color: var(--edge); }
+  .secret { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.9rem; padding: 0.7rem 0.9rem;
+    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 10px; font-weight: 700; color: #8a5a00; font-size: 0.95rem; }
+  .secret svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  /* ---- QUIZ ENGINE ---- */
+  .quiz { margin-top: 0.4rem; }
+  .quiz-progress { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.74rem; color: var(--ink-soft); }
+  .pbar { flex: 1; height: 10px; background: #e7e5fb; border-radius: 999px; overflow: hidden; }
+  .pfill { height: 100%; width: 0; background: var(--ok); border-radius: 999px; transition: width 0.3s ease; }
+  .q { margin-bottom: 1.1rem; padding-bottom: 1.1rem; border-bottom: 1px dashed var(--line); }
+  .q:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .q-text { font-weight: 800; margin-bottom: 0.6rem; }
+  .q-text .qn { color: var(--edge); font-family: 'JetBrains Mono', monospace; }
+  .opts { display: grid; gap: 0.5rem; }
+  .opt {
+    display: flex; align-items: center; gap: 0.7rem; width: 100%; text-align: left;
+    font-family: 'Nunito', sans-serif; font-size: 0.98rem; font-weight: 700; color: var(--ink);
+    background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 0.6rem 0.8rem; cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .opt:hover:not([disabled]) { border-color: var(--key); transform: translateX(2px); }
+  .opt .lett { flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px; background: var(--tint); color: var(--edge);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; font-size: 0.85rem; }
+  .opt.correct { border-color: var(--ok); background: #e9f8ef; }
+  .opt.correct .lett { background: var(--ok); color: #fff; }
+  .opt.wrong { border-color: var(--no); background: #fdecf0; }
+  .opt.wrong .lett { background: var(--no); color: #fff; }
+  .opt[disabled] { cursor: default; opacity: 0.75; }
+  .opt.correct[disabled], .opt.wrong[disabled] { opacity: 1; }
+  .q-hint { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--no-dk);
+    background: #fdecf0; border-radius: 9px; padding: 0.5rem 0.7rem; display: none; }
+  .q-hint.show { display: block; }
+  .q-done { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--ok-dk); display: none; }
+  .q-done.show { display: block; }
+  .quiz-solved { margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 12px; background: #e9f8ef;
+    border: 2px solid var(--ok); color: var(--ok-dk); font-family: 'Fredoka', sans-serif; font-weight: 600;
+    display: none; align-items: center; gap: 0.6rem; }
+  .quiz-solved.show { display: flex; }
+  .quiz-solved svg { width: 22px; height: 22px; flex-shrink: 0; }
+
+  .selfcheck-wrap {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem;
+    background: var(--tint); border-radius: 14px; padding: 1rem 1.2rem; margin: 1.4rem 0;
+  }
+  .sc-label { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 0.98rem; }
+  .sc-stars { display: flex; gap: 0.3rem; }
+  .sc-star { width: 30px; height: 30px; background: none; border: none; padding: 0; cursor: pointer; color: rgba(33,26,77,0.22); transition: transform 0.12s ease, color 0.12s ease; }
+  .sc-star svg { width: 100%; height: 100%; display: block; }
+  .sc-star:hover { transform: scale(1.18) rotate(-6deg); }
+  .sc-star.on { color: var(--sun); }
+  .sc-feedback { font-family: 'Fredoka', sans-serif; font-weight: 600; color: var(--edge); opacity: 0; transition: opacity 0.2s ease; }
+  .sc-feedback.show { opacity: 1; }
+
+  .lp-nav { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; margin-top: 1.6rem; flex-wrap: wrap; }
+  .lp-nav a, .lp-nav span.nav-empty {
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.78rem;
+    text-decoration: none; padding: 0.6rem 0.9rem; border-radius: 10px;
+  }
+  .nav-prev, .nav-next { background: var(--card); border: 2px solid var(--key); color: var(--edge); box-shadow: 0 3px 0 var(--edge); transition: transform 0.12s ease, box-shadow 0.12s ease; }
+  .nav-prev:hover, .nav-next:hover { transform: translateY(2px); box-shadow: 0 1px 0 var(--edge); }
+  .nav-over { background: var(--key); color: var(--ktext); box-shadow: 0 3px 0 var(--edge); }
+  .nav-empty { color: rgba(33,26,77,0.28); border: 2px dashed var(--line); }
+  .nav-next.locked { color: rgba(33,26,77,0.28); border: 2px dashed var(--line); background: transparent; box-shadow: none; cursor: default; pointer-events: none; }
+  .nav-next.locked:hover { transform: none; box-shadow: none; }
+
+  footer {
+    text-align: center; margin-top: 2rem; padding: 1.4rem 5vw 0;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); font-weight: 700;
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+</style>
+<style>
+  .wahl { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.6rem; margin: 0 0 1.2rem; }
+  .wahl a { display: block; background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.65rem 0.8rem; color: var(--ink); text-decoration: none; font-weight: 700; line-height: 1.25; }
+  .wahl a:hover, .wahl a:focus-visible { border-color: var(--key); }
+  .wahl small { display: block; font-weight: 600; color: var(--ink-soft); margin-top: 0.15rem; }
+  .vk { display: inline-block; font-family: 'JetBrains Mono', Menlo, monospace; font-weight: 700; background: var(--key); color: #fff; border-radius: 8px; padding: 0.05rem 0.45rem; margin-right: 0.35rem; }
+  .warn { background: #fff6e0; border-left: 4px solid #c8890a; border-radius: 0 10px 10px 0; padding: 0.55rem 0.8rem; color: #8a5a00; font-weight: 700; margin: 0.6rem 0; }
+  .feld { width: 100%; font: inherit; font-family: 'JetBrains Mono', Menlo, monospace; font-size: 1.05rem; padding: 0.6rem 0.75rem; border: 2px solid var(--tint); border-radius: 10px; margin: 0.4rem 0 0.6rem; color: var(--ink); background: #fff; }
+  .feld:focus { border-color: var(--key); outline: none; }
+  .beispiele { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.3rem 0 0.6rem; }
+  .beispiele button, .knopf { padding: 0.35rem 0.7rem; border-radius: 8px; border: 2px solid var(--tint); background: #fff; color: var(--ink); font: inherit; font-family: 'JetBrains Mono', Menlo, monospace; font-size: 0.9rem; font-weight: 700; cursor: pointer; }
+  .meter { height: 16px; border-radius: 999px; background: var(--tint); overflow: hidden; margin: 0.3rem 0; }
+  .meter i { display: block; height: 100%; width: 0; border-radius: 999px; transition: width 0.2s ease, background 0.2s ease; }
+  .urteil { font-weight: 800; margin: 0.2rem 0 0.4rem; }
+  .regeln { list-style: none; padding: 0; margin: 0.3rem 0 0; }
+  .regeln li { padding: 0.2rem 0 0.2rem 1.7rem; position: relative; font-weight: 600; }
+  .regeln li::before { content: ""; position: absolute; left: 0; top: 0.45rem; width: 1rem; height: 1rem; border-radius: 50%; background: #e7e3f3; }
+  .regeln li.ok::before { background: var(--key); }
+  .regeln li.no::before { background: #d9576f; }
+  .ergebnis { background: var(--tint); border-radius: 12px; padding: 0.7rem 0.9rem; font-weight: 700; margin-top: 0.4rem; overflow-wrap: anywhere; }
+  .ergebnis code { font-family: 'JetBrains Mono', Menlo, monospace; font-size: 1.1rem; }
+  .sort { list-style: none; padding: 0; margin: 0.7rem 0 0; }
+  .sort li { background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.65rem 0.8rem; margin-bottom: 0.5rem; font-weight: 700; }
+  .sort .wk { display: flex; gap: 0.45rem; flex-wrap: wrap; margin-top: 0.4rem; }
+  .sort button { padding: 0.35rem 0.7rem; border-radius: 8px; border: 2px solid var(--tint); background: #fff; color: var(--ink); font: inherit; font-size: 0.92rem; font-weight: 700; cursor: pointer; }
+  .sort li.ok { border-color: var(--ok); }
+  .sort li.no { border-color: var(--no); }
+  .sort p { margin: 0.4rem 0 0; font-weight: 600; font-size: 0.93rem; }
+  .plan { display: grid; gap: 0.6rem; margin: 0.6rem 0; }
+  .plan label { font-weight: 700; display: grid; gap: 0.25rem; }
+  .plan label, .plan select { min-width: 0; max-width: 100%; }
+  .plan select { font: inherit; padding: 0.45rem 0.6rem; border-radius: 10px; border: 2px solid var(--tint); background: #fff; color: var(--ink); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="back" href="09meine-daten-gehoeren-mir-passwoerter-und-backups.html">&#8592; Zur&uuml;ck zum Lernpfad 09</a>
+</div>
+
+<div class="wrap">
+  <header class="lp-hero">
+    <div class="badges">
+      <span class="b-sjw">Vertiefung zur Wahl</span>
+      <span class="b-unit">Einheit 02 · Ordnung im digitalen Zimmer</span>
+    </div>
+    <div class="hero-row">
+      <div class="keycap">09</div>
+      <h1>Passwörter und Backups: Weiterforschen</h1>
+    </div>
+    <p class="goal"><b>So geht’s:</b> Du hast dein Aufgabenblatt fertig? Such dir aus, was dich interessiert. Du musst nicht alles machen.</p>
+  </header>
+
+  <main>
+    <nav class="wahl" aria-label="Angebote">
+      <a href="#v1">V1 · Passwort-Tester<small>Beispiele prüfen</small></a>
+      <a href="#v2">V2 · Satz-Maschine<small>aus Sätzen Passwörter bauen</small></a>
+      <a href="#v3">V3 · Echt oder Falle?<small>Nachrichten entlarven</small></a>
+      <a href="#v4">V4 · Mein Backup-Plan<small>planen und aufschreiben</small></a>
+    </nav>
+
+    <section class="block" id="v1">
+      <h2><span class="vk">V1</span>Passwort-Tester</h2>
+      <p class="warn">Tippe hier nie dein echtes Passwort ein, auch nicht auf anderen Seiten im Internet. Nimm Beispiele!</p>
+      <p>Probiere die Beispiele aus oder erfinde eigene. Der Tester prüft die Regeln aus der Stunde. Nichts wird gespeichert oder verschickt.</p>
+      <div class="beispiele" id="beispiele"></div>
+      <label for="pw"><b>Beispiel-Passwort</b></label>
+      <input class="feld" id="pw" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="z. B. Fussball2015">
+      <div class="meter" aria-hidden="true"><i id="meter"></i></div>
+      <p class="urteil" id="urteil" aria-live="polite"></p>
+      <ul class="regeln" id="regeln"></ul>
+      <p><b>Dein Auftrag:</b> Finde heraus, welche Regel bei den schwachen Beispielen fehlt. Formuliere dann deine fünf Regeln für ein richtig gutes Passwort.</p>
+      <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Mindestens 10 Zeichen.</li><li>Groß- und Kleinbuchstaben, Zahlen und Zeichen mischen.</li><li>Kein echtes Wort, kein Name, kein Geburtsjahr, keine Tastenreihe wie qwertz.</li><li>Für jedes Konto ein eigenes Passwort.</li><li>Niemandem verraten und nicht in eine Datei schreiben.</li></ul></details>
+    </section>
+
+    <section class="block" id="v2">
+      <h2><span class="vk">V2</span>Satz-Maschine</h2>
+      <p>Schreibe einen Beispiel-Satz mit einer Zahl und einem Satzzeichen. Die Maschine nimmt die Anfangsbuchstaben, Zahlen und Zeichen. Nimm keinen Satz, den du wirklich für ein Passwort benutzt.</p>
+      <label for="satz"><b>Dein Beispiel-Satz</b></label>
+      <input class="feld" id="satz" type="text" autocomplete="off" spellcheck="false" value="Mein Bruder Tim hat 2 Katzen und 1 Hund!">
+      <div class="ergebnis" id="satz-aus" aria-live="polite"></div>
+      <p><b>Dein Auftrag:</b> Baue einen Satz, aus dem ein Passwort mit mindestens 12 Zeichen wird. Wie viele Wörter braucht dein Satz dafür?</p>
+      <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Jedes Wort, jede Zahl und jedes Satzzeichen ergibt ein Zeichen. Für 12 Zeichen brauchst du also ungefähr 11 Wörter und ein Satzzeichen.</li></ul></details>
+    </section>
+
+    <section class="block" id="v3">
+      <h2><span class="vk">V3</span>Echt oder Falle?</h2>
+      <p>Manche Nachrichten wollen dein Passwort stehlen. Das nennt man Phishing (gesprochen „Fisching“, wie Angeln). Entscheide bei jeder Nachricht.</p>
+      <ul class="sort" id="nachrichten"></ul>
+      <p id="nachrichten-fertig" aria-live="polite"></p>
+    </section>
+
+    <section class="block" id="v4">
+      <h2><span class="vk">V4</span>Mein Backup-Plan</h2>
+      <p>Plane, wie du deine wichtigsten Schuldateien sicherst. Wähle aus, dann erscheint dein Plan.</p>
+      <div class="plan">
+        <label>Was ist mir am wichtigsten?
+          <select id="was"><option>meine ITG-Dateien</option><option>meine Referate</option><option>meine Fotos</option><option>meine Hausaufgaben</option></select></label>
+        <label>Wo liegt das Original?
+          <select id="wo"><option>auf dem Schulrechner (Schule › ITG)</option><option>auf meinem Laptop zu Hause</option><option>auf meinem Tablet</option></select></label>
+        <label>Wo liegt die Kopie?
+          <select id="kopie"><option>in der Cloud (Google Drive)</option><option>auf einem USB-Stick zu Hause</option><option>auf einem USB-Stick in meinem Rucksack</option><option>im selben Ordner wie das Original</option></select></label>
+        <label>Wie oft mache ich das Backup?
+          <select id="oft"><option>jede Woche</option><option>nach jeder großen Arbeit</option><option>einmal im Jahr</option></select></label>
+      </div>
+      <div class="ergebnis" id="plan-aus" aria-live="polite"></div>
+      <p><b>Dein Auftrag:</b> Schreibe deinen Plan in dein Heft. Prüfe: Liegt die Kopie wirklich an einem anderen Ort als das Original?</p>
+    </section>
+
+    <nav class="lp-nav">
+      <a class="nav-prev" href="09meine-daten-gehoeren-mir-passwoerter-und-backups.html">&#8592; Lernpfad 09</a>
+      <a class="nav-over" href="../../itg-kursuebersicht.html">&#8801; Kurs&uuml;bersicht</a>
+    </nav>
+  </main>
+
+  <footer>ITG &middot; Klasse 6 &middot; Schuljahr 2026/27 &middot; Einheit 02 · Ordnung im digitalen Zimmer</footer>
+</div>
+
+<script>
+(function () {
+  /* ---------- V1 Passwort-Tester ---------- */
+  var BEISPIELE = ['123456', 'Fussball', 'Fussball2015', 'qwertz', 'lisa2012', 'Sonnenblume', 'IgjMu7UzS!', 'Kj7!mPq2#Lw'];
+  var WOERTER = ['passwort', 'password', 'hallo', 'fussball', 'sonne', 'sommer', 'winter', 'blume', 'katze', 'hund', 'schule',
+                 'pferd', 'pizza', 'lisa', 'lena', 'mama', 'papa', 'admin', 'login', 'geheim', 'liebe', 'drache', 'minecraft'];
+  var REIHEN = ['123', '234', '345', '456', '567', '678', '789', '890', 'qwert', 'asdf', 'yxcv', 'abc'];
+  var feld = document.getElementById('pw'), regeln = document.getElementById('regeln');
+  function pruefe(p) {
+    var klein = p.toLowerCase();
+    var wort = WOERTER.some(function (w) { return klein.indexOf(w) >= 0; });
+    var reihe = REIHEN.some(function (w) { return klein.indexOf(w) >= 0; });
+    var jahr = /(19|20)\d\d/.test(p);
+    return [
+      ['Mindestens 10 Zeichen (' + p.length + ')', p.length >= 10],
+      ['Kleinbuchstaben', /[a-zäöüß]/.test(p)],
+      ['Großbuchstaben', /[A-ZÄÖÜ]/.test(p)],
+      ['Zahlen', /\d/.test(p)],
+      ['Zeichen wie ! ? # %', /[^A-Za-zÄÖÜäöüß0-9]/.test(p)],
+      ['Kein echtes Wort und kein Name', !wort],
+      ['Keine Tastenreihe und kein Jahr', !reihe && !jahr]
+    ];
+  }
+  function zeige() {
+    var p = feld.value, liste = pruefe(p), punkte = 0;
+    regeln.innerHTML = '';
+    liste.forEach(function (r) {
+      var li = document.createElement('li');
+      li.textContent = r[0];
+      if (p) li.className = r[1] ? 'ok' : 'no';
+      if (r[1]) punkte++;
+      regeln.appendChild(li);
+    });
+    var m = document.getElementById('meter'), u = document.getElementById('urteil');
+    if (!p) { m.style.width = '0'; u.textContent = ''; return; }
+    var stark = punkte === 7, mittel = punkte >= 5 && liste[0][1];
+    m.style.width = Math.round(punkte / 7 * 100) + '%';
+    m.style.background = stark ? 'var(--key)' : mittel ? '#ffc23d' : '#d9576f';
+    u.textContent = stark ? 'Stark: Alle Regeln sind erfüllt.' : mittel ? 'Mittel: Fast geschafft. Welche Regel fehlt noch?' : 'Schwach: Das ist schnell erraten.';
+  }
+  BEISPIELE.forEach(function (b) {
+    var k = document.createElement('button');
+    k.type = 'button'; k.textContent = b;
+    k.addEventListener('click', function () { feld.value = b; zeige(); });
+    document.getElementById('beispiele').appendChild(k);
+  });
+  feld.addEventListener('input', zeige);
+  zeige();
+
+  /* ---------- V2 Satz-Maschine ---------- */
+  var satz = document.getElementById('satz');
+  function baue() {
+    var teile = satz.value.match(/\d+|[A-Za-zÄÖÜäöüß]+|[^\sA-Za-zÄÖÜäöüß\d]/g) || [];
+    var pw = teile.map(function (t) { return /^\d+$/.test(t) ? t : t.charAt(0); }).join('');
+    var aus = document.getElementById('satz-aus');
+    aus.textContent = '';
+    if (!pw) { aus.textContent = 'Schreibe zuerst einen Satz.'; return; }
+    var c = document.createElement('code'); c.textContent = pw;
+    aus.appendChild(document.createTextNode('Passwort: ')); aus.appendChild(c);
+    aus.appendChild(document.createTextNode(' · ' + pw.length + ' Zeichen' + (pw.length >= 10 ? ', lang genug.' : ', noch zu kurz: Mach den Satz länger.')));
+  }
+  satz.addEventListener('input', baue);
+  baue();
+
+  /* ---------- V3 Echt oder Falle? ---------- */
+  var NACHRICHTEN = [
+    ['„Hier ist der Google-Support. Schick uns sofort dein Passwort, sonst wird dein Konto gelöscht!“', false, 'Eine Falle: Echte Firmen fragen nie nach deinem Passwort. Sie drohen auch nicht.'],
+    ['„Die Hausaufgabe für ITG steht jetzt im Classroom.“ (von deiner Lehrkraft, ohne Link)', true, 'Echt: Hier will niemand etwas von dir. Du öffnest den Classroom einfach selbst.'],
+    ['„Glückwunsch! Du hast ein Handy gewonnen. Klick hier und melde dich mit deinem Passwort an.“', false, 'Eine Falle: Du hast an keinem Gewinnspiel teilgenommen. Der Link führt auf eine falsche Anmeldeseite.'],
+    ['„Hey, ich bin’s, dein Freund. Mein Handy ist kaputt, sag mir mal schnell dein Passwort.“', false, 'Eine Falle: Auch Freund:innen bekommen dein Passwort nicht, und du weißt nicht, wer wirklich schreibt.'],
+    ['„Dein Passwort wurde geändert. Warst du das nicht? Dann melde dich bei einem Erwachsenen.“ (ohne Link)', true, 'Wahrscheinlich echt: Die Nachricht will kein Passwort und keinen Klick. Sprich trotzdem mit einem Erwachsenen.']
+  ];
+  var liste = document.getElementById('nachrichten'), beantwortet = 0;
+  NACHRICHTEN.forEach(function (d) {
+    var li = document.createElement('li');
+    li.appendChild(document.createTextNode(d[0]));
+    var wk = document.createElement('div'); wk.className = 'wk';
+    var antwort = document.createElement('p');
+    [['Echt', true], ['Falle', false]].forEach(function (w) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.textContent = w[0];
+      b.addEventListener('click', function () {
+        var richtig = w[1] === d[1];
+        if (!li.dataset.fertig) { li.dataset.fertig = '1'; beantwortet++; }
+        li.classList.toggle('ok', richtig); li.classList.toggle('no', !richtig);
+        antwort.textContent = (richtig ? 'Richtig. ' : 'Schau noch einmal. ') + d[2];
+        if (beantwortet === NACHRICHTEN.length) document.getElementById('nachrichten-fertig').textContent = 'Geschafft. Die Regel dahinter: Wer nach deinem Passwort fragt, ist fast immer eine Falle.';
+      });
+      wk.appendChild(b);
+    });
+    li.appendChild(wk); li.appendChild(antwort); liste.appendChild(li);
+  });
+
+  /* ---------- V4 Backup-Plan ---------- */
+  var ids = ['was', 'wo', 'kopie', 'oft'];
+  function plan() {
+    var v = {};
+    ids.forEach(function (i) { v[i] = document.getElementById(i).value; });
+    var text = 'Mein Plan für ' + v.was + ': Das Original liegt ' + v.wo + ', die Kopie ' + v.kopie + '. Ich sichere ' + v.oft + '. ';
+    var hinweis = 'Gut: Die Kopie liegt an einem anderen Ort.';
+    if (v.kopie.indexOf('selben Ordner') >= 0) hinweis = 'Achtung: Im selben Ordner ist das keine Sicherung. Geht der Rechner kaputt, ist beides weg.';
+    else if (v.kopie.indexOf('Rucksack') >= 0 && v.wo.indexOf('Laptop') >= 0) hinweis = 'Achtung: Trägst du Laptop und Stick im selben Rucksack, sind bei einem Diebstahl beide weg.';
+    else if (v.oft === 'einmal im Jahr') hinweis = 'Achtung: Einmal im Jahr ist zu selten. Alles Neue seit dem letzten Backup wäre verloren.';
+    document.getElementById('plan-aus').textContent = text + hinweis;
+  }
+  ids.forEach(function (i) { document.getElementById(i).addEventListener('change', plan); });
+  plan();
+})();
+</script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LP 09 · Meine Daten gehören mir — Passwörter & Backups — ITG Klasse 6</title>
+<title>LP 09 · Meine Daten gehören mir: Passwörter &amp; Backups · ITG Klasse 6</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -12,6 +12,7 @@
     --key: #17b98a; --edge: #0d8f68; --tint: #e0f7ef; --ktext: #ffffff;
     --ink: #211a4d; --ink-soft: #4f4880; --bg: #f1f0fb; --card: #fff;
     --line: rgba(33,26,77,0.12); --sun: #ffc23d;
+    --ok: #39b56a; --ok-dk: #248049; --no: #e8607a; --no-dk: #b83a56;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -59,12 +60,8 @@
   .rlp .tag { display: inline-block; background: #e7e5fb; padding: 0.06rem 0.42rem; border-radius: 6px; margin: 0 0.15rem 0.25rem 0; }
   .rlp .tag.neu { background: var(--sun); color: var(--ink); }
 
-  .draft-note {
-    display: flex; align-items: center; gap: 0.6rem;
-    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 12px;
-    padding: 0.7rem 0.9rem; margin: 1.4rem 0; font-size: 0.9rem; font-weight: 700; color: #8a5a00;
-  }
-  .draft-note svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .intro { font-size: 1.05rem; margin: 1.4rem 0 1.6rem; }
+  .intro .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
 
   .block { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 1.4rem 1.5rem; margin-bottom: 1.1rem; }
   .block h2 {
@@ -72,15 +69,94 @@
     display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem;
   }
   .block h2 .dot { width: 14px; height: 14px; border-radius: 5px; background: var(--key); box-shadow: 0 2px 0 var(--edge); flex-shrink: 0; }
-  .todo {
-    border: 2px dashed var(--line); border-radius: 12px; padding: 1rem 1.1rem;
-    color: var(--ink-soft); font-style: italic; background: rgba(91,75,230,0.03);
+  .block p { margin-bottom: 0.6rem; }
+
+  /* figure */
+  .fig { background: var(--tint); border-radius: 14px; padding: 1rem; margin: 0.4rem 0 1rem; }
+  .fig svg { width: 100%; height: auto; display: block; }
+  .fig-cap { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); text-align: center; margin-top: 0.5rem; }
+
+  /* step list */
+  ol.steps { list-style: none; counter-reset: st; }
+  ol.steps li { counter-increment: st; position: relative; padding: 0.55rem 0 0.55rem 2.7rem; border-bottom: 1px dashed var(--line); }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li::before {
+    content: counter(st); position: absolute; left: 0; top: 0.5rem;
+    width: 30px; height: 30px; border-radius: 9px; background: var(--key); color: var(--ktext);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; box-shadow: 0 2px 0 var(--edge);
   }
+  ol.steps b { color: var(--edge); }
+
+  /* exercises + diff chips */
+  .task { border: 1.5px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; margin-bottom: 0.8rem; }
+  .chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.66rem;
+    letter-spacing: 0.05em; padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.5rem; }
+  .chip.basis { background: #e2f6ea; color: var(--ok-dk); border: 1.5px solid var(--ok); }
+  .chip.mittel { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+  .chip.knifflig { background: #fff3d1; color: #8a5a00; border: 1.5px solid var(--sun); }
+  .task ul { margin: 0.4rem 0 0 1.1rem; }
+  .task li { margin-bottom: 0.2rem; }
 
   .block.fast { border-color: var(--sun); background: #fff7e2; }
   .block.fast h2 { color: #8a5a00; }
   .block.fast h2 .rocket { width: 22px; height: 22px; color: #8a5a00; }
-  .fast-text { font-size: 1.02rem; font-weight: 600; }
+  .fast-text { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .fast-list { margin: 0.4rem 0 0.8rem 1.1rem; }
+  .fast-list li { margin-bottom: 0.3rem; }
+  .auftrag { border: 1.5px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0 0 0.9rem; background: #fff; }
+  .auftrag p { margin: 0; }
+  .auftrag-no, .task-no { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); background: var(--tint); border-radius: 6px; padding: 0.1rem 0.45rem; margin-right: 0.2rem; }
+  .auftrag details, .fast-sol { margin-top: 0.5rem; }
+  .auftrag summary, .fast-sol summary { cursor: pointer; font-weight: 700; color: var(--edge); font-size: 0.92rem; }
+  .auftrag ol, .fast-sol ul { margin: 0.4rem 0 0 1.3rem; }
+  .fast-sol { margin-bottom: 0.8rem; }
+  .fill { display: inline-block; min-width: 10rem; border-bottom: 1.5px dotted currentColor; }
+  .merke-box { margin-top: 0.9rem; background: var(--tint); border-left: 6px solid var(--key); border-radius: 10px; padding: 0.7rem 0.9rem; }
+  .fast-extra { font-size: 0.95rem; font-weight: 600; background: #fff; border-radius: 10px; padding: 0.7rem 0.9rem; border: 1.5px dashed var(--sun); }
+
+  /* merksatz */
+  .merk { background: var(--tint); border: 2px solid var(--key); border-left: 8px solid var(--key); border-radius: 14px; padding: 1.1rem 1.3rem; }
+  .merk .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+  .merk b { color: var(--edge); }
+  .secret { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.9rem; padding: 0.7rem 0.9rem;
+    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 10px; font-weight: 700; color: #8a5a00; font-size: 0.95rem; }
+  .secret svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  /* ---- QUIZ ENGINE ---- */
+  .quiz { margin-top: 0.4rem; }
+  .quiz-progress { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.74rem; color: var(--ink-soft); }
+  .pbar { flex: 1; height: 10px; background: #e7e5fb; border-radius: 999px; overflow: hidden; }
+  .pfill { height: 100%; width: 0; background: var(--ok); border-radius: 999px; transition: width 0.3s ease; }
+  .q { margin-bottom: 1.1rem; padding-bottom: 1.1rem; border-bottom: 1px dashed var(--line); }
+  .q:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .q-text { font-weight: 800; margin-bottom: 0.6rem; }
+  .q-text .qn { color: var(--edge); font-family: 'JetBrains Mono', monospace; }
+  .opts { display: grid; gap: 0.5rem; }
+  .opt {
+    display: flex; align-items: center; gap: 0.7rem; width: 100%; text-align: left;
+    font-family: 'Nunito', sans-serif; font-size: 0.98rem; font-weight: 700; color: var(--ink);
+    background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 0.6rem 0.8rem; cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .opt:hover:not([disabled]) { border-color: var(--key); transform: translateX(2px); }
+  .opt .lett { flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px; background: var(--tint); color: var(--edge);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; font-size: 0.85rem; }
+  .opt.correct { border-color: var(--ok); background: #e9f8ef; }
+  .opt.correct .lett { background: var(--ok); color: #fff; }
+  .opt.wrong { border-color: var(--no); background: #fdecf0; }
+  .opt.wrong .lett { background: var(--no); color: #fff; }
+  .opt[disabled] { cursor: default; opacity: 0.75; }
+  .opt.correct[disabled], .opt.wrong[disabled] { opacity: 1; }
+  .q-hint { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--no-dk);
+    background: #fdecf0; border-radius: 9px; padding: 0.5rem 0.7rem; display: none; }
+  .q-hint.show { display: block; }
+  .q-done { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--ok-dk); display: none; }
+  .q-done.show { display: block; }
+  .quiz-solved { margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 12px; background: #e9f8ef;
+    border: 2px solid var(--ok); color: var(--ok-dk); font-family: 'Fredoka', sans-serif; font-weight: 600;
+    display: none; align-items: center; gap: 0.6rem; }
+  .quiz-solved.show { display: flex; }
+  .quiz-solved svg { width: 22px; height: 22px; flex-shrink: 0; }
 
   .selfcheck-wrap {
     display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem;
@@ -113,6 +189,22 @@
   }
   @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 </style>
+<style>
+  .qi { background: var(--tint); border-radius: 12px; padding: 0.6rem 0.75rem; margin: -0.2rem 0 0.7rem; font-weight: 700; }
+  .qi .n { display: inline-flex; align-items: center; justify-content: center; width: 1.55rem; height: 1.55rem; border-radius: 50%;
+           color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; flex: none; }
+  .qi ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+  .qi li { display: flex; gap: 0.5rem; align-items: center; }
+  .qi .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.2rem 0 0.45rem; }
+  .qi .chip-i { background: #fff; border: 2px solid var(--key); border-radius: 9px; padding: 0.15rem 0.55rem; display: inline-flex; gap: 0.35rem; align-items: center; }
+  .qi .lk { display: inline-flex; vertical-align: middle; border: 2px dashed var(--ink-soft); border-radius: 8px; padding: 0.05rem 0.4rem; margin: 0 0.15rem; }
+  .qi .zeile { margin: 0.25rem 0; }
+  .qi .txt { font-weight: 600; color: var(--ink-soft); margin-bottom: 0.3rem; }
+  .qi .boxes { color: var(--ink-soft); font-style: italic; margin-bottom: 0.3rem; }
+  .fig svg[aria-label="Bild 2"] { max-width: 400px; margin: 0 auto; }
+  .fig svg[aria-label="Bild 3"] { max-width: 560px; margin: 0 auto; }
+  .pw { font-family: 'JetBrains Mono', monospace; }
+</style>
 </head>
 <body>
 
@@ -128,45 +220,254 @@
     </div>
     <div class="hero-row">
       <div class="keycap">09</div>
-      <h1>Meine Daten gehören mir — Passwörter &amp; Backups</h1>
+      <h1>Meine Daten gehören mir: Passwörter &amp; Backups</h1>
     </div>
     <p class="goal"><b>Das lernst du:</b> Schützenswerte Daten erkennen, starke Passwörter bauen und verstehen, warum eine Sicherungskopie (Backup) Gold wert ist.</p>
     <p class="rlp"><span class="tag">RLP 2.1 · D/E</span><span class="tag">3.2 · Datensicherheit</span></p>
   </header>
 
-  <div class="draft-note">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
-    <span>Diese Seite ist das Ger&uuml;st f&uuml;r diesen Lernpfad &mdash; Inhalte werden noch erg&auml;nzt.</span>
-  </div>
+  <p class="intro">In Stunde 08 hast du eine Datei in die Cloud hochgeladen. Dein Konto schützt dort nur ein <span class="hl">Passwort</span>. Heute lernst du, welche Daten geheim bleiben, wie ein starkes Passwort aussieht und wie eine <span class="hl">Kopie</span> deine Arbeit rettet. Zuerst schaust du mit ein paar Fragen, was du schon weißt. Danach legst du am Rechner ein echtes Backup an. Los geht’s!</p>
 
   <main>
+
+    <!-- ===================== VORWISSEN ===================== -->
     <section class="block">
-      <h2><span class="dot"></span>Los geht es &mdash; worum geht es heute?</h2>
-      <div class="todo">Hier kommt der Einstieg hin: eine kurze, spannende Hinf&uuml;hrung zum Thema.</div>
+      <h2><span class="dot"></span>Schau genau hin: Was weißt du schon?</h2>
+      <p>Sieh dir die drei Bilder an. Zu jedem Bild gehören drei Fragen. Bei vielen Fragen ist eine ganze Kombination richtig, also lies jede Antwort bis zum Ende. Wird sie <b style="color:var(--ok-dk)">grün</b>, ist sie richtig. Bei <b style="color:var(--no-dk)">rot</b> bekommst du einen Tipp.</p>
+
+      <!-- Fig 1 -->
+      <div class="fig"><svg viewBox="0 0 1000 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 1" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="1000" height="200" fill="#ffffff"/><rect x="8" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#0d8f68" stroke-width="2.6"/><rect x="36.0" y="69.0" width="96.0" height="34.0" rx="6.0" fill="#ffffff" stroke="#211a4d" stroke-width="2.4"/><circle cx="54.0" cy="86" r="4.4" fill="#211a4d"/><circle cx="69.0" cy="86" r="4.4" fill="#211a4d"/><circle cx="84.0" cy="86" r="4.4" fill="#211a4d"/><circle cx="99.0" cy="86" r="4.4" fill="#211a4d"/><circle cx="114.0" cy="86" r="4.4" fill="#211a4d"/><path d="M114.8 56.8 v-5.6000000000000005 a7.2 7.2 0 0 1 14.4 0 v5.6000000000000005" fill="none" stroke="#211a4d" stroke-width="2.5600000000000005" stroke-linecap="round"/><rect x="110.8" y="56.0" width="22.400000000000002" height="17.6" rx="3.2" fill="#ffc23d" stroke="#211a4d" stroke-width="1.92"/><circle cx="122.0" cy="64.0" r="2.4000000000000004" fill="#211a4d"/><text x="84" y="170" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="18" fill="#211a4d">Passwort</text><circle cx="30" cy="34" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="30" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><rect x="174" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#0d8f68" stroke-width="2.6"/><rect x="218.0" y="75.0" width="64.0" height="46.0" fill="#ffffff" stroke="#211a4d" stroke-width="2.6"/><path d="M208.0 77.0 L250 45.0 L292.0 77.0 z" fill="#e8607a" stroke="#211a4d" stroke-width="2.6" stroke-linejoin="round"/><rect x="241.0" y="95.0" width="18.0" height="26.0" fill="#ffc23d" stroke="#211a4d" stroke-width="2.2"/><rect x="226.0" y="85.0" width="14.0" height="12.0" fill="#ece7fe" stroke="#211a4d" stroke-width="2"/><rect x="260.0" y="85.0" width="14.0" height="12.0" fill="#ece7fe" stroke="#211a4d" stroke-width="2"/><text x="250" y="170" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="18" fill="#211a4d">Wohnadresse</text><circle cx="196" cy="34" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="196" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><rect x="340" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#0d8f68" stroke-width="2.6"/><ellipse cx="416" cy="96.0" rx="19.0" ry="16.0" fill="#ffc23d" stroke="#c8890a" stroke-width="2.6"/><ellipse cx="392.0" cy="76.0" rx="7.5" ry="9.5" fill="#ffc23d" stroke="#c8890a" stroke-width="2.4"/><ellipse cx="407.0" cy="62.0" rx="7.5" ry="9.5" fill="#ffc23d" stroke="#c8890a" stroke-width="2.4"/><ellipse cx="425.0" cy="62.0" rx="7.5" ry="9.5" fill="#ffc23d" stroke="#c8890a" stroke-width="2.4"/><ellipse cx="440.0" cy="76.0" rx="7.5" ry="9.5" fill="#ffc23d" stroke="#c8890a" stroke-width="2.4"/><text x="416" y="170" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="18" fill="#211a4d">Lieblingstier</text><circle cx="362" cy="34" r="17" fill="#8e3bd2" stroke="#ffffff" stroke-width="3"/><text x="362" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><rect x="506" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#0d8f68" stroke-width="2.6"/><rect x="565.75" y="56.0" width="32.5" height="60.0" rx="6.25" fill="#ffffff" stroke="#0d8f68" stroke-width="2.6"/><line x1="577.0" y1="108.5" x2="587.0" y2="108.5" stroke="#0d8f68" stroke-width="2.4" stroke-linecap="round"/><circle cx="575.0" cy="72.0" r="2.3" fill="#0d8f68"/><circle cx="582.0" cy="72.0" r="2.3" fill="#0d8f68"/><circle cx="589.0" cy="72.0" r="2.3" fill="#0d8f68"/><circle cx="575.0" cy="80.0" r="2.3" fill="#0d8f68"/><circle cx="582.0" cy="80.0" r="2.3" fill="#0d8f68"/><circle cx="589.0" cy="80.0" r="2.3" fill="#0d8f68"/><circle cx="575.0" cy="88.0" r="2.3" fill="#0d8f68"/><circle cx="582.0" cy="88.0" r="2.3" fill="#0d8f68"/><circle cx="589.0" cy="88.0" r="2.3" fill="#0d8f68"/><text x="582" y="170" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="18" fill="#211a4d">Handynummer</text><circle cx="528" cy="34" r="17" fill="#4eab65" stroke="#ffffff" stroke-width="3"/><text x="528" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text><rect x="672" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#0d8f68" stroke-width="2.6"/><rect x="710.0" y="56.0" width="76.0" height="60.0" rx="5.0" fill="#ece7fe" stroke="#5a39cf" stroke-width="2.6"/><circle cx="748" cy="80.0" r="10.0" fill="#ffffff" stroke="#5a39cf" stroke-width="2.4"/><path d="M728.0 116.0 a20.0 18.0 0 0 1 40.0 0" fill="#ffffff" stroke="#5a39cf" stroke-width="2.4"/><text x="748" y="170" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="18" fill="#211a4d">privates Foto</text><circle cx="694" cy="34" r="17" fill="#dd5b59" stroke="#ffffff" stroke-width="3"/><text x="694" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">5</text><rect x="838" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#0d8f68" stroke-width="2.6"/><path d="M914 56.0 a32.0 30.0 0 1 0 6.0 60.0 c8.0 -1.0 6.0 -12.0 2.0 -16.0 c-5.0 -6.0 2.0 -12.0 10.0 -10.0 c10.0 2.0 16.0 -4.0 14.0 -14.0 c-3.0 -14.0 -16.0 -20.0 -32.0 -20.0 z" fill="#ffffff" stroke="#211a4d" stroke-width="2.6" stroke-linejoin="round"/><circle cx="898.0" cy="74.0" r="6.0" fill="#e8607a"/><circle cx="914.0" cy="68.0" r="6.0" fill="#ffc23d"/><circle cx="930.0" cy="76.0" r="6.0" fill="#17b98a"/><circle cx="894.0" cy="92.0" r="6.0" fill="#5a39cf"/><text x="914" y="170" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="18" fill="#211a4d">Lieblingsfarbe</text><circle cx="860" cy="34" r="17" fill="#6e6e80" stroke="#ffffff" stroke-width="3"/><text x="860" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">6</text></svg><div class="fig-cap">Bild 1 &middot; Sechs Daten über dich</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 1</span> <b>Ordne zu:</b> Was hältst du im Internet geheim (G), was darfst du teilen (T)? Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>G</li><li>G</li><li>T</li><li>G</li><li>G</li><li>T</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.1</span> &nbsp;<b>Ordne zu:</b> Was hältst du im Internet geheim, was darfst du teilen?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">geheim: 1, 2, 4, 5</button>
+            <button class="opt" data-hint="Ein privates Foto zeigt dich. Wer es hat, kann es weiterschicken.">geheim: 1, 2, 4</button>
+            <button class="opt" data-hint="Dein Lieblingstier verrät nicht, wer du bist oder wo du wohnst.">geheim: 1, 2, 3, 4, 5</button>
+            <button class="opt" data-hint="Mit deiner Adresse finden Fremde dich zu Hause. Die Lieblingsfarbe verrät nichts.">geheim: 1, 4, 5, 6</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Passwort, Adresse, Handynummer und private Fotos bleiben geheim.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.2</span> &nbsp;<b>Ordne zu:</b> Was kann passieren, wenn Fremde diese Daten haben?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Passwort</span><span class="chip-i">Wohnadresse</span><span class="chip-i">Handynummer</span><span class="chip-i">privates Foto</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Fremde können dich anrufen oder dir schreiben.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Jemand meldet sich in deinem Konto an.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Fremde wissen, wo du wohnst.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Das Bild wird weitergeschickt und kommt nie mehr zurück.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Passwort (2), Wohnadresse (3), Handynummer (1), privates Foto (4)</button>
+            <button class="opt" data-hint="Mit der Adresse findet man dein Zuhause, mit der Nummer erreicht man dein Handy.">Passwort (2), Wohnadresse (1), Handynummer (3), privates Foto (4)</button>
+            <button class="opt" data-hint="Mit einem Passwort kommt man in ein Konto, ein Foto kann man weiterschicken.">Passwort (4), Wohnadresse (3), Handynummer (1), privates Foto (2)</button>
+            <button class="opt" data-hint="Eine Nummer kann man anrufen, ein Bild kann man weiterschicken.">Passwort (2), Wohnadresse (3), Handynummer (4), privates Foto (1)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Darum bleiben diese Daten geheim.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.3</span> &nbsp;<b>Entscheide:</b> Welche Sätze stimmen?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Was einmal im Internet ist, bekommst du kaum zurück.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Mein Passwort darf ich meiner besten Freundin verraten.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Die Schule fragt nie per Mail nach deinem Passwort.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Fotos von anderen darf ich ohne Fragen posten.</span></li><li><span class="n" style="background:#dd5b59">5</span><span>Ein Spitzname verrät weniger als dein voller Name.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 3, 5</button>
+            <button class="opt" data-hint="Auch Freundschaften gehen manchmal auseinander. Dein Passwort kennst nur du.">1, 2, 3, 5</button>
+            <button class="opt" data-hint="Schau noch einmal auf Satz 5: Ein Spitzname verrät nicht, wer du bist.">1, 3</button>
+            <button class="opt" data-hint="Andere entscheiden selbst über ihre Fotos. Und Satz 1?">3, 4, 5</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt: Wer nach deinem Passwort fragt, will meistens nichts Gutes.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Super: Bild 1 komplett gelöst!</div>
+      </div>
+
+      <!-- Fig 2 -->
+      <div class="fig"><svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 2" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="600" height="400" fill="#ffffff"/><rect x="16" y="16" width="568" height="368" rx="18" fill="#f4fbf8" stroke="#0d8f68" stroke-width="3"/><path d="M538.1 49.6 v-7.700000000000001 a9.9 9.9 0 0 1 19.8 0 v7.700000000000001" fill="none" stroke="#211a4d" stroke-width="3.5200000000000005" stroke-linecap="round"/><rect x="532.6" y="48.5" width="30.800000000000004" height="24.200000000000003" rx="4.4" fill="#ffc23d" stroke="#211a4d" stroke-width="2.64"/><circle cx="548" cy="59.5" r="3.3000000000000003" fill="#211a4d"/><text x="40" y="62" text-anchor="start" font-family="Fredoka, Open Sans, sans-serif" font-weight="800" font-size="26" fill="#0d8f68">Anmelden</text><rect x="84" y="96" width="420" height="50" rx="8" fill="#ffffff" stroke="#211a4d" stroke-width="2.4"/><text x="104" y="130" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="26" fill="#211a4d">Fussball2015</text><circle cx="52" cy="121" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="52" y="128" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><rect x="84" y="166" width="420" height="50" rx="8" fill="#ffffff" stroke="#211a4d" stroke-width="2.4"/><text x="104" y="200" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="26" fill="#211a4d">IgjMu7UzS!</text><circle cx="52" cy="191" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="52" y="198" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><rect x="84" y="236" width="420" height="50" rx="8" fill="#ffffff" stroke="#211a4d" stroke-width="2.4"/><text x="104" y="270" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="26" fill="#211a4d">123456</text><circle cx="52" cy="261" r="17" fill="#8e3bd2" stroke="#ffffff" stroke-width="3"/><text x="52" y="268" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><rect x="84" y="306" width="420" height="50" rx="8" fill="#ffffff" stroke="#211a4d" stroke-width="2.4"/><text x="104" y="340" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="26" fill="#211a4d">Fussball</text><circle cx="52" cy="331" r="17" fill="#4eab65" stroke="#ffffff" stroke-width="3"/><text x="52" y="338" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text></svg><div class="fig-cap">Bild 2 &middot; Vier Passwörter</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 2</span> <b>Ordne</b> die Passwörter von schwach nach stark. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>Am schwächsten: 3 (123456)</li><li>dann 4 (Fussball)</li><li>dann 1 (Fussball2015)</li><li>am stärksten: 2 (IgjMu7UzS!)</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.1</span> &nbsp;<b>Ordne</b> die Passwörter von schwach nach stark.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">3 – 4 – 1 – 2</button>
+            <button class="opt" data-hint="123456 steht ganz oben auf jeder Liste der häufigsten Passwörter. Es ist das schwächste.">4 – 3 – 1 – 2</button>
+            <button class="opt" data-hint="Passwort 2 ist kein echtes Wort und mischt alles. Es ist das stärkste.">3 – 4 – 2 – 1</button>
+            <button class="opt" data-hint="Fussball2015 ist länger als Fussball, also etwas stärker.">3 – 1 – 4 – 2</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: IgjMu7UzS! ist lang, mischt alles und ist kein echtes Wort.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.2</span> &nbsp;<b>Bring</b> die Schritte der Satzmethode in die richtige Reihenfolge.</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Nimm die Anfangsbuchstaben, Zahlen und Zeichen.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Denk dir einen Satz aus, den nur du kennst.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Prüfe: Hat es mindestens 10 Zeichen?</span></li><li><span class="n" style="background:#4eab65">4</span><span>Übe es, bis du es auswendig kannst.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">2 – 1 – 3 – 4</button>
+            <button class="opt" data-hint="Ohne Satz gibt es keine Anfangsbuchstaben.">1 – 2 – 3 – 4</button>
+            <button class="opt" data-hint="Prüfen kannst du erst, wenn das Passwort fertig ist.">2 – 3 – 1 – 4</button>
+            <button class="opt" data-hint="Üben lohnt sich erst, wenn das Passwort lang genug ist.">2 – 1 – 4 – 3</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Satz, Buchstaben, prüfen, üben.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.3</span> &nbsp;<b>Entscheide:</b> Welche Regeln machen dein Konto sicher?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Mindestens 10 Zeichen.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Für jedes Konto ein eigenes Passwort.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Der Name deines Haustiers.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Groß- und Kleinbuchstaben, Zahlen und Zeichen mischen.</span></li><li><span class="n" style="background:#dd5b59">5</span><span>Alle Passwörter in einer Datei passwort.txt sammeln.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 2, 4</button>
+            <button class="opt" data-hint="Und Regel 2? Wird ein Passwort geklaut, sind sonst alle Konten offen.">1, 4</button>
+            <button class="opt" data-hint="Den Namen deines Haustiers kennen viele. Er ist leicht zu erraten.">1, 2, 3, 4</button>
+            <button class="opt" data-hint="Eine Datei mit Passwörtern kann jeder lesen, der an deinen Rechner kommt. Und Regel 1?">2, 4, 5</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: lang, gemischt und für jedes Konto ein eigenes.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Klasse: Bild 2 komplett gelöst!</div>
+      </div>
+
+      <!-- Fig 3 -->
+      <div class="fig"><svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 3" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="700" height="400" fill="#ffffff"/><rect x="20" y="20" width="320" height="170" rx="16" fill="#ffffff" stroke="#0d8f68" stroke-width="2.6"/><rect x="360" y="20" width="320" height="170" rx="16" fill="#ffffff" stroke="#0d8f68" stroke-width="2.6"/><rect x="20" y="210" width="320" height="170" rx="16" fill="#ffffff" stroke="#0d8f68" stroke-width="2.6"/><rect x="360" y="210" width="320" height="170" rx="16" fill="#ffffff" stroke="#0d8f68" stroke-width="2.6"/><rect x="82.24000000000001" y="98.78" width="59.519999999999996" height="38.44" rx="3.7199999999999998" fill="#ece7fe" stroke="#5a39cf" stroke-width="3"/><path d="M74.80000000000001 137.22 h74.39999999999999 l-4.96 6.82 h-64.47999999999999 z" fill="#ffffff" stroke="#5a39cf" stroke-width="3" stroke-linejoin="round"/><path d="M103 105.0 h12.48 l5.720000000000001 5.720000000000001 v18.2 h-18.2 z" fill="#ffffff" stroke="#211a4d" stroke-width="2.4" stroke-linejoin="round"/><path d="M115.48 105.0 v5.720000000000001 h5.720000000000001" fill="none" stroke="#211a4d" stroke-width="2.2"/><path transform="translate(248,124.0)" d="M-37.2 19.2 a18.0 18.0 0 0 1 1.2 -36.0 a24.0 24.0 0 0 1 44.4 -8.4 a16.8 16.8 0 0 1 24.0 13.2 a15.6 15.6 0 0 1 4.8 31.2 z" fill="#e0f7ef" stroke="#0d8f68" stroke-width="3" stroke-linejoin="round"/><path d="M239 102.0 h12.48 l5.720000000000001 5.720000000000001 v18.2 h-18.2 z" fill="#ffffff" stroke="#211a4d" stroke-width="2.4" stroke-linejoin="round"/><path d="M251.48 102.0 v5.720000000000001 h5.720000000000001" fill="none" stroke="#211a4d" stroke-width="2.2"/><rect x="490.24" y="98.78" width="59.519999999999996" height="38.44" rx="3.7199999999999998" fill="#ece7fe" stroke="#5a39cf" stroke-width="3"/><path d="M482.8 137.22 h74.39999999999999 l-4.96 6.82 h-64.47999999999999 z" fill="#ffffff" stroke="#5a39cf" stroke-width="3" stroke-linejoin="round"/><path d="M511 105.0 h12.48 l5.720000000000001 5.720000000000001 v18.2 h-18.2 z" fill="#ffffff" stroke="#211a4d" stroke-width="2.4" stroke-linejoin="round"/><path d="M523.48 105.0 v5.720000000000001 h5.720000000000001" fill="none" stroke="#211a4d" stroke-width="2.2"/><rect x="54.24" y="292.78" width="59.519999999999996" height="38.44" rx="3.7199999999999998" fill="#ece7fe" stroke="#5a39cf" stroke-width="3"/><path d="M46.800000000000004 331.21999999999997 h74.39999999999999 l-4.96 6.82 h-64.47999999999999 z" fill="#ffffff" stroke="#5a39cf" stroke-width="3" stroke-linejoin="round"/><path d="M75 299.0 h12.48 l5.720000000000001 5.720000000000001 v18.2 h-18.2 z" fill="#ffffff" stroke="#211a4d" stroke-width="2.4" stroke-linejoin="round"/><path d="M87.48 299.0 v5.720000000000001 h5.720000000000001" fill="none" stroke="#211a4d" stroke-width="2.2"/><path d="M140 298.0 L180 262.0 L220 298.0 V356.0 H140 z" fill="#fff8e6" stroke="#c8890a" stroke-width="2.6" stroke-linejoin="round"/><rect x="155.28" y="315.92" width="42.0" height="20.16" rx="3.78" fill="#e8607a" stroke="#b83a56" stroke-width="2.6"/><rect x="197.28" y="319.28" width="13.44" height="13.44" fill="#d9dbe6" stroke="#211a4d" stroke-width="2.2"/><rect x="202.32" y="322.22" width="3.78" height="2.94" fill="#211a4d"/><rect x="202.32" y="326.84" width="3.78" height="2.94" fill="#211a4d"/><circle cx="161.58" cy="326.0" r="2.52" fill="#ffffff" stroke="#b83a56" stroke-width="2"/><path d="M156 317.0 h8.64 l3.96 3.96 v12.6 h-12.6 z" fill="#ffffff" stroke="#211a4d" stroke-width="2.4" stroke-linejoin="round"/><path d="M164.64 317.0 v3.96 h3.96" fill="none" stroke="#211a4d" stroke-width="2.2"/><path transform="translate(282,318.0)" d="M-37.2 19.2 a18.0 18.0 0 0 1 1.2 -36.0 a24.0 24.0 0 0 1 44.4 -8.4 a16.8 16.8 0 0 1 24.0 13.2 a15.6 15.6 0 0 1 4.8 31.2 z" fill="#e0f7ef" stroke="#0d8f68" stroke-width="3" stroke-linejoin="round"/><path d="M273 296.0 h12.48 l5.720000000000001 5.720000000000001 v18.2 h-18.2 z" fill="#ffffff" stroke="#211a4d" stroke-width="2.4" stroke-linejoin="round"/><path d="M285.48 296.0 v5.720000000000001 h5.720000000000001" fill="none" stroke="#211a4d" stroke-width="2.2"/><path d="M495.52 242.0 a24.48 21.76 0 0 1 48.96 0" fill="none" stroke="#c8890a" stroke-width="4" stroke-linecap="round"/><rect x="452" y="242.0" width="136" height="126" rx="22" fill="#fff8e6" stroke="#c8890a" stroke-width="3"/><path d="M452 280.0 q68.0 26 136 0" fill="none" stroke="#c8890a" stroke-width="3"/><rect x="490.24" y="286.78" width="59.519999999999996" height="38.44" rx="3.7199999999999998" fill="#ece7fe" stroke="#5a39cf" stroke-width="3"/><path d="M482.8 325.21999999999997 h74.39999999999999 l-4.96 6.82 h-64.47999999999999 z" fill="#ffffff" stroke="#5a39cf" stroke-width="3" stroke-linejoin="round"/><path d="M511 293.0 h12.48 l5.720000000000001 5.720000000000001 v18.2 h-18.2 z" fill="#ffffff" stroke="#211a4d" stroke-width="2.4" stroke-linejoin="round"/><path d="M523.48 293.0 v5.720000000000001 h5.720000000000001" fill="none" stroke="#211a4d" stroke-width="2.2"/><rect x="498.28" y="339.92" width="42.0" height="20.16" rx="3.78" fill="#e8607a" stroke="#b83a56" stroke-width="2.6"/><rect x="540.28" y="343.28" width="13.44" height="13.44" fill="#d9dbe6" stroke="#211a4d" stroke-width="2.2"/><rect x="545.3199999999999" y="346.22" width="3.78" height="2.94" fill="#211a4d"/><rect x="545.3199999999999" y="350.84" width="3.78" height="2.94" fill="#211a4d"/><circle cx="504.58" cy="350.0" r="2.52" fill="#ffffff" stroke="#b83a56" stroke-width="2"/><path d="M499 341.0 h8.64 l3.96 3.96 v12.6 h-12.6 z" fill="#ffffff" stroke="#211a4d" stroke-width="2.4" stroke-linejoin="round"/><path d="M507.64 341.0 v3.96 h3.96" fill="none" stroke="#211a4d" stroke-width="2.2"/><circle cx="46" cy="48" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="46" y="55" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><circle cx="386" cy="48" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="386" y="55" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><circle cx="46" cy="238" r="17" fill="#8e3bd2" stroke="#ffffff" stroke-width="3"/><text x="46" y="245" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><circle cx="386" cy="238" r="17" fill="#4eab65" stroke="#ffffff" stroke-width="3"/><text x="386" y="245" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text></svg><div class="fig-cap">Bild 3 &middot; Vier Arten, eine Datei zu sichern</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 3</span> <b>Ordne</b> die Sicherungen von unsicher nach sicher. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>Am unsichersten: 2 (nur auf dem Laptop)</li><li>dann 4 (Laptop und Stick im selben Rucksack)</li><li>dann 1 (Laptop und Cloud)</li><li>am sichersten: 3 (Laptop, Stick zu Hause und Cloud)</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.1</span> &nbsp;<b>Ordne</b> die Sicherungen von unsicher nach sicher.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">2 – 4 – 1 – 3</button>
+            <button class="opt" data-hint="Bei 2 gibt es gar keine Kopie. Das ist am unsichersten.">4 – 2 – 1 – 3</button>
+            <button class="opt" data-hint="Bei 4 liegt die Kopie am selben Ort. Wird der Rucksack geklaut, ist alles weg.">2 – 1 – 4 – 3</button>
+            <button class="opt" data-hint="Bei 3 liegen Kopien an zwei anderen Orten. Mehr geht nicht.">2 – 4 – 3 – 1</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Eine Kopie hilft nur, wenn sie an einem anderen Ort liegt.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.2</span> &nbsp;<b>Ergänze</b> den Merksatz zum Backup.</div>
+          <div class="qi"><div class="zeile">Ein Backup ist eine <span class="lk"><span class="n" style="background:#3675d8">1</span></span> deiner Datei.</div><div class="zeile">Sie liegt an einem <span class="lk"><span class="n" style="background:#d16b2f">2</span></span> Ort.</div><div class="zeile">Mach es <span class="lk"><span class="n" style="background:#8e3bd2">3</span></span> , nicht nur einmal.</div></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Kopie (1), anderen (2), regelmäßig (3)</button>
+            <button class="opt" data-hint="Am gleichen Ort geht die Kopie mit dem Original verloren.">Kopie (1), gleichen (2), regelmäßig (3)</button>
+            <button class="opt" data-hint="Das Original ist die Datei selbst. Das Backup ist etwas anderes.">Original (1), anderen (2), regelmäßig (3)</button>
+            <button class="opt" data-hint="Eine alte Kopie hilft wenig: Neue Arbeit fehlt darin.">Kopie (1), anderen (2), selten (3)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Kopie, anderer Ort, regelmäßig.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.3</span> &nbsp;<b>Entscheide:</b> Wann rettet dich ein Backup?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Der Rechner geht kaputt.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Du löschst eine Datei aus Versehen.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Dein Passwort ist zu kurz.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Dein Handy wird gestohlen.</span></li><li><span class="n" style="background:#dd5b59">5</span><span>Das Internet ist langsam.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 2, 4</button>
+            <button class="opt" data-hint="Und Satz 4? Ist das Handy weg, hast du die Fotos noch in der Kopie.">1, 2</button>
+            <button class="opt" data-hint="Ein Backup macht kein Passwort länger.">1, 2, 3, 4</button>
+            <button class="opt" data-hint="Ein Backup macht das Internet nicht schneller. Und Satz 1?">2, 4, 5</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Ein Backup hilft immer, wenn das Original weg ist.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Stark: Bild 3 komplett gelöst!</div>
+      </div>
     </section>
 
+    <!-- ===================== SCHRITT FÜR SCHRITT ===================== -->
     <section class="block">
-      <h2><span class="dot"></span>Schritt f&uuml;r Schritt</h2>
-      <div class="todo">Hier kommt die Anleitung hin: die einzelnen Arbeitsschritte, gerne mit Screenshots.</div>
+      <h2><span class="dot"></span>Schritt für Schritt: Backup in der Cloud</h2>
+      <p><span class="task-no">Aufgabe 4</span></p>
+      <ol class="steps">
+        <li><b>Drive öffnen.</b> Rufe <a href="https://drive.google.com" target="_blank" rel="noopener">drive.google.com</a> auf und melde dich mit deinem Konto an.</li>
+        <li><b>Backup-Ordner.</b> Klicke auf Neu › Neuer Ordner. Gib ihm einen Namen mit Datum, zum Beispiel 2026-11-10_ITG_Backup (Namens-Regel aus Stunde 06).</li>
+        <li><b>Hochladen.</b> Öffne den Ordner. Klicke auf Neu › Ordner hochladen und wähle Schule › ITG.</li>
+        <li><b>Prüfen.</b> Sind in Drive alle Dateien aus deinem Ordner ITG angekommen?</li>
+        <li><b>Notfall spielen.</b> Lösche am Rechner eine Übungsdatei aus Schule › ITG.</li>
+        <li><b>Retten.</b> Klicke in Drive mit der rechten Maustaste auf die Datei › Herunterladen.</li>
+        <li><b>Zurücklegen.</b> Verschiebe sie aus Downloads zurück in Schule › ITG.</li>
+        <li><b>Kontrolle.</b> Öffne die Datei. Ist alles wieder da?</li>
+        <li><b>Abmelden.</b> Klicke oben rechts auf dein Profilbild › Abmelden.</li>
+      </ol>
+      <details class="fast-sol"><summary>Lösung zu Schritt 4 und 8 zeigen</summary><ul><li>Schritt 4: Ja, alle Dateien sind da. Es sind Kopien, die Originale bleiben am Rechner.</li><li>Schritt 8: Ja. Die Datei hat den Stand vom Hochladen. Was du danach geändert hättest, wäre nicht dabei. Darum: Backups regelmäßig machen.</li></ul></details>
+      <div class="merke-box"><b>Merke:</b> <b>Geheim</b> bleiben Passwort, Adresse, Handynummer und private Fotos. Ein <b>starkes Passwort</b> hat mindestens 10 Zeichen, mischt Groß- und Kleinbuchstaben, Zahlen und Zeichen und ist kein echtes Wort. Jedes Konto bekommt ein eigenes. Ein <b>Backup</b> ist eine Kopie an einem anderen Ort. Mach es regelmäßig.</div>
     </section>
 
+    <!-- ===================== ÜBUNGEN ===================== -->
     <section class="block">
-      <h2><span class="dot"></span>&Uuml;bungsaufgaben</h2>
-      <div class="todo">Hier kommen die Aufgaben hin &mdash; mit klarer Differenzierung (Basis &middot; mittel &middot; knifflig).</div>
+      <h2><span class="dot"></span>Übungsaufgaben</h2>
+      <div class="task">
+        <span class="task-no">Aufgabe 5</span> <span class="chip basis">Basis</span>
+        <p>Prüfe die drei Passwörter: Haben sie mindestens 10 Zeichen? Sind sie gemischt? Sind sie kein echtes Wort? Sind sie stark?</p>
+        <ul><li><span class="pw">lisa2012</span></li><li><span class="pw">Kj7!mPq2#Lw</span></li><li><span class="pw">Sonnenblume</span></li></ul>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>lisa2012: nichts davon, ein Name mit Jahreszahl und nur 8 Zeichen. Schwach.</li><li>Kj7!mPq2#Lw: alles erfüllt. Stark.</li><li>Sonnenblume: 11 Zeichen, aber ein echtes Wort und nicht gemischt. Schwach.</li></ul></details>
+      </div>
+      <div class="task">
+        <span class="task-no">Aufgabe 6</span> <span class="chip mittel">mittel</span>
+        <p>Baue mit der Satzmethode ein Beispiel-Passwort. Nimm <b>nicht</b> dein echtes! Zähle die Zeichen.</p>
+      <div class="fig"><svg viewBox="0 0 760 214" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 4" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="760" height="214" fill="#ffffff"/><rect x="20" y="16" width="720" height="182" rx="16" fill="#f4fbf8" stroke="#0d8f68" stroke-width="2.6"/><text x="44" y="50" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="16" fill="#4f4880">1  Denk dir einen Satz aus, den du dir gut merken kannst:</text><text x="380" y="92" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="26"><tspan font-weight="900" fill="#0d8f68">I</tspan><tspan fill="#4f4880">ch</tspan> <tspan font-weight="900" fill="#0d8f68">g</tspan><tspan fill="#4f4880">ehe</tspan> <tspan font-weight="900" fill="#0d8f68">j</tspan><tspan fill="#4f4880">eden</tspan> <tspan font-weight="900" fill="#0d8f68">M</tspan><tspan fill="#4f4880">ontag</tspan> <tspan font-weight="900" fill="#0d8f68">u</tspan><tspan fill="#4f4880">m</tspan> <tspan font-weight="900" fill="#0d8f68">7</tspan> <tspan font-weight="900" fill="#0d8f68">U</tspan><tspan fill="#4f4880">hr</tspan> <tspan font-weight="900" fill="#0d8f68">z</tspan><tspan fill="#4f4880">ur</tspan> <tspan font-weight="900" fill="#0d8f68">S</tspan><tspan fill="#4f4880">chule</tspan><tspan font-weight="900" fill="#0d8f68">!</tspan></text><text x="44" y="134" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="16" fill="#4f4880">2  Nimm die Anfangsbuchstaben, Zahlen und Zeichen:</text><rect x="250" y="146" width="260" height="40" rx="8" fill="#ffffff" stroke="#0d8f68" stroke-width="2.6"/><text x="380" y="175" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="26" fill="#211a4d">IgjMu7UzS!</text><path d="M527.9 162.4 v-6.3 a8.1 8.1 0 0 1 16.2 0 v6.3" fill="none" stroke="#211a4d" stroke-width="2.8800000000000003" stroke-linecap="round"/><rect x="523.4" y="161.5" width="25.2" height="19.8" rx="3.6" fill="#ffc23d" stroke="#211a4d" stroke-width="2.16"/><circle cx="536" cy="170.5" r="2.7" fill="#211a4d"/></svg><div class="fig-cap">Die Satzmethode: aus einem Satz wird ein Passwort.</div></div>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Zum Beispiel: „Meine Oma backt jeden Sonntag 3 Kuchen mit Kirschen!“ wird zu MObjS3KmK!, das sind 10 Zeichen.</li></ul></details>
+      </div>
+      <div class="task">
+        <span class="task-no">Aufgabe 7</span> <span class="chip knifflig">knifflig</span>
+        <p>Jemand sagt: „Ich nehme für alle Konten dasselbe Passwort, dann vergesse ich es nicht.“ Beurteile den Satz.</p>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Das ist praktisch, aber gefährlich: Wird das Passwort einmal geklaut, sind alle Konten auf einmal offen. Besser: für jedes Konto ein eigenes Passwort, zum Beispiel mit je einem eigenen Satz.</li></ul></details>
+      </div>
     </section>
 
+    <!-- ===================== SCHNELLLÄUFER ===================== -->
     <section class="block fast">
-      <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnelll&auml;ufer:innen-Mission</h2>
-      <p class="fast-text">Teste die Stärke von Beispiel-Passwörtern und formuliere fünf Regeln für ein richtig gutes Passwort — ohne echte Passwörter zu verraten.</p>
+      <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnellläufer:innen-Mission</h2>
+      <p class="fast-text">Teste die Stärke von Beispiel-Passwörtern und formuliere fünf Regeln für ein richtig gutes Passwort, ohne echte Passwörter zu verraten.</p>
+      <ul class="fast-list">
+        <li><b>Regel 1:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Regel 2:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Regel 3:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Regel 4:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Regel 5:</b> <span class="fill">&nbsp;</span></li>
+      </ul>
+      <p class="fast-extra"><b>Vertiefung zur Wahl:</b> Teste Beispiel-Passwörter im Passwort-Tester, übe die Satzmethode, entlarve falsche Nachrichten oder plane dein eigenes Backup. <a href="09-vertiefung-passwoerter-und-backups.html">Zur Vertiefung</a> (auch per QR-Code unten rechts auf Seite 2 des Aufgabenblatts).</p>
     </section>
 
+    <!-- ===================== SICHERUNG ===================== -->
+    <section class="block">
+      <h2><span class="dot"></span>Das kann ich jetzt: kurzer Check</h2>
+      <p>Drei Fragen zum Abschluss. Wieder gilt: <b style="color:var(--ok-dk)">grün</b> = richtig, <b style="color:var(--no-dk)">rot</b> = Tipp.</p>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.1</span> &nbsp;<b>Ergänze</b> das Passwort nach der Satzmethode.</div>
+          <div class="qi"><div class="txt">Satz: Mein Bruder Tim hat 2 Katzen und 1 Hund!</div><div class="zeile">Passwort: M <span class="lk"><span class="n" style="background:#3675d8">1</span></span> T h 2 <span class="lk"><span class="n" style="background:#d16b2f">2</span></span> u 1 H <span class="lk"><span class="n" style="background:#8e3bd2">3</span></span></div></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">B (1), K (2), ! (3)</button>
+            <button class="opt" data-hint="Bruder schreibt man groß, also bleibt das B groß.">b (1), K (2), ! (3)</button>
+            <button class="opt" data-hint="Nimm nur den ersten Buchstaben: K.">B (1), Katzen (2), ! (3)</button>
+            <button class="opt" data-hint="Katzen schreibt man groß, also bleibt das K groß.">B (1), k (2), ! (3)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: MBTh2Ku1H! hat 10 Zeichen und mischt alles.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.2</span> &nbsp;<b>Ordne zu:</b> Welche Passwörter sind schwach, welche stark?</div>
+          <div class="qi"><div class="boxes">Kästen: schwach · stark</div><div class="chips"><span class="chip-i"><span class="n" style="background:#3675d8">1</span>sommer</span><span class="chip-i"><span class="n" style="background:#d16b2f">2</span>Ri8!tZw#4Lq</span><span class="chip-i"><span class="n" style="background:#8e3bd2">3</span>lena2014</span><span class="chip-i"><span class="n" style="background:#4eab65">4</span>DkGs3xW!r9</span><span class="chip-i"><span class="n" style="background:#dd5b59">5</span>qwertz</span><span class="chip-i"><span class="n" style="background:#6e6e80">6</span>MBTh2Ku1H!</span></div></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">stark: 2, 4, 6</button>
+            <button class="opt" data-hint="Schau noch einmal auf Teil 4: lang und gemischt.">stark: 2, 6</button>
+            <button class="opt" data-hint="lena2014 ist ein Name mit Jahreszahl. Das ist schnell erraten.">stark: 2, 3, 4, 6</button>
+            <button class="opt" data-hint="sommer ist ein echtes Wort und nur 6 Zeichen lang.">stark: 1, 2, 4, 6</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Stark sind die langen, gemischten Passwörter ohne echtes Wort.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.3</span> &nbsp;<b>Bring</b> die Schritte für dein Backup in Drive in die richtige Reihenfolge.</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Ordner ITG hochladen.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Drive öffnen und anmelden.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Abmelden.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Prüfen, ob alle Dateien angekommen sind.</span></li><li><span class="n" style="background:#dd5b59">5</span><span>Backup-Ordner mit Datum anlegen.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">2 – 5 – 1 – 4 – 3</button>
+            <button class="opt" data-hint="Erst brauchst du den Backup-Ordner, dann lädst du hinein hoch.">2 – 1 – 5 – 4 – 3</button>
+            <button class="opt" data-hint="Ohne Anmeldung kannst du in Drive keinen Ordner anlegen.">5 – 2 – 1 – 4 – 3</button>
+            <button class="opt" data-hint="Prüfen geht nur, solange du noch angemeldet bist.">2 – 5 – 1 – 3 – 4</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Und dann regelmäßig wiederholen!</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Perfekt: Deine Daten sind bei dir in guten Händen!</div>
+      </div>
+    </section>
+
+    <!-- ===================== MERKSATZ ===================== -->
     <section class="block">
       <h2><span class="dot"></span>Das nehme ich mit</h2>
-      <div class="todo">Hier kommt der Merksatz / die Zusammenfassung hin.</div>
+      <div class="merk">
+        <p><b>Geheim</b> bleiben Passwort, Adresse, Handynummer und private Fotos. Ein <b>starkes Passwort</b> hat mindestens 10 Zeichen, mischt Groß- und Kleinbuchstaben, Zahlen und Zeichen und ist kein echtes Wort. Jedes Konto bekommt ein eigenes. Ein <b>Backup</b> ist eine Kopie an einem anderen Ort. Mach es regelmäßig.</p>
+        <div class="secret">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12c.5.5 1 1.2 1 2h6c0-.8.5-1.5 1-2a7 7 0 0 0-4-12z"/></svg>
+          <span>Merk&#8209;Trick: Ein Passwort ist wie deine Zahnbürste. Du teilst sie mit niemandem und nimmst eine neue, wenn etwas passiert ist.</span>
+        </div>
+      </div>
     </section>
 
     <div class="selfcheck-wrap">
-      <span class="sc-label">Wie sicher f&uuml;hlst du dich nach dieser Stunde?</span>
+      <span class="sc-label">Wie sicher fühlst du dich nach dieser Stunde?</span>
       <div class="sc-stars" id="stars"></div>
       <span class="sc-feedback" id="fb"></span>
     </div>
@@ -182,9 +483,67 @@
 </div>
 
 <script>
+  /* ---------- Quiz-Engine ---------- */
+  (function(){
+    var LETTERS = ['A','B','C','D','E','F'];
+    var quizzes = document.querySelectorAll('[data-quiz]');
+    quizzes.forEach(function(quiz){
+      var questions = quiz.querySelectorAll('.q');
+      var total = questions.length;
+      var solved = 0;
+      var pcount = quiz.querySelector('.pcount');
+      var pfill = quiz.querySelector('.pfill');
+      var doneBox = quiz.querySelector('.quiz-solved');
+      function updateProgress(){
+        if (pcount) pcount.textContent = solved + ' / ' + total + ' richtig';
+        if (pfill) pfill.style.width = (total ? (solved/total*100) : 0) + '%';
+        if (doneBox && solved === total) doneBox.classList.add('show');
+      }
+      questions.forEach(function(q){
+        var optsContainer = q.querySelector('.opts');
+        var opts = Array.prototype.slice.call(q.querySelectorAll('.opt'));
+        for (var i = opts.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = opts[i]; opts[i] = opts[j]; opts[j] = tmp;
+        }
+        opts.forEach(function(opt){ optsContainer.appendChild(opt); });
+        var hint = q.querySelector('.q-hint');
+        var done = q.querySelector('.q-done');
+        var answered = false;
+        opts.forEach(function(opt, i){
+          var lett = document.createElement('span');
+          lett.className = 'lett';
+          lett.textContent = LETTERS[i];
+          opt.insertBefore(lett, opt.firstChild);
+          opt.addEventListener('click', function(){
+            if (answered) return;
+            if (opt.getAttribute('data-correct') === 'true') {
+              answered = true;
+              opt.classList.add('correct');
+              opts.forEach(function(o){ o.setAttribute('disabled','disabled'); });
+              if (hint) hint.classList.remove('show');
+              if (done) done.classList.add('show');
+              solved++;
+              updateProgress();
+            } else {
+              opt.classList.add('wrong');
+              opt.setAttribute('disabled','disabled');
+              if (hint) {
+                hint.textContent = opt.getAttribute('data-hint') || 'Nicht ganz — versuch es nochmal.';
+                hint.classList.add('show');
+              }
+            }
+          });
+        });
+      });
+      updateProgress();
+    });
+  })();
+
+  /* ---------- Selbsteinschätzung (Sterne, localStorage) ---------- */
   (function(){
     var key = 'itg_lp_09';
-    var msgs = {1:'Ganz frisch \u2014 \u00dcben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf \u2014 super!'};
+    var msgs = {1:'Ganz frisch — Üben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf — super!'};
     var svg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 18.9 6.1 21l1.2-6.5L2.5 9.9l6.6-.9z"/></svg>';
     var wrap = document.getElementById('stars'); var fb = document.getElementById('fb'); var stars = [];
     for (var n = 1; n <= 4; n++) { var b = document.createElement('button'); b.className = 'sc-star'; b.type = 'button'; b.innerHTML = svg; b.setAttribute('aria-label', 'Stufe ' + n); wrap.appendChild(b); stars.push(b); }
