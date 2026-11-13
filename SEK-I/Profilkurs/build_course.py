@@ -934,7 +934,7 @@ LP08_V3_VERTIEFUNG = (
 
 # ---------------------------------------------------------------- LP09 · Galerie
 # Galerie-Begleiter (Google-Formular) aus <09 Sensor-Projekte Galerie>/09 Galerie-Begleiter Google-Formular.gs
-LP09_FORM_URL = ""
+LP09_FORM_URL = "https://forms.gle/hysVQwYLfiJLvbmq7"
 
 def _lp09_formular():
     if not LP09_FORM_URL:
