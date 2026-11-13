@@ -218,10 +218,10 @@ table.st th { background: var(--acc-soft); font-family: 'Fredoka', sans-serif; }
 .vals div { background: #fff; border: 1.5px solid var(--line); border-radius: 12px; padding: 0.4rem 0.6rem; }
 .vals small { display: block; color: var(--ink-soft); font-size: 0.78rem; }
 .vals b { font-family: 'JetBrains Mono', monospace; }
-.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+.compare { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.7rem; }
 @media (max-width: 640px) { .compare { grid-template-columns: 1fr; } }
 .compare > div { background: #fff; border: 2px solid var(--line); border-radius: 16px; padding: 0.7rem; text-align: center; }
-.compare .big { font-size: 1.6rem; line-height: 1.3; font-weight: 800; white-space: nowrap; }
+.compare .big { font-size: 1.25rem; line-height: 1.3; font-weight: 800; white-space: nowrap; }
 
 /* Start, Abstimmung, Kette */
 .hero { text-align: center; padding: 1.2rem 0 0.4rem; }
@@ -736,11 +736,13 @@ textarea.answer { width: 100%; min-height: 110px; border: 2px solid var(--line);
       <div class="fig"><img id="leiterImg" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgLTE0IDkwMCAyNjQiIHdpZHRoPSI5MDAiIGhlaWdodD0iMjUwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSIyNTAiIGZpbGw9IiNmZmZmZmYiLz4KPHBhdGggZD0iTTUwLDEzMCBMODMyLDEzMCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjIuNSIvPgo8cGF0aCBkPSJNODMyLDEyMyBMODQ0LDEzMCBMODMyLDEzNyBaIiBmaWxsPSIjMWYyYTMzIi8+Cjx0ZXh0IHg9Ijg0NCIgeT0iMTE0IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJlbmQiPkVuZXJnaWUgaW4gSjwvdGV4dD4KPHBhdGggZD0iTTUwLjAsMTIyIEw1MC4wLDEzOCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iNTAuMCIgeT0iMTU2IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIuNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFmMmEzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTA8dHNwYW4gZHk9Ii00LjgiIGZvbnQtc2l6ZT0iOS4wIj7iiJIxODwvdHNwYW4+PHRzcGFuIGR5PSI0LjgiPiA8L3RzcGFuPjwvdGV4dD4KPHBhdGggZD0iTTkyLjc3Nzc3Nzc3Nzc3Nzc3LDEyNiBMOTIuNzc3Nzc3Nzc3Nzc3NzcsMTM0IiBzdHJva2U9IiMxZjJhMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNMTM1LjU1NTU1NTU1NTU1NTU0LDEyNiBMMTM1LjU1NTU1NTU1NTU1NTU0LDEzNCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjEiLz4KPHBhdGggZD0iTTE3OC4zMzMzMzMzMzMzMzMzMSwxMjIgTDE3OC4zMzMzMzMzMzMzMzMzMSwxMzgiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjE3OC4zMzMzMzMzMzMzMzMzMSIgeT0iMTU2IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIuNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFmMmEzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTA8dHNwYW4gZHk9Ii00LjgiIGZvbnQtc2l6ZT0iOS4wIj7iiJIxNTwvdHNwYW4+PHRzcGFuIGR5PSI0LjgiPiA8L3RzcGFuPjwvdGV4dD4KPHBhdGggZD0iTTIyMS4xMTExMTExMTExMTExMSwxMjYgTDIyMS4xMTExMTExMTExMTExMSwxMzQiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik0yNjMuODg4ODg4ODg4ODg4OSwxMjYgTDI2My44ODg4ODg4ODg4ODg5LDEzNCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjEiLz4KPHBhdGggZD0iTTMwNi42NjY2NjY2NjY2NjY2MywxMjIgTDMwNi42NjY2NjY2NjY2NjY2MywxMzgiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjMwNi42NjY2NjY2NjY2NjY2MyIgeT0iMTU2IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIuNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFmMmEzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTA8dHNwYW4gZHk9Ii00LjgiIGZvbnQtc2l6ZT0iOS4wIj7iiJIxMjwvdHNwYW4+PHRzcGFuIGR5PSI0LjgiPiA8L3RzcGFuPjwvdGV4dD4KPHBhdGggZD0iTTM0OS40NDQ0NDQ0NDQ0NDQ0NiwxMjYgTDM0OS40NDQ0NDQ0NDQ0NDQ0NiwxMzQiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik0zOTIuMjIyMjIyMjIyMjIyMjMsMTI2IEwzOTIuMjIyMjIyMjIyMjIyMjMsMTM0IiBzdHJva2U9IiMxZjJhMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNNDM1LjAsMTIyIEw0MzUuMCwxMzgiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjQzNS4wIiB5PSIxNTYiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMi41IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMWYyYTMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4xMDx0c3BhbiBkeT0iLTQuOCIgZm9udC1zaXplPSI5LjAiPuKIkjk8L3RzcGFuPjx0c3BhbiBkeT0iNC44Ij4gPC90c3Bhbj48L3RleHQ+CjxwYXRoIGQ9Ik00NzcuNzc3Nzc3Nzc3Nzc3NzcsMTI2IEw0NzcuNzc3Nzc3Nzc3Nzc3NzcsMTM0IiBzdHJva2U9IiMxZjJhMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNNTIwLjU1NTU1NTU1NTU1NTcsMTI2IEw1MjAuNTU1NTU1NTU1NTU1NywxMzQiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik01NjMuMzMzMzMzMzMzMzMzMywxMjIgTDU2My4zMzMzMzMzMzMzMzMzLDEzOCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iNTYzLjMzMzMzMzMzMzMzMzMiIHk9IjE1NiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyLjUiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxZjJhMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjEwPHRzcGFuIGR5PSItNC44IiBmb250LXNpemU9IjkuMCI+4oiSNjwvdHNwYW4+PHRzcGFuIGR5PSI0LjgiPiA8L3RzcGFuPjwvdGV4dD4KPHBhdGggZD0iTTYwNi4xMTExMTExMTExMTExLDEyNiBMNjA2LjExMTExMTExMTExMTEsMTM0IiBzdHJva2U9IiMxZjJhMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNNjQ4Ljg4ODg4ODg4ODg4ODksMTI2IEw2NDguODg4ODg4ODg4ODg4OSwxMzQiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik02OTEuNjY2NjY2NjY2NjY2NywxMjIgTDY5MS42NjY2NjY2NjY2NjY3LDEzOCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iNjkxLjY2NjY2NjY2NjY2NjciIHk9IjE1NiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyLjUiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxZjJhMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjEwPHRzcGFuIGR5PSItNC44IiBmb250LXNpemU9IjkuMCI+4oiSMzwvdHNwYW4+PHRzcGFuIGR5PSI0LjgiPiA8L3RzcGFuPjwvdGV4dD4KPHBhdGggZD0iTTczNC40NDQ0NDQ0NDQ0NDQ1LDEyNiBMNzM0LjQ0NDQ0NDQ0NDQ0NDUsMTM0IiBzdHJva2U9IiMxZjJhMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNNzc3LjIyMjIyMjIyMjIyMjIsMTI2IEw3NzcuMjIyMjIyMjIyMjIyMiwxMzQiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik04MjAuMCwxMjIgTDgyMC4wLDEzOCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iODIwLjAiIHk9IjE1NiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyLjUiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxZjJhMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjE8L3RleHQ+Cjx0ZXh0IHg9IjUwLjAiIHk9IjE3MiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPmF0dG88L3RleHQ+Cjx0ZXh0IHg9IjE3OC4zMzMzMzMzMzMzMzMzMSIgeT0iMTcyIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzU0NjU3NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+ZmVtdG88L3RleHQ+Cjx0ZXh0IHg9IjMwNi42NjY2NjY2NjY2NjY2MyIgeT0iMTcyIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzU0NjU3NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+cGlrbzwvdGV4dD4KPHRleHQgeD0iNDM1LjAiIHk9IjE3MiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPm5hbm88L3RleHQ+Cjx0ZXh0IHg9IjU2My4zMzMzMzMzMzMzMzMzIiB5PSIxNzIiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMC41IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjNTQ2NTc1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5taWtybzwvdGV4dD4KPHRleHQgeD0iNjkxLjY2NjY2NjY2NjY2NjciIHk9IjE3MiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPm1pbGxpPC90ZXh0Pgo8Y2lyY2xlIGN4PSIxMjIuMzAyODMyMzEyMzMwODYiIGN5PSIxMzAiIHI9IjciIGZpbGw9IiMxZjlkNTUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjEyMi4zMDI4MzIzMTIzMzA4NiIgeT0iOTYiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFmOWQ1NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+U2NoYWx0dm9yZ2FuZzwvdGV4dD4KPHRleHQgeD0iMTIyLjMwMjgzMjMxMjMzMDg2IiB5PSIxMTEiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjMWY5ZDU1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5DaGlwIDIwMjY8L3RleHQ+CjxjaXJjbGUgY3g9IjI0MS41MjEyOTgxMTg1NjMzNSIgY3k9IjEzMCIgcj0iNyIgZmlsbD0iIzNkNGZiOCIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMjQxLjUyMTI5ODExODU2MzM1IiB5PSIxOTIiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzNkNGZiOCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+OC1CaXQtQWRkaXRpb248L3RleHQ+Cjx0ZXh0IHg9IjI0MS41MjEyOTgxMTg1NjMzNSIgeT0iMjA3IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzNkNGZiOCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+NDUtbm0tQ2hpcDwvdGV4dD4KPGNpcmNsZSBjeD0iMzkzLjk5MjkwOTMwOTU0NjM1IiBjeT0iMTMwIiByPSI3IiBmaWxsPSIjYTMyNjJhIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSIzOTMuOTkyOTA5MzA5NTQ2MzUiIHk9Ijk2IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNhMzI2MmEiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlNjaGFsdHZvcmdhbmc8L3RleHQ+Cjx0ZXh0IHg9IjM5My45OTI5MDkzMDk1NDYzNSIgeT0iMTExIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iI2EzMjYyYSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UGxhdGluZSAxOTkwZXI8L3RleHQ+CjxjaXJjbGUgY3g9Ijc0Ny4zMjE4Mzg3MDM0MDM2IiBjeT0iMTMwIiByPSI3IiBmaWxsPSIjYjU2NTFkIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSI3NDcuMzIxODM4NzAzNDAzNiIgeT0iOTYiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2I1NjUxZCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RmluZ2VyPC90ZXh0Pgo8dGV4dCB4PSI3NDcuMzIxODM4NzAzNDAzNiIgeT0iMTExIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iI2I1NjUxZCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+aGViZW48L3RleHQ+CjxwYXRoIGQ9Ik0zOTMuOTkyOTA5MzA5NTQ2MzUsODYgQzM5My45OTI5MDkzMDk1NDYzNSw0MCA3NDcuMzIxODM4NzAzNDAzNiw0MCA3NDcuMzIxODM4NzAzNDAzNiw4NiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYTMyNjJhIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjYgNCIvPgo8cmVjdCB4PSI1NDMuMDU2ODQ1NTMzNzM3OCIgeT0iMzYiIHdpZHRoPSIxNDAiIGhlaWdodD0iMjQiIHJ4PSIxMiIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYTMyNjJhIiBzdHJva2Utd2lkdGg9IjEuNSIvPgo8dGV4dCB4PSI2MTMuMDU2ODQ1NTMzNzM3OCIgeT0iNTMiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2EzMjYyYSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+w5cgMiDCtyAxMDx0c3BhbiBkeT0iLTQuOSIgZm9udC1zaXplPSI5LjQiPjg8L3RzcGFuPjx0c3BhbiBkeT0iNC45Ij4gPC90c3Bhbj48L3RleHQ+CjxwYXRoIGQ9Ik0xMjIuMzAyODMyMzEyMzMwODYsODYgQzEyMi4zMDI4MzIzMTIzMzA4NiwtOCA3NDcuMzIxODM4NzAzNDAzNiwtOCA3NDcuMzIxODM4NzAzNDAzNiw4NiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWY5ZDU1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjYgNCIvPgo8cmVjdCB4PSIyMzkuODA4NTM0MjI5NjUyNjUiIHk9Ii0xMiIgd2lkdGg9IjE0MCIgaGVpZ2h0PSIyNCIgcng9IjEyIiBmaWxsPSIjZmZmIiBzdHJva2U9IiMxZjlkNTUiIHN0cm9rZS13aWR0aD0iMS41Ii8+Cjx0ZXh0IHg9IjMwOS44MDg1MzQyMjk2NTI2NSIgeT0iNSIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMWY5ZDU1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7DlyBfX19fX188L3RleHQ+Cjx0ZXh0IHg9IjQ1MC4wIiB5PSIyNDIiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzU0NjU3NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+bG9nYXJpdGhtaXNjaGUgU2thbGE6IEplZGVyIGdyb8OfZSBTdHJpY2ggYmVkZXV0ZXQgZGVuIEZha3RvciAxMDAwIMK3IFdlcnRlIGdlcnVuZGV0PC90ZXh0Pgo8L3N2Zz4=" alt="Logarithmische Energieskala von 10 hoch minus 18 bis 1 Joule mit Schaltvorgang 2026, 8-Bit-Addition, Schaltvorgang Platine 1990er und Finger heben"><p class="figcap">Abb. 3 · Größenordnungsleiter der Energie</p></div>
       <div class="q" id="q6c"></div>
       <div class="hidden" data-gate="e6d">
-        <p style="margin-top:0.6rem"><b>So groß ist der Unterschied:</b> Stellt euch vor, ein Schaltvorgang würde so viel Energie brauchen wie eine volle Akkuladung eures Smartphones (etwa 15 Wh, also rund 55 000 J). Wie viele Akkuladungen bräuchte dann ein Fingerheben?</p>
+        <p style="margin-top:0.6rem"><b>Drei Energien im Vergleich:</b></p>
         <div class="compare">
-          <div><div class="big">☝️ = 🔋 × 2 · 10<sup>8</sup></div><b>Platine 1990er</b><p class="small">200 Millionen Akkuladungen: Damit könnte man jedes der rund 65 Millionen Smartphones in Deutschland dreimal voll laden.</p></div>
-          <div><div class="big">☝️ = 🔋 × 4 · 10<sup>14</sup></div><b>Chip 2026</b><p class="small">400 Billionen Akkuladungen: Damit könnte man alle rund 5 Milliarden Smartphones der Welt je 80 000-mal laden, jeden Tag einmal, über 200 Jahre lang.</p></div>
+          <div><div class="big">2 · 10<sup>−2</sup> J</div><b>☝️ Finger heben</b><p class="small">Muskelarbeit samt Wärme</p></div>
+          <div><div class="big">1 · 10<sup>−10</sup> J</div><b>Platine 1990er</b><p class="small">10 pF, 3,3 V. Ein Fingerheben reicht für 2 · 10<sup>8</sup> Schaltvorgänge.</p></div>
+          <div><div class="big">4,9 · 10<sup>−17</sup> J</div><b>Chip 2026</b><p class="small">0,1 fF, 0,7 V. Ein Fingerheben reicht für 4 · 10<sup>14</sup> Schaltvorgänge.</p></div>
         </div>
+        <p style="margin-top:0.6rem"><b>Wie viel effizienter?</b> 10<sup>−10</sup> J : 4,9 · 10<sup>−17</sup> J ≈ 2 · 10<sup>6</sup>. Ein Schaltvorgang im Chip von 2026 braucht rund <b>zwei Millionen Mal</b> weniger Energie als auf der Platine der 1990er. Mit der Energie eines einzigen Fingerhebens kann er etwa 400 Billionen Mal schalten.</p>
       </div>
       <div class="journal">📝 <span><b>Archivjournal, Aufgabe 8 (Rückseite):</b> Berechnet die Energie je Schaltvorgang und das Verhältnis zum Fingerheben.</span></div>
     </div>
@@ -1054,10 +1056,10 @@ textarea.answer { width: 100%; min-height: 110px; border: 2px solid var(--line);
 
   /* ---------------------------------------------------- Start */
   var VOTE = [
-    { k: "A", t: "Mit zwei Ziffern rechnet es sich am schnellsten." },
-    { k: "B", t: "Zwei Zustände (Spannung an oder aus) lassen sich technisch am sichersten unterscheiden." },
-    { k: "C", t: "Leibniz hat es so festgelegt, und alle haben es übernommen." },
-    { k: "D", t: "Elektronen können nur bis 1 zählen." }
+    { k: "A", t: "Mit zwei Ziffern rechnet es sich am schnellsten, das Einmaleins ist winzig." },
+    { k: "B", t: "Zwei Zustände wie Spannung an oder aus lassen sich sicher unterscheiden." },
+    { k: "C", t: "Leibniz hat es so festgelegt, und alle Hersteller haben es übernommen." },
+    { k: "D", t: "Elektronen kennen nur zwei Zustände und können deshalb nur bis 1 zählen." }
   ];
   function voteUI(id, key) {
     var el = $(id), h = "";
@@ -1084,10 +1086,10 @@ textarea.answer { width: 100%; min-height: 110px; border: 2px solid var(--line);
 
   /* ---------------------------------------------------- Epoche 1 */
   mc("q1b", "Welche Zahl zeigt Tafel B?", [
-    { t: "Sicher die 2.", fb: "Wenn die Lücke zufällig ist, ja. Aber ist sie das?" },
-    { t: "Sicher die 11.", fb: "Keile sind immer Einer. 11 bräuchte einen Winkelhaken." },
-    { t: "2, 61, 3601 oder noch mehr, je nachdem, ob die Keile in einer Stelle stehen und wie viele leere Stellen dazwischen liegen.", ok: true, fb: "Genau! Mit zwei leeren Stellen wären es schon 1 · 60³ + 1 = 216 001. Ohne Zeichen für eine leere Stelle bleibt die Zahl mehrdeutig." },
-    { t: "Sicher die 61.", fb: "Möglich, aber woher wollt ihr das wissen?" }
+    { t: "Es ist die 2, weil beide Keile in derselben Stelle stehen.", fb: "Wenn die Lücke zufällig ist, ja. Aber ist sie das?" },
+    { t: "Es ist die 11, weil der linke Keil in der Zehnerstelle steht.", fb: "Keile sind immer Einer, und die Stellen haben den Wert 60, nicht 10. Eine 11 bräuchte einen Winkelhaken." },
+    { t: "Es kann 2, 61, 3601 oder mehr sein, je nach Zahl der leeren Stellen.", ok: true, fb: "Genau! Mit zwei leeren Stellen wären es schon 1 · 60³ + 1 = 216 001. Ohne Zeichen für eine leere Stelle bleibt die Zahl mehrdeutig." },
+    { t: "Es ist die 61, weil die Lücke genau eine leere Stelle markiert.", fb: "Möglich, aber eine Lücke kann auch zufällig sein oder zwei Stellen meinen. Woher wollt ihr das wissen?" }
   ], function () { openGate("e1b"); });
   (function () {
     var vals = [3, 4, 6, 7, 12, 15, 25], right = [3, 4, 6, 12, 15], sel = {};
@@ -1123,10 +1125,10 @@ textarea.answer { width: 100%; min-height: 110px; border: 2px solid var(--line);
     draw();
   })();
   mc("q2b", "Was stimmt?", [
-    { t: "Römische Zahlschrift und Rechenbrett sind beide Stellenwertsysteme.", fb: "Ein X ist überall zehn. Hängt sein Wert von der Stelle ab?" },
-    { t: "Die Römer schrieben eine leere Spalte als O.", fb: "Ein Zeichen für Null hatten die Römer nicht (K4, Marcus)." },
-    { t: "Ein X in der Zehnerspalte bedeutet hundert.", fb: "X ist immer 10, egal wo." },
-    { t: "Das Rechenbrett ist ein Stellenwertsystem, die römische Schrift ein Additionssystem.", ok: true, fb: "Richtig! Gerechnet wurde mit Stellen, geschrieben ohne sie." }
+    { t: "Römische Schrift und Rechenbrett sind beide Stellenwertsysteme wie unsere Ziffern.", fb: "Ein X ist überall zehn. Hängt sein Wert von der Stelle ab?" },
+    { t: "Die Römer schrieben eine leere Spalte als O, ihr Zeichen für die Null.", fb: "Ein Zeichen für Null hatten die Römer nicht (K4, Marcus)." },
+    { t: "Ein X in der Zehnerspalte bedeutet hundert, weil die Spalte es verzehnfacht.", fb: "X ist immer 10, egal wo." },
+    { t: "Das Rechenbrett nutzt Stellenwerte, die römische Schrift addiert Zeichenwerte.", ok: true, fb: "Richtig! Gerechnet wurde mit Stellen, geschrieben ohne sie." }
   ], function () { openGate("e2b"); });
   $("l2check").addEventListener("click", function () {
     var x = num($("l2in").value);
@@ -1151,16 +1153,16 @@ textarea.answer { width: 100%; min-height: 110px; border: 2px solid var(--line);
     });
   })();
   mc("q3c", "Welches Problem aus Epoche 1 löst die Null als Platzhalter?", [
-    { t: "Leere Stellen werden sichtbar: 2, 61 und 3601 (bei uns 2, 11 und 101) kann man nicht mehr verwechseln.", ok: true, fb: "Genau! Erst mit der Null ist eine Stellenwertschrift eindeutig." },
-    { t: "Man kann jetzt durch Null teilen.", fb: "Das geht bis heute nicht (Tipp 2)." },
-    { t: "Die Zahlen werden kürzer.", fb: "Eine zusätzliche Null macht Zahlen eher länger." },
-    { t: "Man braucht keinen Abakus mehr, weil die Zahlen kleiner werden.", fb: "Die Zahlen bleiben gleich groß, nur ihre Schreibweise ändert sich." }
+    { t: "Leere Stellen werden sichtbar, deshalb kann man 2, 11 und 101 nicht verwechseln.", ok: true, fb: "Genau! Erst mit der Null ist eine Stellenwertschrift eindeutig. Bei den Babyloniern hätte sie 2, 61 und 3601 getrennt." },
+    { t: "Man kann jetzt durch Null teilen, deshalb geht jede Division ohne Rest auf.", fb: "Das geht bis heute nicht (Tipp 2)." },
+    { t: "Die Zahlen werden kürzer, deshalb passen große Werte auf kleine Tafeln.", fb: "Eine zusätzliche Null macht Zahlen eher länger." },
+    { t: "Man braucht keinen Abakus mehr, deshalb rechnen Händler nur noch im Kopf.", fb: "Rechenbretter wurden noch Jahrhunderte benutzt. Die Null löst ein Problem der Schreibweise." }
   ], function () { openGate("e3c"); });
   $("lL3") && mc("lL3", "Warum ist 7 : 0 nicht definiert?", [
-    { t: "Weil das Ergebnis unendlich ist, und unendlich ist eine ganz normale Zahl.", fb: "Unendlich ist keine Zahl, mit der man so rechnen kann." },
-    { t: "Weil Brahmagupta es verboten hat.", fb: "Brahmagupta hat sich hier gerade geirrt (K6)." },
-    { t: "Weil 7 : 0 = 0 ist.", fb: "Dann müsste 0 · 0 = 7 sein." },
-    { t: "Weil es keine Zahl gibt, die mal 0 die 7 ergibt.", ok: true, fb: "🌿 Genau: Die Umkehraufgabe ? · 0 = 7 hat keine Lösung." }
+    { t: "Weil das Ergebnis unendlich ist und unendlich eine ganz normale Zahl ist.", fb: "Unendlich ist keine Zahl, mit der man so rechnen kann." },
+    { t: "Weil Brahmagupta es verboten hat und sich alle bis heute daran halten.", fb: "Brahmagupta hat sich hier gerade geirrt (K6)." },
+    { t: "Weil 7 : 0 genau 0 ergibt und man dafür keine neue Zahl braucht.", fb: "Dann müsste 0 · 0 = 7 sein." },
+    { t: "Weil es keine Zahl gibt, die mit 0 malgenommen die Zahl 7 ergibt.", ok: true, fb: "🌿 Genau: Die Umkehraufgabe ? · 0 = 7 hat keine Lösung." }
   ], function () { laurelDone("L3"); });
 
   /* ---------------------------------------------------- Epoche 4 */
@@ -1271,14 +1273,14 @@ textarea.answer { width: 100%; min-height: 110px; border: 2px solid var(--line);
     $("letters").innerHTML = h;
   }
   var CHAIN = [
-    { id: "C1", t: "Mit Stellenwert und Null lässt sich jede Zahl zu jeder Basis b ≥ 2 eindeutig schreiben. (Epochen 1, 3, 4)" },
-    { id: "D1", t: "Römische Zahlzeichen sind ein Stellenwertsystem, deshalb rechnen Computer bis heute mit ihnen.", why: "Römische Zahlzeichen sind ein Additionssystem (K4)." },
-    { id: "C3", t: "Zwei Ziffern passen zu zwei technischen Zuständen: Schalter offen oder geschlossen, Spannung liegt an oder nicht. (Shannon, Zuse)" },
-    { id: "C5", t: "Ein Schaltvorgang bewegt heute nur einige hundert Elektronen und braucht rund 400 Billionen Mal weniger Energie als ein Fingerheben. So zählen Milliarden Schalter schnell und sparsam." },
-    { id: "D2", t: "Leibniz baute die erste binäre Rechenmaschine, alle Computer haben sie nachgebaut.", why: "Leibniz' Maschine rechnete dezimal (K15)." },
-    { id: "C2", t: "Die kleinste mögliche Basis ist 2: Zwei Ziffern, 0 und 1, genügen für alle Zahlen. (Leibniz)" },
-    { id: "D3", t: "Dualzahlen sind kürzer als Dezimalzahlen und sparen deshalb Speicherplatz.", why: "Dualzahlen sind etwa 3,3-mal so lang (K14)." },
-    { id: "C4", t: "Zwei Zustände lassen sich sicher unterscheiden, auch wenn die Spannung etwas schwankt. Zehn Stufen müsste man genau messen. (Zuse)" }
+    { id: "C1", t: "Mit Stellenwert und Null lässt sich jede Zahl zu jeder Basis ab 2 eindeutig schreiben. (Brahmagupta, Leonardo)" },
+    { id: "D1", t: "Römische Zahlzeichen sind ein Stellenwertsystem, deshalb rechnen Computer intern mit ihnen. (Marcus)", why: "Römische Zahlzeichen sind ein Additionssystem (K4)." },
+    { id: "C3", t: "Zwei Ziffern passen zu zwei Zuständen eines Schalters: offen oder geschlossen. (Shannon)" },
+    { id: "C5", t: "Ein Schaltvorgang bewegt heute nur einige hundert Elektronen und braucht kaum Energie. (Mira Sand)" },
+    { id: "D2", t: "Leibniz baute die erste binäre Rechenmaschine, alle Computer bauen sie bis heute nach. (Leibniz)", why: "Leibniz' Maschine rechnete dezimal (K15)." },
+    { id: "C2", t: "Die kleinste mögliche Basis ist 2, denn die Ziffern 0 und 1 genügen für alle Zahlen. (Leibniz)" },
+    { id: "D3", t: "Dualzahlen sind kürzer als Dezimalzahlen und sparen deshalb viel Speicherplatz. (Leibniz)", why: "Dualzahlen sind etwa 3,3-mal so lang (K14)." },
+    { id: "C4", t: "Zwei Zustände lassen sich auch bei schwankender Spannung sicher unterscheiden. (Zuse)" }
   ];
   var order = S.vals.chain || [];
   function drawChain(mark) {
