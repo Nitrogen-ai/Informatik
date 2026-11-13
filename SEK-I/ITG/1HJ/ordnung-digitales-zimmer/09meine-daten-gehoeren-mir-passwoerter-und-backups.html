@@ -204,6 +204,13 @@
   .fig svg[aria-label="Bild 2"] { max-width: 400px; margin: 0 auto; }
   .fig svg[aria-label="Bild 3"] { max-width: 560px; margin: 0 auto; }
   .pw { font-family: 'JetBrains Mono', monospace; }
+  .block.abgabe { border-color: var(--key); }
+  .abgabe .warn { background: #fdecf0; border-left: 6px solid var(--no); border-radius: 10px; padding: 0.6rem 0.85rem; margin: 0.2rem 0 0.9rem; color: var(--no-dk); font-weight: 600; }
+  .abgabe .txt-muster { font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; background: #fff; border: 1.5px solid var(--line); border-radius: 8px; padding: 0.5rem 0.7rem; margin: 0.4rem 0; overflow-wrap: anywhere; }
+  .abgabe .name-regel { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.92rem; background: var(--tint); border-radius: 10px; padding: 0.55rem 0.7rem; margin: 0.45rem 0 0.3rem; overflow-wrap: anywhere; }
+  .abgabe .nr-teil { background: #fff; border: 1.5px solid var(--key); border-radius: 6px; padding: 0.05rem 0.35rem; }
+  .abgabe .nr-teil.neu { background: var(--sun); border-color: #c8890a; }
+  .abgabe .name-bsp { font-weight: 700; margin-bottom: 0.3rem; }
 </style>
 </head>
 <body>
@@ -471,6 +478,29 @@
       <div class="sc-stars" id="stars"></div>
       <span class="sc-feedback" id="fb"></span>
     </div>
+
+    <!-- ===================== ABGABE IM CLASSROOM ===================== -->
+    <section class="block abgabe">
+      <h2><span class="dot"></span>Abgabe im Classroom: Dein Beispiel-Passwort</h2>
+      <p><span class="task-no">Aufgabe 8</span> Zeig, was du heute gelernt hast: Baue ein <b>starkes Beispiel-Passwort</b>, speichere es als Textdatei und gib sie im Classroom ab. Du bekommst Feedback dazu.</p>
+      <div class="warn"><b>Achtung:</b> Nimm <b>nicht</b> dein echtes Passwort und auch keines, das du später benutzen willst! Die Datei lesen andere. Ein echtes Passwort schreibst du nie in eine Datei.</div>
+      <ol class="steps">
+        <li><b>Passwort bauen.</b> Denk dir mit der Satzmethode einen neuen Satz aus und bilde daraus ein Passwort. Prüfe die Regeln: mindestens 10 Zeichen, Groß- und Kleinbuchstaben, Zahlen und Zeichen gemischt, kein echtes Wort.</li>
+        <li><b>Editor öffnen.</b> Starte den Editor wie in Stunde 06.</li>
+        <li><b>Drei Zeilen schreiben.</b>
+          <div class="txt-muster">Satz: Meine Oma backt jeden Sonntag 3 Kuchen mit Kirschen!<br>Passwort: MObjS3KmK!<br>Zeichen: 10</div>
+          Schreib deinen eigenen Satz, dein Passwort und die Anzahl der Zeichen auf. Das Beispiel oben darfst du nicht abgeben.</li>
+        <li><b>Speichern unter.</b> Drücke Strg+S und wähle den Ordner Schule › ITG. Der Dateityp ist Textdokumente (*.txt).</li>
+        <li><b>Namen geben.</b> Nimm die Namens-Regel aus Stunde 06 und hänge am Ende mit Unterstrich deinen <b>Vornamen</b> an. So sieht die Lehrkraft beim Feedback sofort, von wem die Datei ist.
+          <div class="name-regel"><span class="nr-teil">JJJJ-MM-TT</span>_<span class="nr-teil">Fach</span>_<span class="nr-teil">Thema</span>_<span class="nr-teil neu">Vorname</span>.txt</div>
+          <div class="name-bsp">Beispiel: <span class="pw">2026-11-13_ITG_Passwort_Mia.txt</span></div>
+          Nimm das heutige Datum. Wie immer gilt: Unterstrich statt Leerzeichen, keine Sonderzeichen wie ? / : *. Aus ä, ö, ü und ß in deinem Vornamen wird ae, oe, ue und ss (Jörg wird Joerg).</li>
+        <li><b>Classroom öffnen.</b> Öffne den <a href="https://classroom.google.com/u/0/c/MjIzMDQwOTUwNzBa" target="_blank" rel="noopener">ITG-Classroom</a> und dort unter Kursaufgaben die Aufgabe zu LP 09.</li>
+        <li><b>Datei anhängen.</b> Klicke auf Hinzufügen oder erstellen › Datei und wähle deine Datei aus Schule › ITG.</li>
+        <li><b>Abgeben.</b> Prüfe den Dateinamen und klicke auf Abgeben.</li>
+      </ol>
+      <details class="fast-sol"><summary>Checkliste vor dem Abgeben</summary><ul><li>Mein Passwort hat mindestens 10 Zeichen.</li><li>Es mischt Groß- und Kleinbuchstaben, Zahlen und Zeichen.</li><li>Es ist kein echtes Wort und kein Name mit Jahreszahl.</li><li>Es ist nicht mein echtes Passwort.</li><li>Der Dateiname hat Datum, ITG, Passwort und meinen Vornamen, getrennt durch Unterstriche, und endet auf .txt.</li></ul></details>
+    </section>
 
     <nav class="lp-nav">
       <a class="nav-prev" href="../../1HJ/ordnung-digitales-zimmer/08lokal-oder-wolke-speichern-frueher-und-heute.html">&#8592; LP 08</a>
