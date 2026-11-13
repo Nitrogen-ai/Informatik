@@ -789,8 +789,6 @@ def _anschlusskarte(nr, name, fig, kabel, stecker, monitor, achtung, code):
 
 # ---------------------------------------------------------------- LP08 · Anleitung Arduino IDE
 # Grafiken: <08 …>/Tutory/Typst/build_ide_anleitung.py → grafiken/ide-*.svg
-# Video zum Anschluss (JuFo-Archiv, noch nicht vorhanden): URL eintragen, dann python3 build_lp.py 8
-LP08_IDE_VIDEO = ""
 LP08_IDE_SCHRITTE = [
   ("ide-1-anschliessen", "Anschließen",
    "Steckt zuerst die Kabel nach der Anschlusskarte. Dann verbindet ihr den Arduino mit dem <b>USB-Druckerkabel</b> mit dem Laptop: "
@@ -825,10 +823,8 @@ def _ide_anleitung():
         '<div class="ide-step"><div class="ide-n">%d</div><h4>%s</h4>%s<p>%s</p></div>'
         % (i + 1, titel, load_fig(8, fig, titel), text)
         for i, (fig, titel, text) in enumerate(LP08_IDE_SCHRITTE))
-    video = ('<p><a class="ide-video" href="%s" target="_blank" rel="noopener">▶ Video: Arduino an den Schullaptop anschließen</a></p>' % LP08_IDE_VIDEO
-             if LP08_IDE_VIDEO else "")
     return ('<h3>So kommt euer Code auf den Arduino: Arduino IDE am Schullaptop</h3>'
-            '<p>Neun Schritte vom Tinkercad-Code zur abgegebenen .ino-Datei.</p>' + video
+            '<p>Neun Schritte vom Tinkercad-Code zur abgegebenen .ino-Datei.</p>'
             + '<div class="ide-steps">%s</div>' % karten
             + '<p class="ide-alt"><b>Ohne Arduino IDE?</b> Mit <a href="' + UPLOAD_URL + '" target="_blank" rel="noopener"><b>Arduino hochladen</b></a> '
               '(Chrome oder Edge, ohne Konto) geht es auch im Browser: Code einfügen, <b>„⬆ Auf Arduino laden“</b>, die Messwerte stehen im Monitor unten.</p>'
@@ -842,7 +838,6 @@ def _ide_anleitung():
             '.ide-step p{font-size:.9rem;margin:.55rem 0 0;color:var(--ink-soft)}'
             '.ide-step.gross{grid-column:1/-1}'
             '.ide-alt{font-size:.9rem;color:var(--ink-soft)}'
-            '.ide-video{display:inline-block;padding:.45rem .9rem;border-radius:999px;border:1px solid var(--key);color:var(--key);font-weight:700;text-decoration:none}'
             '</style>'
             '<script>document.addEventListener("click",function(e){var s=e.target.closest&&e.target.closest(".ide-step svg");'
             'if(s)s.closest(".ide-step").classList.toggle("gross");});</script>')
@@ -938,35 +933,46 @@ LP08_V3_VERTIEFUNG = (
   "<style>.vertiefung h3{font-size:1rem;margin:1.1rem 0 .4rem;color:var(--key)}</style>")
 
 # ---------------------------------------------------------------- LP09 · Galerie
+# Galerie-Begleiter (Google-Formular) aus <09 Sensor-Projekte Galerie>/09 Galerie-Begleiter Google-Formular.gs
+LP09_FORM_URL = ""
+
+def _lp09_formular():
+    if not LP09_FORM_URL:
+        return ""
+    return ('<p><a class="gb-btn" href="%s" target="_blank" rel="noopener">📋 Galerie-Begleiter öffnen</a></p>'
+            '<style>.gb-btn{display:inline-block;padding:.6rem 1.1rem;border-radius:999px;background:var(--key);color:#04060c;'
+            'font-weight:700;text-decoration:none}</style>' % LP09_FORM_URL)
+
 LP09_V3_MATERIAL = (
   sp_ablauf("09")
-  + '<p>Heute <b>präsentiert</b> ihr euren Wächter, <b>bewertet</b> andere Projekte anhand von zwei Kriterien und <b>gebt</b> eine wertschätzende, konkrete Rückmeldung.</p>'
-  + '<h3>Ablauf des Gallery Walks</h3>'
-  + _tab(["Phase", "Was passiert?"], [
-      ["<b>Aufbauen</b>", "Wächter (läuft am USB-Strom), ausgedruckte Übersicht und Projektbericht auf euren Tisch legen."],
-      ["<b>Runde 1</b>", "<b>Person 1</b> bleibt als Expert:in am Projekt und erklärt. <b>Person 2</b> besucht zwei andere Projekte und bewertet sie."],
-      ["<b>Runde 2</b>", "Tauschen: Jetzt erklärt Person 2, Person 1 besucht zwei <b>andere</b> Projekte."],
-      ["<b>Rückmelden</b>", "Im Team die Bewertungen besprechen. Jede:r schreibt für die zwei besuchten Projekte je eine Rückmeldekarte und gibt sie ab."],
-      ["<b>Abschluss</b>", "Eure eigenen Karten lesen: Was nehmt ihr für die nächste Version mit?"]])
-  + '<h3>Bewertungsmatrix</h3><p>Testet den Wächter selbst (z. B. Sensor ins Wasser, anhauchen) und lest in Bericht und Übersicht. Kreuzt je Aussage eine Stufe an: '
-    '<b>++</b> voll erfüllt · <b>+</b> überwiegend · <b>o</b> teilweise · <b>–</b> noch nicht erfüllt.</p>'
-  + _tab(["Kriterium", "Aussage"], [
-      ["<b>1 · Funktion des Wächters</b><br>Sensor, Steuerung, Anzeige und Gehäuse arbeiten zusammen",
-       "Der Sensor liefert glaubwürdige Messwerte.<br>Die LEDs wechseln am Schwellenwert zuverlässig zwischen grün und rot.<br>"
-       "Das Gehäuse schützt die Technik, Anzeige und Sensor sind gut zugänglich.<br>Der Wächter löst das Alltagsproblem, der Schwellenwert ist begründet."],
-      ["<b>2 · Nachvollziehbarkeit und Übersichtlichkeit des Projektberichts</b>",
-       "Problem, Ziel und die Bedeutung von grün und rot sind klar.<br>Bauteile und Schaltplan reichen zum Nachbauen.<br>"
-       "Das Programm ist mit Struktogramm und Code verständlich erklärt.<br>Tests und Reflexion sind mit Messwerten belegt.<br>Die Übersicht ist auf einen Blick verständlich."]])
-  + '<h3>Rückmeldekarte</h3><p>Rückmeldung an Team … von …</p><ul class="task-list">'
-    '<li><b>Das ist euch besonders gelungen:</b> …</li><li><b>Mein Tipp für die nächste Version:</b> …</li><li><b>Meine Frage an euch:</b> …</li></ul>'
-    '<div class="sp-hinweis"><b>Satzanfänge:</b> „Besonders überzeugt hat uns …, weil …“ · „Ihr könntet noch …, dann …“ · „Uns ist aufgefallen, dass …“ · „Wie habt ihr … gelöst?“</div>'
+  + '<p>Heute <b>präsentiert</b> ihr euren Wächter, <b>testet</b> und <b>bewertet</b> andere Projekte und <b>gebt</b> eine wertschätzende, konkrete Rückmeldung. '
+    'Alles, was ihr dabei eintragt, kommt in den <b>Galerie-Begleiter</b>: ein Formular, das ihr beim Rundgang am Laptop oder Handy offen habt.</p>'
+  + _lp09_formular()
+  + '<h3>So läuft der Gallery Walk</h3>'
+  + _fig(9, "galerie-ablauf", "Ablauf in 60 Minuten · Fall a: Team zu zweit · Fall b: allein aus dem Team")
+  + '<h3>Aufbauen (15 Minuten)</h3><ul class="task-list">'
+    '<li>Rechner hochfahren und anmelden, den Wächter per USB anschließen. Läuft noch nicht der endgültige Code, ladet ihn mit der Arduino IDE hoch.</li>'
+    '<li><b>Serial Monitor</b> öffnen, damit Besucher die Messwerte sehen.</li>'
+    '<li><b>Projektbericht</b> und <b>Übersicht</b> am Rechner öffnen oder ausgedruckt danebenlegen.</li>'
+    '<li><b>Testmaterial</b> bereitstellen: z. B. Glas Wasser, Erde, Prise Salz, Becher zum Anhauchen.</li>'
+    '<li>Den <b>Galerie-Begleiter</b> auf dem Handy oder in einem zweiten Tab öffnen.</li></ul>'
+  + '<div class="sp-karten">'
+    '<div class="sp-karte"><h3>Fall a · Team zu zweit</h3>'
+    '<p><b>Runde 1:</b> Person 1 bleibt an der Station und erklärt, Person 2 besucht ein bis zwei andere Projekte und bewertet sie.</p>'
+    '<p><b>Runde 2:</b> Tauschen. Jede Person steht also einmal an der Station und wertet einmal andere Projekte aus.</p></div>'
+    '<div class="sp-karte"><h3>Fall b · allein aus dem Team</h3>'
+    '<p><b>Runde 1:</b> Du präsentierst euren Wächter an der Station.</p>'
+    '<p><b>Runde 2:</b> Du bewertest mindestens ein Projekt mit einem <b>anderen Thema</b> (anderer Wächter). Eure Station bleibt aufgebaut, Besucher testen dann selbst mit eurer Übersicht.</p></div>'
+    '</div>'
+  + '<div class="sp-hinweis"><b>Im Galerie-Begleiter:</b> Kurs und Vorname wählen, dann das besuchte Projekt (die beiden Vornamen des Teams). '
+    'Nach dem Abschicken mit „Weitere Antwort senden“ das nächste Projekt bewerten. Am Ende der Stunde wählt eine Person pro Team „Unser Fazit“.</div>'
   + SP_CSS)
 
 LP09_V3_TASKS = [
-  "<b>Aufgabe 1 · Gallery Walk:</b> Baut euren Wächter mit Übersicht und Bericht auf. In Runde 1 erklärt Person 1, Person 2 besucht zwei Projekte, in Runde 2 wird getauscht.",
-  "<b>Aufgabe 2 · Bewerten:</b> Testet die besuchten Wächter selbst, lest Bericht und Übersicht und kreuzt in der Bewertungsmatrix je Aussage eine Stufe an.",
-  "<b>Aufgabe 3 · Rückmeldekarten schreiben:</b> Schreibt für jedes besuchte Projekt eine Karte: Was ist gelungen, welcher umsetzbare Tipp, welche Frage. Gebt sie dem Team.",
-  "<b>Aufgabe 4 · Unser Fazit:</b> Lest eure eigenen Karten. Was ändert ihr in einer nächsten Version eures Wächters zuerst?",
+  "<b>Aufgabe 1 · Aufbauen:</b> Baut eure Station in den ersten 15 Minuten auf: Wächter läuft am Rechner, Serial Monitor, Projektbericht und Übersicht sind offen, Testmaterial liegt bereit.",
+  "<b>Aufgabe 2 · Präsentieren:</b> Erklärt in eurer Stationsrunde Problem, Aufbau und Schwellenwert und lasst die Besucher selbst testen (Fall a: jede Person einmal, Fall b: in Runde 1).",
+  "<b>Aufgabe 3 · Bewerten und rückmelden:</b> Testet andere Wächter selbst, lest Bericht und Übersicht und füllt den Galerie-Begleiter je besuchtem Projekt einmal aus (Bewertung und Rückmeldekarte). Fall b: mindestens ein Projekt mit anderem Thema.",
+  "<b>Aufgabe 4 · Unser Fazit:</b> Lest eure Rückmeldungen und tragt im Galerie-Begleiter unter „Unser Fazit“ ein, was ihr in einer nächsten Version zuerst ändert.",
 ]
 
 LP09_V3_QUIZ = [
@@ -1872,7 +1878,7 @@ UNITS = [
              tools=[],
              fast="Plant eure Version 2: Welche drei Verbesserungen aus den Rückmeldekarten setzt ihr zuerst um, und wie?",
              sicherung=("💾 Ergebnissicherung 09",
-                        "Gebt eure <b>Rückmeldekarten</b> an die besuchten Teams. Fotografiert eure erhaltenen Karten und ladet das Foto zusammen mit eurem <b>Fazit</b> (Aufgabe 4) im Classroom hoch."),
+                        "Alles läuft über den <b>Galerie-Begleiter</b>: eine Antwort je besuchtem Projekt und am Ende eine Antwort „Unser Fazit“ pro Team. Eure Rückmeldungen bekommt ihr per Mail."),
              rlp=["RLP 2.5 · Reflektieren", "2.6 Kommunizieren"],
              quiz=LP09_V3_QUIZ,
              solution=LP09_V3_LOESUNG),
