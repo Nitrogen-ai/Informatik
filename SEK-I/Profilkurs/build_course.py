@@ -787,6 +787,68 @@ def _anschlusskarte(nr, name, fig, kabel, stecker, monitor, achtung, code):
             ) % (nr, name, _fig(8, fig, "Anschlusskarte Sensor %d · %s" % (nr, name)), rows, stecker, monitor, achtung,
                  _codeblock(code, "Testprogramm Sensor %d" % nr))
 
+# ---------------------------------------------------------------- LP08 · Anleitung Arduino IDE
+# Grafiken: <08 …>/Tutory/Typst/build_ide_anleitung.py → grafiken/ide-*.svg
+# Video zum Anschluss (JuFo-Archiv, noch nicht vorhanden): URL eintragen, dann python3 build_lp.py 8
+LP08_IDE_VIDEO = ""
+LP08_IDE_SCHRITTE = [
+  ("ide-1-anschliessen", "Anschließen",
+   "Steckt zuerst die Kabel nach der Anschlusskarte. Dann verbindet ihr den Arduino mit dem <b>USB-Druckerkabel</b> mit dem Laptop: "
+   "flacher Stecker (USB-A) in den Laptop, eckiger Stecker (USB-B) in den Arduino. Die grüne <b>ON</b>-LED leuchtet."),
+  ("ide-2-oeffnen", "Arduino IDE öffnen",
+   "Windows: Start-Menü öffnen, <b>Arduino</b> tippen und <b>Arduino IDE</b> anklicken. Es öffnet sich ein leerer Sketch mit <code>setup()</code> und <code>loop()</code>."),
+  ("ide-3-board", "Board auswählen",
+   "Oben auf <b>„Select Board“</b> klicken und <b>Arduino Uno</b> mit seinem Anschluss wählen (Windows: COM3, COM4 …). Steht dort nur „Unknown“, "
+   "über <b>„Select other board and port…“</b> nach „Uno“ suchen. Den Update-Hinweis unten rechts mit <b>LATER</b> schließen."),
+  ("ide-4-kopieren", "Code in Tinkercad kopieren",
+   "Teilt den Bildschirm: links Tinkercad, rechts die Arduino IDE. In Tinkercad <b>„Code“ › „Blöcke + Text“</b> öffnen, in den C++-Text klicken, "
+   "<b>Strg + A</b> (alles markieren) und <b>Strg + C</b> (kopieren). Auf dem Mac ⌘ statt Strg."),
+  ("ide-5-einfuegen", "In den Sketch einfügen",
+   "Rechts in den Sketch der Arduino IDE klicken, <b>Strg + A</b> und <b>Strg + V</b>. Der leere Rahmen wird durch euren Code ersetzt. "
+   "Ersetzt danach die Sensor-Zeilen wie in der Tabelle oben."),
+  ("ide-6-pruefen", "Kompilieren (Überprüfen)",
+   "Auf <b>✓ Verify</b> klicken. Die IDE übersetzt den Code in Maschinensprache und prüft, ob er lauffähig ist. Unten steht <b>„Done compiling“</b>. "
+   "<b>„Missing FQBN“</b> heißt: kein Board gewählt, zurück zu Schritt 3. Bei anderen roten Meldungen die Zeilennummer lesen und nach Tippfehlern, <code>;</code> oder <code>}</code> suchen."),
+  ("ide-7-hochladen", "Hochladen, testen, anpassen",
+   "Mit <b>→ Upload</b> landet der Code auf dem Arduino. Die Lupe oben rechts öffnet den <b>Serial Monitor</b> (9600 baud). Testet mit echten Messwerten, "
+   "passt den Schwellenwert im Code an euer Projektziel an und ladet erneut hoch (Aufgabe 4 und 5)."),
+  ("ide-8-speichern", "Speichern",
+   "<b>File › Save As…</b> (Strg + Umschalt + S), Ort <b>Desktop</b>. Name: <b>08 + Gruppenmitglieder + Wächtertyp</b> ohne Leerzeichen und ohne ä, ö, ü, ß, "
+   "z. B. <code>08MiaTomGiesswaechter</code>. Die IDE legt dazu einen Projektordner mit gleichem Namen an."),
+  ("ide-9-abgabe", "Abgeben",
+   "Den Projektordner auf dem Desktop öffnen und die darin liegende <b>.ino-Datei</b> im Classroom unter <b>„Hinzufügen oder erstellen“ › „Datei“</b> hochladen. "
+   "Eine Abgabe pro Team, zusammen mit dem Projektbericht."),
+]
+
+def _ide_anleitung():
+    karten = "".join(
+        '<div class="ide-step"><div class="ide-n">%d</div><h4>%s</h4>%s<p>%s</p></div>'
+        % (i + 1, titel, load_fig(8, fig, titel), text)
+        for i, (fig, titel, text) in enumerate(LP08_IDE_SCHRITTE))
+    video = ('<p><a class="ide-video" href="%s" target="_blank" rel="noopener">▶ Video: Arduino an den Schullaptop anschließen</a></p>' % LP08_IDE_VIDEO
+             if LP08_IDE_VIDEO else "")
+    return ('<h3>So kommt euer Code auf den Arduino: Arduino IDE am Schullaptop</h3>'
+            '<p>Neun Schritte vom Tinkercad-Code zur abgegebenen .ino-Datei.</p>' + video
+            + '<div class="ide-steps">%s</div>' % karten
+            + '<p class="ide-alt"><b>Ohne Arduino IDE?</b> Mit <a href="' + UPLOAD_URL + '" target="_blank" rel="noopener"><b>Arduino hochladen</b></a> '
+              '(Chrome oder Edge, ohne Konto) geht es auch im Browser: Code einfügen, <b>„⬆ Auf Arduino laden“</b>, die Messwerte stehen im Monitor unten.</p>'
+            '<style>'
+            '.ide-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));gap:.9rem;margin:.6rem 0 1rem}'
+            '.ide-step{position:relative;border:1px solid var(--line);border-radius:12px;padding:.8rem;background:var(--panel-2)}'
+            '.ide-step h4{margin:.1rem 0 .5rem 2.2rem;font-size:1rem;color:var(--key)}'
+            '.ide-n{position:absolute;left:.8rem;top:.7rem;width:1.7rem;height:1.7rem;border-radius:50%;background:#ff7a1a;color:#fff;'
+            'font-weight:700;display:flex;align-items:center;justify-content:center;font-size:.9rem}'
+            '.ide-step svg{width:100%;height:auto;display:block;border-radius:10px}'
+            '.ide-step p{font-size:.9rem;margin:.55rem 0 0;color:var(--ink-soft)}'
+            '.ide-step.gross{grid-column:1/-1}'
+            '.ide-alt{font-size:.9rem;color:var(--ink-soft)}'
+            '.ide-video{display:inline-block;padding:.45rem .9rem;border-radius:999px;border:1px solid var(--key);color:var(--key);font-weight:700;text-decoration:none}'
+            '</style>'
+            '<script>document.addEventListener("click",function(e){var s=e.target.closest&&e.target.closest(".ide-step svg");'
+            'if(s)s.closest(".ide-step").classList.toggle("gross");});</script>')
+
+LP08_IDE_ANLEITUNG = _ide_anleitung()
+
 LP08_V3_MATERIAL = (
   sp_ablauf("08")
   + '<p>Heute zieht euer Wächter vom Bildschirm ins echte Leben: Ihr <b>baut</b> ihn ins gedruckte Gehäuse, <b>ersetzt</b> im Code das Ersatzbauteil durch den echten Sensor, '
@@ -796,11 +858,7 @@ LP08_V3_MATERIAL = (
       ["<b>A</b> Gießwächter", "Potentiometer an A0", "<code>analogRead(A0)</code> bleibt. Neu ist der Wertebereich: trocken etwa 0, tief im Wasser bis etwa 650."],
       ["<b>B</b> Filterwächter", "Potentiometer an A1", "Die <b>30 Messungen</b> und die <b>TDS-Formel</b> aus der Anschlusskarte einfügen, dann <code>tds</code> mit dem Schwellenwert vergleichen."],
       ["<b>C</b> Lüftungswächter", "TMP36 an A2, Potentiometer an A3", "<code>#include &lt;DHT.h&gt;</code> und <code>DHT dht(2, DHT11);</code> oben, <code>dht.begin();</code> im Setup, dann <code>dht.readTemperature()</code> und <code>dht.readHumidity()</code>."]])
-  + '<h3>So ladet ihr den Code hoch</h3><ol class="task-list" style="list-style:decimal;padding-left:1.4rem">'
-    '<li><b>USB-Kabel ab</b>, dann die Kabel nach der Anschlusskarte stecken. Die Farbe im Bild zeigt den Pin, das farbige Schild am Arduino den Namen.</li>'
-    '<li>Arduino anstecken und <a href="' + UPLOAD_URL + '" target="_blank" rel="noopener"><b>Arduino hochladen</b></a> öffnen (Chrome oder Edge, ohne Konto).</li>'
-    '<li>Code einfügen oder mit <b>„Datei öffnen“</b> laden, dann <b>„⬆ Auf Arduino laden“</b> klicken und den Arduino auswählen.</li>'
-    '<li>Im <b>Monitor</b> unten auf der Seite erscheinen die Messwerte.</li></ol>'
+  + LP08_IDE_ANLEITUNG
   + _anschlusskarte(1, "DHT11: Temperatur und Luftfeuchte", "sensor-1-dht11",
       [("rot", "Bein 1", "5V"), ("blau", "Bein 2", "Pin 2"), ("–", "Bein 3", "frei"), ("schwarz", "Bein 4", "GND"), ("10 kΩ", "Widerstand", "zwischen Bein 1 und Bein 2")],
       "Haltet den Sensor mit dem <b>Gitter zu euch</b>: Die Beinchen zählen von links 1, 2, 3, 4.",
@@ -830,7 +888,7 @@ LP08_V3_MATERIAL = (
 LP08_V3_TASKS = [
   "<b>Aufgabe 1 · Einbauen:</b> Baut den Wächter ins Gehäuse und schließt den Sensor nach der Anschlusskarte an. Hakt ab: Arduino passt, USB erreichbar · LEDs mit 220 Ω an Pin 7 und Pin 8 · Sensor mit USB ab gesteckt · Sensor bzw. Sonde außen, Platine trocken.",
   "<b>Aufgabe 2 · Vom Ersatzbauteil zum echten Sensor:</b> Ersetzt im C++-Code nur die Zeilen, die den Sensor lesen (Tabelle oben).",
-  "<b>Aufgabe 3 · Hochladen:</b> Ladet den Code mit „Arduino hochladen“ auf den Arduino und beobachtet die Messwerte im Monitor.",
+  "<b>Aufgabe 3 · Hochladen:</b> Kopiert euren Code aus Tinkercad in die Arduino IDE, kompiliert ihn und ladet ihn auf den Arduino (Anleitung oben, Schritte 1–7). Beobachtet die Messwerte im Serial Monitor.",
   "<b>Aufgabe 4 · Testen und Schwellenwert festlegen:</b> Testet mindestens drei Situationen, notiert Messwert, welche LED leuchten soll und welche wirklich leuchtet. Legt den Schwellenwert fest und begründet ihn.",
   "<b>Aufgabe 5 · Ergebnis prüfen und anpassen:</b> Notiert, was noch nicht wie geplant lief, und was ihr geändert habt (Code, Kabel, Gehäuse, Schwellenwert).",
   "<b>Aufgabe 6 · Projektbericht (3–5 Seiten):</b> 1 Problem und Ziel · 2 Aufbau (Bauteilliste, Schaltplan, Foto) · 3 Programm (Struktogramm, wichtige C++-Zeilen erklärt) · 4 Gehäuse · 5 Test (Tabelle, Schwellenwert) · 6 Reflexion · 7 Quellen.",
@@ -1792,7 +1850,7 @@ UNITS = [
                         "Dateiname: <code>Projekt-A_Name1_Name2.ino</code> bzw. <code>.stl</code>"),
              rlp=["RLP 2.1 · Modellieren", "2.2 · Algorithmen", "neu · Physical Computing & 3D-Druck"],
              solution=LP07_V3_LOESUNG),
-        dict(no=8, sjw=9, kind="projekt", title="Sensor-Projekte bauen und testen: der Wächter am echten Arduino",
+        dict(no=8, sjw=10, kind="projekt", title="Sensor-Projekte bauen und testen: der Wächter am echten Arduino",
              goal="Ihr baut euren Wächter ins gedruckte Gehäuse, ersetzt im Code das Ersatzbauteil durch den echten Sensor, testet ihn live, legt den Schwellenwert begründet fest und dokumentiert das Projekt in einem Bericht.",
              # Quelle: <08 Sensor-Projekte bauen und testen>/Tutory/Typst/08 Sensor-Projekte bauen und testen.typ + <07 …>/Version 3/Tutory/Typst/07 Sensoren anschließen.typ
              material=LP08_V3_MATERIAL,
@@ -1801,12 +1859,12 @@ UNITS = [
              fast="Ergänzt einen Piezo-Summer, der bei Rot piept, oder eine gelbe LED als Vorwarnung.",
              vertiefung=LP08_V3_VERTIEFUNG,
              sicherung=("💾 Leistungsnachweis 08 · Abgabe im Classroom (eine Abgabe pro Team)",
-                        "<b>1.</b> Projektbericht als <b>PDF</b> <b>2.</b> Galerie-Übersicht als <b>PDF</b>. Gern zusätzlich die Originaldateien (z. B. .docx, .pages, Canva-Link) und den endgültigen Code als <b>.ino</b>. "
+                        "<b>1.</b> Projektbericht als <b>PDF</b> <b>2.</b> Galerie-Übersicht als <b>PDF</b> <b>3.</b> endgültiger Code als <b>.ino</b>, z. B. <code>08MiaTomGiesswaechter.ino</code> (Anleitung Schritt 8 und 9). Gern zusätzlich die Originaldateien (z. B. .docx, .pages, Canva-Link). "
                         "Bringt den Wächter zu Sitzung 09 fertig mit."),
              rlp=["RLP 2.4 · Umsetzen", "2.3 · Informatiksysteme", "2.6 Kommunizieren"],
              quiz=LP08_V3_QUIZ,
              solution=LP08_V3_LOESUNG),
-        dict(no=9, sjw=10, kind="lernpfad", title="Sensor-Projekte: Galerie und Rückmeldung",
+        dict(no=9, sjw=11, kind="lernpfad", title="Sensor-Projekte: Galerie und Rückmeldung",
              goal="Ihr präsentiert euren Wächter im Gallery Walk, bewertet andere Projekte nach Funktion und Projektbericht und gebt eine wertschätzende, konkrete Rückmeldung.",
              # Quelle: <09 Sensor-Projekte Galerie>/Tutory/Typst/09 Sensor-Projekte Galerie.typ
              material=LP09_V3_MATERIAL,
