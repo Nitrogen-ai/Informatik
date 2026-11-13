@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Das Archiv der Ziffern · Informatik Profilkurs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<!--
+  11 Binärsystem begründen (Informatik Profilkurs 9, Einheit 03 Wie Computer zählen) · Escape Game Mystery „Das Archiv der Ziffern“
+  Master: iCloud …/11 Binärsystem begründen (…)/Digital/archiv-der-ziffern.html (+ archiv-img/)
+  Kopie im Repo: Informatik/SEK-I/Profilkurs/lernpfade/1HJ/zahlensysteme/archiv-der-ziffern.html (+ archiv-img/)
+  Sechs Epochen (Larsa, Rom, Indien, Bagdad/Pisa, Leibniz, Shannon/Zuse/heute), je Code + Ziffernsiegel → Lösungswort SICHER
+  Spielleitung: ?spielleitung, PIN ZEPHIRUM · Vorlesestimmen: vertonen.py · Abbildungen: ../typst/grafiken/build_figs.py
+-->
+<style>
+:root {
+  --bg: #f4efe4; --paper: #fffdf7; --paper-2: #efe5d2; --ink: #22262b; --ink-soft: #5d6168; --line: rgba(34, 38, 43, 0.15);
+  --red: #b3262e; --red-soft: #f9dcdc; --pine: #2e7d4f; --pine-edge: #1e5a37; --pine-soft: #dff1e5;
+  --gold: #d9a441; --gold-edge: #a3771f; --sky: #2f8fe0; --sky-edge: #1f6fb8; --violet: #6b4bd6; --violet-edge: #4d33a8;
+  --shadow: rgba(60, 45, 20, 0.14);
+  --e1: #b5651d; --e1e: #844510; --e1s: #f6e3cf;
+  --e2: #a3262a; --e2e: #741a1d; --e2s: #f7dcdc;
+  --e3: #d98300; --e3e: #9c5e00; --e3s: #fdebcc;
+  --e4: #13806e; --e4e: #0b5a4d; --e4s: #d6f0ea;
+  --e5: #3d4fb8; --e5e: #2a3887; --e5s: #e0e4fa;
+  --e6: #1f9d55; --e6e: #13703b; --e6s: #d9f3e3;
+  --acc: #8a6a2f; --acc-edge: #5f4718; --acc-soft: #f1e6cc;
+}
+body.ep1 { --acc: var(--e1); --acc-edge: var(--e1e); --acc-soft: var(--e1s); }
+body.ep2 { --acc: var(--e2); --acc-edge: var(--e2e); --acc-soft: var(--e2s); }
+body.ep3 { --acc: var(--e3); --acc-edge: var(--e3e); --acc-soft: var(--e3s); }
+body.ep4 { --acc: var(--e4); --acc-edge: var(--e4e); --acc-soft: var(--e4s); }
+body.ep5 { --acc: var(--e5); --acc-edge: var(--e5e); --acc-soft: var(--e5s); }
+body.ep6 { --acc: var(--e6); --acc-edge: var(--e6e); --acc-soft: var(--e6s); }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { font-family: 'Nunito', system-ui, sans-serif; color: var(--ink); line-height: 1.55; font-size: 17px; background: var(--bg);
+  background-image: radial-gradient(circle at 8% 4%, rgba(181, 101, 29, 0.13) 0%, transparent 30%),
+    radial-gradient(circle at 94% 26%, rgba(61, 79, 184, 0.09) 0%, transparent 28%),
+    radial-gradient(circle at 50% 100%, rgba(31, 157, 85, 0.08) 0%, transparent 40%); min-height: 100vh; }
+h1, h2, h3, .fred { font-family: 'Fredoka', 'Nunito', sans-serif; }
+a { color: var(--sky-edge); }
+button, select, input, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--sky); outline-offset: 3px; border-radius: 8px; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 1.2rem 16px 5rem; }
+sub, sup { line-height: 0; }
+
+/* Kopfleiste */
+.topbar { position: sticky; top: 0; z-index: 20; background: rgba(244, 239, 228, 0.95); backdrop-filter: blur(6px); border-bottom: 1.5px solid var(--line); }
+.topbar-in { max-width: 900px; margin: 0 auto; padding: 0.45rem 16px; display: flex; align-items: center; gap: 0.6rem 0.8rem; flex-wrap: wrap; }
+.tb-title { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 1rem; }
+.run-badge { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; padding: 0.15rem 0.55rem; border-radius: 999px; background: var(--acc-soft); color: var(--acc-edge); }
+.seals { display: flex; gap: 0.3rem; margin-left: auto; flex-wrap: wrap; }
+.seal { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 0.95rem;
+  background: #e8e0cf; color: #a39377; border: 2px solid #d6c9ad; cursor: default; padding: 0; }
+.seal.open { background: var(--acc); color: #fff; border-color: var(--acc-edge); cursor: pointer; }
+.seal.now { background: #fff; color: var(--acc-edge); border-color: var(--acc); box-shadow: 0 0 0 3px var(--acc-soft); cursor: pointer; }
+.stat { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 700; color: var(--ink-soft); display: flex; gap: 0.7rem; align-items: center; flex-wrap: wrap; }
+.stat span { white-space: nowrap; display: inline-flex; align-items: center; gap: 0.2rem; }
+#st-laurel svg { height: 18px; width: auto; vertical-align: middle; }
+
+/* Karten */
+.card { background: var(--paper); border: 1.5px solid var(--line); border-radius: 20px; padding: 1.2rem 1.25rem; margin: 1rem 0; box-shadow: 0 6px 0 var(--shadow); }
+.story-card { background: linear-gradient(180deg, #fffdf7 0%, #f6ecd9 100%); border: 2px solid #e5d3b1; }
+.chap-head { display: flex; align-items: center; gap: 0.9rem; margin: 1.6rem 0 0.4rem; }
+.chap-no { width: 64px; height: 64px; flex-shrink: 0; border-radius: 50%; display: grid; place-items: center; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 1.9rem; color: #fff; background: var(--acc); box-shadow: 0 5px 0 var(--acc-edge); }
+.chap-head h2 { font-size: clamp(1.35rem, 3.6vw, 1.85rem); line-height: 1.15; }
+.chap-head small { display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; color: var(--ink-soft); letter-spacing: 0.04em; }
+.story p { margin: 0 0 0.7rem; }
+.story p:last-child { margin-bottom: 0; }
+.story p.voiced { display: flex; align-items: flex-start; gap: 0.8rem; }
+.story p.voiced > span.vtext { flex: 1; }
+.say { flex: none; width: 2.9rem; height: 2.9rem; border-radius: 50%; border: 2px solid #e5d3b1; background: var(--paper); font-size: 1.3rem; line-height: 1; cursor: pointer; display: grid; place-items: center; box-shadow: 0 2px 6px var(--shadow); -webkit-tap-highlight-color: transparent; }
+.say.figur { border-color: var(--acc); }
+.say:active { transform: scale(0.95); }
+.say.playing { background: var(--acc); border-color: var(--acc); color: #fff; }
+.who { font-family: 'Fredoka', sans-serif; font-weight: 600; color: var(--acc-edge); }
+.who.n { color: var(--ink-soft); }
+.who.nora { color: var(--violet-edge); }
+.task { border-left: 6px solid var(--acc); }
+.task h3, .info h3 { font-size: 1.15rem; margin-bottom: 0.4rem; display: flex; gap: 0.5rem; align-items: center; }
+.task ol, .task ul, .card ul.l, .card ol.l { padding-left: 1.3rem; }
+.task li, .card li { margin: 0.25rem 0; }
+.info { border-left: 6px solid var(--pine); background: #f6fbf7; }
+.info h3 { color: var(--pine-edge); }
+.journal { display: flex; gap: 0.6rem; align-items: flex-start; background: #eef6ff; border: 1.5px dashed #8dbbe8; border-radius: 14px; padding: 0.7rem 0.9rem; margin-top: 0.8rem; font-size: 0.95rem; }
+.journal b { color: var(--sky-edge); }
+.small { font-size: 0.88rem; color: var(--ink-soft); }
+.mono { font-family: 'JetBrains Mono', monospace; }
+.hidden { display: none !important; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; align-items: start; }
+@media (max-width: 640px) { .two { grid-template-columns: 1fr; } }
+.fig { background: #fff; border: 1.5px solid var(--line); border-radius: 16px; padding: 0.6rem; margin: 0.8rem 0; }
+.fig img, .fig svg { display: block; width: 100%; height: auto; border-radius: 10px; }
+.figcap { font-size: 0.85rem; color: var(--ink-soft); text-align: center; margin-top: 0.3rem; }
+.scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* Archivkarten */
+.archive { background: linear-gradient(180deg, #fbf6ea 0%, #f3e8d0 100%); border: 2px solid #dcc79c; }
+.archive > h3 { font-size: 1.1rem; color: #6b5323; margin-bottom: 0.2rem; }
+details.ak { margin-top: 0.55rem; border: 1.5px solid #dcc79c; border-radius: 14px; background: #fffdf6; }
+details.ak > summary { cursor: pointer; list-style: none; padding: 0.6rem 0.85rem; display: flex; gap: 0.6rem; align-items: center; font-weight: 700; min-height: 46px; }
+details.ak > summary::-webkit-details-marker { display: none; }
+details.ak > summary .nr { flex: none; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; background: #6b5323; color: #fff7e2; border-radius: 8px; padding: 0.1rem 0.45rem; }
+details.ak > div { padding: 0 0.85rem 0.75rem; }
+.quelle { margin-top: 0.45rem; font-size: 0.8rem; color: #6b5323; border-top: 1px dashed #dcc79c; padding-top: 0.35rem; }
+.quelle::before { content: "📚 "; }
+
+/* Auswahlfragen */
+.q { margin: 0.9rem 0 1.1rem; }
+.q > p { font-weight: 700; margin-bottom: 0.45rem; }
+.opts { display: grid; gap: 0.5rem; }
+.opt { display: flex; align-items: center; gap: 0.7rem; text-align: left; width: 100%; padding: 0.7rem 0.9rem; border-radius: 14px; border: 2px solid var(--line); background: #fff; cursor: pointer; min-height: 52px; }
+.opt .lt { flex-shrink: 0; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-weight: 700; background: var(--paper-2); color: var(--ink-soft); }
+.opt.sel { border-color: var(--acc); background: #fffaf0; }
+.opt.sel .lt { background: var(--acc); color: #fff; }
+.opt.ok { border-color: var(--pine); background: var(--pine-soft); }
+.opt.ok .lt { background: var(--pine); color: #fff; }
+.opt.bad { border-color: var(--red); background: var(--red-soft); }
+.fb { font-size: 0.92rem; margin-top: 0.35rem; min-height: 1.2em; }
+.fb.ok { color: var(--pine-edge); font-weight: 700; }
+.fb.bad { color: var(--red); font-weight: 700; }
+
+/* Schloss und Siegel */
+.lock { background: #2a241c; color: #f3e5c8; border-radius: 20px; padding: 1.1rem 1.2rem; margin: 1rem 0; box-shadow: 0 6px 0 #15110b; }
+.lock h3 { display: flex; align-items: center; gap: 0.6rem; font-size: 1.15rem; color: #fff; margin-bottom: 0.3rem; }
+.lock p { font-size: 0.95rem; color: #e6d6b4; }
+.lock-row { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; margin-top: 0.7rem; }
+.lock input { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1.3rem; text-transform: uppercase; letter-spacing: 0.16em; width: 13ch; max-width: 100%; padding: 0.55rem 0.7rem; border-radius: 12px; border: 3px solid var(--gold); background: #fffaf0; color: var(--ink); text-align: center; }
+.lock input.wide { width: 17ch; letter-spacing: 0.08em; }
+.lock-msg { margin-top: 0.6rem; font-weight: 700; min-height: 1.3em; }
+.lock-msg.bad { color: #ffb3a6; }
+.lock-msg.ok { color: #a6f0c2; }
+.btn { display: inline-flex; align-items: center; gap: 0.45rem; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 1.05rem; padding: 0.65rem 1.15rem; border-radius: 14px; border: none; cursor: pointer; background: var(--gold); color: #2f2219; box-shadow: 0 4px 0 var(--gold-edge); min-height: 48px; }
+.btn:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--gold-edge); }
+.btn.acc { background: var(--acc); color: #fff; box-shadow: 0 4px 0 var(--acc-edge); }
+.btn.ghost { background: #fff; color: var(--ink); box-shadow: 0 4px 0 var(--line); border: 1.5px solid var(--line); }
+.btn.small { font-size: 0.92rem; padding: 0.4rem 0.8rem; min-height: 40px; }
+.btn[disabled] { opacity: 0.45; cursor: not-allowed; }
+.shake { animation: shake 0.4s; }
+@keyframes shake { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-8px); } 40%,80% { transform: translateX(8px); } }
+.sigil { background: radial-gradient(circle at 50% 0%, #fffaf0 0%, #f1e3c2 80%); border: 3px double var(--acc-edge); text-align: center; }
+.sigil h3 { color: var(--acc-edge); font-size: 1.15rem; }
+.sigil .glyph { display: inline-grid; place-items: center; min-width: 120px; min-height: 96px; margin: 0.6rem auto; padding: 0.6rem 1.1rem; border-radius: 50%; background: #fff; border: 4px solid var(--acc); box-shadow: 0 0 0 6px var(--acc-soft); font-size: 2.6rem; font-weight: 700; color: var(--acc-edge); }
+.sigil .glyph svg { height: 64px; width: auto; }
+.sigil .lock-row { justify-content: center; }
+.sigil input { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1.2rem; width: 7ch; text-transform: uppercase; text-align: center; padding: 0.5rem 0.3rem; border-radius: 12px; border: 3px solid var(--acc); background: #fff; }
+.sigil input::placeholder { font-size: 0.85rem; letter-spacing: 0; }
+.sigil .fb { text-align: center; }
+
+/* Hilfen */
+details.hint { margin-top: 0.7rem; border: 1.5px solid var(--line); border-radius: 14px; background: #fff; }
+details.hint > summary { cursor: pointer; list-style: none; padding: 0.65rem 0.9rem; font-family: 'Fredoka', sans-serif; font-weight: 600; color: var(--gold-edge); display: flex; align-items: center; gap: 0.5rem; min-height: 46px; }
+details.hint > summary::-webkit-details-marker { display: none; }
+details.hint > summary::before { content: "▸"; transition: transform 0.15s ease; }
+details.hint[open] > summary::before { transform: rotate(90deg); }
+.hint-body { padding: 0 0.9rem 0.75rem; }
+.hint-body > details.hint { margin: 0.6rem -0.9rem -0.75rem; border-left: none; border-right: none; border-bottom: none; border-radius: 0 0 14px 14px; }
+.hints-title { font-family: 'Fredoka', sans-serif; font-weight: 600; margin-top: 1rem; color: var(--ink-soft); font-size: 0.95rem; }
+
+/* Lorbeer */
+.laurel { border: 2px solid #b9d8a6; background: linear-gradient(180deg, #f4fbef 0%, #e6f4dc 100%); }
+.laurel h3 { color: #3f7a24; display: flex; align-items: center; gap: 0.5rem; font-size: 1.12rem; }
+.laurel.done { border-color: var(--pine); }
+.laurel.done h3::after { content: "✓ Lorbeer"; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; background: var(--pine); color: #fff; border-radius: 999px; padding: 0.1rem 0.5rem; margin-left: auto; }
+.stars { color: var(--gold-edge); letter-spacing: 0.1em; }
+.inl { font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; font-weight: 700; padding: 0.45rem 0.6rem; border-radius: 12px; border: 2px solid var(--line); width: 8ch; background: #fff; color: var(--ink); text-align: center; }
+.inl.ok, select.ok { border-color: var(--pine) !important; background: var(--pine-soft) !important; }
+.inl.bad, select.bad { border-color: var(--red) !important; background: var(--red-soft) !important; }
+select.gsel { font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.98rem; padding: 0.3rem 0.4rem; border-radius: 10px; border: 2px solid var(--line); background: #fff; min-height: 40px; max-width: 100%; }
+.gaptext { line-height: 2.6; }
+.chk { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.5rem 0; }
+.chip { border: 2px solid var(--line); background: #fff; border-radius: 999px; padding: 0.45rem 0.95rem; font-weight: 800; cursor: pointer; min-height: 44px; min-width: 52px; }
+.chip.sel { border-color: var(--acc); background: var(--acc-soft); color: var(--acc-edge); }
+
+/* Tafeln, Werkzeuge */
+.tafel { display: inline-flex; align-items: center; justify-content: center; background: linear-gradient(180deg, #d9b98a, #c9a06a); border: 3px solid #9d7444; border-radius: 18px 22px 16px 24px; padding: 0.8rem 1.2rem; box-shadow: inset 0 0 0 2px rgba(255,255,255,0.25), 0 4px 0 #8a6334; min-height: 90px; }
+.tafel svg { height: 56px; width: auto; }
+.tafel-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin: 0.6rem 0; }
+.tafel-lab { font-family: 'Fredoka', sans-serif; font-weight: 600; }
+.abakus { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.4rem; background: #5a3a22; padding: 0.6rem; border-radius: 16px; margin: 0.6rem 0; }
+.abcol { background: #e7d3a8; border-radius: 10px; padding: 0.4rem 0.2rem; display: flex; flex-direction: column; align-items: center; gap: 0.3rem; }
+.abcol .lab { font-family: 'Fredoka', sans-serif; font-weight: 700; color: #5a3a22; }
+.abcol .stones { display: grid; grid-template-columns: repeat(2, 18px); gap: 4px; min-height: 110px; align-content: end; justify-content: center; }
+.abcol .stones i { width: 18px; height: 18px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff, #9aa3ad 60%, #5f6670); display: block; }
+.abcol.ten { outline: 3px solid var(--red); }
+.abcol .bb { display: flex; gap: 0.3rem; }
+.abcol button { width: 40px; height: 40px; border-radius: 10px; border: 2px solid #9d7444; background: #fff8ea; font-weight: 800; cursor: pointer; }
+.abcol .bundle { width: auto; padding: 0 0.4rem; font-size: 0.8rem; background: var(--red); color: #fff; border-color: var(--red); }
+.rtab { display: flex; flex-wrap: wrap; gap: 0.35rem; font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; }
+.rtab span { background: #fff; border: 1.5px solid var(--line); border-radius: 8px; padding: 0.15rem 0.45rem; }
+.digit-tab { border-collapse: collapse; margin: 0.4rem 0; font-size: 1.05rem; }
+.digit-tab td { border: 1.5px solid var(--line); padding: 0.25rem 0.5rem; text-align: center; background: #fff; }
+.digit-tab tr:first-child td { font-size: 1.5rem; font-weight: 700; color: var(--acc-edge); }
+.inschrift { font-size: 3rem; font-weight: 700; letter-spacing: 0.15em; color: #4a3b2a; background: linear-gradient(180deg, #d7d2c8, #b9b2a5); border-radius: 12px; padding: 0.3rem 1.2rem; display: inline-block; border: 3px solid #8e877a; }
+.eqrow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1.08rem; background: #fff; border: 1.5px solid var(--line); border-radius: 14px; padding: 0.7rem; margin: 0.5rem 0; }
+.eqrow .inl { width: 3.2ch; padding: 0.35rem 0.2rem; }
+.eqrow .pw { display: inline-flex; align-items: flex-start; padding-top: 0.9rem; }
+.eqrow .pw .inl.ex { width: 2.6ch; font-size: 0.82rem; padding: 0.15rem; margin: -0.95rem 0 0 0.1rem; border-color: var(--acc); }
+table.st { border-collapse: collapse; width: 100%; font-size: 0.95rem; margin-top: 0.5rem; }
+table.st th, table.st td { border: 1.5px solid var(--line); padding: 0.3rem 0.45rem; text-align: center; background: #fff; }
+table.st th { background: var(--acc-soft); font-family: 'Fredoka', sans-serif; }
+.lamps { display: grid; grid-template-columns: repeat(13, minmax(0, 1fr)); gap: 3px; margin: 0.6rem 0; }
+@media (max-width: 640px) { .lamps { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
+.lamp { border: 2px solid var(--line); border-radius: 10px; background: #fff; padding: 0.3rem 0.1rem; cursor: pointer; text-align: center; min-height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.15rem; }
+.lamp b { display: block; width: 20px; height: 20px; border-radius: 50%; background: #d9d9d9; border: 2px solid #b8b8b8; }
+.lamp.on b { background: #ffd23d; border-color: #e0a400; box-shadow: 0 0 12px #ffd23d; }
+.lamp small { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--ink-soft); }
+.readout { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1.05rem; background: #1d2330; color: #9ff0c0; border-radius: 12px; padding: 0.6rem 0.8rem; word-break: break-all; }
+.ctrl { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin: 0.5rem 0; }
+.ctrl label { font-weight: 700; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
+.ctrl input[type=range] { width: 180px; max-width: 60vw; }
+.seg { display: inline-flex; border: 2px solid var(--acc); border-radius: 12px; overflow: hidden; }
+.seg button { border: none; background: #fff; padding: 0.45rem 0.8rem; font-weight: 800; cursor: pointer; min-height: 42px; }
+.seg button.on { background: var(--acc); color: #fff; }
+.noise svg, .bucket svg { width: 100%; height: auto; display: block; background: #fff; border-radius: 12px; border: 1.5px solid var(--line); }
+.vals { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.5rem; margin-top: 0.5rem; }
+.vals div { background: #fff; border: 1.5px solid var(--line); border-radius: 12px; padding: 0.4rem 0.6rem; }
+.vals small { display: block; color: var(--ink-soft); font-size: 0.78rem; }
+.vals b { font-family: 'JetBrains Mono', monospace; }
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+@media (max-width: 640px) { .compare { grid-template-columns: 1fr; } }
+.compare > div { background: #fff; border: 2px solid var(--line); border-radius: 16px; padding: 0.7rem; text-align: center; }
+.compare .big { font-size: 1.6rem; line-height: 1.3; font-weight: 800; white-space: nowrap; }
+
+/* Start, Abstimmung, Kette */
+.hero { text-align: center; padding: 1.2rem 0 0.4rem; }
+.hero h1 { font-size: clamp(1.9rem, 6vw, 3rem); line-height: 1.05; }
+.hero h1 .r { color: var(--e5); }
+.hero .sub { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--ink-soft); margin-top: 0.5rem; }
+.team { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.6rem; margin: 0.8rem 0; }
+@media (max-width: 640px) { .team { grid-template-columns: 1fr; } }
+.team input { font-weight: 700; padding: 0.7rem 0.8rem; border: 2px solid var(--line); border-radius: 12px; background: #fff; width: 100%; }
+.vote { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+@media (max-width: 640px) { .vote { grid-template-columns: 1fr; } }
+.vote button { text-align: left; border: 2px solid var(--line); background: #fff; border-radius: 14px; padding: 0.7rem 0.8rem; cursor: pointer; font-weight: 700; min-height: 56px; }
+.vote button.sel { border-color: var(--violet); background: #f1ecff; }
+.chain { display: grid; gap: 0.5rem; }
+.ctile { display: flex; gap: 0.7rem; align-items: center; text-align: left; border: 2px solid var(--line); background: #fff; border-radius: 14px; padding: 0.6rem 0.8rem; cursor: pointer; min-height: 60px; font-weight: 600; }
+.ctile .ord { flex: none; width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--acc); display: grid; place-items: center; font-weight: 800; font-family: 'JetBrains Mono', monospace; }
+.ctile.sel .ord { background: var(--acc); color: #fff; }
+.ctile.ok { border-color: var(--pine); background: var(--pine-soft); }
+.ctile.bad { border-color: var(--red); background: var(--red-soft); }
+textarea.answer { width: 100%; min-height: 110px; border: 2px solid var(--line); border-radius: 14px; padding: 0.7rem; background: #fff; }
+.solword { text-align: center; margin: 0.6rem 0; }
+.solword span { display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: clamp(1.6rem, 6vw, 2.4rem); letter-spacing: 0.3em; padding: 0.4rem 0.9rem 0.4rem 1.2rem; border: 4px double var(--e5e); border-radius: 16px; background: #fff; color: var(--e5e); }
+.letters { display: flex; justify-content: center; gap: 0.4rem; flex-wrap: wrap; margin: 0.6rem 0; }
+.letters span { width: 46px; height: 54px; border-radius: 10px; border: 2px dashed #b8a27a; display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1.5rem; background: #fffdf6; }
+.letters span.got { border-style: solid; border-color: var(--e5); color: var(--e5e); }
+.cert { text-align: center; background: radial-gradient(circle at 50% 0%, #fffdf6 0%, #f2e6c9 70%); border: 3px double var(--gold-edge); }
+.cert h2 { font-size: clamp(1.45rem, 5vw, 2.1rem); color: var(--gold-edge); }
+.cert .names { font-family: 'Fredoka', sans-serif; font-size: 1.5rem; font-weight: 600; margin: 0.5rem 0; }
+.cert table { margin: 0.8rem auto 0; border-collapse: collapse; font-size: 0.95rem; }
+.cert td { padding: 0.25rem 0.7rem; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+.wreath { font-size: 3rem; line-height: 1; }
+.sl { border: 2px dashed var(--violet); background: #f3eefe; }
+.sl h3 { color: var(--violet); }
+.sl table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-top: 0.5rem; }
+.sl td, .sl th { border-bottom: 1px solid rgba(107,75,214,0.25); padding: 0.3rem 0.4rem; text-align: left; vertical-align: top; }
+.chapter { display: none; }
+.chapter.show { display: block; animation: rise 0.35s ease; }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .chapter.show { animation: none; } }
+@media print { .topbar, .lock, details.hint, .btn, .laurel, .sl { display: none !important; } .chapter { display: block !important; } body { background: #fff; } }
+</style>
+</head>
+<body>
+
+<div class="topbar" id="topbar" hidden>
+  <div class="topbar-in">
+    <span class="tb-title">🏛️ Archiv der Ziffern</span>
+    <span class="run-badge" id="runBadge">Epoche</span>
+    <span class="stat"><span id="st-time">⏱ 00:00</span><span id="st-hints">💡 0</span><span id="st-laurel" title="Lorbeerblätter">🌿 0</span></span>
+    <div class="seals" id="seals"></div>
+  </div>
+</div>
+
+<main class="wrap">
+
+<!-- =============================================================== START -->
+<section class="chapter show" id="c0">
+  <div class="hero">
+    <svg width="200" height="110" viewBox="0 0 200 110" aria-hidden="true">
+      <rect x="18" y="22" width="164" height="78" rx="8" fill="#e8d6b0" stroke="#8a6a2f" stroke-width="3"/>
+      <path d="M18,22 L100,4 L182,22 Z" fill="#d9c08d" stroke="#8a6a2f" stroke-width="3" stroke-linejoin="round"/>
+      <rect x="82" y="50" width="36" height="50" rx="18" fill="#3d4fb8" stroke="#2a3887" stroke-width="3"/>
+      <circle cx="110" cy="76" r="3" fill="#ffd23d"/>
+      <text x="44" y="70" font-family="JetBrains Mono, monospace" font-weight="700" font-size="22" fill="#8a6a2f">0</text>
+      <text x="142" y="70" font-family="JetBrains Mono, monospace" font-weight="700" font-size="22" fill="#8a6a2f">1</text>
+    </svg>
+    <h1>Das Archiv<br><span class="r">der Ziffern</span></h1>
+    <p class="sub">ESCAPE GAME MYSTERY · 11 BINÄRSYSTEM BEGRÜNDEN · INFORMATIK PROFILKURS 9</p>
+  </div>
+
+  <div class="card story-card story">
+    <p class="voiced"><span class="vtext"><span class="who n">Tief unter Berlin, an einem Montag im November.</span> Unter der Stadt liegt ein Archiv, das auf keinem Stadtplan steht: das Archiv der Ziffern. Hier lagern Tontafeln, Rechenbretter, Handschriften und Computerchips. Eure Führung ist gerade zu Ende, da fällt hinter euch die schwere Tür ins Schloss.</span><button class="say" type="button" data-audio="archiv-img/stimme-acf2f4c605.mp3" aria-label="Erzählung anhören" title="Erzählung anhören">🔊</button></p>
+    <p class="voiced"><span class="vtext"><span class="who nora">Nora Null:</span> „Keine Panik, ich bin Nora Null, die Archivarin. Die Tür zur Gegenwart öffnet sich nur mit einem Wort aus sechs Buchstaben. Es ist die Antwort auf die Frage, die mir jede Klasse stellt: Warum zählt ein Computer nur mit 0 und 1, obwohl wir Menschen seit Jahrhunderten mit zehn Ziffern auskommen? Reist mit mir durch sechs Epochen. In jeder Epoche wartet ein Ziffernsiegel. Entziffert es, dann bekommt ihr einen Buchstaben.“</span><button class="say figur" type="button" data-audio="archiv-img/stimme-59f398ef46.mp3" aria-label="Nora Null anhören" title="Nora Null anhören">🔊</button></p>
+    <p class="voiced"><span class="vtext"><span class="who nora">Nora Null:</span> „Und weil man im alten Rom Siegerinnen und Sieger mit Lorbeer bekränzt hat, verleihe ich für jede freiwillige Lorbeer-Aufgabe ein Lorbeerblatt. Gezählt werden eure Lorbeeren allerdings in der Zahlschrift der jeweiligen Epoche. Viel Spaß beim Nachzählen!“</span><button class="say figur" type="button" data-audio="archiv-img/stimme-1344f80e77.mp3" aria-label="Nora Null anhören" title="Nora Null anhören">🔊</button></p>
+  </div>
+
+  <div class="fig"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgMTkwIiB3aWR0aD0iOTAwIiBoZWlnaHQ9IjE5MCI+CjxyZWN0IHdpZHRoPSI5MDAiIGhlaWdodD0iMTkwIiBmaWxsPSIjZmZmZmZmIi8+CjxwYXRoIGQ9Ik0zMCw5MiBMODcwLDkyIiBzdHJva2U9IiNjOWI0OGYiIHN0cm9rZS13aWR0aD0iNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxwYXRoIGQ9Ik04NjAsODAgTDg4Miw5MiBMODYwLDEwNCBaIiBmaWxsPSIjYzliNDhmIi8+CjxjaXJjbGUgY3g9IjgwLjAiIGN5PSI5MiIgcj0iMjciIGZpbGw9IiNiNTY1MWQiLz48Y2lyY2xlIGN4PSI4MC4wIiBjeT0iOTIiIHI9IjIyIiBmaWxsPSIjZmZmIi8+CjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY1LjAsODApIHNjYWxlKDAuODUpIj48cGF0aCBkPSJNMCwxMiBMMTQsMCBMMTEsMTIgTDE0LDI0IFoiIGZpbGw9IiM2YjNmMWQiLz48L2c+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODYuMCw4MCkgc2NhbGUoMC44NSkiPjxwYXRoIGQ9Ik0tNiwwIEw2LDAgTDAsOSBaIiBmaWxsPSIjNmIzZjFkIi8+PHBhdGggZD0iTTAsNyBMMCwyNCIgc3Ryb2tlPSIjNmIzZjFkIiBzdHJva2Utd2lkdGg9IjIuNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9nPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDkzLjAsODApIHNjYWxlKDAuODUpIj48cGF0aCBkPSJNLTYsMCBMNiwwIEwwLDkgWiIgZmlsbD0iIzZiM2YxZCIvPjxwYXRoIGQ9Ik0wLDcgTDAsMjQiIHN0cm9rZT0iIzZiM2YxZCIgc3Ryb2tlLXdpZHRoPSIyLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvZz4KPHJlY3QgeD0iNjYuMCIgeT0iMjIiIHdpZHRoPSIyOCIgaGVpZ2h0PSIyMiIgcng9IjExIiBmaWxsPSIjYjU2NTFkIi8+Cjx0ZXh0IHg9IjgwLjAiIHk9IjM4IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjE8L3RleHQ+Cjx0ZXh0IHg9IjgwLjAiIHk9IjE0MCIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjYjU2NTFkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj51bSAxODAwIHYuIENoci48L3RleHQ+Cjx0ZXh0IHg9IjgwLjAiIHk9IjE1NyIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxhcnNhLCBCYWJ5bG9uaWVuPC90ZXh0Pgo8dGV4dCB4PSI4MC4wIiB5PSIxNzQiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFmMmEzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+S2VpbGUgaW0gVG9uPC90ZXh0Pgo8Y2lyY2xlIGN4PSIyMjguMCIgY3k9IjkyIiByPSIyNyIgZmlsbD0iI2EzMjYyYSIvPjxjaXJjbGUgY3g9IjIyOC4wIiBjeT0iOTIiIHI9IjIyIiBmaWxsPSIjZmZmIi8+Cjx0ZXh0IHg9IjIyOC4wIiB5PSI5OSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsIHNlcmlmIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjYTMyNjJhIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5YSUk8L3RleHQ+CjxyZWN0IHg9IjIxNC4wIiB5PSIyMiIgd2lkdGg9IjI4IiBoZWlnaHQ9IjIyIiByeD0iMTEiIGZpbGw9IiNhMzI2MmEiLz4KPHRleHQgeD0iMjI4LjAiIHk9IjM4IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjI8L3RleHQ+Cjx0ZXh0IHg9IjIyOC4wIiB5PSIxNDAiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2EzMjYyYSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+dW0gMTAwIG4uIENoci48L3RleHQ+Cjx0ZXh0IHg9IjIyOC4wIiB5PSIxNTciIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjNTQ2NTc1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5Sb208L3RleHQ+Cjx0ZXh0IHg9IjIyOC4wIiB5PSIxNzQiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFmMmEzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UmVjaG5lbiBtaXQgU3RlaW5jaGVuPC90ZXh0Pgo8Y2lyY2xlIGN4PSIzNzYuMCIgY3k9IjkyIiByPSIyNyIgZmlsbD0iI2Q5ODMwMCIvPjxjaXJjbGUgY3g9IjM3Ni4wIiBjeT0iOTIiIHI9IjIyIiBmaWxsPSIjZmZmIi8+CjxlbGxpcHNlIGN4PSIzNzYuMCIgY3k9IjkyIiByeD0iOCIgcnk9IjExIiBmaWxsPSJub25lIiBzdHJva2U9IiNkOTgzMDAiIHN0cm9rZS13aWR0aD0iNCIvPgo8cmVjdCB4PSIzNjIuMCIgeT0iMjIiIHdpZHRoPSIyOCIgaGVpZ2h0PSIyMiIgcng9IjExIiBmaWxsPSIjZDk4MzAwIi8+Cjx0ZXh0IHg9IjM3Ni4wIiB5PSIzOCIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4zPC90ZXh0Pgo8dGV4dCB4PSIzNzYuMCIgeT0iMTQwIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNkOTgzMDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjYyODwvdGV4dD4KPHRleHQgeD0iMzc2LjAiIHk9IjE1NyIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkJoaWxsYW3EgWxhLCBJbmRpZW48L3RleHQ+Cjx0ZXh0IHg9IjM3Ni4wIiB5PSIxNzQiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFmMmEzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RGllIE51bGwgd2lyZCBaYWhsPC90ZXh0Pgo8Y2lyY2xlIGN4PSI1MjQuMCIgY3k9IjkyIiByPSIyNyIgZmlsbD0iIzEzODA2ZSIvPjxjaXJjbGUgY3g9IjUyNC4wIiBjeT0iOTIiIHI9IjIyIiBmaWxsPSIjZmZmIi8+Cjx0ZXh0IHg9IjUyNC4wIiB5PSI5OSIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE3IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMTM4MDZlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4w4oCTOTwvdGV4dD4KPHJlY3QgeD0iNTEwLjAiIHk9IjIyIiB3aWR0aD0iMjgiIGhlaWdodD0iMjIiIHJ4PSIxMSIgZmlsbD0iIzEzODA2ZSIvPgo8dGV4dCB4PSI1MjQuMCIgeT0iMzgiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+NDwvdGV4dD4KPHRleHQgeD0iNTI0LjAiIHk9IjE0MCIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMTM4MDZlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj44MjUgwrcgMTIwMjwvdGV4dD4KPHRleHQgeD0iNTI0LjAiIHk9IjE1NyIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkJhZ2RhZCDCtyBQaXNhPC90ZXh0Pgo8dGV4dCB4PSI1MjQuMCIgeT0iMTc0IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxZjJhMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlplaG4gWmlmZmVybjwvdGV4dD4KPGNpcmNsZSBjeD0iNjcyLjAiIGN5PSI5MiIgcj0iMjciIGZpbGw9IiMzZDRmYjgiLz48Y2lyY2xlIGN4PSI2NzIuMCIgY3k9IjkyIiByPSIyMiIgZmlsbD0iI2ZmZiIvPgo8dGV4dCB4PSI2NzIuMCIgeT0iOTkiIGZvbnQtZmFtaWx5PSJNZW5sbywgbW9ub3NwYWNlIiBmb250LXNpemU9IjE5IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjM2Q0ZmI4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4wIDE8L3RleHQ+CjxyZWN0IHg9IjY1OC4wIiB5PSIyMiIgd2lkdGg9IjI4IiBoZWlnaHQ9IjIyIiByeD0iMTEiIGZpbGw9IiMzZDRmYjgiLz4KPHRleHQgeD0iNjcyLjAiIHk9IjM4IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjU8L3RleHQ+Cjx0ZXh0IHg9IjY3Mi4wIiB5PSIxNDAiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzNkNGZiOCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTcwMzwvdGV4dD4KPHRleHQgeD0iNjcyLjAiIHk9IjE1NyIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkhhbm5vdmVyIMK3IFBhcmlzPC90ZXh0Pgo8dGV4dCB4PSI2NzIuMCIgeT0iMTc0IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxZjJhMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxlaWJuaXo6IDAgdW5kIDE8L3RleHQ+CjxjaXJjbGUgY3g9IjgyMC4wIiBjeT0iOTIiIHI9IjI3IiBmaWxsPSIjMWY5ZDU1Ii8+PGNpcmNsZSBjeD0iODIwLjAiIGN5PSI5MiIgcj0iMjIiIGZpbGw9IiNmZmYiLz4KPHBhdGggZD0iTTgwOC4wLDkyIEw4MTYuMCw5MiBNODE2LjAsODIgTDgxNi4wLDEwMiBNODIwLjAsODAgTDgyMC4wLDEwNCBNODIwLjAsODYgTDgzMS4wLDc5IE04MjAuMCw5OCBMODMxLjAsMTA1IiBzdHJva2U9IiMxZjlkNTUiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CjxyZWN0IHg9IjgwNi4wIiB5PSIyMiIgd2lkdGg9IjI4IiBoZWlnaHQ9IjIyIiByeD0iMTEiIGZpbGw9IiMxZjlkNTUiLz4KPHRleHQgeD0iODIwLjAiIHk9IjM4IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjY8L3RleHQ+Cjx0ZXh0IHg9IjgyMC4wIiB5PSIxNDAiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFmOWQ1NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTkzNyDCtyBoZXV0ZTwvdGV4dD4KPHRleHQgeD0iODIwLjAiIHk9IjE1NyIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkNhbWJyaWRnZSDCtyBCZXJsaW48L3RleHQ+Cjx0ZXh0IHg9IjgyMC4wIiB5PSIxNzQiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFmMmEzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+WsOkaGxlbiBtaXQgRWxla3Ryb25lbjwvdGV4dD4KPC9zdmc+" alt="Zeitstrahl mit sechs Epochen: um 1800 vor Christus Larsa, um 100 nach Christus Rom, 628 Indien, 825 und 1202 Bagdad und Pisa, 1703 Leibniz, 1937 bis heute Zählen mit Elektronen"><p class="figcap">Abb. 1 · Eure Reise durch das Archiv</p></div>
+
+  <div class="card">
+    <h3 class="fred" style="margin-bottom:0.3rem">So arbeitet ihr</h3>
+    <ul class="l">
+      <li>Ihr arbeitet zu zweit oder zu dritt an <b>einem iPad</b>. <b>Jede Person</b> führt ihr eigenes <b>Archivjournal</b> auf Papier. Das blaue Zeichen 📝 sagt euch, wann.</li>
+      <li>Jede Epoche beginnt mit <b>Archivkarten</b> 📚. Lest sie zuerst. Sie enthalten alles, was ihr braucht, und verraten, aus welcher Fachliteratur das Wissen stammt.</li>
+      <li>Jede Epoche endet mit einem <b>Code</b> 🔒. Danach erscheint ein <b>Ziffernsiegel</b>: eine Zahl in der Schrift der Epoche. Rechnet sie in unsere Ziffern um. Die Zahl verrät einen Buchstaben (A = 1, B = 2, …, Z = 26).</li>
+      <li>Ihr hängt fest? Öffnet die <b>Tipps</b> 💡 von oben nach unten (Denkanstoß, Werkzeug, Lösungsweg). Nehmt nur so viele, wie ihr braucht, und kreuzt sie im Journal an.</li>
+      <li>Die <b>Lorbeer-Aufgaben</b> 🌿 sind freiwillig. Für jede gibt es ein Lorbeerblatt, für die perfekte Beweiskette im Finale noch eins.</li>
+      <li>🔊 Die Stimmen der Epochen: Die historischen Personen erzählen frei nach den Quellen auf den Archivkarten. Nora Null, der Schreiber Iddin-Sîn, der Rechenmeister Marcus und die Chipentwicklerin Mira Sand sind erfunden.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3 class="fred">Wer ist im Archiv eingeschlossen?</h3>
+    <div class="team">
+      <input id="name1" data-name="0" placeholder="Vorname 1" autocomplete="off" maxlength="24">
+      <input id="name2" data-name="1" placeholder="Vorname 2" autocomplete="off" maxlength="24">
+      <input id="name3" data-name="2" placeholder="Vorname 3 (optional)" autocomplete="off" maxlength="24">
+    </div>
+    <h3 class="fred" style="margin-top:0.8rem">Eure erste Vermutung</h3>
+    <p class="small">Warum zählt ein Computer mit 0 und 1? Wählt <b>eine</b> Antwort. Es gibt hier noch kein Richtig oder Falsch. Im Finale fragt die Tür noch einmal. 📝 <b>Archivjournal, Aufgabe 1</b>: Kreuz in der Spalte „Start“.</p>
+    <div class="vote" id="vote1"></div>
+    <div class="lock-row"><button class="btn acc" id="startBtn" style="--acc:var(--e1);--acc-edge:var(--e1e)" disabled>🏺 Zur ersten Epoche</button><span class="small" id="startMsg">Erst Namen eintragen und eine Vermutung wählen.</span></div>
+  </div>
+  <div class="card sl hidden" id="slPin">
+    <h3 class="fred">🎓 Spielleitung</h3>
+    <div class="lock-row"><input id="pinIn" class="inl" style="width:12ch" placeholder="PIN" autocomplete="off" autocapitalize="characters"><button class="btn ghost small" id="pinBtn">Öffnen</button><span class="small" id="pinMsg"></span></div>
+  </div>
+</section>
+
+<!-- =============================================================== EPOCHE 1 · LARSA -->
+<section class="chapter" id="e1">
+  <div class="chap-head"><div class="chap-no">1</div><div><small>EPOCHE 1 · LARSA, BABYLONIEN · UM 1800 V. CHR.</small><h2>Keile im Ton</h2></div></div>
+  <div class="card story-card story">
+    <p class="voiced"><span class="vtext"><span class="who n">Larsa im Süden Mesopotamiens, um 1800 vor Christus.</span> In einer Schreiberschule riecht es nach feuchtem Ton. Ein junger Mann drückt mit einem angespitzten Schilfrohr Zeichen in eine Tafel.</span><button class="say" type="button" data-audio="archiv-img/stimme-9510ec9888.mp3" aria-label="Erzählung anhören" title="Erzählung anhören">🔊</button></p>
+    <p class="voiced"><span class="vtext"><span class="who">Iddin-Sîn:</span> „Willkommen im Tafelhaus! Ich bin Iddin-Sîn, Schreiber. Für Zahlen brauche ich nur zwei Zeichen: den senkrechten Keil für eins und den Winkelhaken für zehn. Bis neunundfünfzig bündle ich. Dann beginne ich eine neue Stelle, die sechzigmal so viel wert ist. Eure Uhren machen das übrigens bis heute so: sechzig Sekunden, sechzig Minuten.“</span><button class="say figur" type="button" data-audio="archiv-img/stimme-50f5beb616.mp3" aria-label="Iddin-Sîn anhören" title="Iddin-Sîn anhören">🔊</button></p>
+    <p class="voiced"><span class="vtext"><span class="who">Iddin-Sîn:</span> „Nur eines ärgert mich: Bleibt eine Stelle leer, lasse ich einfach eine kleine Lücke. Manchmal ist die Lücke zu klein, und dann weiß niemand mehr, welche Zahl gemeint war.“</span><button class="say figur" type="button" data-audio="archiv-img/stimme-2bef1d2d4d.mp3" aria-label="Iddin-Sîn anhören" title="Iddin-Sîn anhören">🔊</button></p>
+  </div>
+  <div class="card archive">
+    <h3>📚 Archivkarten · Epoche 1</h3>
+    <details class="ak"><summary><span class="nr">K1</span>Zwei Zeichen, Basis 60</summary><div>
+      <p>Babylonische Schreiber schrieben Zahlen in einem <b>Stellenwertsystem zur Basis 60</b>. Sie brauchten nur zwei Keilzeichen: den <b>Keil</b> <span class="kinl" data-keil="1"></span> für 1 und den <b>Winkelhaken</b> <span class="kinl" data-keil="10"></span> für 10. Daraus setzten sie die „Ziffern“ 1 bis 59 zusammen, z. B. <span class="kinl" data-keil="24"></span> = 24. Jede Stelle weiter links ist 60-mal so viel wert.</p>
+      <p class="quelle">Robson, E.: Mathematics in Ancient Iraq. A Social History. Princeton University Press 2008 · Neugebauer, O.: The Exact Sciences in Antiquity. 2. Aufl., Brown University Press 1957, Kap. 1</p>
+    </div></details>
+    <details class="ak"><summary><span class="nr">K2</span>Keine Null</summary><div>
+      <p>Um 1800 v. Chr. gab es <b>kein Zeichen für eine leere Stelle</b>. Die Schreiber ließen höchstens eine Lücke. Erst in astronomischen Texten ab etwa 300 v. Chr. erscheint ein Trennzeichen als Platzhalter, nie aber am Ende einer Zahl. Ob 1, 60 oder 3600 gemeint war, musste man aus dem Zusammenhang erraten.</p>
+      <p class="quelle">Neugebauer 1957, Kap. 1 · Ifrah, G.: Universalgeschichte der Zahlen. Campus, 2. Aufl. 1991</p>
+    </div></details>
+    <details class="ak"><summary><span class="nr">K3</span>Die Tafel YBC 7289</summary><div>
+      <p>Eine kleine runde Schultafel aus Yale zeigt ein Quadrat mit Diagonale und die Zahlen 1 · 24 · 51 · 10. Gelesen als 1 + 24/60 + 51/60² + 10/60³ ergibt das 1,4142130. Das ist √2, fast auf ein Millionstel genau, und das vor fast 4000 Jahren.</p>
+      <p class="quelle">Fowler, D., Robson, E.: Square Root Approximations in Old Babylonian Mathematics: YBC 7289 in Context. Historia Mathematica 25 (1998) 366–378</p>
+    </div></details>
+  </div>
+  <div class="card task">
+    <h3>🔍 Auftrag</h3>
+    <div class="tafel-row"><span class="tafel" data-keil="1,24"></span><div><span class="tafel-lab">Tafel A (Beispiel)</span><br><span class="mono">1 · 60 + 24 · 1 = 84</span></div></div>
+    <div class="tafel-row"><span class="tafel" data-keil="1,1"></span><div><span class="tafel-lab">Tafel B</span><br><span class="small">Zwei Keile, dazwischen eine kleine Lücke.</span></div></div>
+    <div class="q" id="q1b"></div>
+    <div class="journal">📝 <span><b>Archivjournal, Aufgabe 2:</b> Notiert die Rechnung zu Tafel A und erklärt, warum Tafel B mehrdeutig ist.</span></div>
+  </div>
+  <div class="hidden" data-gate="e1b">
+    <div class="card task">
+      <h3>🏺 Tafel C</h3>
+      <p>Diesmal hat Iddin-Sîn deutliche Abstände gelassen: Die Tafel hat <b>drei Stellen</b>.</p>
+      <div class="tafel-row"><span class="tafel" data-keil="1,1,40" data-gap="34"></span></div>
+      <div class="journal">📝 <span><b>Archivjournal, Aufgabe 2:</b> Berechnet den Wert von Tafel C mit allen Stellenwerten.</span></div>
+    </div>
+    <div class="lock" id="lock1">
+      <h3>🔒 Code Epoche 1</h3>
+      <p>Welche Zahl steht auf Tafel C? Schreibt sie in unseren Ziffern.</p>
+      <div class="lock-row"><input id="code1" data-v="code1" inputmode="numeric" maxlength="8" autocomplete="off" aria-label="Code Epoche 1"><button class="btn" data-lock="1">Öffnen</button></div>
+      <div class="lock-msg" id="msg1"></div>
+    </div>
+  </div>
+  <div class="card sigil hidden" data-gate="s1">
+    <h3>🔏 Ziffernsiegel 1</h3>
+    <div class="glyph" data-keil="19" data-keil-h="64"></div>
+    <p>Welche Zahl zeigt das Siegel, und welcher Buchstabe ist das (A = 1, …, Z = 26)?</p>
+    <div class="lock-row"><input class="num" id="sz1" data-v="sz1" inputmode="numeric" maxlength="2" placeholder="Zahl" aria-label="Zahl"><span>→</span><input id="sb1" data-v="sb1" maxlength="1" placeholder="A–Z" aria-label="Buchstabe"><button class="btn acc" data-seal-check="1">Prüfen</button></div>
+    <div class="fb" id="sfb1"></div>
+    <div class="lock-row hidden" data-gate="d1" style="justify-content:center"><button class="btn acc" data-next="2">Weiter nach Rom 🏛️</button></div>
+  </div>
+  <p class="hints-title">💡 Tipps · Archivjournal Aufgabe 2 <span class="small">(Tipp für Tipp öffnen, im Journal ankreuzen)</span></p>
+  <details class="hint" data-h="e1a"><summary>Tipp 1 · Denkanstoß</summary><div class="hint-body">
+    <p>Zählt in jeder Stelle die Winkelhaken (je 10) und die Keile (je 1). Jede Stelle ist 60-mal so viel wert wie die Stelle rechts daneben. Bei Tafel B: Sind die zwei Keile eine Stelle oder zwei Stellen? Und was, wenn dazwischen eine oder mehrere ganze Stellen fehlen?</p>
+    <details class="hint" data-h="e1b"><summary>Tipp 2 · Werkzeug · Stellenwerte</summary><div class="hint-body">
+      <p>Stellenwerte von rechts nach links: <b>1</b>, <b>60</b>, <b>60 · 60 = 3600</b>. Tafel C: links 1 Keil, Mitte 1 Keil, rechts 4 Winkelhaken.</p>
+      <details class="hint" data-h="e1c"><summary>Tipp 3 · Lösungsweg</summary><div class="hint-body">
+        <p>Tafel B kann 2 bedeuten (eine Stelle), 1 · 60 + 1 = 61 (zwei Stellen), 1 · 3600 + 0 · 60 + 1 = 3601 (eine leere Stelle dazwischen) oder noch mehr: Mit zwei leeren Stellen wären es 1 · 60³ + 1 = 216 001. Tafel C: 1 · 3600 + 1 · 60 + 40 · 1 = <b>3700</b>. Siegel: 1 Winkelhaken und 9 Keile = 19, der 19. Buchstabe ist <b>S</b>.</p>
+      </div></details>
+    </div></details>
+  </div></details>
+  <div class="card laurel" id="lcL1">
+    <h3>🌿 Lorbeer-Aufgabe <span class="stars">★</span></h3>
+    <p>Warum rechneten die Babylonier so gern mit 60? Wählt <b>alle</b> Zahlen, durch die man 60 ohne Rest teilen kann, 10 aber nicht.</p>
+    <div class="chk" id="l1chips"></div>
+    <button class="btn ghost small" id="l1check">Prüfen</button>
+    <div class="fb" id="lmsgL1"></div>
+  </div>
+</section>
+
+<!-- =============================================================== EPOCHE 2 · ROM -->
+<section class="chapter" id="e2">
+  <div class="chap-head"><div class="chap-no">2</div><div><small>EPOCHE 2 · OSTIA, HAFEN ROMS · UM 100 N. CHR.</small><h2>Rechnen mit Steinchen</h2></div></div>
+  <div class="card story-card story">
+    <p class="voiced"><span class="vtext"><span class="who n">Ostia, der Hafen von Rom, um 100 nach Christus.</span> Im Kontor eines Weinhändlers klappern kleine Steine auf einem Holzbrett.</span><button class="say" type="button" data-audio="archiv-img/stimme-a7b4369709.mp3" aria-label="Erzählung anhören" title="Erzählung anhören">🔊</button></p>
+    <p class="voiced"><span class="vtext"><span class="who">Marcus:</span> „Salvete! Ich bin Marcus, Rechenmeister. Auf Rechnungen schreibe ich Zahlen mit Buchstaben: I, V, X, L, C, D und M. Ein X ist immer zehn, ganz egal, wo es steht. Rechnen kann man mit diesen Zeichen leider schlecht. Deshalb rechne ich auf dem Rechenbrett mit kleinen Steinchen. Die heißen auf Latein calculi. Ihr sagt heute noch kalkulieren.“</span><button class="say figur" type="button" data-audio="archiv-img/stimme-f5e9638286.mp3" aria-label="Marcus anhören" title="Marcus anhören">🔊</button></p>
+    <p class="voiced"><span class="vtext"><span class="who">Marcus:</span> „Eine Null? Wozu? Ist eine Spalte auf meinem Brett leer, liegt dort eben kein Stein. Aufschreiben muss ich das nicht.“</span><button class="say figur" type="button" data-audio="archiv-img/stimme-412d41c52d.mp3" aria-label="Marcus anhören" title="Marcus anhören">🔊</button></p>
+  </div>
+  <div class="card archive">
+    <h3>📚 Archivkarten · Epoche 2</h3>
+    <details class="ak"><summary><span class="nr">K4</span>Ein Additionssystem</summary><div>
+      <p>Römische Zahlzeichen bilden ein <b>Additionssystem</b>: Der Wert eines Zeichens hängt <b>nicht</b> von seiner Stelle ab, die Werte werden zusammengezählt (MDCLXVI = 1000 + 500 + 100 + 50 + 10 + 5 + 1 = 1666). Die Kurzform mit Abziehen (IV statt IIII, IX statt VIIII) war in der Antike selten und wurde erst im Mittelalter üblich.</p>
+      <div class="rtab"><span>I = 1</span><span>V = 5</span><span>X = 10</span><span>L = 50</span><span>C = 100</span><span>D = 500</span><span>M = 1000</span><span>IV = 4</span><span>IX = 9</span><span>XL = 40</span><span>XC = 90</span><span>CD = 400</span><span>CM = 900</span></div>
+      <p class="quelle">Menninger, K.: Zahlwort und Ziffer. Eine Kulturgeschichte der Zahl. 2. Aufl., Vandenhoeck &amp; Ruprecht 1958, Bd. 2 · Ifrah 1991</p>
+    </div></details>
+    <details class="ak"><summary><span class="nr">K5</span>Das Rechenbrett</summary><div>
+      <p>Gerechnet wurde auf dem <b>Rechenbrett</b> (Abakus) mit Rechensteinen, lateinisch <i>calculi</i>. Jede Spalte steht für Einer, Zehner, Hunderter oder Tausender. Das Brett war also ein <b>Stellenwertsystem</b>, die Schrift auf Papyrus und Stein aber nicht. Liegen zehn Steine in einer Spalte, ersetzt man sie durch einen Stein in der Spalte links daneben.</p>
+      <p class="quelle">Menninger 1958, Bd. 2 · Schärlig, A.: Compter avec des cailloux. Presses polytechniques et universitaires romandes 2001</p>
+    </div></details>
+  </div>
+  <div class="card task">
+    <h3>🧮 Auftrag</h3>
+    <ol>
+      <li>Der Weinhändler hat <b>CDXLIV</b> Amphoren im Lager. Ein Schiff bringt <b>XXVI</b> dazu. Legt erst die erste Zahl auf das Rechenbrett, dann die zweite dazu. Zehn Steine in einer Spalte? Bündeln!</li>
+      <li>Lest das Ergebnis vom Brett ab und schreibt es mit römischen Zahlzeichen.</li>
+    </ol>
+    <div class="abakus" id="abakus"></div>
+    <div class="ctrl"><button class="btn ghost small" id="abReset">↺ Brett leeren</button><span class="small">Tippt + und − in den Spalten. Ein Stein = ein Zahlzeichen-Wert der Spalte.</span></div>
+    <div class="q" id="q2b"></div>
+    <div class="journal">📝 <span><b>Archivjournal, Aufgabe 3:</b> Notiert die Rechnung und begründet, warum die römische Schrift kein Stellenwertsystem ist.</span></div>
+  </div>
+  <div class="lock hidden" id="lock2" data-gate="e2b">
+    <h3>🔒 Code Epoche 2</h3>
+    <p>Wie viele Amphoren sind es jetzt? Schreibt das Ergebnis mit <b>römischen Zahlzeichen</b>.</p>
+    <div class="lock-row"><input id="code2" data-v="code2" maxlength="12" autocomplete="off" autocapitalize="characters" aria-label="Code Epoche 2"><button class="btn" data-lock="2">Öffnen</button></div>
+    <div class="lock-msg" id="msg2"></div>
+  </div>
+  <div class="card sigil hidden" data-gate="s2">
+    <h3>🔏 Ziffernsiegel 2</h3>
+    <div class="glyph" style="font-family:Georgia,serif">VIIII</div>
+    <p>So schrieben die Römer meistens. Welche Zahl, welcher Buchstabe?</p>
+    <div class="lock-row"><input class="num" id="sz2" data-v="sz2" inputmode="numeric" maxlength="2" placeholder="Zahl" aria-label="Zahl"><span>→</span><input id="sb2" data-v="sb2" maxlength="1" placeholder="A–Z" aria-label="Buchstabe"><button class="btn acc" data-seal-check="2">Prüfen</button></div>
+    <div class="fb" id="sfb2"></div>
+    <div class="lock-row hidden" data-gate="d2" style="justify-content:center"><button class="btn acc" data-next="3">Weiter nach Indien 🪷</button></div>
+  </div>
+  <p class="hints-title">💡 Tipps · Archivjournal Aufgabe 3</p>
+  <details class="hint" data-h="e2a"><summary>Tipp 1 · Denkanstoß</summary><div class="hint-body">
+    <p>Übersetzt beide Zahlen zuerst in unsere Ziffern: CD = 500 − 100, XL = 50 − 10, IV = 5 − 1. Danach rechnet ihr auf dem Brett und übersetzt zurück.</p>
+    <details class="hint" data-h="e2b"><summary>Tipp 2 · Werkzeug · Rechenbrett</summary><div class="hint-body">
+      <p>CDXLIV = 444: vier Steine bei C, vier bei X, vier bei I. XXVI = 26: zwei Steine dazu bei X, sechs bei I. Bei I liegen jetzt zehn Steine: bündeln, also ein Stein mehr bei X.</p>
+      <details class="hint" data-h="e2c"><summary>Tipp 3 · Lösungsweg</summary><div class="hint-body">
+        <p>444 + 26 = 470 = 400 + 50 + 20 = CD + L + XX = <b>CDLXX</b> (antik auch CCCCLXX). Siegel: VIIII = 5 + 4 = 9, der 9. Buchstabe ist <b>I</b>.</p>
+      </div></details>
+    </div></details>
+  </div></details>
+  <div class="card laurel" id="lcL2">
+    <h3>🌿 Lorbeer-Aufgabe <span class="stars">★★</span></h3>
+    <p>Welche Zahl unter 4000 hat die <b>längste</b> römische Schreibweise (mit Abziehen, also IV, IX, XL …)? Tipp: Eine 8 braucht besonders viele Zeichen.</p>
+    <div class="lock-row"><input class="inl" id="l2in" data-v="l2in" inputmode="numeric" maxlength="4"><button class="btn ghost small" id="l2check">Prüfen</button></div>
+    <div class="fb" id="lmsgL2"></div>
+  </div>
+</section>
+
+<!-- =============================================================== EPOCHE 3 · INDIEN -->
+<section class="chapter" id="e3">
+  <div class="chap-head"><div class="chap-no">3</div><div><small>EPOCHE 3 · BHILLAMĀLA, INDIEN · 628</small><h2>Die Null wird eine Zahl</h2></div></div>
+  <div class="card story-card story">
+    <p class="voiced"><span class="vtext"><span class="who n">Bhillamāla im Nordwesten Indiens, im Jahr 628.</span> Ein Astronom schreibt Verse über Sterne und Zahlen.</span><button class="say" type="button" data-audio="archiv-img/stimme-ac062c3767.mp3" aria-label="Erzählung anhören" title="Erzählung anhören">🔊</button></p>
+    <p class="voiced"><span class="vtext"><span class="who">Brahmagupta:</span> „Namaste! Ich bin Brahmagupta. In meinem Lehrbuch über die Bewegung der Sterne schreibe ich etwas Ungewöhnliches auf: Regeln für das Rechnen mit dem Nichts. Wir nennen es Shunya, das Leere. Für uns ist die Null nicht nur eine Lücke zwischen Ziffern, sondern eine Zahl. Eine Zahl plus Null bleibt die Zahl. Eine Zahl mal Null ergibt Null.“</span><button class="say figur" type="button" data-audio="archiv-img/stimme-1a602c252f.mp3" aria-label="Brahmagupta anhören" title="Brahmagupta anhören">🔊</button></p>
+    <p class="voiced"><span class="vtext"><span class="who">Brahmagupta:</span> „Bei einer Regel bin ich mir selbst nicht sicher: Was geschieht, wenn man durch Null teilt? Findet ihr es heraus?“</span><button class="say figur" type="button" data-audio="archiv-img/stimme-acf605d2e5.mp3" aria-label="Brahmagupta anhören" title="Brahmagupta anhören">🔊</button></p>
+  </div>
+  <div class="card archive">
+    <h3>📚 Archivkarten · Epoche 3</h3>
+    <details class="ak"><summary><span class="nr">K6</span>Regeln für das Nichts</summary><div>
+      <p>Brahmagupta gibt 628 in seinem Werk <i>Brāhmasphuṭasiddhānta</i> (Kap. 18) als Erster Rechenregeln für die <b>Null als Zahl</b> an, dazu Regeln für „Schulden“, also negative Zahlen. 0 : 0 setzte er gleich 0. Das gilt heute als falsch: Durch Null kann man nicht teilen.</p>
+      <p class="quelle">Plofker, K.: Mathematics in India. Princeton University Press 2009, Kap. 5</p>
+    </div></details>
+    <details class="ak"><summary><span class="nr">K7</span>Die Null im Stein</summary><div>
+      <p>Die älteste sicher datierte Null in einer Stellenwertschrift steht auf einer Steininschrift aus Kambodscha (683 n. Chr.). In Indien zeigt eine Tempelinschrift in <b>Gwalior</b> (876 n. Chr.) Zahlen mit einem kleinen Kreis als Null, darunter die Zahl 270. Aus diesen Ziffern gingen die Devanagari-Ziffern hervor, die man in Indien bis heute schreibt.</p>
+      <p class="quelle">Aczel, A. D.: Finding Zero. Palgrave Macmillan 2015 · Ifrah 1991</p>
+    </div></details>
+    <details class="ak"><summary><span class="nr">K8</span>Streit um ein Manuskript</summary><div>
+      <p>Das <b>Bakhshali-Manuskript</b> benutzt einen Punkt als Null. Die Bodleian Library in Oxford datierte 2017 einige Blätter mit der C14-Methode auf das 3. bis 4. Jahrhundert und meldete die „älteste Null“. Fachleute widersprachen: Das älteste Blatt datiert nicht den ganzen Text. So funktioniert Wissenschaft: Behauptungen werden öffentlich geprüft.</p>
+      <p class="quelle">Plofker, K., Keller, A., Hayashi, T., Montelle, C., Wujastyk, D.: The Bakhshālī Manuscript: A Response to the Bodleian Library's Radiocarbon Dating. History of Science in South Asia 5 (2017) 134–150</p>
+    </div></details>
+  </div>
+  <div class="card task">
+    <h3>🪷 Auftrag</h3>
+    <p>Prüft Brahmaguptas Regeln. Wählt das Ergebnis aus.</p>
+    <div class="scroll"><table class="st" id="nullrules"></table></div>
+    <div class="lock-row"><button class="btn ghost small" id="nullCheck">Prüfen</button><span class="fb" id="nullFb"></span></div>
+    <div class="journal">📝 <span><b>Archivjournal, Aufgabe 4:</b> Tragt die Regeln ein und erklärt, welches Problem der Babylonier die Null löst.</span></div>
+  </div>
+  <div class="hidden" data-gate="e3b">
+    <div class="card task">
+      <h3>🛕 Die Inschrift von Gwalior</h3>
+      <p>Eine Zahl aus der Tempelinschrift, nachgeschrieben in heutigen Devanagari-Ziffern:</p>
+      <p style="text-align:center"><span class="inschrift">२७०</span></p>
+      <div class="scroll"><table class="digit-tab" aria-label="Devanagari-Ziffern"><tr><td>०</td><td>१</td><td>२</td><td>३</td><td>४</td><td>५</td><td>६</td><td>७</td><td>८</td><td>९</td></tr><tr><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td></tr></table></div>
+      <div class="q" id="q3c"></div>
+    </div>
+    <div class="lock hidden" id="lock3" data-gate="e3c">
+      <h3>🔒 Code Epoche 3</h3>
+      <p>Welche Zahl steht in der Inschrift? Schreibt sie in unseren Ziffern.</p>
+      <div class="lock-row"><input id="code3" data-v="code3" inputmode="numeric" maxlength="6" autocomplete="off" aria-label="Code Epoche 3"><button class="btn" data-lock="3">Öffnen</button></div>
+      <div class="lock-msg" id="msg3"></div>
+    </div>
+  </div>
+  <div class="card sigil hidden" data-gate="s3">
+    <h3>🔏 Ziffernsiegel 3</h3>
+    <div class="glyph">३</div>
+    <p>Welche Zahl, welcher Buchstabe? Die Ziffern-Tabelle oben hilft.</p>
+    <div class="lock-row"><input class="num" id="sz3" data-v="sz3" inputmode="numeric" maxlength="2" placeholder="Zahl" aria-label="Zahl"><span>→</span><input id="sb3" data-v="sb3" maxlength="1" placeholder="A–Z" aria-label="Buchstabe"><button class="btn acc" data-seal-check="3">Prüfen</button></div>
+    <div class="fb" id="sfb3"></div>
+    <div class="lock-row hidden" data-gate="d3" style="justify-content:center"><button class="btn acc" data-next="4">Weiter nach Bagdad und Pisa 📜</button></div>
+  </div>
+  <p class="hints-title">💡 Tipps · Archivjournal Aufgabe 4</p>
+  <details class="hint" data-h="e3a"><summary>Tipp 1 · Denkanstoß</summary><div class="hint-body">
+    <p>Teilen lässt sich immer mit der Umkehraufgabe prüfen: 12 : 3 = 4, weil 4 · 3 = 12. Was müsste dann für 7 : 0 gelten?</p>
+    <details class="hint" data-h="e3b"><summary>Tipp 2 · Werkzeug</summary><div class="hint-body">
+      <p>7 : 0 = ? hieße: ? · 0 = 7. Jede Zahl mal 0 ergibt aber 0. Für 0 − 7 denkt an Schulden: Ihr habt nichts und gebt 7 aus. In der Inschrift: २ = 2, ७ = 7, ० = 0.</p>
+      <details class="hint" data-h="e3c"><summary>Tipp 3 · Lösungsweg</summary><div class="hint-body">
+        <p>7 + 0 = 7 · 7 − 0 = 7 · 0 − 7 = −7 · 7 · 0 = 0 · 0 : 7 = 0 · 7 : 0 ist nicht definiert. Die Null macht leere Stellen sichtbar: 61, 3601 und 2 sind nicht mehr verwechselbar. Code: <b>270</b>. Siegel: ३ = 3, der 3. Buchstabe ist <b>C</b>.</p>
+      </div></details>
+    </div></details>
+  </div></details>
+  <div class="card laurel" id="lcL3">
+    <h3>🌿 Lorbeer-Aufgabe <span class="stars">★★</span></h3>
+    <div id="lL3"></div>
+  </div>
+</section>
+
+<!-- =============================================================== EPOCHE 4 · BAGDAD UND PISA -->
+<section class="chapter" id="e4">
+  <div class="chap-head"><div class="chap-no">4</div><div><small>EPOCHE 4 · BAGDAD UM 825 · PISA 1202</small><h2>Zehn Ziffern erobern die Welt</h2></div></div>
+  <div class="card story-card story">
+    <p class="voiced"><span class="vtext"><span class="who n">Bagdad um 825, später Pisa im Jahr 1202.</span> Im Haus der Weisheit übersetzen Gelehrte Bücher aus Indien und Griechenland. Fast vierhundert Jahre später sitzt ein Kaufmannssohn in Pisa über einem dicken Rechenbuch.</span><button class="say" type="button" data-audio="archiv-img/stimme-f65093366c.mp3" aria-label="Erzählung anhören" title="Erzählung anhören">🔊</button></p>
+    <p class="voiced"><span class="vtext"><span class="who">Leonardo von Pisa:</span> „Buongiorno! Ich bin Leonardo von Pisa, ihr nennt mich Fibonacci. Als Junge lernte ich bei Kaufleuten in Nordafrika die neun Ziffern der Inder und dazu das Zeichen Null, das die Araber Sifr nennen, das Leere. Daraus wurde bei mir Zephirum und bei euch das Wort Ziffer. Mit diesen zehn Zeichen kann man jede Zahl schreiben. Das steht gleich am Anfang meines Rechenbuchs, des Liber Abaci.“</span><button class="say figur" type="button" data-audio="archiv-img/stimme-b3f2d773a2.mp3" aria-label="Leonardo von Pisa anhören" title="Leonardo von Pisa anhören">🔊</button></p>
+    <p class="voiced"><span class="vtext"><span class="who">Leonardo von Pisa:</span> „Gelernt habe ich das aus Büchern, die auf einen Gelehrten aus Bagdad zurückgehen: al-Chwarizmi. Aus seinem Namen ist euer Wort Algorithmus geworden. Ein Informatikkurs ohne ihn? Undenkbar!“</span><button class="say figur" type="button" data-audio="archiv-img/stimme-b93a22b217.mp3" aria-label="Leonardo von Pisa anhören" title="Leonardo von Pisa anhören">🔊</button></p>
+  </div>
+  <div class="card archive">
+    <h3>📚 Archivkarten · Epoche 4</h3>
+    <details class="ak"><summary><span class="nr">K9</span>Dixit Algorizmi</summary><div>
+      <p>Al-Chwarizmi schrieb um 825 in Bagdad über das Rechnen mit den indischen Ziffern. Die älteste lateinische Fassung beginnt mit „Dixit Algorizmi“ (es sprach Algorizmi). Aus dem Namen wurde Algorismus, später <b>Algorithmus</b>.</p>
+      <p class="quelle">Folkerts, M. (unter Mitarbeit von P. Kunitzsch): Die älteste lateinische Schrift über das indische Rechnen nach al-Ḫwārizmī. Abh. Bayer. Akad. Wiss., phil.-hist. Kl., N. F. 113, München 1997</p>
+    </div></details>
+    <details class="ak"><summary><span class="nr">K10</span>Liber Abaci, Kapitel 1</summary><div>
+      <p>„Novem figure indorum hee sunt 9 8 7 6 5 4 3 2 1. Cum his itaque novem figuris, et cum hoc signo 0, quod arabice zephirum appellatur, scribitur quilibet numerus.“ <br><span class="small">Die neun Ziffern der Inder sind diese: 9 8 7 6 5 4 3 2 1. Mit diesen neun Ziffern und mit dem Zeichen 0, das auf Arabisch zephirum heißt, schreibt man jede beliebige Zahl.</span></p>
+      <p class="quelle">Sigler, L. E.: Fibonacci's Liber Abaci. A Translation into Modern English. Springer 2002, S. 17</p>
+    </div></details>
+    <details class="ak"><summary><span class="nr">K11</span>Satz von der Stellenwertdarstellung</summary><div>
+      <p>Jede natürliche Zahl z lässt sich zu einer Basis b ≥ 2 mit n Ziffern aus dem Alphabet A = {0, …, b−1} <b>eindeutig</b> darstellen (ohne führende Nullen):</p>
+      <p class="mono" style="text-align:center;font-size:1.05rem">z = a<sub>n−1</sub>·b<sup>n−1</sup> + … + a<sub>1</sub>·b<sup>1</sup> + a<sub>0</sub>·b<sup>0</sup></p>
+      <p>Im Dezimalsystem ist b = 10 und A<sub>10</sub> = {0, …, 9}.</p>
+      <p class="quelle">Knuth, D. E.: The Art of Computer Programming, Bd. 2: Seminumerical Algorithms. 3. Aufl., Addison-Wesley 1997, Abschn. 4.1</p>
+    </div></details>
+    <details class="ak"><summary><span class="nr">K12</span>Basis 16 im Computer</summary><div>
+      <p>Seit dem Großrechner IBM System/360 (1964) fassen Computer 8 Bit zu einem <b>Byte</b> zusammen. Ein Byte schreibt man bequem mit zwei Ziffern zur <b>Basis 16</b> (Hexadezimalsystem). Dafür braucht man 16 Ziffern: 0 bis 9 und A bis F (A = 10, B = 11, …, F = 15). Programmierer kennzeichnen solche Zahlen oft mit 0x, z. B. 0x1F = 1 · 16 + 15 = 31.</p>
+      <p class="quelle">Amdahl, G. M., Blaauw, G. A., Brooks, F. P.: Architecture of the IBM System/360. IBM Journal of Research and Development 8 (1964) 87–101</p>
+    </div></details>
+  </div>
+  <div class="card task">
+    <h3>📜 Auftrag</h3>
+    <p>Zerlegt 4711 nach dem Satz von der Stellenwertdarstellung (K11).</p>
+    <div class="eqrow" id="hs"></div>
+    <div class="lock-row"><button class="btn ghost small" id="hsCheck">Prüfen</button><span class="fb" id="hsFb"></span></div>
+    <div class="journal">📝 <span><b>Archivjournal, Aufgabe 5:</b> Ergänzt die Formel und die Zerlegung von 4711.</span></div>
+  </div>
+  <div class="hidden" data-gate="e4b">
+    <div class="card task">
+      <h3>⚙️ Die Basis-Maschine</h3>
+      <p>Dieselbe Ziffernfolge kann je nach Basis eine ganz andere Zahl sein. Die Maschine zeigt euch die Stellenwerte. Multiplizieren und addieren müsst ihr selbst.</p>
+      <div class="ctrl"><label>Basis b <select class="gsel" id="bmBase"><option>2</option><option>5</option><option selected>8</option><option>10</option><option>16</option></select></label><label>Ziffern <input class="inl" id="bmDigits" style="width:11ch" value="4711" maxlength="10" autocomplete="off" autocapitalize="characters"></label></div>
+      <div class="scroll"><table class="st" id="bmTab"></table></div>
+      <p class="fb" id="bmMsg"></p>
+    </div>
+    <div class="lock" id="lock4">
+      <h3>🔒 Code Epoche 4</h3>
+      <p>Welche Zahl in unseren Ziffern bedeutet die Ziffernfolge 4711 zur <b>Basis 8</b>?</p>
+      <div class="lock-row"><input id="code4" data-v="code4" inputmode="numeric" maxlength="6" autocomplete="off" aria-label="Code Epoche 4"><button class="btn" data-lock="4">Öffnen</button></div>
+      <div class="lock-msg" id="msg4"></div>
+    </div>
+  </div>
+  <div class="card sigil hidden" data-gate="s4">
+    <h3>🔏 Ziffernsiegel 4</h3>
+    <div class="glyph">٨</div>
+    <p>Ostarabische Ziffern, bis heute z. B. in Ägypten und im Irak in Gebrauch:</p>
+    <div class="scroll" style="display:flex;justify-content:center"><table class="digit-tab"><tr><td>٠</td><td>١</td><td>٢</td><td>٣</td><td>٤</td><td>٥</td><td>٦</td><td>٧</td><td>٨</td><td>٩</td></tr><tr><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>?</td><td>9</td></tr></table></div>
+    <div class="lock-row"><input class="num" id="sz4" data-v="sz4" inputmode="numeric" maxlength="2" placeholder="Zahl" aria-label="Zahl"><span>→</span><input id="sb4" data-v="sb4" maxlength="1" placeholder="A–Z" aria-label="Buchstabe"><button class="btn acc" data-seal-check="4">Prüfen</button></div>
+    <div class="fb" id="sfb4"></div>
+    <div class="lock-row hidden" data-gate="d4" style="justify-content:center"><button class="btn acc" data-next="5">Weiter zu Leibniz 🪶</button></div>
+  </div>
+  <p class="hints-title">💡 Tipps · Archivjournal Aufgabe 5</p>
+  <details class="hint" data-h="e4a"><summary>Tipp 1 · Denkanstoß</summary><div class="hint-body">
+    <p>4711 = 4 Tausender + 7 Hunderter + 1 Zehner + 1 Einer. Schreibt jeden Stellenwert als Zehnerpotenz. Zur Basis 8 rechnet ihr genauso, nur mit 8 statt 10.</p>
+    <details class="hint" data-h="e4b"><summary>Tipp 2 · Werkzeug · Potenzen</summary><div class="hint-body">
+      <p>10³ = 1000, 10² = 100, 10¹ = 10, 10⁰ = 1. Zur Basis 8: 8³ = 512, 8² = 64, 8¹ = 8, 8⁰ = 1. Die Basis-Maschine zeigt euch genau diese Werte.</p>
+      <details class="hint" data-h="e4c"><summary>Tipp 3 · Lösungsweg</summary><div class="hint-body">
+        <p>4711 = 4·10³ + 7·10² + 1·10¹ + 1·10⁰. Zur Basis 8: 4·512 + 7·64 + 1·8 + 1·1 = 2048 + 448 + 8 + 1 = <b>2505</b>. Siegel: ٨ = 8, der 8. Buchstabe ist <b>H</b>.</p>
+      </div></details>
+    </div></details>
+  </div></details>
+  <div class="card laurel" id="lcL4">
+    <h3>🌿 Lorbeer-Aufgabe <span class="stars">★★</span></h3>
+    <p>Rechnet <b>0x2A</b> (Basis 16, K12) in unsere Ziffern um. Kleiner Hinweis für Fans von Science-Fiction: Die Zahl ist laut einem berühmten Roman die Antwort auf alle Fragen.</p>
+    <div class="lock-row"><input class="inl" id="l4in" data-v="l4in" inputmode="numeric" maxlength="4"><button class="btn ghost small" id="l4check">Prüfen</button></div>
+    <div class="fb" id="lmsgL4"></div>
+  </div>
+</section>
+
+<!-- =============================================================== EPOCHE 5 · LEIBNIZ -->
+<section class="chapter" id="e5">
+  <div class="chap-head"><div class="chap-no">5</div><div><small>EPOCHE 5 · HANNOVER UND PARIS · 1703</small><h2>Leibniz und die Zahl Eins</h2></div></div>
+  <div class="card story-card story">
+    <p class="voiced"><span class="vtext"><span class="who n">Hannover, im Frühjahr 1703.</span> Ein Gelehrter am Hof des Kurfürsten schickt einen Aufsatz nach Paris, an die Akademie der Wissenschaften.</span><button class="say" type="button" data-audio="archiv-img/stimme-28fc869dc4.mp3" aria-label="Erzählung anhören" title="Erzählung anhören">🔊</button></p>
+    <p class="voiced"><span class="vtext"><span class="who">Gottfried Wilhelm Leibniz:</span> „Bonjour! Ich bin Gottfried Wilhelm Leibniz. Ich habe herausgefunden: Man braucht nicht zehn Ziffern, zwei genügen völlig, die Null und die Eins. Von Stelle zu Stelle verdoppelt sich der Wert: eins, zwei, vier, acht, sechzehn. Die Zahlen werden dabei länger, aber das Rechnen wird kinderleicht. Das ganze Einmaleins besteht nur noch aus einem Satz: Eins mal eins ist eins.“</span><button class="say figur" type="button" data-audio="archiv-img/stimme-4f78f7ee92.mp3" aria-label="Gottfried Wilhelm Leibniz anhören" title="Gottfried Wilhelm Leibniz anhören">🔊</button></p>
+    <p class="voiced"><span class="vtext"><span class="who">Gottfried Wilhelm Leibniz:</span> „Eine Rechenmaschine habe ich übrigens auch gebaut. Die rechnet allerdings im Zehnersystem, mit Zahnrädern ist das bequemer. Wer sollte schon eine Maschine bauen, die nur zwei Zustände kennt?“</span><button class="say figur" type="button" data-audio="archiv-img/stimme-efaf4d2709.mp3" aria-label="Gottfried Wilhelm Leibniz anhören" title="Gottfried Wilhelm Leibniz anhören">🔊</button></p>
+  </div>
+  <div class="card archive">
+    <h3>📚 Archivkarten · Epoche 5</h3>
+    <details class="ak"><summary><span class="nr">K13</span>Explication de l'Arithmétique Binaire</summary><div>
+      <p>Leibniz beschreibt 1703, wie man nur mit 0 und 1 zählt, addiert, subtrahiert und multipliziert. Er sieht darin vor allem eine mathematische und philosophische Schönheit, keine Technik.</p>
+      <p class="quelle">Leibniz, G. W.: Explication de l'Arithmétique Binaire. Histoire de l'Académie Royale des Sciences, Année 1703, Paris 1705, 85–89</p>
+    </div></details>
+    <details class="ak"><summary><span class="nr">K14</span>Länger, aber einfacher</summary><div>
+      <p>Dualzahlen sind etwa 3,3-mal so lang wie Dezimalzahlen. Warum? Eine Dezimalstelle mehr macht den Wertebereich 10-mal so groß, eine Dualstelle mehr nur 2-mal so groß. Drei Dualstellen schaffen 2 · 2 · 2 = 8, vier schon 16. Für den Faktor 10 braucht man also zwischen 3 und 4 Dualstellen, genauer 3,32, denn 2<sup>3,32</sup> ≈ 10. Die Zahl 4711 braucht 4 Dezimalziffern, aber 13 Dualziffern. Dafür gibt es beim Addieren nur vier Fälle: 0+0, 0+1, 1+0 und 1+1 = 10.</p>
+      <p class="quelle">Eigene Rechnung nach dem Satz von der Stellenwertdarstellung (K11)</p>
+    </div></details>
+    <details class="ak"><summary><span class="nr">K15</span>Leibniz' Maschine rechnete dezimal</summary><div>
+      <p>Leibniz' Rechenmaschine mit Staffelwalzen (ab 1673) rechnete im <b>Dezimalsystem</b> mit Zahnrädern. Erfinder der Binärrechnung und Erbauer einer Binärmaschine war er also nicht zugleich.</p>
+      <p class="quelle">Morar, F.-S.: Reinventing Machines: The Transmission History of the Leibniz Calculator. British Journal for the History of Science 48 (2015) 123–146</p>
+    </div></details>
+    <details class="ak"><summary><span class="nr">K16</span>Harriot war früher</summary><div>
+      <p>Schon um 1600 rechnete der Engländer Thomas Harriot binär. Er veröffentlichte es nie, seine Notizen wurden erst im 20. Jahrhundert entdeckt.</p>
+      <p class="quelle">Shirley, J. W.: Binary Numeration before Leibniz. American Journal of Physics 19 (1951) 452–454</p>
+    </div></details>
+  </div>
+  <div class="card task">
+    <h3>🪶 Auftrag</h3>
+    <div class="gaptext" id="dualgap"></div>
+    <p style="margin-top:0.4rem">Ergänzt die Tabelle aus Leibniz' Aufsatz.</p>
+    <div class="scroll"><table class="st" id="dualtab"></table></div>
+    <div class="lock-row"><button class="btn ghost small" id="dualCheck">Prüfen</button><span class="fb" id="dualFb"></span></div>
+    <div class="journal">📝 <span><b>Archivjournal, Aufgabe 6:</b> Ergänzt Basis, Alphabet und die Tabelle mit Stellenwertdarstellung.</span></div>
+  </div>
+  <div class="hidden" data-gate="e5b">
+    <div class="card task">
+      <h3>💡 Die Bit-Lampen</h3>
+      <p>Jede Lampe ist eine Stelle. Leuchtet sie, steht dort eine 1. Schaltet die Lampen so, dass sie <b>4711</b> darstellen.</p>
+      <div class="lamps" id="lamps"></div>
+      <div class="readout" id="lampOut">0000000000000 · Wert 0</div>
+    </div>
+    <div class="lock" id="lock5">
+      <h3>🔒 Code Epoche 5</h3>
+      <p>Wie lautet 4711 im Dualsystem? Tippt alle 13 Stellen.</p>
+      <div class="lock-row"><input class="wide" id="code5" data-v="code5" inputmode="numeric" maxlength="16" autocomplete="off" aria-label="Code Epoche 5"><button class="btn" data-lock="5">Öffnen</button></div>
+      <div class="lock-msg" id="msg5"></div>
+    </div>
+  </div>
+  <div class="card sigil hidden" data-gate="s5">
+    <h3>🔏 Ziffernsiegel 5</h3>
+    <div class="glyph mono">101</div>
+    <p>Leibniz hat das Siegel natürlich binär geschrieben. Welche Zahl, welcher Buchstabe?</p>
+    <div class="lock-row"><input class="num" id="sz5" data-v="sz5" inputmode="numeric" maxlength="2" placeholder="Zahl" aria-label="Zahl"><span>→</span><input id="sb5" data-v="sb5" maxlength="1" placeholder="A–Z" aria-label="Buchstabe"><button class="btn acc" data-seal-check="5">Prüfen</button></div>
+    <div class="fb" id="sfb5"></div>
+    <div class="lock-row hidden" data-gate="d5" style="justify-content:center"><button class="btn acc" data-next="6">Weiter ins Zeitalter der Elektronen ⚡</button></div>
+  </div>
+  <p class="hints-title">💡 Tipps · Archivjournal Aufgabe 6</p>
+  <details class="hint" data-h="e5a"><summary>Tipp 1 · Denkanstoß</summary><div class="hint-body">
+    <p>Im Dualsystem ist jede Stelle doppelt so viel wert wie die rechts daneben. 1000₂ hat eine 1 an der vierten Stelle von rechts.</p>
+    <details class="hint" data-h="e5b"><summary>Tipp 2 · Werkzeug · Zweierpotenzen</summary><div class="hint-body">
+      <p>2⁰ = 1, 2¹ = 2, 2² = 4, 2³ = 8, 2⁴ = 16 … 2¹² = 4096. Für 4711: Sucht die größte Zweierpotenz, die hineinpasst (4096). Rest 615: Passt 2048? Nein. 1024? Nein. 512? Ja …</p>
+      <details class="hint" data-h="e5c"><summary>Tipp 3 · Lösungsweg</summary><div class="hint-body">
+        <p>10₂ = 2, 11₂ = 3, 100₂ = 4, 1000₂ = 8, 1111₂ = 15, 10000₂ = 16. 4711 = 4096 + 512 + 64 + 32 + 4 + 2 + 1 = <b>1001001100111</b>. Siegel: 101₂ = 4 + 0 + 1 = 5, der 5. Buchstabe ist <b>E</b>.</p>
+      </div></details>
+    </div></details>
+  </div></details>
+  <div class="card laurel" id="lcL5">
+    <h3>🌿 Lorbeer-Aufgabe <span class="stars">★★</span></h3>
+    <p>Jeder Finger ist ein Bit: ausgestreckt = 1, eingeklappt = 0. Bis zu welcher Zahl könnt ihr mit <b>zehn Fingern</b> binär zählen?</p>
+    <div class="lock-row"><input class="inl" id="l5in" data-v="l5in" inputmode="numeric" maxlength="5"><button class="btn ghost small" id="l5check">Prüfen</button></div>
+    <div class="fb" id="lmsgL5"></div>
+  </div>
+</section>
+
+<!-- =============================================================== EPOCHE 6 · ELEKTRONEN -->
+<section class="chapter" id="e6">
+  <div class="chap-head"><div class="chap-no">6</div><div><small>EPOCHE 6 · CAMBRIDGE 1937 · BERLIN 1938 · HEUTE</small><h2>Zählen mit Elektronen</h2></div></div>
+  <div class="card story-card story">
+    <p class="voiced"><span class="vtext"><span class="who n">Cambridge in Massachusetts, 1937.</span> Ein Student sitzt über den Schaltplänen einer Telefonzentrale.</span><button class="say" type="button" data-audio="archiv-img/stimme-3b0bd30401.mp3" aria-label="Erzählung anhören" title="Erzählung anhören">🔊</button></p>
+    <p class="voiced"><span class="vtext"><span class="who">Claude Shannon:</span> „Hi, ich bin Claude Shannon. Ein Relais ist ein Schalter, den der Strom selbst betätigt. Er kennt genau zwei Zustände: offen oder geschlossen. Mir fiel auf: Das sind genau die Null und die Eins von Leibniz. In meiner Masterarbeit zeige ich, dass man mit solchen Schaltern rechnen und logisch entscheiden kann.“</span><button class="say figur" type="button" data-audio="archiv-img/stimme-dc192cf995.mp3" aria-label="Claude Shannon anhören" title="Claude Shannon anhören">🔊</button></p>
+    <p class="voiced"><span class="vtext"><span class="who">Konrad Zuse:</span> „Und ich bin Konrad Zuse aus Berlin. Im Wohnzimmer meiner Eltern in Kreuzberg baue ich bis 1938 meine Z1, eine Rechenmaschine, die binär rechnet. 1941 folgt die Z3 aus über zweitausend Relais. Zehn Zustände pro Bauteil? Viel zu fehleranfällig. Zwei Zustände erkennt jede Maschine sicher.“</span><button class="say figur" type="button" data-audio="archiv-img/stimme-e3336392a9.mp3" aria-label="Konrad Zuse anhören" title="Konrad Zuse anhören">🔊</button></p>
+    <p class="voiced"><span class="vtext"><span class="who">Mira Sand:</span> „Mira Sand, Chipentwicklerin. Heute stecken in einem Smartphone-Chip viele Milliarden Transistoren. Jeder ist ein winziger Schalter und arbeitet mit etwa null Komma sieben Volt. Auf alten Arbeitsblättern stehen noch drei Komma drei Volt, die Spannung auf Platinen der Neunzigerjahre. Rechnet nach, wie wenige Elektronen heute für eine Eins genügen.“</span><button class="say figur" type="button" data-audio="archiv-img/stimme-8973f6f80f.mp3" aria-label="Mira Sand anhören" title="Mira Sand anhören">🔊</button></p>
+  </div>
+  <div class="card archive">
+    <h3>📚 Archivkarten · Epoche 6</h3>
+    <details class="ak"><summary><span class="nr">K17</span>Shannons Masterarbeit</summary><div>
+      <p>Shannon zeigt 1937, dass sich Schaltungen aus Relais mit der Booleschen Algebra (wahr/falsch, 1/0) beschreiben und berechnen lassen. Das ist die Grundlage jeder digitalen Schaltung.</p>
+      <p class="quelle">Shannon, C. E.: A Symbolic Analysis of Relay and Switching Circuits. Transactions of the AIEE 57 (1938) 713–723 (Masterarbeit MIT 1937)</p>
+    </div></details>
+    <details class="ak"><summary><span class="nr">K18</span>Zuse in Kreuzberg</summary><div>
+      <p>Konrad Zuse baute die mechanische Z1 (fertig 1938) in der Wohnung seiner Eltern in Berlin-Kreuzberg, die Z3 (1941) aus rund 2600 Relais. Beide rechneten <b>binär</b>, sogar mit Kommazahlen. Ein Relais kennt nur zwei Stellungen, angezogen oder abgefallen. Es muss nichts genau gemessen werden: Zwei Zustände lassen sich <b>sicher</b> unterscheiden, auch wenn die Spannung etwas schwankt.</p>
+      <p class="quelle">Rojas, R.: Konrad Zuse's Legacy: The Architecture of the Z1 and Z3. IEEE Annals of the History of Computing 19 (1997) 5–16</p>
+    </div></details>
+    <details class="ak"><summary><span class="nr">K19</span>Wie viel kostet eine Eins?</summary><div>
+      <p>Heutige Chips arbeiten mit einer Versorgungsspannung um <b>0,7 V</b>. Beim Umschalten wird eine winzige Kapazität geladen, beim Gate eines einzelnen Transistors etwa <b>0,1 fF</b> (Femtofarad). Ladung: Q = C · U. Energie je Schaltvorgang: E ≈ C · U². Schon auf einem 45-nm-Chip kostete eine ganze 8-Bit-Addition nur etwa 0,03 pJ.</p>
+      <p class="quelle">IEEE International Roadmap for Devices and Systems (IRDS) 2022, More Moore · Rabaey et al. 2003, Kap. 5 · Horowitz, M.: Computing's Energy Problem (and what we can do about it). ISSCC Digest of Technical Papers 2014, 10–14</p>
+    </div></details>
+  </div>
+
+  <div>
+    <div class="card task">
+      <h3>🪣 Teil A · Der Elektronen-Eimer</h3>
+      <p>Ein Schaltelement ist wie ein Eimer: Die <b>Breite</b> ist die Kapazität C, die <b>Füllhöhe</b> die Spannung U, der <b>Inhalt</b> die Ladung Q = C · U. Die Anzahl der Elektronen ist n = Q : e mit e = 1,602 · 10<sup>−19</sup> C. Voller Eimer: logische 1. Leerer Eimer: logische 0.</p>
+      <div class="fig"><img id="eimerImg" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgMzMwIiB3aWR0aD0iOTAwIiBoZWlnaHQ9IjMzMCI+CjxyZWN0IHdpZHRoPSI5MDAiIGhlaWdodD0iMzMwIiBmaWxsPSIjZmZmZmZmIi8+Cjx0ZXh0IHg9IjIyMC4wIiB5PSI0OSIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjYTMyNjJhIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5QbGF0aW5lIGRlciAxOTkwZXI8L3RleHQ+CjxwYXRoIGQ9Ik03MCw5NSBMMzcwLDk1IEwzNTgsMjE1IEw4MiwyMTUgWiIgZmlsbD0iI2Y0ZjdmYSIgc3Ryb2tlPSIjYTMyNjJhIiBzdHJva2Utd2lkdGg9IjMiLz4KPGNpcmNsZSBjeD0iODkuMyIgY3k9IjIwOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTAzLjMiIGN5PSIyMDguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjExNy4zIiBjeT0iMjA4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxMzEuMyIgY3k9IjIwOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTQ1LjMiIGN5PSIyMDguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE1OS4zIiBjeT0iMjA4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxNzMuMyIgY3k9IjIwOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTg3LjMiIGN5PSIyMDguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjIwMS4zIiBjeT0iMjA4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyMTUuMyIgY3k9IjIwOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjI5LjMiIGN5PSIyMDguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjI0My4zIiBjeT0iMjA4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyNTcuMyIgY3k9IjIwOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjcxLjMiIGN5PSIyMDguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjI4NS4zIiBjeT0iMjA4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyOTkuMyIgY3k9IjIwOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzEzLjMiIGN5PSIyMDguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjMyNy4zIiBjeT0iMjA4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIzNDEuMyIgY3k9IjIwOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iODcuOSIgY3k9IjE5NC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTAxLjkiIGN5PSIxOTQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjExNS45IiBjeT0iMTk0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxMjkuOSIgY3k9IjE5NC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTQzLjkiIGN5PSIxOTQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE1Ny45IiBjeT0iMTk0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxNzEuOSIgY3k9IjE5NC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTg1LjkiIGN5PSIxOTQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE5OS45IiBjeT0iMTk0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyMTMuOSIgY3k9IjE5NC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjI3LjkiIGN5PSIxOTQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjI0MS45IiBjeT0iMTk0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyNTUuOSIgY3k9IjE5NC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjY5LjkiIGN5PSIxOTQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjI4My45IiBjeT0iMTk0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyOTcuOSIgY3k9IjE5NC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzExLjkiIGN5PSIxOTQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjMyNS45IiBjeT0iMTk0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIzMzkuOSIgY3k9IjE5NC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iODYuNSIgY3k9IjE4MC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTAwLjUiIGN5PSIxODAuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjExNC41IiBjeT0iMTgwLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxMjguNSIgY3k9IjE4MC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTQyLjUiIGN5PSIxODAuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE1Ni41IiBjeT0iMTgwLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxNzAuNSIgY3k9IjE4MC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTg0LjUiIGN5PSIxODAuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE5OC41IiBjeT0iMTgwLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyMTIuNSIgY3k9IjE4MC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjI2LjUiIGN5PSIxODAuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjI0MC41IiBjeT0iMTgwLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyNTQuNSIgY3k9IjE4MC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjY4LjUiIGN5PSIxODAuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjI4Mi41IiBjeT0iMTgwLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyOTYuNSIgY3k9IjE4MC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzEwLjUiIGN5PSIxODAuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjMyNC41IiBjeT0iMTgwLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIzMzguNSIgY3k9IjE4MC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzUyLjUiIGN5PSIxODAuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9Ijg1LjEiIGN5PSIxNjYuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9Ijk5LjEiIGN5PSIxNjYuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjExMy4xIiBjeT0iMTY2LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxMjcuMSIgY3k9IjE2Ni4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTQxLjEiIGN5PSIxNjYuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE1NS4xIiBjeT0iMTY2LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxNjkuMSIgY3k9IjE2Ni4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTgzLjEiIGN5PSIxNjYuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE5Ny4xIiBjeT0iMTY2LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyMTEuMSIgY3k9IjE2Ni4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjI1LjEiIGN5PSIxNjYuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjIzOS4xIiBjeT0iMTY2LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyNTMuMSIgY3k9IjE2Ni4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjY3LjEiIGN5PSIxNjYuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjI4MS4xIiBjeT0iMTY2LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyOTUuMSIgY3k9IjE2Ni4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzA5LjEiIGN5PSIxNjYuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjMyMy4xIiBjeT0iMTY2LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIzMzcuMSIgY3k9IjE2Ni4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzUxLjEiIGN5PSIxNjYuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjgzLjciIGN5PSIxNTIuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9Ijk3LjciIGN5PSIxNTIuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjExMS43IiBjeT0iMTUyLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxMjUuNyIgY3k9IjE1Mi4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTM5LjciIGN5PSIxNTIuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE1My43IiBjeT0iMTUyLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxNjcuNyIgY3k9IjE1Mi4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTgxLjciIGN5PSIxNTIuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE5NS43IiBjeT0iMTUyLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyMDkuNyIgY3k9IjE1Mi4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjIzLjciIGN5PSIxNTIuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjIzNy43IiBjeT0iMTUyLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyNTEuNyIgY3k9IjE1Mi4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjY1LjciIGN5PSIxNTIuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjI3OS43IiBjeT0iMTUyLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyOTMuNyIgY3k9IjE1Mi4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzA3LjciIGN5PSIxNTIuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjMyMS43IiBjeT0iMTUyLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIzMzUuNyIgY3k9IjE1Mi4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzQ5LjciIGN5PSIxNTIuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjgyLjMiIGN5PSIxMzguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9Ijk2LjMiIGN5PSIxMzguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjExMC4zIiBjeT0iMTM4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxMjQuMyIgY3k9IjEzOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTM4LjMiIGN5PSIxMzguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE1Mi4zIiBjeT0iMTM4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxNjYuMyIgY3k9IjEzOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTgwLjMiIGN5PSIxMzguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE5NC4zIiBjeT0iMTM4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyMDguMyIgY3k9IjEzOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjIyLjMiIGN5PSIxMzguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjIzNi4zIiBjeT0iMTM4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyNTAuMyIgY3k9IjEzOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjY0LjMiIGN5PSIxMzguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjI3OC4zIiBjeT0iMTM4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyOTIuMyIgY3k9IjEzOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzA2LjMiIGN5PSIxMzguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjMyMC4zIiBjeT0iMTM4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIzMzQuMyIgY3k9IjEzOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzQ4LjMiIGN5PSIxMzguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjgwLjkiIGN5PSIxMjQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9Ijk0LjkiIGN5PSIxMjQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjEwOC45IiBjeT0iMTI0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxMjIuOSIgY3k9IjEyNC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTM2LjkiIGN5PSIxMjQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE1MC45IiBjeT0iMTI0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxNjQuOSIgY3k9IjEyNC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTc4LjkiIGN5PSIxMjQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE5Mi45IiBjeT0iMTI0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyMDYuOSIgY3k9IjEyNC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjIwLjkiIGN5PSIxMjQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjIzNC45IiBjeT0iMTI0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyNDguOSIgY3k9IjEyNC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjYyLjkiIGN5PSIxMjQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjI3Ni45IiBjeT0iMTI0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyOTAuOSIgY3k9IjEyNC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzA0LjkiIGN5PSIxMjQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjMxOC45IiBjeT0iMTI0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIzMzIuOSIgY3k9IjEyNC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzQ2LjkiIGN5PSIxMjQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxwYXRoIGQ9Ik03My4wLDExMCBMMzY3LjAsMTEwIiBzdHJva2U9IiMxZjZmYjgiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNSA0Ii8+CjxwYXRoIGQ9Ik01NCwyMTUgTDU0LDExNiIgc3Ryb2tlPSIjNTQ2NTc1IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNNDksMTE4IEw1NCwxMTAgTDU5LDExOCBaIiBmaWxsPSIjNTQ2NTc1Ii8+Cjx0ZXh0IHg9IjQ4IiB5PSIxNjguNSIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjNTQ2NTc1IiB0ZXh0LWFuY2hvcj0iZW5kIj5VPC90ZXh0Pgo8cGF0aCBkPSJNNzYsODEgTDM2NCw4MSIgc3Ryb2tlPSIjNTQ2NTc1IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNNzgsNzYgTDcwLDgxIEw3OCw4NiBaIE0zNjIsNzYgTDM3MCw4MSBMMzYyLDg2IFoiIGZpbGw9IiM1NDY1NzUiLz4KPHRleHQgeD0iMjIwLjAiIHk9Ijc1IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkM8L3RleHQ+Cjx0ZXh0IHg9IjIyMC4wIiB5PSIyNDEiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMy41IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjMWYyYTMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5DID0gMTAgcEYgPSAxMDx0c3BhbiBkeT0iLTUuMSIgZm9udC1zaXplPSI5LjciPuKIkjExPC90c3Bhbj48dHNwYW4gZHk9IjUuMSI+IEY7ICBVID0gMywzIFY8L3RzcGFuPjwvdGV4dD4KPHRleHQgeD0iMjIwLjAiIHk9IjI2MSIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzLjUiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiMxZjJhMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlEgPSAzLDMgwrcgMTA8dHNwYW4gZHk9Ii01LjEiIGZvbnQtc2l6ZT0iOS43Ij7iiJIxMTwvdHNwYW4+PHRzcGFuIGR5PSI1LjEiPiBDPC90c3Bhbj48L3RleHQ+Cjx0ZXh0IHg9IjIyMC4wIiB5PSIyODEiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMy41IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjMWYyYTMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5uIOKJiCAyLDA2IMK3IDEwPHRzcGFuIGR5PSItNS4xIiBmb250LXNpemU9IjkuNyI+ODwvdHNwYW4+PHRzcGFuIGR5PSI1LjEiPiBFbGVrdHJvbmVuPC90c3Bhbj48L3RleHQ+Cjx0ZXh0IHg9IjYzNy4wIiB5PSI0OSIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMWY5ZDU1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TbWFydHBob25lLUNoaXAgMjAyNjwvdGV4dD4KPHBhdGggZD0iTTYwMCwxNTIgTDY3NCwxNTIgTDY2MiwxOTIgTDYxMiwxOTIgWiIgZmlsbD0iI2Y0ZjdmYSIgc3Ryb2tlPSIjMWY5ZDU1IiBzdHJva2Utd2lkdGg9IjMiLz4KPGNpcmNsZSBjeD0iNjE3LjkiIGN5PSIxODUuMCIgcj0iMi42IiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjYyNi45IiBjeT0iMTg1LjAiIHI9IjIuNiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSI2MzUuOSIgY3k9IjE4NS4wIiByPSIyLjYiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iNjQ0LjkiIGN5PSIxODUuMCIgcj0iMi42IiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjY1My45IiBjeT0iMTg1LjAiIHI9IjIuNiIgZmlsbD0iIzJmOGZlMCIvPgo8cGF0aCBkPSJNNjA5LjYsMTc5IEw2NjQuNCwxNzkiIHN0cm9rZT0iIzFmNmZiOCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtZGFzaGFycmF5PSI1IDQiLz4KPHBhdGggZD0iTTU4NCwxOTIgTDU4NCwxODUiIHN0cm9rZT0iIzU0NjU3NSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTU3OSwxODcgTDU4NCwxNzkgTDU4OSwxODcgWiIgZmlsbD0iIzU0NjU3NSIvPgo8dGV4dCB4PSI1NzgiIHk9IjE5MS41IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJlbmQiPlU8L3RleHQ+CjxwYXRoIGQ9Ik02MDYsMTM4IEw2NjgsMTM4IiBzdHJva2U9IiM1NDY1NzUiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik02MDgsMTMzIEw2MDAsMTM4IEw2MDgsMTQzIFogTTY2NiwxMzMgTDY3NCwxMzggTDY2NiwxNDMgWiIgZmlsbD0iIzU0NjU3NSIvPgo8dGV4dCB4PSI2MzcuMCIgeT0iMTMyIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkM8L3RleHQ+Cjx0ZXh0IHg9IjYzNy4wIiB5PSIyNDEiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMy41IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjMWYyYTMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5DIOKJiCAwLDEgZkYgPSAxMDx0c3BhbiBkeT0iLTUuMSIgZm9udC1zaXplPSI5LjciPuKIkjE2PC90c3Bhbj48dHNwYW4gZHk9IjUuMSI+IEY7ICBVID0gMCw3IFY8L3RzcGFuPjwvdGV4dD4KPHRleHQgeD0iNjM3LjAiIHk9IjI2MSIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzLjUiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiMxZjJhMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlEgPSBfX19fX19fX19fX19fX19fIEM8L3RleHQ+Cjx0ZXh0IHg9IjYzNy4wIiB5PSIyODEiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMy41IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjMWYyYTMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5uIOKJiCBfX19fX19fXyBFbGVrdHJvbmVuPC90ZXh0Pgo8Y2lyY2xlIGN4PSI2MzciIGN5PSIxNjgiIHI9IjU2IiBmaWxsPSJub25lIiBzdHJva2U9IiM5YWE5YjYiIHN0cm9rZS13aWR0aD0iMi41IiBzdHJva2UtZGFzaGFycmF5PSI2IDUiLz4KPHRleHQgeD0iNjM3IiB5PSI3MCIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPihzdGFyayB2ZXJncsO2w59lcnQpPC90ZXh0Pgo8dGV4dCB4PSI0NzAiIHk9IjYwIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxZjJhMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlEgPSBDIMK3IFU8L3RleHQ+Cjx0ZXh0IHg9IjQ3MCIgeT0iODQiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFmMmEzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+biA9IFEgOiBlPC90ZXh0Pgo8dGV4dCB4PSI0NzAiIHk9IjEwOCIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyLjUiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPmUgPSAxLDYwMiDCtyAxMDx0c3BhbiBkeT0iLTQuOCIgZm9udC1zaXplPSI5LjAiPuKIkjE5PC90c3Bhbj48dHNwYW4gZHk9IjQuOCI+IEM8L3RzcGFuPjwvdGV4dD4KPHRleHQgeD0iNDcwIiB5PSIxNjAiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzU0NjU3NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QnJlaXRlID0gS2FwYXppdMOkdCBDPC90ZXh0Pgo8dGV4dCB4PSI0NzAiIHk9IjE3NyIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjNTQ2NTc1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5Gw7xsbGjDtmhlID0gU3Bhbm51bmcgVTwvdGV4dD4KPHRleHQgeD0iNDcwIiB5PSIxOTQiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzU0NjU3NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW5oYWx0ID0gTGFkdW5nIFE8L3RleHQ+Cjx0ZXh0IHg9IjQ3MCIgeT0iMjExIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiMxZjZmYjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKXjyA9IGVpbiBFbGVrdHJvbiAoU3ltYm9sKTwvdGV4dD4KPHRleHQgeD0iNDUwLjAiIHk9IjMyMiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjNTQ2NTc1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5FaW1lciB2b2xsOiBsb2dpc2NoZSAxICjigJ5TcGFubnVuZyBsaWVndCBhbuKAnCkuIEVpbWVyIGxlZXI6IGxvZ2lzY2hlIDAgKGNhLiAwIEVsZWt0cm9uZW4pLiBOaWNodCBtYcOfc3TDpGJsaWNoLjwvdGV4dD4KPC9zdmc+" alt="Zwei Eimer: Platine der 1990er mit 10 pF und 3,3 V enthält etwa 2 mal 10 hoch 8 Elektronen, Smartphone-Chip 2026 mit 0,1 fF und 0,7 V, Elektronenzahl gesucht"><p class="figcap">Abb. 2 · Elektronen-Eimer (nicht maßstäblich)</p></div>
+      <div class="ctrl"><span class="seg" id="bkPreset"><button data-p="0" class="on">Platine 1990er</button><button data-p="1">Chip 2026</button></span></div>
+      <div class="bucket" id="bkPlot"></div>
+      <div class="vals" id="bkVals"></div>
+      <div class="journal">📝 <span><b>Archivjournal, Aufgabe 7 (Rückseite):</b> Rechnet wie im Beispiel der Platine. Achtet auf die Vorsilben: p (piko) = 10<sup>−12</sup>, f (femto) = 10<sup>−15</sup>.</span></div>
+    </div>
+    <div class="lock" id="lock6">
+      <h3>🔒 Code Epoche 6</h3>
+      <p>Wie viele Elektronen braucht der Chip von 2026 ungefähr für eine logische 1? (ganze Zahl)</p>
+      <div class="lock-row"><input id="code6" data-v="code6" inputmode="decimal" maxlength="14" autocomplete="off" aria-label="Code Epoche 6"><button class="btn" data-lock="6">Öffnen</button></div>
+      <div class="lock-msg" id="msg6"></div>
+    </div>
+  </div>
+
+  <div class="hidden" data-gate="e6c">
+    <div class="card task">
+      <h3>⚡ Teil B · Finger gegen Schalter</h3>
+      <p>Einen Finger zu heben kostet euren Körper etwa <b>0,02 J</b> (Muskelarbeit samt Wärme). Ein Schaltvorgang im Chip kostet E ≈ C · U².</p>
+      <div class="fig"><img id="leiterImg" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgLTE0IDkwMCAyNjQiIHdpZHRoPSI5MDAiIGhlaWdodD0iMjUwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSIyNTAiIGZpbGw9IiNmZmZmZmYiLz4KPHBhdGggZD0iTTUwLDEzMCBMODMyLDEzMCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjIuNSIvPgo8cGF0aCBkPSJNODMyLDEyMyBMODQ0LDEzMCBMODMyLDEzNyBaIiBmaWxsPSIjMWYyYTMzIi8+Cjx0ZXh0IHg9Ijg0NCIgeT0iMTE0IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJlbmQiPkVuZXJnaWUgaW4gSjwvdGV4dD4KPHBhdGggZD0iTTUwLjAsMTIyIEw1MC4wLDEzOCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iNTAuMCIgeT0iMTU2IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIuNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFmMmEzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTA8dHNwYW4gZHk9Ii00LjgiIGZvbnQtc2l6ZT0iOS4wIj7iiJIxODwvdHNwYW4+PHRzcGFuIGR5PSI0LjgiPiA8L3RzcGFuPjwvdGV4dD4KPHBhdGggZD0iTTkyLjc3Nzc3Nzc3Nzc3Nzc3LDEyNiBMOTIuNzc3Nzc3Nzc3Nzc3NzcsMTM0IiBzdHJva2U9IiMxZjJhMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNMTM1LjU1NTU1NTU1NTU1NTU0LDEyNiBMMTM1LjU1NTU1NTU1NTU1NTU0LDEzNCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjEiLz4KPHBhdGggZD0iTTE3OC4zMzMzMzMzMzMzMzMzMSwxMjIgTDE3OC4zMzMzMzMzMzMzMzMzMSwxMzgiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjE3OC4zMzMzMzMzMzMzMzMzMSIgeT0iMTU2IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIuNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFmMmEzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTA8dHNwYW4gZHk9Ii00LjgiIGZvbnQtc2l6ZT0iOS4wIj7iiJIxNTwvdHNwYW4+PHRzcGFuIGR5PSI0LjgiPiA8L3RzcGFuPjwvdGV4dD4KPHBhdGggZD0iTTIyMS4xMTExMTExMTExMTExMSwxMjYgTDIyMS4xMTExMTExMTExMTExMSwxMzQiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik0yNjMuODg4ODg4ODg4ODg4OSwxMjYgTDI2My44ODg4ODg4ODg4ODg5LDEzNCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjEiLz4KPHBhdGggZD0iTTMwNi42NjY2NjY2NjY2NjY2MywxMjIgTDMwNi42NjY2NjY2NjY2NjY2MywxMzgiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjMwNi42NjY2NjY2NjY2NjY2MyIgeT0iMTU2IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIuNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFmMmEzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTA8dHNwYW4gZHk9Ii00LjgiIGZvbnQtc2l6ZT0iOS4wIj7iiJIxMjwvdHNwYW4+PHRzcGFuIGR5PSI0LjgiPiA8L3RzcGFuPjwvdGV4dD4KPHBhdGggZD0iTTM0OS40NDQ0NDQ0NDQ0NDQ0NiwxMjYgTDM0OS40NDQ0NDQ0NDQ0NDQ0NiwxMzQiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik0zOTIuMjIyMjIyMjIyMjIyMjMsMTI2IEwzOTIuMjIyMjIyMjIyMjIyMjMsMTM0IiBzdHJva2U9IiMxZjJhMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNNDM1LjAsMTIyIEw0MzUuMCwxMzgiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjQzNS4wIiB5PSIxNTYiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMi41IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMWYyYTMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4xMDx0c3BhbiBkeT0iLTQuOCIgZm9udC1zaXplPSI5LjAiPuKIkjk8L3RzcGFuPjx0c3BhbiBkeT0iNC44Ij4gPC90c3Bhbj48L3RleHQ+CjxwYXRoIGQ9Ik00NzcuNzc3Nzc3Nzc3Nzc3NzcsMTI2IEw0NzcuNzc3Nzc3Nzc3Nzc3NzcsMTM0IiBzdHJva2U9IiMxZjJhMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNNTIwLjU1NTU1NTU1NTU1NTcsMTI2IEw1MjAuNTU1NTU1NTU1NTU1NywxMzQiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik01NjMuMzMzMzMzMzMzMzMzMywxMjIgTDU2My4zMzMzMzMzMzMzMzMzLDEzOCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iNTYzLjMzMzMzMzMzMzMzMzMiIHk9IjE1NiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyLjUiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxZjJhMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjEwPHRzcGFuIGR5PSItNC44IiBmb250LXNpemU9IjkuMCI+4oiSNjwvdHNwYW4+PHRzcGFuIGR5PSI0LjgiPiA8L3RzcGFuPjwvdGV4dD4KPHBhdGggZD0iTTYwNi4xMTExMTExMTExMTExLDEyNiBMNjA2LjExMTExMTExMTExMTEsMTM0IiBzdHJva2U9IiMxZjJhMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNNjQ4Ljg4ODg4ODg4ODg4ODksMTI2IEw2NDguODg4ODg4ODg4ODg4OSwxMzQiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik02OTEuNjY2NjY2NjY2NjY2NywxMjIgTDY5MS42NjY2NjY2NjY2NjY3LDEzOCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iNjkxLjY2NjY2NjY2NjY2NjciIHk9IjE1NiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyLjUiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxZjJhMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjEwPHRzcGFuIGR5PSItNC44IiBmb250LXNpemU9IjkuMCI+4oiSMzwvdHNwYW4+PHRzcGFuIGR5PSI0LjgiPiA8L3RzcGFuPjwvdGV4dD4KPHBhdGggZD0iTTczNC40NDQ0NDQ0NDQ0NDQ1LDEyNiBMNzM0LjQ0NDQ0NDQ0NDQ0NDUsMTM0IiBzdHJva2U9IiMxZjJhMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNNzc3LjIyMjIyMjIyMjIyMjIsMTI2IEw3NzcuMjIyMjIyMjIyMjIyMiwxMzQiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik04MjAuMCwxMjIgTDgyMC4wLDEzOCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iODIwLjAiIHk9IjE1NiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyLjUiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxZjJhMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjE8L3RleHQ+Cjx0ZXh0IHg9IjUwLjAiIHk9IjE3MiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPmF0dG88L3RleHQ+Cjx0ZXh0IHg9IjE3OC4zMzMzMzMzMzMzMzMzMSIgeT0iMTcyIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzU0NjU3NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+ZmVtdG88L3RleHQ+Cjx0ZXh0IHg9IjMwNi42NjY2NjY2NjY2NjY2MyIgeT0iMTcyIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzU0NjU3NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+cGlrbzwvdGV4dD4KPHRleHQgeD0iNDM1LjAiIHk9IjE3MiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPm5hbm88L3RleHQ+Cjx0ZXh0IHg9IjU2My4zMzMzMzMzMzMzMzMzIiB5PSIxNzIiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMC41IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjNTQ2NTc1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5taWtybzwvdGV4dD4KPHRleHQgeD0iNjkxLjY2NjY2NjY2NjY2NjciIHk9IjE3MiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPm1pbGxpPC90ZXh0Pgo8Y2lyY2xlIGN4PSIxMjIuMzAyODMyMzEyMzMwODYiIGN5PSIxMzAiIHI9IjciIGZpbGw9IiMxZjlkNTUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjEyMi4zMDI4MzIzMTIzMzA4NiIgeT0iOTYiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFmOWQ1NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+U2NoYWx0dm9yZ2FuZzwvdGV4dD4KPHRleHQgeD0iMTIyLjMwMjgzMjMxMjMzMDg2IiB5PSIxMTEiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjMWY5ZDU1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5DaGlwIDIwMjY8L3RleHQ+CjxjaXJjbGUgY3g9IjI0MS41MjEyOTgxMTg1NjMzNSIgY3k9IjEzMCIgcj0iNyIgZmlsbD0iIzNkNGZiOCIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMjQxLjUyMTI5ODExODU2MzM1IiB5PSIxOTIiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzNkNGZiOCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+OC1CaXQtQWRkaXRpb248L3RleHQ+Cjx0ZXh0IHg9IjI0MS41MjEyOTgxMTg1NjMzNSIgeT0iMjA3IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzNkNGZiOCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+NDUtbm0tQ2hpcDwvdGV4dD4KPGNpcmNsZSBjeD0iMzkzLjk5MjkwOTMwOTU0NjM1IiBjeT0iMTMwIiByPSI3IiBmaWxsPSIjYTMyNjJhIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSIzOTMuOTkyOTA5MzA5NTQ2MzUiIHk9Ijk2IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNhMzI2MmEiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlNjaGFsdHZvcmdhbmc8L3RleHQ+Cjx0ZXh0IHg9IjM5My45OTI5MDkzMDk1NDYzNSIgeT0iMTExIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iI2EzMjYyYSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UGxhdGluZSAxOTkwZXI8L3RleHQ+CjxjaXJjbGUgY3g9Ijc0Ny4zMjE4Mzg3MDM0MDM2IiBjeT0iMTMwIiByPSI3IiBmaWxsPSIjYjU2NTFkIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSI3NDcuMzIxODM4NzAzNDAzNiIgeT0iOTYiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2I1NjUxZCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RmluZ2VyPC90ZXh0Pgo8dGV4dCB4PSI3NDcuMzIxODM4NzAzNDAzNiIgeT0iMTExIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iI2I1NjUxZCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+aGViZW48L3RleHQ+CjxwYXRoIGQ9Ik0zOTMuOTkyOTA5MzA5NTQ2MzUsODYgQzM5My45OTI5MDkzMDk1NDYzNSw0MCA3NDcuMzIxODM4NzAzNDAzNiw0MCA3NDcuMzIxODM4NzAzNDAzNiw4NiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYTMyNjJhIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjYgNCIvPgo8cmVjdCB4PSI1NDMuMDU2ODQ1NTMzNzM3OCIgeT0iMzYiIHdpZHRoPSIxNDAiIGhlaWdodD0iMjQiIHJ4PSIxMiIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYTMyNjJhIiBzdHJva2Utd2lkdGg9IjEuNSIvPgo8dGV4dCB4PSI2MTMuMDU2ODQ1NTMzNzM3OCIgeT0iNTMiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2EzMjYyYSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+w5cgMiDCtyAxMDx0c3BhbiBkeT0iLTQuOSIgZm9udC1zaXplPSI5LjQiPjg8L3RzcGFuPjx0c3BhbiBkeT0iNC45Ij4gPC90c3Bhbj48L3RleHQ+CjxwYXRoIGQ9Ik0xMjIuMzAyODMyMzEyMzMwODYsODYgQzEyMi4zMDI4MzIzMTIzMzA4NiwtOCA3NDcuMzIxODM4NzAzNDAzNiwtOCA3NDcuMzIxODM4NzAzNDAzNiw4NiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWY5ZDU1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjYgNCIvPgo8cmVjdCB4PSIyMzkuODA4NTM0MjI5NjUyNjUiIHk9Ii0xMiIgd2lkdGg9IjE0MCIgaGVpZ2h0PSIyNCIgcng9IjEyIiBmaWxsPSIjZmZmIiBzdHJva2U9IiMxZjlkNTUiIHN0cm9rZS13aWR0aD0iMS41Ii8+Cjx0ZXh0IHg9IjMwOS44MDg1MzQyMjk2NTI2NSIgeT0iNSIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMWY5ZDU1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7DlyBfX19fX188L3RleHQ+Cjx0ZXh0IHg9IjQ1MC4wIiB5PSIyNDIiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzU0NjU3NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+bG9nYXJpdGhtaXNjaGUgU2thbGE6IEplZGVyIGdyb8OfZSBTdHJpY2ggYmVkZXV0ZXQgZGVuIEZha3RvciAxMDAwIMK3IFdlcnRlIGdlcnVuZGV0PC90ZXh0Pgo8L3N2Zz4=" alt="Logarithmische Energieskala von 10 hoch minus 18 bis 1 Joule mit Schaltvorgang 2026, 8-Bit-Addition, Schaltvorgang Platine 1990er und Finger heben"><p class="figcap">Abb. 3 · Größenordnungsleiter der Energie</p></div>
+      <div class="q" id="q6c"></div>
+      <div class="hidden" data-gate="e6d">
+        <p style="margin-top:0.6rem"><b>So groß ist der Unterschied:</b> Stellt euch vor, ein Schaltvorgang würde so viel Energie brauchen wie eine volle Akkuladung eures Smartphones (etwa 15 Wh, also rund 55 000 J). Wie viele Akkuladungen bräuchte dann ein Fingerheben?</p>
+        <div class="compare">
+          <div><div class="big">☝️ = 🔋 × 2 · 10<sup>8</sup></div><b>Platine 1990er</b><p class="small">200 Millionen Akkuladungen: Damit könnte man jedes der rund 65 Millionen Smartphones in Deutschland dreimal voll laden.</p></div>
+          <div><div class="big">☝️ = 🔋 × 4 · 10<sup>14</sup></div><b>Chip 2026</b><p class="small">400 Billionen Akkuladungen: Damit könnte man alle rund 5 Milliarden Smartphones der Welt je 80 000-mal laden, jeden Tag einmal, über 200 Jahre lang.</p></div>
+        </div>
+      </div>
+      <div class="journal">📝 <span><b>Archivjournal, Aufgabe 8 (Rückseite):</b> Berechnet die Energie je Schaltvorgang und das Verhältnis zum Fingerheben.</span></div>
+    </div>
+  </div>
+
+  <div class="card sigil hidden" data-gate="s6">
+    <h3>🔏 Ziffernsiegel 6</h3>
+    <div class="glyph mono">0x12</div>
+    <p>So steht die Zahl im Datenblatt eines Chips (Basis 16, K12). Welche Zahl, welcher Buchstabe?</p>
+    <div class="lock-row"><input class="num" id="sz6" data-v="sz6" inputmode="numeric" maxlength="2" placeholder="Zahl" aria-label="Zahl"><span>→</span><input id="sb6" data-v="sb6" maxlength="1" placeholder="A–Z" aria-label="Buchstabe"><button class="btn acc" data-seal-check="6">Prüfen</button></div>
+    <div class="fb" id="sfb6"></div>
+    <div class="lock-row hidden" data-gate="d6" style="justify-content:center"><button class="btn acc" data-next="7">Zur Tür der Gegenwart 🚪</button></div>
+  </div>
+  <p class="hints-title">💡 Tipps · Archivjournal Aufgaben 7 und 8</p>
+  <details class="hint" data-h="e6a"><summary>Tipp 1 · Denkanstoß</summary><div class="hint-body">
+    <p>Nehmt die Rechnung der Platine als Muster (Eimer links in Abb. 2) und ersetzt nur C und U. Rechnet Vorsilben zuerst in Zehnerpotenzen um.</p>
+    <details class="hint" data-h="e6b"><summary>Tipp 2 · Werkzeug · Zehnerpotenzen</summary><div class="hint-body">
+      <p>0,1 fF = 0,1 · 10<sup>−15</sup> F = 10<sup>−16</sup> F. Q = 10<sup>−16</sup> F · 0,7 V = 7 · 10<sup>−17</sup> C. Beim Teilen von Zehnerpotenzen subtrahiert man die Exponenten: 10<sup>−17</sup> : 10<sup>−19</sup> = 10<sup>2</sup>.</p>
+      <details class="hint" data-h="e6c"><summary>Tipp 3 · Lösungsweg</summary><div class="hint-body">
+        <p>n = 7 · 10<sup>−17</sup> C : 1,602 · 10<sup>−19</sup> C ≈ 4,37 · 10<sup>2</sup> = <b>437</b> Elektronen. Energie: E = 10<sup>−16</sup> F · (0,7 V)² = 4,9 · 10<sup>−17</sup> J. Verhältnis: 0,02 J : 4,9 · 10<sup>−17</sup> J ≈ <b>4 · 10<sup>14</sup></b>. Siegel: 0x12 = 1 · 16 + 2 = 18, der 18. Buchstabe ist <b>R</b>.</p>
+      </div></details>
+    </div></details>
+  </div></details>
+  <div class="card laurel" id="lcL6">
+    <h3>🌿 Lorbeer-Aufgabe <span class="stars">★★★</span></h3>
+    <p>Chips der Zukunft sollen mit nur <b>0,4 V</b> auskommen (gleiche Kapazität 0,1 fF). Wie viele Elektronen sind dann eine logische 1? Überlegt auch: Warum kann man die Spannung nicht beliebig senken?</p>
+    <div class="lock-row"><input class="inl" id="l6in" data-v="l6in" inputmode="numeric" maxlength="5"><button class="btn ghost small" id="l6check">Prüfen</button></div>
+    <div class="fb" id="lmsgL6"></div>
+  </div>
+</section>
+
+<!-- =============================================================== FINALE -->
+<section class="chapter" id="fin">
+  <div class="chap-head"><div class="chap-no">🚪</div><div><small>FINALE · DIE TÜR ZUR GEGENWART</small><h2>Warum zählt der Computer binär?</h2></div></div>
+  <div class="card story-card story">
+    <p class="voiced"><span class="vtext"><span class="who n">Zurück im Archiv.</span> Die schwere Tür summt leise. Auf ihrem Schloss leuchten sechs leere Felder.</span><button class="say" type="button" data-audio="archiv-img/stimme-40cee998e6.mp3" aria-label="Erzählung anhören" title="Erzählung anhören">🔊</button></p>
+    <p class="voiced"><span class="vtext"><span class="who nora">Nora Null:</span> „Sechs Siegel, sechs Buchstaben. Tippt das Wort ein. Aber Vorsicht: Diese Tür ist eine Wissenschaftlerin. Ein Wort allein reicht ihr nicht. Sie will eine Beweiskette hören, Schritt für Schritt, mit Belegen aus dem Archiv.“</span><button class="say figur" type="button" data-audio="archiv-img/stimme-a710985e09.mp3" aria-label="Nora Null anhören" title="Nora Null anhören">🔊</button></p>
+  </div>
+  <div class="card">
+    <h3 class="fred">Eure Buchstaben</h3>
+    <div class="letters" id="letters"></div>
+  </div>
+  <div class="lock" id="lock7">
+    <h3>🔒 Lösungswort</h3>
+    <p>Die sechs Buchstaben in der Reihenfolge der Epochen.</p>
+    <div class="lock-row"><input id="code7" data-v="code7" maxlength="8" autocomplete="off" autocapitalize="characters" aria-label="Lösungswort"><button class="btn" data-lock="7">Öffnen</button></div>
+    <div class="lock-msg" id="msg7"></div>
+  </div>
+  <div class="hidden" data-gate="fb">
+    <div class="card task">
+      <h3>🔗 Die Beweiskette</h3>
+      <p>Wählt <b>fünf</b> Karten und tippt sie in der richtigen Reihenfolge an, von der Mathematik bis zur Technik. Drei Karten sind falsch. Nochmals tippen nimmt eine Karte zurück.</p>
+      <div class="chain" id="chain"></div>
+      <div class="lock-row"><button class="btn acc" id="chainCheck">Kette prüfen</button><button class="btn ghost small" id="chainReset">↺ Neu legen</button></div>
+      <div class="fb" id="chainFb"></div>
+      <div class="journal">📝 <span><b>Archivjournal, Aufgabe 9:</b> Begründet in drei bis vier Sätzen, warum Computer im Binärsystem zählen. Nutzt die Kette.</span></div>
+    </div>
+  </div>
+  <div class="hidden" data-gate="fc">
+    <div class="card">
+      <h3 class="fred">Eure zweite Wahl</h3>
+      <p class="small">Warum zählt ein Computer mit 0 und 1? Wählt erneut. 📝 Kreuz im Archivjournal, Aufgabe 1, Spalte „Ende“.</p>
+      <div class="vote" id="vote2"></div>
+      <p style="margin-top:0.7rem"><b>Eure Begründung für die Tür</b> (bleibt nur auf diesem iPad):</p>
+      <textarea class="answer" id="reason" data-v="reason" placeholder="Computer zählen binär, weil …"></textarea>
+      <div class="lock-row"><button class="btn acc" id="doorBtn" style="--acc:var(--gold-edge);--acc-edge:#6e4f12">🚪 Tür öffnen</button><span class="small" id="doorMsg"></span></div>
+    </div>
+  </div>
+  <div class="card laurel" id="lcLF">
+    <h3>🌿 Lorbeer im Finale</h3>
+    <p>Gelingt die Beweiskette beim <b>ersten</b> Versuch, gibt es ein Lorbeerblatt dazu.</p>
+    <div class="fb" id="lmsgLF"></div>
+  </div>
+</section>
+
+<!-- =============================================================== ENDE -->
+<section class="chapter" id="end">
+  <div class="card story-card story">
+    <p class="voiced"><span class="vtext"><span class="who nora">Nora Null:</span> „Die Tür ist offen! Ihr habt es begründet: Zwei Zustände lassen sich sicher unterscheiden, auch wenn die Spannung ein wenig schwankt. Und jede Eins kostet heute nur ein paar hundert Elektronen. Wir Menschen zählen weiter mit zehn Ziffern, weil wir zehn Finger haben. Der Computer zählt mit zwei, weil er Milliarden Schalter hat. Beim nächsten Mal lernt ihr, wie man blitzschnell zwischen beiden Welten umrechnet.“</span><button class="say figur" type="button" data-audio="archiv-img/stimme-aa3564a44b.mp3" aria-label="Nora Null anhören" title="Nora Null anhören">🔊</button></p>
+  </div>
+  <div class="solword"><span>SICHER</span></div>
+  <div class="card cert" id="cert"></div>
+  <div class="card">
+    <h3 class="fred">⚡ Noch Zeit?</h3>
+    <ul class="l">
+      <li>Holt die Lorbeer-Aufgaben nach, die ihr ausgelassen habt (oben in der Leiste die Epoche antippen).</li>
+      <li>Zählt mit einer Hand binär von 0 bis 31. Zeigt der Nachbargruppe eine Fingerzahl, die sie entziffern muss.</li>
+      <li>Vergleicht eure Begründung im Archivjournal mit der Beweiskette der Nachbargruppe.</li>
+    </ul>
+    <p class="small" style="margin-top:0.5rem">Macht einen Screenshot dieser Urkunde für eure Lehrperson.</p>
+  </div>
+</section>
+
+<section class="card sl hidden" id="slPanel">
+  <h3 class="fred">🎓 Spielleitung</h3>
+  <p class="small">Nur für die Lehrperson. Geöffnet über <span class="mono">?spielleitung</span> und PIN.</p>
+  <div class="scroll"><table>
+    <tr><th>Epoche</th><th>Code</th><th>Siegel</th></tr>
+    <tr><td>1 Larsa</td><td class="mono">3700</td><td>19 Keilschrift → S</td></tr>
+    <tr><td>2 Rom</td><td class="mono">CDLXX (oder CCCCLXX)</td><td>VIIII = 9 → I</td></tr>
+    <tr><td>3 Indien</td><td class="mono">270</td><td>३ = 3 → C</td></tr>
+    <tr><td>4 Bagdad/Pisa</td><td class="mono">2505</td><td>٨ = 8 → H</td></tr>
+    <tr><td>5 Leibniz</td><td class="mono">1001001100111</td><td>101₂ = 5 → E</td></tr>
+    <tr><td>6 Elektronen</td><td class="mono">437 (420 bis 450)</td><td>0x12 = 18 → R</td></tr>
+    <tr><td>Finale</td><td class="mono">SICHER</td><td>Kette 1 2 3 4 5 (4 und 5 tauschbar)</td></tr>
+  </table></div>
+  <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.7rem">
+    <button class="btn ghost" id="slSkip">⏭ Aktuelle Epoche abschließen</button>
+    <button class="btn ghost" id="slFinal">🔓 Finale freischalten</button>
+    <button class="btn ghost" id="slReset">↺ Neues Spiel (alles löschen)</button>
+  </div>
+  <p class="small" id="slMsg"></p>
+</section>
+
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var KEY = "info-profil-11-archiv-der-ziffern-v1";
+  var WORD = "SICHER";
+  var EPOCHS = ["", "🏺 Larsa", "🏛️ Rom", "🪷 Indien", "📜 Bagdad · Pisa", "🪶 Leibniz", "⚡ Elektronen", "🚪 Finale"];
+  function blank() { return { names: ["", "", ""], cur: 0, open: 0, t0: 0, t1: 0, hints: {}, laurel: {}, vals: {}, gates: {}, vote1: null, vote2: null, chainTries: 0, done: false }; }
+  var S = blank();
+  function load() { try { var raw = localStorage.getItem(KEY); if (raw) { var o = JSON.parse(raw); if (o && o.gates) S = Object.assign(blank(), o); } } catch (e) {} }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+  load();
+  function $(id) { return document.getElementById(id); }
+  function num(s) { s = String(s == null ? "" : s).replace(/\s/g, "").replace(/\./g, "").replace(",", "."); if (!/^-?\d+(\.\d+)?$/.test(s)) return NaN; return parseFloat(s); }
+  function norm(s) { return String(s || "").toUpperCase().replace(/[^A-Z0-9]/g, ""); }
+
+  /* ---------------------------------------------------- Zahlschriften */
+  function roman(n) {
+    if (n <= 0) return "nulla";
+    var v = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1], s = ["M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"], r = "";
+    for (var i = 0; i < v.length; i++) while (n >= v[i]) { r += s[i]; n -= v[i]; }
+    return r;
+  }
+  function mapDigits(n, set) { return String(n).replace(/\d/g, function (d) { return set[+d]; }); }
+  var DEVA = "०१२३४५६७८९", ARAB = "٠١٢٣٤٥٦٧٨٩";
+  /* Keilschrift: digits = Liste von Stellen (je 0..59) */
+  function keilSVG(digits, h, gap) {
+    h = h || 56; gap = gap || 18;
+    var parts = [], x = 4, H = 60;
+    digits.forEach(function (d, k) {
+      if (k > 0) x += gap;
+      var tens = Math.floor(d / 10), ones = d % 10, g = "";
+      for (var i = 0; i < tens; i++) { var ty = tens > 3 && i >= 3 ? 30 : (tens > 3 ? 4 : 17); var tx = x + (tens > 3 ? (i % 3) * 13 : i * 13);
+        g += '<path d="M' + tx + ',' + (ty + 12) + ' L' + (tx + 14) + ',' + ty + ' L' + (tx + 11) + ',' + (ty + 12) + ' L' + (tx + 14) + ',' + (ty + 24) + ' Z" fill="#5b3412"/>'; }
+      if (tens) x += (tens > 3 ? 3 : tens) * 13 + 6;
+      var rows = ones > 6 ? 3 : (ones > 3 ? 2 : 1), per = Math.ceil(ones / rows), sc = rows > 1 ? 0.62 : 1, st = rows > 1 ? 17 : 0;
+      for (var j = 0; j < ones; j++) { var r = Math.floor(j / per), c = j % per; var cx = x + 6 + c * 12 * (rows > 1 ? 0.95 : 1), cy = (rows > 1 ? 3 + r * st : 16);
+        g += '<g transform="translate(' + cx + ',' + cy + ') scale(' + sc + ')"><path d="M-6,0 L6,0 L0,9 Z" fill="#5b3412"/><path d="M0,7 L0,26" stroke="#5b3412" stroke-width="2.8" stroke-linecap="round"/></g>'; }
+      if (ones) x += per * 12 * (rows > 1 ? 0.95 : 1) + 4;
+      parts.push(g);
+    });
+    var w = Math.max(x + 4, 20);
+    return '<svg viewBox="0 0 ' + w + ' ' + H + '" style="height:' + h + 'px;width:auto" role="img" aria-label="Keilschriftzahl">' + parts.join("") + "</svg>";
+  }
+  function renderKeil() {
+    document.querySelectorAll("[data-keil]").forEach(function (el) {
+      var d = el.getAttribute("data-keil").split(",").map(Number);
+      var h = el.classList.contains("kinl") ? 22 : Number(el.getAttribute("data-keil-h") || 56);
+      el.innerHTML = keilSVG(d, h, Number(el.getAttribute("data-gap") || 18));
+    });
+  }
+  function laurelNotation(n, ch) {
+    switch (ch) {
+      case 1: return n === 0 ? '<span title="Keine Null: Die Babylonier ließen die Stelle leer.">·leer·</span>' : keilSVG([n], 18);
+      case 2: return roman(n);
+      case 3: return mapDigits(n, DEVA);
+      case 4: return mapDigits(n, ARAB);
+      case 5: return n.toString(2) + "₂";
+      case 6: return "0x" + n.toString(16).toUpperCase();
+      default: return String(n);
+    }
+  }
+
+  /* ---------------------------------------------------- Navigation */
+  var IDS = ["c0", "e1", "e2", "e3", "e4", "e5", "e6", "fin", "end"];
+  function show(n) {
+    document.querySelectorAll(".chapter").forEach(function (c) { c.classList.remove("show"); });
+    $(IDS[n]).classList.add("show");
+    S.cur = n; save();
+    $("topbar").hidden = (n === 0);
+    for (var i = 1; i <= 6; i++) document.body.classList.toggle("ep" + i, n === i);
+    $("runBadge").textContent = n === 8 ? "🏆 Urkunde" : EPOCHS[n];
+    renderSeals(); tick();
+    if (n === 7) renderLetters();
+    if (n === 8) fillCert();
+    window.scrollTo(0, 0);
+  }
+  function renderSeals() {
+    var h = "";
+    for (var i = 1; i <= 7; i++) {
+      var cls = i <= S.open ? "open" : (i === S.open + 1 ? "now" : "");
+      if (i === S.cur) cls = "now";
+      h += '<button class="seal ' + cls + '" data-seal="' + i + '" aria-label="' + (i === 7 ? "Finale" : "Epoche " + i) + '">' + (i === 7 ? "🚪" : i) + "</button>";
+    }
+    $("seals").innerHTML = h;
+  }
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-seal]");
+    if (b) { var n = Number(b.getAttribute("data-seal")); if (n <= S.open + 1) show(n); return; }
+    var nx = e.target.closest("[data-next]");
+    if (nx) show(Number(nx.getAttribute("data-next")));
+  });
+  function openGate(g) {
+    S.gates[g] = 1; save();
+    document.querySelectorAll('[data-gate="' + g + '"]').forEach(function (el) { el.classList.remove("hidden"); });
+  }
+  function applyGates() { Object.keys(S.gates).forEach(function (g) { document.querySelectorAll('[data-gate="' + g + '"]').forEach(function (el) { el.classList.remove("hidden"); }); }); }
+
+  /* ---------------------------------------------------- Zeit, Tipps, Lorbeeren */
+  function fmt(ms) { var s = Math.max(0, Math.floor(ms / 1000)); return String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0"); }
+  function nHints() { return Object.keys(S.hints).length; }
+  function nLaurel() { return Object.keys(S.laurel).length; }
+  function tick() {
+    if (!S.t0) return;
+    $("st-time").textContent = "⏱ " + fmt((S.t1 || Date.now()) - S.t0);
+    $("st-hints").textContent = "💡 " + nHints();
+    var n = nLaurel(), key = n + "|" + S.cur;
+    if (tick.last !== key) { tick.last = key; $("st-laurel").innerHTML = "🌿 " + laurelNotation(n, S.cur); $("st-laurel").title = n + " Lorbeerblätter (dezimal)"; }
+  }
+  setInterval(tick, 1000);
+  document.querySelectorAll("details.hint[data-h]").forEach(function (d) {
+    d.addEventListener("toggle", function () { if (d.open) { S.hints[d.getAttribute("data-h")] = 1; save(); tick(); } });
+  });
+  function laurelDone(id) { S.laurel[id] = 1; save(); tick(); var c = $("lc" + id); if (c) c.classList.add("done"); }
+  function laurelMsg(id, ok, text) { var m = $("lmsg" + id); m.className = "fb " + (ok ? "ok" : "bad"); m.textContent = text; if (ok) laurelDone(id); }
+
+  /* ---------------------------------------------------- Bausteine */
+  function mc(container, q, opts, onOk) {
+    var el = $(container);
+    var h = (q ? "<p>" + q + "</p>" : "") + '<div class="opts">';
+    opts.forEach(function (o, i) { h += '<button class="opt" data-i="' + i + '"><span class="lt">' + String.fromCharCode(65 + i) + "</span><span>" + o.t + "</span></button>"; });
+    el.innerHTML = h + '</div><div class="fb"></div>';
+    el.querySelectorAll(".opt").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var o = opts[Number(b.getAttribute("data-i"))];
+        el.querySelectorAll(".opt").forEach(function (x) { x.classList.remove("ok", "bad"); });
+        b.classList.add(o.ok ? "ok" : "bad");
+        var fb = el.querySelector(".fb"); fb.className = "fb " + (o.ok ? "ok" : "bad"); fb.textContent = o.fb || (o.ok ? "Richtig!" : "Noch nicht.");
+        if (o.ok && onOk) onOk();
+      });
+    });
+  }
+  function bindVals() {
+    document.querySelectorAll("[data-v]").forEach(function (el) {
+      var k = el.getAttribute("data-v");
+      if (S.vals[k] != null) el.value = S.vals[k];
+      el.addEventListener("input", function () { S.vals[k] = el.value; save(); });
+    });
+  }
+  function lockMsg(n, ok, text) {
+    var m = $("msg" + n); m.className = "lock-msg " + (ok ? "ok" : "bad"); m.textContent = text;
+    if (!ok) { var l = m.closest(".lock"); l.classList.remove("shake"); void l.offsetWidth; l.classList.add("shake"); }
+  }
+
+  /* ---------------------------------------------------- Codes */
+  var LOCKS = {
+    1: function (v) { var x = num(v); if (x === 3700) return [true];
+      if (x === 101 || x === 4600 || x === 3640) return [false, "Fast: Prüft die Stellenwerte 3600, 60 und 1 und die Zählung der Winkelhaken."];
+      if (x === 42) return [false, "Ihr habt alle Zeichen einfach addiert. Die Stellen sind aber unterschiedlich viel wert."];
+      return [false, "Noch nicht. Rechnet jede Stelle mit ihrem Stellenwert (1, 60, 3600)."]; },
+    2: function (v) { var s = norm(v); if (s === "CDLXX" || s === "CCCCLXX") return [true];
+      if (s === "470") return [false, "Richtige Zahl! Die Römer wollen sie aber in ihren Zahlzeichen sehen."];
+      if (s === "CDLX" || s === "CDLXIX") return [false, "Fast. Habt ihr beim Bündeln der Einer den Stein in die Zehnerspalte gelegt?"];
+      return [false, "Noch nicht. Rechnet 444 + 26 und übersetzt dann in römische Zeichen."]; },
+    3: function (v) { var s = String(v).trim(); if (num(s) === 270 || s === "२७०") return [true];
+      if (num(s) === 27) return [false, "Die Null zählt! Sie ist hier ein echter Platzhalter."];
+      return [false, "Noch nicht. Lest die Zeichen mit der Tabelle von links nach rechts."]; },
+    4: function (v) { var x = num(v); if (x === 2505) return [true];
+      if (x === 4711) return [false, "Das ist der Wert im Zehnersystem. Gefragt ist die Basis 8."];
+      return [false, "Noch nicht. Stellenwerte zur Basis 8: 512, 64, 8, 1."]; },
+    5: function (v) { var s = String(v).replace(/\s/g, ""); if (s === "1001001100111") return [true];
+      if (s.length !== 13) return [false, "4711 braucht genau 13 Dualstellen. Ihr habt " + s.length + "."];
+      return [false, "Noch nicht. Schaltet die Bit-Lampen, bis der Wert 4711 erscheint."]; },
+    6: function (v) { var x = num(v); if (x >= 420 && x <= 450) return [true, "Richtig: etwa 437 Elektronen!"];
+      if (x > 1e7) return [false, "Das ist die Größenordnung der Platine aus den 1990ern. Rechnet mit 0,1 fF und 0,7 V."];
+      if (x >= 42 && x <= 45) return [false, "Eine Zehnerpotenz daneben. 0,1 fF = 10⁻¹⁶ F."];
+      if (x >= 4200 && x <= 4500) return [false, "Eine Zehnerpotenz daneben. 0,1 fF = 10⁻¹⁶ F, nicht 10⁻¹⁵ F."];
+      return [false, "Noch nicht. Q = C · U, dann n = Q : e."]; },
+    7: function (v) { if (norm(v) === WORD) return [true]; return [false, "Das Wort passt nicht ins Schloss. Prüft die Siegel."]; }
+  };
+  var AFTER = { 1: "s1", 2: "s2", 3: "s3", 4: "s4", 5: "s5", 6: "e6c", 7: "fb" };
+  document.querySelectorAll("[data-lock]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var n = Number(b.getAttribute("data-lock"));
+      var r = LOCKS[n]($("code" + n).value);
+      lockMsg(n, r[0], r[0] ? (r[1] || "✓ Richtig! Das Siegel erscheint.") : r[1]);
+      if (r[0]) { openGate(AFTER[n]); if (n === 6) setTimeout(renderBucket, 0); }
+    });
+  });
+  document.querySelectorAll("[data-lock]").forEach(function (b) {
+    var n = b.getAttribute("data-lock"); var inp = $("code" + n);
+    inp.addEventListener("keydown", function (e) { if (e.key === "Enter") b.click(); });
+  });
+  var SEALNUM = { 1: 19, 2: 9, 3: 3, 4: 8, 5: 5, 6: 18 };
+  document.querySelectorAll("[data-seal-check]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var n = Number(b.getAttribute("data-seal-check"));
+      var z = num($("sz" + n).value), L = norm($("sb" + n).value), want = SEALNUM[n], fb = $("sfb" + n);
+      if (z !== want) { fb.className = "fb bad"; fb.textContent = "Die Zahl stimmt noch nicht."; return; }
+      if (L !== WORD.charAt(n - 1)) { fb.className = "fb bad"; fb.textContent = "Die Zahl stimmt! Zählt im Alphabet: A = 1, B = 2, …"; return; }
+      fb.className = "fb ok"; fb.textContent = "✓ " + want + " → " + L + ". Ein Buchstabe für die Tür!";
+      unlock(n); openGate("d" + n);
+    });
+  });
+  function unlock(n) { if (S.open < n) S.open = n; save(); renderSeals(); }
+
+  /* ---------------------------------------------------- Start */
+  var VOTE = [
+    { k: "A", t: "Mit zwei Ziffern rechnet es sich am schnellsten." },
+    { k: "B", t: "Zwei Zustände (Spannung an oder aus) lassen sich technisch am sichersten unterscheiden." },
+    { k: "C", t: "Leibniz hat es so festgelegt, und alle haben es übernommen." },
+    { k: "D", t: "Elektronen können nur bis 1 zählen." }
+  ];
+  function voteUI(id, key) {
+    var el = $(id), h = "";
+    VOTE.forEach(function (v) { h += '<button data-k="' + v.k + '"' + (S[key] === v.k ? ' class="sel"' : "") + "><b>" + v.k + "</b> · " + v.t + "</button>"; });
+    el.innerHTML = h;
+    el.querySelectorAll("button").forEach(function (b) {
+      b.addEventListener("click", function () { S[key] = b.getAttribute("data-k"); save(); el.querySelectorAll("button").forEach(function (x) { x.classList.toggle("sel", x === b); }); startState(); });
+    });
+  }
+  function startState() {
+    var ok = (S.names[0] || S.names[1]) && S.vote1;
+    $("startBtn").disabled = !ok;
+    $("startMsg").textContent = ok ? (S.t0 ? "Weiter, wo ihr aufgehört habt." : "Bereit!") : "Erst Namen eintragen und eine Vermutung wählen.";
+  }
+  document.querySelectorAll("[data-name]").forEach(function (inp) {
+    var i = Number(inp.getAttribute("data-name")); inp.value = S.names[i] || "";
+    inp.addEventListener("input", function () { S.names[i] = inp.value.trim(); save(); startState(); });
+  });
+  $("startBtn").addEventListener("click", function () {
+    if (!S.t0) S.t0 = Date.now();
+    save();
+    show(S.done ? 8 : Math.min(S.open + 1, 7));
+  });
+
+  /* ---------------------------------------------------- Epoche 1 */
+  mc("q1b", "Welche Zahl zeigt Tafel B?", [
+    { t: "Sicher die 2.", fb: "Wenn die Lücke zufällig ist, ja. Aber ist sie das?" },
+    { t: "Sicher die 11.", fb: "Keile sind immer Einer. 11 bräuchte einen Winkelhaken." },
+    { t: "2, 61, 3601 oder noch mehr, je nachdem, ob die Keile in einer Stelle stehen und wie viele leere Stellen dazwischen liegen.", ok: true, fb: "Genau! Mit zwei leeren Stellen wären es schon 1 · 60³ + 1 = 216 001. Ohne Zeichen für eine leere Stelle bleibt die Zahl mehrdeutig." },
+    { t: "Sicher die 61.", fb: "Möglich, aber woher wollt ihr das wissen?" }
+  ], function () { openGate("e1b"); });
+  (function () {
+    var vals = [3, 4, 6, 7, 12, 15, 25], right = [3, 4, 6, 12, 15], sel = {};
+    var el = $("l1chips");
+    el.innerHTML = vals.map(function (v) { return '<button class="chip" data-c="' + v + '">' + v + "</button>"; }).join("");
+    el.querySelectorAll(".chip").forEach(function (c) { c.addEventListener("click", function () { var v = c.getAttribute("data-c"); sel[v] = !sel[v]; c.classList.toggle("sel", !!sel[v]); }); });
+    $("l1check").addEventListener("click", function () {
+      var picked = vals.filter(function (v) { return sel[v]; });
+      var ok = picked.length === right.length && right.every(function (v) { return sel[v]; });
+      laurelMsg("L1", ok, ok ? "🌿 Richtig! 60 hat zwölf Teiler, 10 nur vier. Drittel, Viertel und Sechstel von Getreide oder Silber gehen glatt auf." : "Noch nicht. Prüft jede Zahl: Geht 60 : Zahl ohne Rest auf, 10 : Zahl aber nicht?");
+    });
+  })();
+
+  /* ---------------------------------------------------- Epoche 2: Abakus */
+  (function () {
+    var cols = ["M", "C", "X", "I"], cnt = S.vals.abakus || [0, 0, 0, 0];
+    function draw() {
+      var h = "";
+      cols.forEach(function (c, i) {
+        var stones = ""; for (var k = 0; k < cnt[i]; k++) stones += "<i></i>";
+        h += '<div class="abcol' + (cnt[i] >= 10 ? " ten" : "") + '"><span class="lab">' + c + '</span><div class="stones">' + stones + '</div><div class="bb"><button data-ab="' + i + '" data-d="-1" aria-label="Stein weg ' + c + '">−</button><button data-ab="' + i + '" data-d="1" aria-label="Stein dazu ' + c + '">+</button></div>' +
+          (cnt[i] >= 10 && i > 0 ? '<button class="bundle" data-bundle="' + i + '">⇦ bündeln</button>' : "") + "</div>";
+      });
+      $("abakus").innerHTML = h;
+      S.vals.abakus = cnt; save();
+    }
+    $("abakus").addEventListener("click", function (e) {
+      var b = e.target.closest("[data-ab]"), u = e.target.closest("[data-bundle]");
+      if (b) { var i = +b.getAttribute("data-ab"), d = +b.getAttribute("data-d"); cnt[i] = Math.max(0, Math.min(10, cnt[i] + d)); draw(); }
+      if (u) { var j = +u.getAttribute("data-bundle"); cnt[j] -= 10; cnt[j - 1] = Math.min(10, cnt[j - 1] + 1); draw(); }
+    });
+    $("abReset").addEventListener("click", function () { cnt = [0, 0, 0, 0]; draw(); });
+    draw();
+  })();
+  mc("q2b", "Was stimmt?", [
+    { t: "Römische Zahlschrift und Rechenbrett sind beide Stellenwertsysteme.", fb: "Ein X ist überall zehn. Hängt sein Wert von der Stelle ab?" },
+    { t: "Die Römer schrieben eine leere Spalte als O.", fb: "Ein Zeichen für Null hatten die Römer nicht (K4, Marcus)." },
+    { t: "Ein X in der Zehnerspalte bedeutet hundert.", fb: "X ist immer 10, egal wo." },
+    { t: "Das Rechenbrett ist ein Stellenwertsystem, die römische Schrift ein Additionssystem.", ok: true, fb: "Richtig! Gerechnet wurde mit Stellen, geschrieben ohne sie." }
+  ], function () { openGate("e2b"); });
+  $("l2check").addEventListener("click", function () {
+    var x = num($("l2in").value);
+    laurelMsg("L2", x === 3888, x === 3888 ? "🌿 MMMDCCCLXXXVIII: 15 Zeichen für eine vierstellige Zahl. Kein Wunder, dass niemand so rechnen wollte." : "Noch nicht. Welche Ziffer braucht römisch die meisten Zeichen? Nehmt sie in jeder Stelle.");
+  });
+
+  /* ---------------------------------------------------- Epoche 3: Null */
+  (function () {
+    var rules = [["7 + 0", "7"], ["7 − 0", "7"], ["0 − 7", "−7"], ["7 · 0", "0"], ["0 : 7", "0"], ["7 : 0", "nicht definiert"]];
+    var opts = ["", "7", "0", "−7", "nicht definiert"];
+    var h = "<tr><th>Rechnung</th><th>Ergebnis</th></tr>";
+    rules.forEach(function (r, i) {
+      h += '<tr><td class="mono">' + r[0] + '</td><td><select class="gsel" id="nr' + i + '" data-v="nr' + i + '">' + opts.map(function (o) { return "<option>" + o + "</option>"; }).join("") + "</select></td></tr>";
+    });
+    $("nullrules").innerHTML = h;
+    $("nullCheck").addEventListener("click", function () {
+      var ok = 0;
+      rules.forEach(function (r, i) { var s = $("nr" + i); var good = s.value === r[1]; s.classList.toggle("ok", good); s.classList.toggle("bad", !good); if (good) ok++; });
+      var fb = $("nullFb");
+      if (ok === rules.length) { fb.className = "fb ok"; fb.textContent = "✓ Alle Regeln stimmen. Brahmagupta wäre stolz, besonders auf eure Division."; openGate("e3b"); }
+      else { fb.className = "fb bad"; fb.textContent = ok + " von 6 richtig."; }
+    });
+  })();
+  mc("q3c", "Welches Problem aus Epoche 1 löst die Null als Platzhalter?", [
+    { t: "Leere Stellen werden sichtbar: 2, 61 und 3601 (bei uns 2, 11 und 101) kann man nicht mehr verwechseln.", ok: true, fb: "Genau! Erst mit der Null ist eine Stellenwertschrift eindeutig." },
+    { t: "Man kann jetzt durch Null teilen.", fb: "Das geht bis heute nicht (Tipp 2)." },
+    { t: "Die Zahlen werden kürzer.", fb: "Eine zusätzliche Null macht Zahlen eher länger." },
+    { t: "Man braucht keinen Abakus mehr, weil die Zahlen kleiner werden.", fb: "Die Zahlen bleiben gleich groß, nur ihre Schreibweise ändert sich." }
+  ], function () { openGate("e3c"); });
+  $("lL3") && mc("lL3", "Warum ist 7 : 0 nicht definiert?", [
+    { t: "Weil das Ergebnis unendlich ist, und unendlich ist eine ganz normale Zahl.", fb: "Unendlich ist keine Zahl, mit der man so rechnen kann." },
+    { t: "Weil Brahmagupta es verboten hat.", fb: "Brahmagupta hat sich hier gerade geirrt (K6)." },
+    { t: "Weil 7 : 0 = 0 ist.", fb: "Dann müsste 0 · 0 = 7 sein." },
+    { t: "Weil es keine Zahl gibt, die mal 0 die 7 ergibt.", ok: true, fb: "🌿 Genau: Die Umkehraufgabe ? · 0 = 7 hat keine Lösung." }
+  ], function () { laurelDone("L3"); });
+
+  /* ---------------------------------------------------- Epoche 4 */
+  (function () {
+    var fields = [["d3", "4"], ["p3", "3"], ["d2", "7"], ["p2", "2"], ["d1", "1"], ["p1", "1"], ["d0", "1"], ["p0", "0"]];
+    function inp(k) { return '<input class="inl" id="hs_' + k + '" data-v="hs_' + k + '" inputmode="numeric" maxlength="2">'; }
+    function ex(k) { return '<span class="pw">10<input class="inl ex" id="hs_' + k + '" data-v="hs_' + k + '" inputmode="numeric" maxlength="2" aria-label="Exponent"></span>'; }
+    $("hs").innerHTML = "<span>4711 =</span>" + inp("d3") + "<span>·</span>" + ex("p3") + "<span>+</span>" + inp("d2") + "<span>·</span>" + ex("p2") + "<span>+</span>" + inp("d1") + "<span>·</span>" + ex("p1") + "<span>+</span>" + inp("d0") + "<span>·</span>" + ex("p0");
+    $("hsCheck").addEventListener("click", function () {
+      var ok = 0;
+      fields.forEach(function (f) { var el = $("hs_" + f[0]); var g = el.value.trim() === f[1]; el.classList.toggle("ok", g); el.classList.toggle("bad", !g); if (g) ok++; });
+      var fb = $("hsFb");
+      if (ok === fields.length) { fb.className = "fb ok"; fb.textContent = "✓ Genau so. Und jetzt dieselbe Ziffernfolge zu einer anderen Basis!"; openGate("e4b"); }
+      else { fb.className = "fb bad"; fb.textContent = ok + " von 8 Feldern richtig. Der Exponent der Einerstelle ist 0."; }
+    });
+  })();
+  function baseMachine() {
+    var b = Number($("bmBase").value), s = $("bmDigits").value.toUpperCase().replace(/\s/g, ""), msg = $("bmMsg");
+    var DIG = "0123456789ABCDEF", rows = "", bad = "";
+    for (var i = 0; i < s.length; i++) { var v = DIG.indexOf(s[i]); if (v < 0 || v >= b) bad += s[i]; }
+    if (bad) { msg.className = "fb bad"; msg.textContent = "Die Ziffer " + bad.charAt(0) + " gibt es zur Basis " + b + " nicht. Erlaubt: 0 bis " + DIG.charAt(b - 1) + "."; $("bmTab").innerHTML = ""; return; }
+    msg.className = "fb"; msg.textContent = "";
+    var head = "<tr><th>Stelle i</th>", dg = "<tr><th>Ziffer a<sub>i</sub></th>", pw = "<tr><th>Stellenwert b<sup>i</sup></th>";
+    for (var k = 0; k < s.length; k++) { var e = s.length - 1 - k; head += "<td>" + e + "</td>"; dg += "<td><b>" + s[k] + "</b>" + (DIG.indexOf(s[k]) > 9 ? " = " + DIG.indexOf(s[k]) : "") + "</td>"; pw += "<td>" + b + "<sup>" + e + "</sup> = " + Math.pow(b, e).toLocaleString("de-DE") + "</td>"; }
+    $("bmTab").innerHTML = head + "</tr>" + dg + "</tr>" + pw + "</tr>";
+  }
+  $("bmBase").addEventListener("change", baseMachine); $("bmDigits").addEventListener("input", baseMachine); baseMachine();
+  $("l4check").addEventListener("click", function () {
+    var x = num($("l4in").value);
+    laurelMsg("L4", x === 42, x === 42 ? "🌿 0x2A = 2 · 16 + 10 = 42. Die Antwort auf die Frage nach dem Leben, dem Universum und dem ganzen Rest." : "Noch nicht. A steht für 10, die linke Stelle ist 16 wert.");
+  });
+
+  /* ---------------------------------------------------- Epoche 5 */
+  (function () {
+    var gaps = [["g_b", ["", "2", "10", "16"], "2"], ["g_a", ["", "{0, 1}", "{1, 2}", "{0, …, 9}"], "{0, 1}"], ["g_bit", ["", "Byte", "Bit", "Ziffer"], "Bit"]];
+    function sel(g) { return '<select class="gsel" id="' + g[0] + '" data-v="' + g[0] + '">' + g[1].map(function (o) { return "<option>" + o + "</option>"; }).join("") + "</select>"; }
+    $("dualgap").innerHTML = "Im Dualsystem ist die Basis b = " + sel(gaps[0]) + " und das Alphabet A<sub>2</sub> = " + sel(gaps[1]) + ". Die Informationsmenge, die ein Zeichen dieses Alphabets darstellen kann, heißt 1 " + sel(gaps[2]) + ".";
+    var rows = [["10", "1·2¹ + 0·2⁰", 2], ["11", "1·2¹ + 1·2⁰", 3], ["100", "1·2² + 0·2¹ + 0·2⁰", 4], ["1000", "1·2³ + 0·2² + 0·2¹ + 0·2⁰", 8], ["1111", "1·2³ + 1·2² + 1·2¹ + 1·2⁰", 15], ["10000", "1·2⁴ + 0·2³ + 0·2² + 0·2¹ + 0·2⁰", 16]];
+    var h = "<tr><th>dual</th><th>Stellenwertdarstellung</th><th>dezimal</th></tr>";
+    rows.forEach(function (r, i) { h += '<tr><td class="mono">' + r[0] + '</td><td class="mono small">' + (i < 2 ? r[1] : "…") + '</td><td><input class="inl" id="dt' + i + '" data-v="dt' + i + '" inputmode="numeric" maxlength="3" style="width:5ch"></td></tr>'; });
+    $("dualtab").innerHTML = h;
+    $("dualCheck").addEventListener("click", function () {
+      var ok = 0;
+      gaps.forEach(function (g) { var s = $(g[0]), good = s.value === g[2]; s.classList.toggle("ok", good); s.classList.toggle("bad", !good); if (good) ok++; });
+      rows.forEach(function (r, i) { var el = $("dt" + i), good = num(el.value) === r[2]; el.classList.toggle("ok", good); el.classList.toggle("bad", !good); if (good) ok++; });
+      var fb = $("dualFb");
+      if (ok === 9) { fb.className = "fb ok"; fb.textContent = "✓ Leibniz nickt zufrieden. Jetzt die große Zahl 4711!"; openGate("e5b"); }
+      else { fb.className = "fb bad"; fb.textContent = ok + " von 9 richtig."; }
+    });
+  })();
+  (function () {
+    var bits = S.vals.lamps || Array(13).fill(0);
+    function draw() {
+      var h = "";
+      for (var i = 0; i < 13; i++) { var e = 12 - i; h += '<button class="lamp' + (bits[i] ? " on" : "") + '" data-lp="' + i + '" aria-pressed="' + (bits[i] ? "true" : "false") + '" aria-label="Stelle 2 hoch ' + e + '"><b></b><small>' + Math.pow(2, e) + "</small></button>"; }
+      $("lamps").innerHTML = h;
+      var v = 0; for (var k = 0; k < 13; k++) v += bits[k] * Math.pow(2, 12 - k);
+      $("lampOut").textContent = bits.join("") + " · Wert " + v.toLocaleString("de-DE") + (v === 4711 ? " ✓ Treffer!" : "");
+      S.vals.lamps = bits; save();
+    }
+    $("lamps").addEventListener("click", function (e) { var b = e.target.closest("[data-lp]"); if (!b) return; var i = +b.getAttribute("data-lp"); bits[i] = bits[i] ? 0 : 1; draw(); });
+    draw();
+  })();
+  $("l5check").addEventListener("click", function () {
+    var x = num($("l5in").value);
+    laurelMsg("L5", x === 1023, x === 1023 ? "🌿 2¹⁰ − 1 = 1023. Mit Fingern im Zehnersystem kommt ihr nur bis 10." : "Noch nicht. Alle zehn Finger ausgestreckt: 1111111111₂. Das ist 2¹⁰ − 1.");
+  });
+
+  /* ---------------------------------------------------- Epoche 6: Eimer */
+  var BK = [{ name: "Platine 1990er", C: 1e-11, Ctxt: "10 pF = 10⁻¹¹ F", U: 3.3 }, { name: "Chip 2026", C: 1e-16, Ctxt: "0,1 fF = 10⁻¹⁶ F", U: 0.7 }], bkP = 0;
+  function sci(x, d) { var e = Math.floor(Math.log10(x)), m = x / Math.pow(10, e); var sup = String(e).replace(/-/g, "⁻").replace(/\d/g, function (c) { return "⁰¹²³⁴⁵⁶⁷⁸⁹"[+c]; }); return m.toFixed(d == null ? 2 : d).replace(".", ",") + " · 10" + sup; }
+  function renderBucket() {
+    var p = BK[bkP], Q = p.C * p.U, n = Q / 1.602e-19, solved = !!S.gates.e6c || bkP === 0;
+    var W = 860, H = 230, show = Math.min(Math.round(n), 600), per = n / show;
+    var cols = 40, rows = Math.ceil(show / cols), r = 4.2, sp = 11, bx = 240, bw = cols * sp + 20, by = 30, bh = 170;
+    var g = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Elektronen im Eimer">';
+    g += '<path d="M' + bx + "," + by + " L" + (bx + bw) + "," + by + " L" + (bx + bw - 14) + "," + (by + bh) + " L" + (bx + 14) + "," + (by + bh) + ' Z" fill="#f4f7fa" stroke="' + (bkP ? "#1f9d55" : "#a3262a") + '" stroke-width="3"/>';
+    if (solved) {
+      for (var i = 0; i < show; i++) { var rr = Math.floor(i / cols), cc = i % cols; g += '<circle cx="' + (bx + 16 + cc * sp) + '" cy="' + (by + bh - 10 - rr * sp) + '" r="' + r + '" fill="#2f8fe0"/>'; }
+    } else {
+      g += '<text x="' + (bx + bw / 2) + '" y="' + (by + bh / 2 + 8) + '" font-size="26" font-weight="700" text-anchor="middle" fill="#1f9d55">? Rechnet selbst!</text>';
+    }
+    g += '<text x="20" y="60" font-size="15" font-weight="700" fill="#22262b">' + p.name + "</text>";
+    g += '<text x="20" y="86" font-size="14" fill="#5d6168">C = ' + p.Ctxt + "</text>";
+    g += '<text x="20" y="108" font-size="14" fill="#5d6168">U = ' + String(p.U).replace(".", ",") + " V</text>";
+    if (solved) { if (per > 1.5) { g += '<text x="20" y="145" font-size="13" fill="#1f6fb8">' + show + " Punkte, jeder steht</text>" + '<text x="20" y="163" font-size="13" fill="#1f6fb8">für ≈ ' + (Math.round(per / 1000) * 1000).toLocaleString("de-DE").replace(/\./g, " ") + " Elektronen</text>" + '<text x="20" y="181" font-size="13" font-weight="700" fill="#1f6fb8">zusammen ≈ ' + sci(n, 2) + "</text>"; }
+      else g += '<text x="20" y="145" font-size="13" fill="#1f6fb8">● = 1 Elektron</text><text x="20" y="163" font-size="13" font-weight="700" fill="#1f6fb8">' + Math.round(n) + " Punkte = " + Math.round(n) + " Elektronen</text>"; }
+    g += "</svg>";
+    $("bkPlot").innerHTML = g;
+    $("bkVals").innerHTML = '<div><small>Ladung Q = C · U</small><b>' + (solved ? sci(Q, 1) + " C" : "?") + '</b></div><div><small>Elektronen n = Q : e</small><b>' + (solved ? (n > 1e5 ? sci(n, 2) : Math.round(n).toLocaleString("de-DE")) : "?") + '</b></div><div><small>Energie E ≈ C · U²</small><b>' + (solved && S.gates.e6d ? sci(p.C * p.U * p.U, 1) + " J" : "?") + "</b></div>";
+    if (S.gates.e6c) $("eimerImg").src = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgMzMwIiB3aWR0aD0iOTAwIiBoZWlnaHQ9IjMzMCI+CjxyZWN0IHdpZHRoPSI5MDAiIGhlaWdodD0iMzMwIiBmaWxsPSIjZmZmZmZmIi8+Cjx0ZXh0IHg9IjIyMC4wIiB5PSI0OSIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjYTMyNjJhIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5QbGF0aW5lIGRlciAxOTkwZXI8L3RleHQ+CjxwYXRoIGQ9Ik03MCw5NSBMMzcwLDk1IEwzNTgsMjE1IEw4MiwyMTUgWiIgZmlsbD0iI2Y0ZjdmYSIgc3Ryb2tlPSIjYTMyNjJhIiBzdHJva2Utd2lkdGg9IjMiLz4KPGNpcmNsZSBjeD0iODkuMyIgY3k9IjIwOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTAzLjMiIGN5PSIyMDguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjExNy4zIiBjeT0iMjA4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxMzEuMyIgY3k9IjIwOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTQ1LjMiIGN5PSIyMDguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE1OS4zIiBjeT0iMjA4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxNzMuMyIgY3k9IjIwOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTg3LjMiIGN5PSIyMDguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjIwMS4zIiBjeT0iMjA4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyMTUuMyIgY3k9IjIwOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjI5LjMiIGN5PSIyMDguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjI0My4zIiBjeT0iMjA4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyNTcuMyIgY3k9IjIwOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjcxLjMiIGN5PSIyMDguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjI4NS4zIiBjeT0iMjA4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyOTkuMyIgY3k9IjIwOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzEzLjMiIGN5PSIyMDguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjMyNy4zIiBjeT0iMjA4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIzNDEuMyIgY3k9IjIwOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iODcuOSIgY3k9IjE5NC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTAxLjkiIGN5PSIxOTQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjExNS45IiBjeT0iMTk0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxMjkuOSIgY3k9IjE5NC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTQzLjkiIGN5PSIxOTQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE1Ny45IiBjeT0iMTk0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxNzEuOSIgY3k9IjE5NC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTg1LjkiIGN5PSIxOTQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE5OS45IiBjeT0iMTk0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyMTMuOSIgY3k9IjE5NC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjI3LjkiIGN5PSIxOTQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjI0MS45IiBjeT0iMTk0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyNTUuOSIgY3k9IjE5NC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjY5LjkiIGN5PSIxOTQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjI4My45IiBjeT0iMTk0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyOTcuOSIgY3k9IjE5NC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzExLjkiIGN5PSIxOTQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjMyNS45IiBjeT0iMTk0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIzMzkuOSIgY3k9IjE5NC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iODYuNSIgY3k9IjE4MC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTAwLjUiIGN5PSIxODAuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjExNC41IiBjeT0iMTgwLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxMjguNSIgY3k9IjE4MC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTQyLjUiIGN5PSIxODAuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE1Ni41IiBjeT0iMTgwLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxNzAuNSIgY3k9IjE4MC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTg0LjUiIGN5PSIxODAuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE5OC41IiBjeT0iMTgwLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyMTIuNSIgY3k9IjE4MC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjI2LjUiIGN5PSIxODAuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjI0MC41IiBjeT0iMTgwLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyNTQuNSIgY3k9IjE4MC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjY4LjUiIGN5PSIxODAuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjI4Mi41IiBjeT0iMTgwLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyOTYuNSIgY3k9IjE4MC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzEwLjUiIGN5PSIxODAuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjMyNC41IiBjeT0iMTgwLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIzMzguNSIgY3k9IjE4MC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzUyLjUiIGN5PSIxODAuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9Ijg1LjEiIGN5PSIxNjYuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9Ijk5LjEiIGN5PSIxNjYuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjExMy4xIiBjeT0iMTY2LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxMjcuMSIgY3k9IjE2Ni4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTQxLjEiIGN5PSIxNjYuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE1NS4xIiBjeT0iMTY2LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxNjkuMSIgY3k9IjE2Ni4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTgzLjEiIGN5PSIxNjYuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE5Ny4xIiBjeT0iMTY2LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyMTEuMSIgY3k9IjE2Ni4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjI1LjEiIGN5PSIxNjYuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjIzOS4xIiBjeT0iMTY2LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyNTMuMSIgY3k9IjE2Ni4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjY3LjEiIGN5PSIxNjYuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjI4MS4xIiBjeT0iMTY2LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyOTUuMSIgY3k9IjE2Ni4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzA5LjEiIGN5PSIxNjYuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjMyMy4xIiBjeT0iMTY2LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIzMzcuMSIgY3k9IjE2Ni4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzUxLjEiIGN5PSIxNjYuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjgzLjciIGN5PSIxNTIuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9Ijk3LjciIGN5PSIxNTIuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjExMS43IiBjeT0iMTUyLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxMjUuNyIgY3k9IjE1Mi4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTM5LjciIGN5PSIxNTIuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE1My43IiBjeT0iMTUyLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxNjcuNyIgY3k9IjE1Mi4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTgxLjciIGN5PSIxNTIuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE5NS43IiBjeT0iMTUyLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyMDkuNyIgY3k9IjE1Mi4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjIzLjciIGN5PSIxNTIuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjIzNy43IiBjeT0iMTUyLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyNTEuNyIgY3k9IjE1Mi4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjY1LjciIGN5PSIxNTIuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjI3OS43IiBjeT0iMTUyLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyOTMuNyIgY3k9IjE1Mi4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzA3LjciIGN5PSIxNTIuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjMyMS43IiBjeT0iMTUyLjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIzMzUuNyIgY3k9IjE1Mi4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzQ5LjciIGN5PSIxNTIuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjgyLjMiIGN5PSIxMzguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9Ijk2LjMiIGN5PSIxMzguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjExMC4zIiBjeT0iMTM4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxMjQuMyIgY3k9IjEzOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTM4LjMiIGN5PSIxMzguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE1Mi4zIiBjeT0iMTM4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxNjYuMyIgY3k9IjEzOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTgwLjMiIGN5PSIxMzguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE5NC4zIiBjeT0iMTM4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyMDguMyIgY3k9IjEzOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjIyLjMiIGN5PSIxMzguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjIzNi4zIiBjeT0iMTM4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyNTAuMyIgY3k9IjEzOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjY0LjMiIGN5PSIxMzguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjI3OC4zIiBjeT0iMTM4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyOTIuMyIgY3k9IjEzOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzA2LjMiIGN5PSIxMzguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjMyMC4zIiBjeT0iMTM4LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIzMzQuMyIgY3k9IjEzOC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzQ4LjMiIGN5PSIxMzguMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjgwLjkiIGN5PSIxMjQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9Ijk0LjkiIGN5PSIxMjQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjEwOC45IiBjeT0iMTI0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxMjIuOSIgY3k9IjEyNC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTM2LjkiIGN5PSIxMjQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE1MC45IiBjeT0iMTI0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIxNjQuOSIgY3k9IjEyNC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMTc4LjkiIGN5PSIxMjQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjE5Mi45IiBjeT0iMTI0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyMDYuOSIgY3k9IjEyNC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjIwLjkiIGN5PSIxMjQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjIzNC45IiBjeT0iMTI0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyNDguOSIgY3k9IjEyNC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMjYyLjkiIGN5PSIxMjQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjI3Ni45IiBjeT0iMTI0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIyOTAuOSIgY3k9IjEyNC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzA0LjkiIGN5PSIxMjQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjMxOC45IiBjeT0iMTI0LjAiIHI9IjMuMiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSIzMzIuOSIgY3k9IjEyNC4wIiByPSIzLjIiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iMzQ2LjkiIGN5PSIxMjQuMCIgcj0iMy4yIiBmaWxsPSIjMmY4ZmUwIi8+CjxwYXRoIGQ9Ik03My4wLDExMCBMMzY3LjAsMTEwIiBzdHJva2U9IiMxZjZmYjgiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNSA0Ii8+CjxwYXRoIGQ9Ik01NCwyMTUgTDU0LDExNiIgc3Ryb2tlPSIjNTQ2NTc1IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNNDksMTE4IEw1NCwxMTAgTDU5LDExOCBaIiBmaWxsPSIjNTQ2NTc1Ii8+Cjx0ZXh0IHg9IjQ4IiB5PSIxNjguNSIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjNTQ2NTc1IiB0ZXh0LWFuY2hvcj0iZW5kIj5VPC90ZXh0Pgo8cGF0aCBkPSJNNzYsODEgTDM2NCw4MSIgc3Ryb2tlPSIjNTQ2NTc1IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNNzgsNzYgTDcwLDgxIEw3OCw4NiBaIE0zNjIsNzYgTDM3MCw4MSBMMzYyLDg2IFoiIGZpbGw9IiM1NDY1NzUiLz4KPHRleHQgeD0iMjIwLjAiIHk9Ijc1IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkM8L3RleHQ+Cjx0ZXh0IHg9IjIyMC4wIiB5PSIyNDEiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMy41IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjMWYyYTMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5DID0gMTAgcEYgPSAxMDx0c3BhbiBkeT0iLTUuMSIgZm9udC1zaXplPSI5LjciPuKIkjExPC90c3Bhbj48dHNwYW4gZHk9IjUuMSI+IEY7ICBVID0gMywzIFY8L3RzcGFuPjwvdGV4dD4KPHRleHQgeD0iMjIwLjAiIHk9IjI2MSIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzLjUiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiMxZjJhMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlEgPSAzLDMgwrcgMTA8dHNwYW4gZHk9Ii01LjEiIGZvbnQtc2l6ZT0iOS43Ij7iiJIxMTwvdHNwYW4+PHRzcGFuIGR5PSI1LjEiPiBDPC90c3Bhbj48L3RleHQ+Cjx0ZXh0IHg9IjIyMC4wIiB5PSIyODEiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMy41IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjMWYyYTMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5uIOKJiCAyLDA2IMK3IDEwPHRzcGFuIGR5PSItNS4xIiBmb250LXNpemU9IjkuNyI+ODwvdHNwYW4+PHRzcGFuIGR5PSI1LjEiPiBFbGVrdHJvbmVuPC90c3Bhbj48L3RleHQ+Cjx0ZXh0IHg9IjYzNy4wIiB5PSI0OSIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMWY5ZDU1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TbWFydHBob25lLUNoaXAgMjAyNjwvdGV4dD4KPHBhdGggZD0iTTYwMCwxNTIgTDY3NCwxNTIgTDY2MiwxOTIgTDYxMiwxOTIgWiIgZmlsbD0iI2Y0ZjdmYSIgc3Ryb2tlPSIjMWY5ZDU1IiBzdHJva2Utd2lkdGg9IjMiLz4KPGNpcmNsZSBjeD0iNjE3LjkiIGN5PSIxODUuMCIgcj0iMi42IiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjYyNi45IiBjeT0iMTg1LjAiIHI9IjIuNiIgZmlsbD0iIzJmOGZlMCIvPgo8Y2lyY2xlIGN4PSI2MzUuOSIgY3k9IjE4NS4wIiByPSIyLjYiIGZpbGw9IiMyZjhmZTAiLz4KPGNpcmNsZSBjeD0iNjQ0LjkiIGN5PSIxODUuMCIgcj0iMi42IiBmaWxsPSIjMmY4ZmUwIi8+CjxjaXJjbGUgY3g9IjY1My45IiBjeT0iMTg1LjAiIHI9IjIuNiIgZmlsbD0iIzJmOGZlMCIvPgo8cGF0aCBkPSJNNjA5LjYsMTc5IEw2NjQuNCwxNzkiIHN0cm9rZT0iIzFmNmZiOCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtZGFzaGFycmF5PSI1IDQiLz4KPHBhdGggZD0iTTU4NCwxOTIgTDU4NCwxODUiIHN0cm9rZT0iIzU0NjU3NSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTU3OSwxODcgTDU4NCwxNzkgTDU4OSwxODcgWiIgZmlsbD0iIzU0NjU3NSIvPgo8dGV4dCB4PSI1NzgiIHk9IjE5MS41IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJlbmQiPlU8L3RleHQ+CjxwYXRoIGQ9Ik02MDYsMTM4IEw2NjgsMTM4IiBzdHJva2U9IiM1NDY1NzUiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik02MDgsMTMzIEw2MDAsMTM4IEw2MDgsMTQzIFogTTY2NiwxMzMgTDY3NCwxMzggTDY2NiwxNDMgWiIgZmlsbD0iIzU0NjU3NSIvPgo8dGV4dCB4PSI2MzcuMCIgeT0iMTMyIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkM8L3RleHQ+Cjx0ZXh0IHg9IjYzNy4wIiB5PSIyNDEiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMy41IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjMWYyYTMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5DIOKJiCAwLDEgZkYgPSAxMDx0c3BhbiBkeT0iLTUuMSIgZm9udC1zaXplPSI5LjciPuKIkjE2PC90c3Bhbj48dHNwYW4gZHk9IjUuMSI+IEY7ICBVID0gMCw3IFY8L3RzcGFuPjwvdGV4dD4KPHRleHQgeD0iNjM3LjAiIHk9IjI2MSIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxZjNiNTciIHRleHQtYW5jaG9yPSJtaWRkbGUiPlEgPSA3IMK3IDEwPHRzcGFuIGR5PSItNS4xIiBmb250LXNpemU9IjkuNyI+4oiSMTc8L3RzcGFuPjx0c3BhbiBkeT0iNS4xIj4gQzwvdHNwYW4+PC90ZXh0Pgo8dGV4dCB4PSI2MzcuMCIgeT0iMjgxIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFmM2I1NyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+biDiiYggNDM3LCBhbHNvIGNhLiA0NDAgRWxla3Ryb25lbjwvdGV4dD4KPGNpcmNsZSBjeD0iNjM3IiBjeT0iMTY4IiByPSI1NiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOWFhOWI2IiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWRhc2hhcnJheT0iNiA1Ii8+Cjx0ZXh0IHg9IjYzNyIgeT0iNzAiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjNTQ2NTc1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4oc3RhcmsgdmVyZ3LDtsOfZXJ0KTwvdGV4dD4KPHRleHQgeD0iNDcwIiB5PSI2MCIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIwIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMWYyYTMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5RID0gQyDCtyBVPC90ZXh0Pgo8dGV4dCB4PSI0NzAiIHk9Ijg0IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxZjJhMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPm4gPSBRIDogZTwvdGV4dD4KPHRleHQgeD0iNDcwIiB5PSIxMDgiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMi41IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjNTQ2NTc1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5lID0gMSw2MDIgwrcgMTA8dHNwYW4gZHk9Ii00LjgiIGZvbnQtc2l6ZT0iOS4wIj7iiJIxOTwvdHNwYW4+PHRzcGFuIGR5PSI0LjgiPiBDPC90c3Bhbj48L3RleHQ+Cjx0ZXh0IHg9IjQ3MCIgeT0iMTYwIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkJyZWl0ZSA9IEthcGF6aXTDpHQgQzwvdGV4dD4KPHRleHQgeD0iNDcwIiB5PSIxNzciIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzU0NjU3NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RsO8bGxow7ZoZSA9IFNwYW5udW5nIFU8L3RleHQ+Cjx0ZXh0IHg9IjQ3MCIgeT0iMTk0IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkluaGFsdCA9IExhZHVuZyBRPC90ZXh0Pgo8dGV4dCB4PSI0NzAiIHk9IjIxMSIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjMWY2ZmI4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7il48gPSBlaW4gRWxla3Ryb24gKFN5bWJvbCk8L3RleHQ+Cjx0ZXh0IHg9IjQ1MC4wIiB5PSIzMjIiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzU0NjU3NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RWltZXIgdm9sbDogbG9naXNjaGUgMSAo4oCeU3Bhbm51bmcgbGllZ3QgYW7igJwpLiBFaW1lciBsZWVyOiBsb2dpc2NoZSAwIChjYS4gMCBFbGVrdHJvbmVuKS4gTmljaHQgbWHDn3N0w6RibGljaC48L3RleHQ+Cjwvc3ZnPg==";
+  }
+  $("bkPreset").addEventListener("click", function (e) { var b = e.target.closest("[data-p]"); if (!b) return; bkP = +b.getAttribute("data-p"); this.querySelectorAll("button").forEach(function (x) { x.classList.toggle("on", x === b); }); renderBucket(); });
+  mc("q6c", "Um welchen Faktor braucht das Fingerheben mehr Energie als ein Schaltvorgang im Chip von 2026? (E ≈ C · U²)", [
+    { t: "etwa 2 · 10⁸", fb: "Das ist der Faktor für die Platine der 1990er (100 pJ)." },
+    { t: "etwa 4 · 10⁵", fb: "Rechnet zuerst E = 10⁻¹⁶ F · (0,7 V)² aus." },
+    { t: "etwa 4 · 10¹⁴", ok: true, fb: "Richtig: 0,02 J : 4,9 · 10⁻¹⁷ J ≈ 4 · 10¹⁴, also rund 400 Billionen!" },
+    { t: "etwa 4 · 10¹⁷", fb: "Fast: Habt ihr U quadriert? (0,7 V)² = 0,49 V²." }
+  ], function () { openGate("e6d"); openGate("s6"); $("leiterImg").src = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgLTE0IDkwMCAyNjQiIHdpZHRoPSI5MDAiIGhlaWdodD0iMjUwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSIyNTAiIGZpbGw9IiNmZmZmZmYiLz4KPHBhdGggZD0iTTUwLDEzMCBMODMyLDEzMCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjIuNSIvPgo8cGF0aCBkPSJNODMyLDEyMyBMODQ0LDEzMCBMODMyLDEzNyBaIiBmaWxsPSIjMWYyYTMzIi8+Cjx0ZXh0IHg9Ijg0NCIgeT0iMTE0IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJlbmQiPkVuZXJnaWUgaW4gSjwvdGV4dD4KPHBhdGggZD0iTTUwLjAsMTIyIEw1MC4wLDEzOCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iNTAuMCIgeT0iMTU2IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIuNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFmMmEzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTA8dHNwYW4gZHk9Ii00LjgiIGZvbnQtc2l6ZT0iOS4wIj7iiJIxODwvdHNwYW4+PHRzcGFuIGR5PSI0LjgiPiA8L3RzcGFuPjwvdGV4dD4KPHBhdGggZD0iTTkyLjc3Nzc3Nzc3Nzc3Nzc3LDEyNiBMOTIuNzc3Nzc3Nzc3Nzc3NzcsMTM0IiBzdHJva2U9IiMxZjJhMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNMTM1LjU1NTU1NTU1NTU1NTU0LDEyNiBMMTM1LjU1NTU1NTU1NTU1NTU0LDEzNCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjEiLz4KPHBhdGggZD0iTTE3OC4zMzMzMzMzMzMzMzMzMSwxMjIgTDE3OC4zMzMzMzMzMzMzMzMzMSwxMzgiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjE3OC4zMzMzMzMzMzMzMzMzMSIgeT0iMTU2IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIuNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFmMmEzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTA8dHNwYW4gZHk9Ii00LjgiIGZvbnQtc2l6ZT0iOS4wIj7iiJIxNTwvdHNwYW4+PHRzcGFuIGR5PSI0LjgiPiA8L3RzcGFuPjwvdGV4dD4KPHBhdGggZD0iTTIyMS4xMTExMTExMTExMTExMSwxMjYgTDIyMS4xMTExMTExMTExMTExMSwxMzQiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik0yNjMuODg4ODg4ODg4ODg4OSwxMjYgTDI2My44ODg4ODg4ODg4ODg5LDEzNCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjEiLz4KPHBhdGggZD0iTTMwNi42NjY2NjY2NjY2NjY2MywxMjIgTDMwNi42NjY2NjY2NjY2NjY2MywxMzgiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjMwNi42NjY2NjY2NjY2NjY2MyIgeT0iMTU2IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIuNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFmMmEzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTA8dHNwYW4gZHk9Ii00LjgiIGZvbnQtc2l6ZT0iOS4wIj7iiJIxMjwvdHNwYW4+PHRzcGFuIGR5PSI0LjgiPiA8L3RzcGFuPjwvdGV4dD4KPHBhdGggZD0iTTM0OS40NDQ0NDQ0NDQ0NDQ0NiwxMjYgTDM0OS40NDQ0NDQ0NDQ0NDQ0NiwxMzQiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik0zOTIuMjIyMjIyMjIyMjIyMjMsMTI2IEwzOTIuMjIyMjIyMjIyMjIyMjMsMTM0IiBzdHJva2U9IiMxZjJhMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNNDM1LjAsMTIyIEw0MzUuMCwxMzgiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjQzNS4wIiB5PSIxNTYiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMi41IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMWYyYTMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4xMDx0c3BhbiBkeT0iLTQuOCIgZm9udC1zaXplPSI5LjAiPuKIkjk8L3RzcGFuPjx0c3BhbiBkeT0iNC44Ij4gPC90c3Bhbj48L3RleHQ+CjxwYXRoIGQ9Ik00NzcuNzc3Nzc3Nzc3Nzc3NzcsMTI2IEw0NzcuNzc3Nzc3Nzc3Nzc3NzcsMTM0IiBzdHJva2U9IiMxZjJhMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNNTIwLjU1NTU1NTU1NTU1NTcsMTI2IEw1MjAuNTU1NTU1NTU1NTU1NywxMzQiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik01NjMuMzMzMzMzMzMzMzMzMywxMjIgTDU2My4zMzMzMzMzMzMzMzMzLDEzOCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iNTYzLjMzMzMzMzMzMzMzMzMiIHk9IjE1NiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyLjUiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxZjJhMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjEwPHRzcGFuIGR5PSItNC44IiBmb250LXNpemU9IjkuMCI+4oiSNjwvdHNwYW4+PHRzcGFuIGR5PSI0LjgiPiA8L3RzcGFuPjwvdGV4dD4KPHBhdGggZD0iTTYwNi4xMTExMTExMTExMTExLDEyNiBMNjA2LjExMTExMTExMTExMTEsMTM0IiBzdHJva2U9IiMxZjJhMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNNjQ4Ljg4ODg4ODg4ODg4ODksMTI2IEw2NDguODg4ODg4ODg4ODg4OSwxMzQiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik02OTEuNjY2NjY2NjY2NjY2NywxMjIgTDY5MS42NjY2NjY2NjY2NjY3LDEzOCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iNjkxLjY2NjY2NjY2NjY2NjciIHk9IjE1NiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyLjUiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxZjJhMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjEwPHRzcGFuIGR5PSItNC44IiBmb250LXNpemU9IjkuMCI+4oiSMzwvdHNwYW4+PHRzcGFuIGR5PSI0LjgiPiA8L3RzcGFuPjwvdGV4dD4KPHBhdGggZD0iTTczNC40NDQ0NDQ0NDQ0NDQ1LDEyNiBMNzM0LjQ0NDQ0NDQ0NDQ0NDUsMTM0IiBzdHJva2U9IiMxZjJhMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNNzc3LjIyMjIyMjIyMjIyMjIsMTI2IEw3NzcuMjIyMjIyMjIyMjIyMiwxMzQiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik04MjAuMCwxMjIgTDgyMC4wLDEzOCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iODIwLjAiIHk9IjE1NiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyLjUiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxZjJhMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjE8L3RleHQ+Cjx0ZXh0IHg9IjUwLjAiIHk9IjE3MiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPmF0dG88L3RleHQ+Cjx0ZXh0IHg9IjE3OC4zMzMzMzMzMzMzMzMzMSIgeT0iMTcyIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzU0NjU3NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+ZmVtdG88L3RleHQ+Cjx0ZXh0IHg9IjMwNi42NjY2NjY2NjY2NjY2MyIgeT0iMTcyIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzU0NjU3NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+cGlrbzwvdGV4dD4KPHRleHQgeD0iNDM1LjAiIHk9IjE3MiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPm5hbm88L3RleHQ+Cjx0ZXh0IHg9IjU2My4zMzMzMzMzMzMzMzMzIiB5PSIxNzIiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMC41IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjNTQ2NTc1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5taWtybzwvdGV4dD4KPHRleHQgeD0iNjkxLjY2NjY2NjY2NjY2NjciIHk9IjE3MiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPm1pbGxpPC90ZXh0Pgo8Y2lyY2xlIGN4PSIxMjIuMzAyODMyMzEyMzMwODYiIGN5PSIxMzAiIHI9IjciIGZpbGw9IiMxZjlkNTUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjEyMi4zMDI4MzIzMTIzMzA4NiIgeT0iOTYiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFmOWQ1NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+U2NoYWx0dm9yZ2FuZzwvdGV4dD4KPHRleHQgeD0iMTIyLjMwMjgzMjMxMjMzMDg2IiB5PSIxMTEiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjMWY5ZDU1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5DaGlwIDIwMjY8L3RleHQ+CjxjaXJjbGUgY3g9IjI0MS41MjEyOTgxMTg1NjMzNSIgY3k9IjEzMCIgcj0iNyIgZmlsbD0iIzNkNGZiOCIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMjQxLjUyMTI5ODExODU2MzM1IiB5PSIxOTIiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzNkNGZiOCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+OC1CaXQtQWRkaXRpb248L3RleHQ+Cjx0ZXh0IHg9IjI0MS41MjEyOTgxMTg1NjMzNSIgeT0iMjA3IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzNkNGZiOCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+NDUtbm0tQ2hpcDwvdGV4dD4KPGNpcmNsZSBjeD0iMzkzLjk5MjkwOTMwOTU0NjM1IiBjeT0iMTMwIiByPSI3IiBmaWxsPSIjYTMyNjJhIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSIzOTMuOTkyOTA5MzA5NTQ2MzUiIHk9Ijk2IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNhMzI2MmEiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlNjaGFsdHZvcmdhbmc8L3RleHQ+Cjx0ZXh0IHg9IjM5My45OTI5MDkzMDk1NDYzNSIgeT0iMTExIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iI2EzMjYyYSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UGxhdGluZSAxOTkwZXI8L3RleHQ+CjxjaXJjbGUgY3g9Ijc0Ny4zMjE4Mzg3MDM0MDM2IiBjeT0iMTMwIiByPSI3IiBmaWxsPSIjYjU2NTFkIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSI3NDcuMzIxODM4NzAzNDAzNiIgeT0iOTYiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2I1NjUxZCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RmluZ2VyPC90ZXh0Pgo8dGV4dCB4PSI3NDcuMzIxODM4NzAzNDAzNiIgeT0iMTExIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iI2I1NjUxZCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+aGViZW48L3RleHQ+CjxwYXRoIGQ9Ik0zOTMuOTkyOTA5MzA5NTQ2MzUsODYgQzM5My45OTI5MDkzMDk1NDYzNSw0MCA3NDcuMzIxODM4NzAzNDAzNiw0MCA3NDcuMzIxODM4NzAzNDAzNiw4NiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYTMyNjJhIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjYgNCIvPgo8cmVjdCB4PSI1NDMuMDU2ODQ1NTMzNzM3OCIgeT0iMzYiIHdpZHRoPSIxNDAiIGhlaWdodD0iMjQiIHJ4PSIxMiIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYTMyNjJhIiBzdHJva2Utd2lkdGg9IjEuNSIvPgo8dGV4dCB4PSI2MTMuMDU2ODQ1NTMzNzM3OCIgeT0iNTMiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2EzMjYyYSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+w5cgMiDCtyAxMDx0c3BhbiBkeT0iLTQuOSIgZm9udC1zaXplPSI5LjQiPjg8L3RzcGFuPjx0c3BhbiBkeT0iNC45Ij4gPC90c3Bhbj48L3RleHQ+CjxwYXRoIGQ9Ik0xMjIuMzAyODMyMzEyMzMwODYsODYgQzEyMi4zMDI4MzIzMTIzMzA4NiwtOCA3NDcuMzIxODM4NzAzNDAzNiwtOCA3NDcuMzIxODM4NzAzNDAzNiw4NiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWY5ZDU1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjYgNCIvPgo8cmVjdCB4PSIyMzkuODA4NTM0MjI5NjUyNjUiIHk9Ii0xMiIgd2lkdGg9IjE0MCIgaGVpZ2h0PSIyNCIgcng9IjEyIiBmaWxsPSIjZmZmIiBzdHJva2U9IiMxZjlkNTUiIHN0cm9rZS13aWR0aD0iMS41Ii8+Cjx0ZXh0IHg9IjMwOS44MDg1MzQyMjk2NTI2NSIgeT0iNSIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMWYzYjU3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7DlyA0IMK3IDEwPHRzcGFuIGR5PSItNC45IiBmb250LXNpemU9IjkuNCI+MTQ8L3RzcGFuPjx0c3BhbiBkeT0iNC45Ij4gPC90c3Bhbj48L3RleHQ+Cjx0ZXh0IHg9IjQ1MC4wIiB5PSIyNDIiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzU0NjU3NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+bG9nYXJpdGhtaXNjaGUgU2thbGE6IEplZGVyIGdyb8OfZSBTdHJpY2ggYmVkZXV0ZXQgZGVuIEZha3RvciAxMDAwIMK3IFdlcnRlIGdlcnVuZGV0PC90ZXh0Pgo8L3N2Zz4="; renderBucket(); });
+  $("l6check").addEventListener("click", function () {
+    var x = num($("l6in").value), ok = x >= 245 && x <= 255;
+    laurelMsg("L6", ok, ok ? "🌿 Etwa 250 Elektronen. Aber: Je kleiner die Spannung, desto näher rücken 0 und 1 zusammen. Kleine Schwankungen könnten dann eine 0 wie eine 1 aussehen lassen, und SICHER unterscheidbar wäre nichts mehr." : "Noch nicht. Q = 10⁻¹⁶ F · 0,4 V, dann durch e teilen.");
+  });
+
+  /* ---------------------------------------------------- Finale */
+  function renderLetters() {
+    var h = ""; for (var i = 0; i < 6; i++) { var got = S.open > i; h += '<span class="' + (got ? "got" : "") + '">' + (got ? WORD.charAt(i) : "?") + "</span>"; }
+    $("letters").innerHTML = h;
+  }
+  var CHAIN = [
+    { id: "C1", t: "Mit Stellenwert und Null lässt sich jede Zahl zu jeder Basis b ≥ 2 eindeutig schreiben. (Epochen 1, 3, 4)" },
+    { id: "D1", t: "Römische Zahlzeichen sind ein Stellenwertsystem, deshalb rechnen Computer bis heute mit ihnen.", why: "Römische Zahlzeichen sind ein Additionssystem (K4)." },
+    { id: "C3", t: "Zwei Ziffern passen zu zwei technischen Zuständen: Schalter offen oder geschlossen, Spannung liegt an oder nicht. (Shannon, Zuse)" },
+    { id: "C5", t: "Ein Schaltvorgang bewegt heute nur einige hundert Elektronen und braucht rund 400 Billionen Mal weniger Energie als ein Fingerheben. So zählen Milliarden Schalter schnell und sparsam." },
+    { id: "D2", t: "Leibniz baute die erste binäre Rechenmaschine, alle Computer haben sie nachgebaut.", why: "Leibniz' Maschine rechnete dezimal (K15)." },
+    { id: "C2", t: "Die kleinste mögliche Basis ist 2: Zwei Ziffern, 0 und 1, genügen für alle Zahlen. (Leibniz)" },
+    { id: "D3", t: "Dualzahlen sind kürzer als Dezimalzahlen und sparen deshalb Speicherplatz.", why: "Dualzahlen sind etwa 3,3-mal so lang (K14)." },
+    { id: "C4", t: "Zwei Zustände lassen sich sicher unterscheiden, auch wenn die Spannung etwas schwankt. Zehn Stufen müsste man genau messen. (Zuse)" }
+  ];
+  var order = S.vals.chain || [];
+  function drawChain(mark) {
+    var h = "";
+    CHAIN.forEach(function (c) {
+      var k = order.indexOf(c.id), cls = k >= 0 ? " sel" : "";
+      if (mark && mark[c.id]) cls += " " + mark[c.id];
+      h += '<button class="ctile' + cls + '" data-c="' + c.id + '"><span class="ord">' + (k >= 0 ? k + 1 : "") + "</span><span>" + c.t + "</span></button>";
+    });
+    $("chain").innerHTML = h;
+    S.vals.chain = order; save();
+  }
+  $("chain").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-c]"); if (!b) return;
+    var id = b.getAttribute("data-c"), k = order.indexOf(id);
+    if (k >= 0) order.splice(k, 1); else if (order.length < 5) order.push(id);
+    drawChain();
+  });
+  $("chainReset").addEventListener("click", function () { order = []; drawChain(); $("chainFb").textContent = ""; });
+  $("chainCheck").addEventListener("click", function () {
+    var fb = $("chainFb");
+    if (order.length < 5) { fb.className = "fb bad"; fb.textContent = "Wählt genau fünf Karten."; return; }
+    S.chainTries++; save();
+    var distr = order.filter(function (id) { return id.charAt(0) === "D"; });
+    var mark = {};
+    if (distr.length) {
+      distr.forEach(function (id) { mark[id] = "bad"; });
+      var c = CHAIN.filter(function (x) { return x.id === distr[0]; })[0];
+      fb.className = "fb bad"; fb.textContent = "Diese Karte gehört nicht in die Kette: " + c.why;
+      drawChain(mark); return;
+    }
+    var s = order.join(" ");
+    var ok = s === "C1 C2 C3 C4 C5" || s === "C1 C2 C3 C5 C4";
+    if (!ok) {
+      var right = ["C1", "C2", "C3"]; var n = 0; for (var i = 0; i < 3; i++) if (order[i] === right[i]) n++;
+      fb.className = "fb bad"; fb.textContent = "Die richtigen Karten, aber die Reihenfolge stimmt noch nicht. Beginnt mit der Mathematik (Stellenwert), dann die Basis 2, dann die Technik.";
+      return;
+    }
+    order.forEach(function (id) { mark[id] = "ok"; }); drawChain(mark);
+    fb.className = "fb ok"; fb.textContent = "✓ Die Tür ist überzeugt: Mathematik, Basis 2, Schalter, Sicherheit, Energie.";
+    if (S.chainTries === 1 && !S.laurel.LF) laurelMsg("LF", true, "🌿 Beim ersten Versuch! Ein Lorbeerblatt für die Kette.");
+    else if (!S.laurel.LF) { $("lmsgLF").className = "fb"; $("lmsgLF").textContent = "Diesmal kein Lorbeer, aber die Kette steht."; }
+    openGate("fc");
+  });
+  $("doorBtn").addEventListener("click", function () {
+    if (!S.vote2) { $("doorMsg").textContent = "Wählt zuerst eure zweite Antwort."; return; }
+    if (($("reason").value || "").trim().length < 30) { $("doorMsg").textContent = "Die Tür will eine Begründung in ganzen Sätzen hören."; return; }
+    S.done = true; if (!S.t1) S.t1 = Date.now(); unlock(7); save(); show(8);
+  });
+
+  /* ---------------------------------------------------- Urkunde */
+  var TITLES = [[0, "Discipulus Calculi · Rechenlehrling"], [2, "Abakus-Akrobatin oder Abakus-Akrobat"], [4, "Hüterin oder Hüter der Null"], [6, "Meisterin oder Meister des Bits"], [7, "Calculator laureatus · lorbeerbekränzte Rechenmeisterei"]];
+  function fillCert() {
+    var n = nLaurel(), title = TITLES[0][1];
+    TITLES.forEach(function (t) { if (n >= t[0]) title = t[1]; });
+    var names = S.names.filter(Boolean).join(" · ") || "Team";
+    var vt = function (k) { var v = VOTE.filter(function (x) { return x.k === k; })[0]; return v ? v.k + " · " + v.t : "–"; };
+    $("cert").innerHTML = '<div class="wreath">🌿🏛️🌿</div><h2>Urkunde des Archivs der Ziffern</h2><p>Das Archiv bestätigt feierlich, dass</p><div class="names">' + names.replace(/</g, "&lt;") + "</div>" +
+      "<p>die Tür zur Gegenwart mit dem Wort <b>SICHER</b> und einer lückenlosen Beweiskette geöffnet hat.</p>" +
+      '<p style="margin-top:0.6rem"><b>Ehrentitel:</b> ' + title + "</p>" +
+      "<table><tr><td>Lorbeerblätter</td><td>" + n + " von 7 = " + roman(n) + " = " + mapDigits(n, DEVA) + " = " + n.toString(2) + "₂ = 0x" + n.toString(16).toUpperCase() + "</td></tr>" +
+      "<tr><td>Zeit</td><td>" + fmt((S.t1 || Date.now()) - S.t0) + "</td></tr><tr><td>Tipps</td><td>" + nHints() + "</td></tr>" +
+      "<tr><td>Vermutung am Start</td><td>" + vt(S.vote1) + "</td></tr><tr><td>Wahl am Ende</td><td>" + vt(S.vote2) + "</td></tr></table>" +
+      '<p class="small" style="margin-top:0.6rem">Die Lorbeeren werden selbstverständlich binär verliehen: Blatt oder kein Blatt.</p>';
+  }
+
+  /* ---------------------------------------------------- Vorlesen */
+  var audio = null, playing = null;
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest(".say"); if (!b) return;
+    if (playing === b) { audio.pause(); b.classList.remove("playing"); playing = null; return; }
+    if (audio) { audio.pause(); if (playing) playing.classList.remove("playing"); }
+    if (!audio) { audio = new Audio(); audio.preload = "none"; audio.addEventListener("ended", function () { if (playing) playing.classList.remove("playing"); playing = null; }); }
+    audio.src = b.getAttribute("data-audio"); playing = b; b.classList.add("playing");
+    audio.play().catch(function () { b.classList.remove("playing"); playing = null; });
+  });
+
+  /* ---------------------------------------------------- Spielleitung */
+  if (/[?&]spielleitung/.test(location.search)) $("slPin").classList.remove("hidden");
+  $("pinBtn").addEventListener("click", function () {
+    if (norm($("pinIn").value) === "ZEPHIRUM") { $("slPanel").classList.remove("hidden"); $("pinMsg").textContent = "✓ unten auf jeder Seite"; }
+    else $("pinMsg").textContent = "Falsche PIN.";
+  });
+  var SKIP = { 1: ["e1b", "s1", "d1"], 2: ["e2b", "s2", "d2"], 3: ["e3b", "e3c", "s3", "d3"], 4: ["e4b", "s4", "d4"], 5: ["e5b", "s5", "d5"], 6: ["e6b", "e6c", "e6d", "s6", "d6"] };
+  $("slSkip").addEventListener("click", function () {
+    var n = S.cur >= 1 && S.cur <= 6 ? S.cur : Math.min(S.open + 1, 6);
+    if (!S.t0) S.t0 = Date.now();
+    SKIP[n].forEach(openGate); unlock(n); renderBucket();
+    $("slMsg").textContent = "Epoche " + n + " abgeschlossen (Buchstabe " + WORD.charAt(n - 1) + ").";
+  });
+  $("slFinal").addEventListener("click", function () { if (!S.t0) S.t0 = Date.now(); for (var n = 1; n <= 6; n++) { SKIP[n].forEach(openGate); } S.open = Math.max(S.open, 6); save(); show(7); });
+  $("slReset").addEventListener("click", function () { try { localStorage.removeItem(KEY); } catch (e) {} location.href = location.pathname + "?spielleitung"; });
+
+  /* ---------------------------------------------------- Start */
+  renderKeil(); bindVals(); applyGates();
+  voteUI("vote1", "vote1"); voteUI("vote2", "vote2");
+  Object.keys(S.laurel).forEach(function (id) { var c = $("lc" + id); if (c) c.classList.add("done"); });
+  drawChain(); renderBucket();
+  if (S.gates.e6d) $("leiterImg").src = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgLTE0IDkwMCAyNjQiIHdpZHRoPSI5MDAiIGhlaWdodD0iMjUwIj4KPHJlY3Qgd2lkdGg9IjkwMCIgaGVpZ2h0PSIyNTAiIGZpbGw9IiNmZmZmZmYiLz4KPHBhdGggZD0iTTUwLDEzMCBMODMyLDEzMCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjIuNSIvPgo8cGF0aCBkPSJNODMyLDEyMyBMODQ0LDEzMCBMODMyLDEzNyBaIiBmaWxsPSIjMWYyYTMzIi8+Cjx0ZXh0IHg9Ijg0NCIgeT0iMTE0IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJlbmQiPkVuZXJnaWUgaW4gSjwvdGV4dD4KPHBhdGggZD0iTTUwLjAsMTIyIEw1MC4wLDEzOCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iNTAuMCIgeT0iMTU2IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIuNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFmMmEzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTA8dHNwYW4gZHk9Ii00LjgiIGZvbnQtc2l6ZT0iOS4wIj7iiJIxODwvdHNwYW4+PHRzcGFuIGR5PSI0LjgiPiA8L3RzcGFuPjwvdGV4dD4KPHBhdGggZD0iTTkyLjc3Nzc3Nzc3Nzc3Nzc3LDEyNiBMOTIuNzc3Nzc3Nzc3Nzc3NzcsMTM0IiBzdHJva2U9IiMxZjJhMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNMTM1LjU1NTU1NTU1NTU1NTU0LDEyNiBMMTM1LjU1NTU1NTU1NTU1NTU0LDEzNCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjEiLz4KPHBhdGggZD0iTTE3OC4zMzMzMzMzMzMzMzMzMSwxMjIgTDE3OC4zMzMzMzMzMzMzMzMzMSwxMzgiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjE3OC4zMzMzMzMzMzMzMzMzMSIgeT0iMTU2IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIuNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFmMmEzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTA8dHNwYW4gZHk9Ii00LjgiIGZvbnQtc2l6ZT0iOS4wIj7iiJIxNTwvdHNwYW4+PHRzcGFuIGR5PSI0LjgiPiA8L3RzcGFuPjwvdGV4dD4KPHBhdGggZD0iTTIyMS4xMTExMTExMTExMTExMSwxMjYgTDIyMS4xMTExMTExMTExMTExMSwxMzQiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik0yNjMuODg4ODg4ODg4ODg4OSwxMjYgTDI2My44ODg4ODg4ODg4ODg5LDEzNCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjEiLz4KPHBhdGggZD0iTTMwNi42NjY2NjY2NjY2NjY2MywxMjIgTDMwNi42NjY2NjY2NjY2NjY2MywxMzgiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjMwNi42NjY2NjY2NjY2NjY2MyIgeT0iMTU2IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIuNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzFmMmEzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTA8dHNwYW4gZHk9Ii00LjgiIGZvbnQtc2l6ZT0iOS4wIj7iiJIxMjwvdHNwYW4+PHRzcGFuIGR5PSI0LjgiPiA8L3RzcGFuPjwvdGV4dD4KPHBhdGggZD0iTTM0OS40NDQ0NDQ0NDQ0NDQ0NiwxMjYgTDM0OS40NDQ0NDQ0NDQ0NDQ0NiwxMzQiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik0zOTIuMjIyMjIyMjIyMjIyMjMsMTI2IEwzOTIuMjIyMjIyMjIyMjIyMjMsMTM0IiBzdHJva2U9IiMxZjJhMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNNDM1LjAsMTIyIEw0MzUuMCwxMzgiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjQzNS4wIiB5PSIxNTYiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMi41IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMWYyYTMzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4xMDx0c3BhbiBkeT0iLTQuOCIgZm9udC1zaXplPSI5LjAiPuKIkjk8L3RzcGFuPjx0c3BhbiBkeT0iNC44Ij4gPC90c3Bhbj48L3RleHQ+CjxwYXRoIGQ9Ik00NzcuNzc3Nzc3Nzc3Nzc3NzcsMTI2IEw0NzcuNzc3Nzc3Nzc3Nzc3NzcsMTM0IiBzdHJva2U9IiMxZjJhMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNNTIwLjU1NTU1NTU1NTU1NTcsMTI2IEw1MjAuNTU1NTU1NTU1NTU1NywxMzQiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik01NjMuMzMzMzMzMzMzMzMzMywxMjIgTDU2My4zMzMzMzMzMzMzMzMzLDEzOCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iNTYzLjMzMzMzMzMzMzMzMzMiIHk9IjE1NiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyLjUiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxZjJhMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjEwPHRzcGFuIGR5PSItNC44IiBmb250LXNpemU9IjkuMCI+4oiSNjwvdHNwYW4+PHRzcGFuIGR5PSI0LjgiPiA8L3RzcGFuPjwvdGV4dD4KPHBhdGggZD0iTTYwNi4xMTExMTExMTExMTExLDEyNiBMNjA2LjExMTExMTExMTExMTEsMTM0IiBzdHJva2U9IiMxZjJhMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNNjQ4Ljg4ODg4ODg4ODg4ODksMTI2IEw2NDguODg4ODg4ODg4ODg4OSwxMzQiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik02OTEuNjY2NjY2NjY2NjY2NywxMjIgTDY5MS42NjY2NjY2NjY2NjY3LDEzOCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iNjkxLjY2NjY2NjY2NjY2NjciIHk9IjE1NiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyLjUiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxZjJhMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjEwPHRzcGFuIGR5PSItNC44IiBmb250LXNpemU9IjkuMCI+4oiSMzwvdHNwYW4+PHRzcGFuIGR5PSI0LjgiPiA8L3RzcGFuPjwvdGV4dD4KPHBhdGggZD0iTTczNC40NDQ0NDQ0NDQ0NDQ1LDEyNiBMNzM0LjQ0NDQ0NDQ0NDQ0NDUsMTM0IiBzdHJva2U9IiMxZjJhMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNNzc3LjIyMjIyMjIyMjIyMjIsMTI2IEw3NzcuMjIyMjIyMjIyMjIyMiwxMzQiIHN0cm9rZT0iIzFmMmEzMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik04MjAuMCwxMjIgTDgyMC4wLDEzOCIgc3Ryb2tlPSIjMWYyYTMzIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iODIwLjAiIHk9IjE1NiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyLjUiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxZjJhMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjE8L3RleHQ+Cjx0ZXh0IHg9IjUwLjAiIHk9IjE3MiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPmF0dG88L3RleHQ+Cjx0ZXh0IHg9IjE3OC4zMzMzMzMzMzMzMzMzMSIgeT0iMTcyIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzU0NjU3NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+ZmVtdG88L3RleHQ+Cjx0ZXh0IHg9IjMwNi42NjY2NjY2NjY2NjY2MyIgeT0iMTcyIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzU0NjU3NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+cGlrbzwvdGV4dD4KPHRleHQgeD0iNDM1LjAiIHk9IjE3MiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPm5hbm88L3RleHQ+Cjx0ZXh0IHg9IjU2My4zMzMzMzMzMzMzMzMzIiB5PSIxNzIiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMC41IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjNTQ2NTc1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5taWtybzwvdGV4dD4KPHRleHQgeD0iNjkxLjY2NjY2NjY2NjY2NjciIHk9IjE3MiIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiM1NDY1NzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPm1pbGxpPC90ZXh0Pgo8Y2lyY2xlIGN4PSIxMjIuMzAyODMyMzEyMzMwODYiIGN5PSIxMzAiIHI9IjciIGZpbGw9IiMxZjlkNTUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjEyMi4zMDI4MzIzMTIzMzA4NiIgeT0iOTYiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFmOWQ1NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+U2NoYWx0dm9yZ2FuZzwvdGV4dD4KPHRleHQgeD0iMTIyLjMwMjgzMjMxMjMzMDg2IiB5PSIxMTEiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iNDAwIiBmaWxsPSIjMWY5ZDU1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5DaGlwIDIwMjY8L3RleHQ+CjxjaXJjbGUgY3g9IjI0MS41MjEyOTgxMTg1NjMzNSIgY3k9IjEzMCIgcj0iNyIgZmlsbD0iIzNkNGZiOCIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMjQxLjUyMTI5ODExODU2MzM1IiB5PSIxOTIiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzNkNGZiOCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+OC1CaXQtQWRkaXRpb248L3RleHQ+Cjx0ZXh0IHg9IjI0MS41MjEyOTgxMTg1NjMzNSIgeT0iMjA3IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzNkNGZiOCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+NDUtbm0tQ2hpcDwvdGV4dD4KPGNpcmNsZSBjeD0iMzkzLjk5MjkwOTMwOTU0NjM1IiBjeT0iMTMwIiByPSI3IiBmaWxsPSIjYTMyNjJhIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSIzOTMuOTkyOTA5MzA5NTQ2MzUiIHk9Ijk2IiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNhMzI2MmEiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlNjaGFsdHZvcmdhbmc8L3RleHQ+Cjx0ZXh0IHg9IjM5My45OTI5MDkzMDk1NDYzNSIgeT0iMTExIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iI2EzMjYyYSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UGxhdGluZSAxOTkwZXI8L3RleHQ+CjxjaXJjbGUgY3g9Ijc0Ny4zMjE4Mzg3MDM0MDM2IiBjeT0iMTMwIiByPSI3IiBmaWxsPSIjYjU2NTFkIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMiIvPgo8dGV4dCB4PSI3NDcuMzIxODM4NzAzNDAzNiIgeT0iOTYiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2I1NjUxZCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RmluZ2VyPC90ZXh0Pgo8dGV4dCB4PSI3NDcuMzIxODM4NzAzNDAzNiIgeT0iMTExIiBmb250LWZhbWlseT0iT3BlbiBTYW5zLCBOdW5pdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iI2I1NjUxZCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+aGViZW48L3RleHQ+CjxwYXRoIGQ9Ik0zOTMuOTkyOTA5MzA5NTQ2MzUsODYgQzM5My45OTI5MDkzMDk1NDYzNSw0MCA3NDcuMzIxODM4NzAzNDAzNiw0MCA3NDcuMzIxODM4NzAzNDAzNiw4NiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYTMyNjJhIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjYgNCIvPgo8cmVjdCB4PSI1NDMuMDU2ODQ1NTMzNzM3OCIgeT0iMzYiIHdpZHRoPSIxNDAiIGhlaWdodD0iMjQiIHJ4PSIxMiIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYTMyNjJhIiBzdHJva2Utd2lkdGg9IjEuNSIvPgo8dGV4dCB4PSI2MTMuMDU2ODQ1NTMzNzM3OCIgeT0iNTMiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2EzMjYyYSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+w5cgMiDCtyAxMDx0c3BhbiBkeT0iLTQuOSIgZm9udC1zaXplPSI5LjQiPjg8L3RzcGFuPjx0c3BhbiBkeT0iNC45Ij4gPC90c3Bhbj48L3RleHQ+CjxwYXRoIGQ9Ik0xMjIuMzAyODMyMzEyMzMwODYsODYgQzEyMi4zMDI4MzIzMTIzMzA4NiwtOCA3NDcuMzIxODM4NzAzNDAzNiwtOCA3NDcuMzIxODM4NzAzNDAzNiw4NiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWY5ZDU1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjYgNCIvPgo8cmVjdCB4PSIyMzkuODA4NTM0MjI5NjUyNjUiIHk9Ii0xMiIgd2lkdGg9IjE0MCIgaGVpZ2h0PSIyNCIgcng9IjEyIiBmaWxsPSIjZmZmIiBzdHJva2U9IiMxZjlkNTUiIHN0cm9rZS13aWR0aD0iMS41Ii8+Cjx0ZXh0IHg9IjMwOS44MDg1MzQyMjk2NTI2NSIgeT0iNSIgZm9udC1mYW1pbHk9Ik9wZW4gU2FucywgTnVuaXRvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMWYzYjU3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7DlyA0IMK3IDEwPHRzcGFuIGR5PSItNC45IiBmb250LXNpemU9IjkuNCI+MTQ8L3RzcGFuPjx0c3BhbiBkeT0iNC45Ij4gPC90c3Bhbj48L3RleHQ+Cjx0ZXh0IHg9IjQ1MC4wIiB5PSIyNDIiIGZvbnQtZmFtaWx5PSJPcGVuIFNhbnMsIE51bml0bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzU0NjU3NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+bG9nYXJpdGhtaXNjaGUgU2thbGE6IEplZGVyIGdyb8OfZSBTdHJpY2ggYmVkZXV0ZXQgZGVuIEZha3RvciAxMDAwIMK3IFdlcnRlIGdlcnVuZGV0PC90ZXh0Pgo8L3N2Zz4=";
+  startState();
+  if (S.cur > 0 && S.t0) show(S.cur); else show(0);
+})();
+</script>
+</body>
+</html>
