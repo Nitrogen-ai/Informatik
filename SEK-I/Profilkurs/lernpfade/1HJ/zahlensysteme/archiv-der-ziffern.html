@@ -192,6 +192,15 @@ select.gsel { font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.
 .digit-tab { border-collapse: collapse; margin: 0.4rem 0; font-size: 1.05rem; }
 .digit-tab td { border: 1.5px solid var(--line); padding: 0.25rem 0.5rem; text-align: center; background: #fff; }
 .digit-tab tr:first-child td { font-size: 1.5rem; font-weight: 700; color: var(--acc-edge); }
+.hex-tab td { padding: 0.2rem 0.35rem; font-size: 0.95rem; }
+.hex-tab tr:first-child td { font-size: 1.2rem; }
+.hex-tab tr:last-child td { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; }
+.hex-tab td.rh, .hex-tab tr:first-child td.rh { background: var(--acc-soft); font-weight: 700; font-size: 0.85rem; color: var(--ink, #222); font-family: inherit; }
+.hexgroup { display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin: 0.4rem 0; }
+.hexgroup span { display: flex; flex-direction: column; align-items: center; border: 2px solid var(--line); border-radius: 12px; padding: 0.3rem 0.6rem; background: #fff; }
+.hexgroup b { font-size: 1.05rem; letter-spacing: 0.05em; }
+.hexgroup i { font-style: normal; font-size: 1.5rem; font-weight: 800; color: var(--acc-edge); }
+.hexgroup i::before { content: "↓"; display: block; font-size: 0.9rem; color: #888; text-align: center; }
 .inschrift { font-size: 3rem; font-weight: 700; letter-spacing: 0.15em; color: #4a3b2a; background: linear-gradient(180deg, #d7d2c8, #b9b2a5); border-radius: 12px; padding: 0.3rem 1.2rem; display: inline-block; border: 3px solid #8e877a; }
 .eqrow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1.08rem; background: #fff; border: 1.5px solid var(--line); border-radius: 14px; padding: 0.7rem; margin: 0.5rem 0; }
 .eqrow .inl { width: 3.2ch; padding: 0.35rem 0.2rem; }
@@ -557,10 +566,6 @@ textarea.answer { width: 100%; min-height: 110px; border: 2px solid var(--line);
       <p>Im Dezimalsystem ist b = 10 und A<sub>10</sub> = {0, …, 9}.</p>
       <p class="quelle">Knuth, D. E.: The Art of Computer Programming, Bd. 2: Seminumerical Algorithms. 3. Aufl., Addison-Wesley 1997, Abschn. 4.1</p>
     </div></details>
-    <details class="ak"><summary><span class="nr">K12</span>Basis 16 im Computer</summary><div>
-      <p>Seit dem Großrechner IBM System/360 (1964) fassen Computer 8 Bit zu einem <b>Byte</b> zusammen. Ein Byte schreibt man bequem mit zwei Ziffern zur <b>Basis 16</b> (Hexadezimalsystem). Dafür braucht man 16 Ziffern: 0 bis 9 und A bis F (A = 10, B = 11, …, F = 15). Programmierer kennzeichnen solche Zahlen oft mit 0x, z. B. 0x1F = 1 · 16 + 15 = 31.</p>
-      <p class="quelle">Amdahl, G. M., Blaauw, G. A., Brooks, F. P.: Architecture of the IBM System/360. IBM Journal of Research and Development 8 (1964) 87–101</p>
-    </div></details>
   </div>
   <div class="card task">
     <h3>📜 Auftrag</h3>
@@ -605,7 +610,7 @@ textarea.answer { width: 100%; min-height: 110px; border: 2px solid var(--line);
   </div></details>
   <div class="card laurel" id="lcL4">
     <h3>🌿 Lorbeer-Aufgabe <span class="stars">★★</span></h3>
-    <p>Rechnet <b>0x2A</b> (Basis 16, K12) in unsere Ziffern um. Kleiner Hinweis für Fans von Science-Fiction: Die Zahl ist laut einem berühmten Roman die Antwort auf alle Fragen.</p>
+    <p>Zu welcher Basis b bedeutet die Ziffernfolge <b>121</b> die Zahl <b>49</b>? Probiert es mit der Basis-Maschine aus oder rechnet: 121 = 1 · b² + 2 · b + 1.</p>
     <div class="lock-row"><input class="inl" id="l4in" data-v="l4in" inputmode="numeric" maxlength="4"><button class="btn ghost small" id="l4check">Prüfen</button></div>
     <div class="fb" id="lmsgL4"></div>
   </div>
@@ -621,21 +626,25 @@ textarea.answer { width: 100%; min-height: 110px; border: 2px solid var(--line);
   </div>
   <div class="card archive">
     <h3>📚 Archivkarten · Epoche 5</h3>
-    <details class="ak"><summary><span class="nr">K13</span>Explication de l'Arithmétique Binaire</summary><div>
+    <details class="ak"><summary><span class="nr">K12</span>Explication de l'Arithmétique Binaire</summary><div>
       <p>Leibniz beschreibt 1703, wie man nur mit 0 und 1 zählt, addiert, subtrahiert und multipliziert. Er sieht darin vor allem eine mathematische und philosophische Schönheit, keine Technik.</p>
       <p class="quelle">Leibniz, G. W.: Explication de l'Arithmétique Binaire. Histoire de l'Académie Royale des Sciences, Année 1703, Paris 1705, 85–89</p>
     </div></details>
-    <details class="ak"><summary><span class="nr">K14</span>Länger, aber einfacher</summary><div>
+    <details class="ak"><summary><span class="nr">K13</span>Länger, aber einfacher</summary><div>
       <p>Dualzahlen sind etwa 3,3-mal so lang wie Dezimalzahlen. Warum? Eine Dezimalstelle mehr macht den Wertebereich 10-mal so groß, eine Dualstelle mehr nur 2-mal so groß. Drei Dualstellen schaffen 2 · 2 · 2 = 8, vier schon 16. Für den Faktor 10 braucht man also zwischen 3 und 4 Dualstellen, genauer 3,32, denn 2<sup>3,32</sup> ≈ 10. Die Zahl 4711 braucht 4 Dezimalziffern, aber 13 Dualziffern. Dafür gibt es beim Addieren nur vier Fälle: 0+0, 0+1, 1+0 und 1+1 = 10.</p>
       <p class="quelle">Eigene Rechnung nach dem Satz von der Stellenwertdarstellung (K11)</p>
     </div></details>
-    <details class="ak"><summary><span class="nr">K15</span>Leibniz' Maschine rechnete dezimal</summary><div>
+    <details class="ak"><summary><span class="nr">K14</span>Leibniz' Maschine rechnete dezimal</summary><div>
       <p>Leibniz' Rechenmaschine mit Staffelwalzen (ab 1673) rechnete im <b>Dezimalsystem</b> mit Zahnrädern. Erfinder der Binärrechnung und Erbauer einer Binärmaschine war er also nicht zugleich.</p>
       <p class="quelle">Morar, F.-S.: Reinventing Machines: The Transmission History of the Leibniz Calculator. British Journal for the History of Science 48 (2015) 123–146</p>
     </div></details>
-    <details class="ak"><summary><span class="nr">K16</span>Harriot war früher</summary><div>
+    <details class="ak"><summary><span class="nr">K15</span>Harriot war früher</summary><div>
       <p>Schon um 1600 rechnete der Engländer Thomas Harriot binär. Er veröffentlichte es nie, seine Notizen wurden erst im 20. Jahrhundert entdeckt.</p>
       <p class="quelle">Shirley, J. W.: Binary Numeration before Leibniz. American Journal of Physics 19 (1951) 452–454</p>
+    </div></details>
+    <details class="ak"><summary><span class="nr">K16</span>Basis 16 im Computer</summary><div>
+      <p>Seit dem Großrechner IBM System/360 (1964) fassen Computer 8 Bit zu einem <b>Byte</b> zusammen. Ein Byte schreibt man bequem mit zwei Ziffern zur <b>Basis 16</b> (Hexadezimalsystem). Dafür braucht man 16 Ziffern: 0 bis 9 und A bis F (A = 10, B = 11, …, F = 15). Programmierer kennzeichnen solche Zahlen oft mit 0x, z. B. 0x1F = 1 · 16 + 15 = 31.</p>
+      <p class="quelle">Amdahl, G. M., Blaauw, G. A., Brooks, F. P.: Architecture of the IBM System/360. IBM Journal of Research and Development 8 (1964) 87–101</p>
     </div></details>
   </div>
   <div class="card task">
@@ -658,6 +667,28 @@ textarea.answer { width: 100%; min-height: 110px; border: 2px solid var(--line);
       <p>Wie lautet 4711 im Dualsystem? Tippt alle 13 Stellen.</p>
       <div class="lock-row"><input class="wide" id="code5" data-v="code5" inputmode="numeric" maxlength="16" autocomplete="off" aria-label="Code Epoche 5"><button class="btn" data-lock="5">Öffnen</button></div>
       <div class="lock-msg" id="msg5"></div>
+    </div>
+  </div>
+  <div class="hidden" data-gate="e5h">
+    <div class="card task">
+      <h3>🔢 Teil B · Vier Bits, eine Ziffer: die Basis 16</h3>
+      <p class="voiced"><span class="vtext"><span class="who nora">Nora Null:</span> „Leibniz' Zahlen sind ehrlich, aber lang. Dreizehn Stellen für 4711! Heute bündelt man deshalb immer vier Bits zu einer einzigen Ziffer. Vier Bits haben sechzehn Muster, also rechnet man zur Basis sechzehn. Nur gehen nach der Neun die Ziffern aus. Die Lösung: Man nimmt Buchstaben, A bis F.“</span></span><button class="say figur" type="button" data-audio="archiv-img/stimme-6d01a2c5c0.mp3" aria-label="Nora Null anhören" title="Nora Null anhören">🔊</button></p>
+      <p>Vier Bits haben 2<sup>4</sup> = 16 Muster, von 0000 bis 1111 (das sind 0 bis 15, siehe eure Tabelle). Jede Vierergruppe passt also genau in <b>eine</b> Ziffer zur <b>Basis 16</b>. Das heißt <b>Hexadezimalsystem</b> (K16). Seine 16 Ziffern sind 0 bis 9 und danach A bis F:</p>
+      <div class="scroll"><table class="digit-tab hex-tab"><tr><td class="rh">Ziffer</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td><td>F</td></tr><tr><td class="rh">Wert</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td></tr><tr><td class="rh">Bits</td><td>0000</td><td>0001</td><td>0010</td><td>0011</td><td>0100</td><td>0101</td><td>0110</td><td>0111</td><td>1000</td><td>1001</td><td>1010</td><td>1011</td><td>1100</td><td>1101</td><td>1110</td><td>1111</td></tr></table></div>
+      <p><b>So wird aus 4711 eine Zahl zur Basis 16:</b> Die Dualzahl von rechts in Vierergruppen teilen, links mit Nullen auffüllen, jede Gruppe in der Tabelle nachschlagen.</p>
+      <div class="hexgroup mono"><span><b>0001</b><i>1</i></span><span><b>0010</b><i>2</i></span><span><b>0110</b><i>6</i></span><span><b>0111</b><i>7</i></span></div>
+      <p style="text-align:center"><b class="mono" style="font-size:1.15rem">1001001100111₂ = 0x1267</b><br><span class="small">Probe: 1 · 16³ + 2 · 16² + 6 · 16 + 7 = 4096 + 512 + 96 + 7 = 4711</span></p>
+      <p>Das <b>0x</b> vorne ist nur ein Kennzeichen für „Basis 16“. Ohne Kennzeichen wäre „12“ mehrdeutig, wie die Keile in Larsa: 12 bleibt zwölf, aber 0x12 = 1 · 16 + 2 = 18. Stellenwerte zur Basis 16: 1, 16, 256, 4096.</p>
+      <p style="margin-top:0.5rem"><b>Prüft euch:</b> Welche Zahl ist <b>0x2A</b> in unseren Ziffern?</p>
+      <div class="lock-row"><input class="inl" id="hexin" data-v="hexin" inputmode="numeric" maxlength="4" autocomplete="off" aria-label="0x2A in unseren Ziffern"><button class="btn ghost small" id="hexcheck">Prüfen</button></div>
+      <div class="fb" id="hexFb"></div>
+      <details class="hint" data-h="e5h1"><summary>Tipp 1 · Denkanstoß</summary><div class="hint-body">
+        <p>Schlagt A in der Tabelle nach. Die linke Stelle zählt 16, die rechte 1.</p>
+        <details class="hint" data-h="e5h2"><summary>Tipp 2 · Lösungsweg</summary><div class="hint-body">
+          <p>0x2A = 2 · 16 + 10 · 1 = 32 + 10 = <b>42</b>. Als Bits: 0010 1010.</p>
+        </div></details>
+      </div></details>
+      <div class="journal">📝 <span><b>Archivjournal, Aufgabe 6 (unten):</b> Notiert 4711 zur Basis 16 und rechnet 0x2A um.</span></div>
     </div>
   </div>
   <div class="card sigil hidden" data-gate="s5">
@@ -751,7 +782,7 @@ textarea.answer { width: 100%; min-height: 110px; border: 2px solid var(--line);
   <div class="card sigil hidden" data-gate="s6">
     <h3>🔏 Ziffernsiegel 6</h3>
     <div class="glyph mono">0x12</div>
-    <p>So steht die Zahl im Datenblatt eines Chips (Basis 16, K12). Welche Zahl, welcher Buchstabe?</p>
+    <p>So steht die Zahl im Datenblatt eines Chips: zur Basis 16, wie in Epoche 5 (Teil B). Welche Zahl, welcher Buchstabe?</p>
     <div class="lock-row"><input class="num" id="sz6" data-v="sz6" inputmode="numeric" maxlength="2" placeholder="Zahl" aria-label="Zahl"><span>→</span><input id="sb6" data-v="sb6" maxlength="1" placeholder="A–Z" aria-label="Buchstabe"><button class="btn acc" data-seal-check="6">Prüfen</button></div>
     <div class="fb" id="sfb6"></div>
     <div class="lock-row hidden" data-gate="d6" style="justify-content:center"><button class="btn acc" data-next="7">Zur Tür der Gegenwart 🚪</button></div>
@@ -1028,12 +1059,13 @@ textarea.answer { width: 100%; min-height: 110px; border: 2px solid var(--line);
       return [false, "Noch nicht. Q = C · U, dann n = Q : e."]; },
     7: function (v) { if (norm(v) === WORD) return [true]; return [false, "Das Wort passt nicht ins Schloss. Prüft die Siegel."]; }
   };
-  var AFTER = { 1: "s1", 2: "s2", 3: "s3", 4: "s4", 5: "s5", 6: "e6c", 7: "fb" };
+  var AFTER = { 1: "s1", 2: "s2", 3: "s3", 4: "s4", 5: "e5h", 6: "e6c", 7: "fb" };
+  var AFTERMSG = { 5: "✓ Richtig! 13 Stellen sind lang. Gleich wird gebündelt." };
   document.querySelectorAll("[data-lock]").forEach(function (b) {
     b.addEventListener("click", function () {
       var n = Number(b.getAttribute("data-lock"));
       var r = LOCKS[n]($("code" + n).value);
-      lockMsg(n, r[0], r[0] ? (r[1] || "✓ Richtig! Das Siegel erscheint.") : r[1]);
+      lockMsg(n, r[0], r[0] ? (r[1] || AFTERMSG[n] || "✓ Richtig! Das Siegel erscheint.") : r[1]);
       if (r[0]) { openGate(AFTER[n]); if (n === 6) setTimeout(renderBucket, 0); }
     });
   });
@@ -1190,9 +1222,18 @@ textarea.answer { width: 100%; min-height: 110px; border: 2px solid var(--line);
     $("bmTab").innerHTML = head + "</tr>" + dg + "</tr>" + pw + "</tr>";
   }
   $("bmBase").addEventListener("change", baseMachine); $("bmDigits").addEventListener("input", baseMachine); baseMachine();
+  function hexCheck(silent) {
+    var x = num($("hexin").value), fb = $("hexFb");
+    if (x === 42) { fb.className = "fb ok"; fb.textContent = "✓ 0x2A = 2 · 16 + 10 = 42. Laut einem berühmten Science-Fiction-Roman die Antwort auf die Frage nach dem Leben, dem Universum und dem ganzen Rest. Das Siegel erscheint."; openGate("s5"); return; }
+    if (silent) return;
+    fb.className = "fb bad";
+    fb.textContent = x === 210 ? "Ihr habt 2 und 10 nebeneinander geschrieben. Die 2 steht an der 16er-Stelle." : (x === 30 ? "Fast: Die linke Stelle zählt 16, nicht 10." : "Noch nicht. A ist die Ziffer für 10, die linke Stelle zählt 16.");
+  }
+  $("hexcheck").addEventListener("click", function () { hexCheck(false); });
+  $("hexin").addEventListener("keydown", function (e) { if (e.key === "Enter") hexCheck(false); });
   $("l4check").addEventListener("click", function () {
     var x = num($("l4in").value);
-    laurelMsg("L4", x === 42, x === 42 ? "🌿 0x2A = 2 · 16 + 10 = 42. Die Antwort auf die Frage nach dem Leben, dem Universum und dem ganzen Rest." : "Noch nicht. A steht für 10, die linke Stelle ist 16 wert.");
+    laurelMsg("L4", x === 6, x === 6 ? "🌿 Richtig: 1 · 36 + 2 · 6 + 1 = 49. Schön zu sehen: 121 = (b + 1)², und 7² = 49." : "Noch nicht. Probiert kleine Basen aus: Zur Basis 5 wäre 121 = 25 + 10 + 1 = 36.");
   });
 
   /* ---------------------------------------------------- Epoche 5 */
@@ -1277,9 +1318,9 @@ textarea.answer { width: 100%; min-height: 110px; border: 2px solid var(--line);
     { id: "D1", t: "Römische Zahlzeichen sind ein Stellenwertsystem, deshalb rechnen Computer intern mit ihnen. (Marcus)", why: "Römische Zahlzeichen sind ein Additionssystem (K4)." },
     { id: "C3", t: "Zwei Ziffern passen zu zwei Zuständen eines Schalters: offen oder geschlossen. (Shannon)" },
     { id: "C5", t: "Ein Schaltvorgang bewegt heute nur einige hundert Elektronen und braucht kaum Energie. (Mira Sand)" },
-    { id: "D2", t: "Leibniz baute die erste binäre Rechenmaschine, alle Computer bauen sie bis heute nach. (Leibniz)", why: "Leibniz' Maschine rechnete dezimal (K15)." },
+    { id: "D2", t: "Leibniz baute die erste binäre Rechenmaschine, alle Computer bauen sie bis heute nach. (Leibniz)", why: "Leibniz' Maschine rechnete dezimal (K14)." },
     { id: "C2", t: "Die kleinste mögliche Basis ist 2, denn die Ziffern 0 und 1 genügen für alle Zahlen. (Leibniz)" },
-    { id: "D3", t: "Dualzahlen sind kürzer als Dezimalzahlen und sparen deshalb viel Speicherplatz. (Leibniz)", why: "Dualzahlen sind etwa 3,3-mal so lang (K14)." },
+    { id: "D3", t: "Dualzahlen sind kürzer als Dezimalzahlen und sparen deshalb viel Speicherplatz. (Leibniz)", why: "Dualzahlen sind etwa 3,3-mal so lang (K13)." },
     { id: "C4", t: "Zwei Zustände lassen sich auch bei schwankender Spannung sicher unterscheiden. (Zuse)" }
   ];
   var order = S.vals.chain || [];
@@ -1364,7 +1405,7 @@ textarea.answer { width: 100%; min-height: 110px; border: 2px solid var(--line);
     if (norm($("pinIn").value) === "ZEPHIRUM") { $("slPanel").classList.remove("hidden"); $("pinMsg").textContent = "✓ unten auf jeder Seite"; }
     else $("pinMsg").textContent = "Falsche PIN.";
   });
-  var SKIP = { 1: ["e1b", "s1", "d1"], 2: ["e2b", "s2", "d2"], 3: ["e3b", "e3c", "s3", "d3"], 4: ["e4b", "s4", "d4"], 5: ["e5b", "s5", "d5"], 6: ["e6b", "e6c", "e6d", "s6", "d6"] };
+  var SKIP = { 1: ["e1b", "s1", "d1"], 2: ["e2b", "s2", "d2"], 3: ["e3b", "e3c", "s3", "d3"], 4: ["e4b", "s4", "d4"], 5: ["e5b", "e5h", "s5", "d5"], 6: ["e6b", "e6c", "e6d", "s6", "d6"] };
   $("slSkip").addEventListener("click", function () {
     var n = S.cur >= 1 && S.cur <= 6 ? S.cur : Math.min(S.open + 1, 6);
     if (!S.t0) S.t0 = Date.now();
