@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LP 10 · Text eingeben & bewegen — ITG Klasse 6</title>
+<title>LP 10 · Text eingeben &amp; bewegen · ITG Klasse 6</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -12,6 +12,7 @@
     --key: #ff5d73; --edge: #df3a53; --tint: #ffe6ea; --ktext: #ffffff;
     --ink: #211a4d; --ink-soft: #4f4880; --bg: #f1f0fb; --card: #fff;
     --line: rgba(33,26,77,0.12); --sun: #ffc23d;
+    --ok: #39b56a; --ok-dk: #248049; --no: #e8607a; --no-dk: #b83a56;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -59,12 +60,8 @@
   .rlp .tag { display: inline-block; background: #e7e5fb; padding: 0.06rem 0.42rem; border-radius: 6px; margin: 0 0.15rem 0.25rem 0; }
   .rlp .tag.neu { background: var(--sun); color: var(--ink); }
 
-  .draft-note {
-    display: flex; align-items: center; gap: 0.6rem;
-    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 12px;
-    padding: 0.7rem 0.9rem; margin: 1.4rem 0; font-size: 0.9rem; font-weight: 700; color: #8a5a00;
-  }
-  .draft-note svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .intro { font-size: 1.05rem; margin: 1.4rem 0 1.6rem; }
+  .intro .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
 
   .block { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 1.4rem 1.5rem; margin-bottom: 1.1rem; }
   .block h2 {
@@ -72,15 +69,94 @@
     display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem;
   }
   .block h2 .dot { width: 14px; height: 14px; border-radius: 5px; background: var(--key); box-shadow: 0 2px 0 var(--edge); flex-shrink: 0; }
-  .todo {
-    border: 2px dashed var(--line); border-radius: 12px; padding: 1rem 1.1rem;
-    color: var(--ink-soft); font-style: italic; background: rgba(91,75,230,0.03);
+  .block p { margin-bottom: 0.6rem; }
+
+  /* figure */
+  .fig { background: var(--tint); border-radius: 14px; padding: 1rem; margin: 0.4rem 0 1rem; }
+  .fig svg { width: 100%; height: auto; display: block; }
+  .fig-cap { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); text-align: center; margin-top: 0.5rem; }
+
+  /* step list */
+  ol.steps { list-style: none; counter-reset: st; }
+  ol.steps li { counter-increment: st; position: relative; padding: 0.55rem 0 0.55rem 2.7rem; border-bottom: 1px dashed var(--line); }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li::before {
+    content: counter(st); position: absolute; left: 0; top: 0.5rem;
+    width: 30px; height: 30px; border-radius: 9px; background: var(--key); color: var(--ktext);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; box-shadow: 0 2px 0 var(--edge);
   }
+  ol.steps b { color: var(--edge); }
+
+  /* exercises + diff chips */
+  .task { border: 1.5px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; margin-bottom: 0.8rem; }
+  .chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.66rem;
+    letter-spacing: 0.05em; padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.5rem; }
+  .chip.basis { background: #e2f6ea; color: var(--ok-dk); border: 1.5px solid var(--ok); }
+  .chip.mittel { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+  .chip.knifflig { background: #fff3d1; color: #8a5a00; border: 1.5px solid var(--sun); }
+  .task ul { margin: 0.4rem 0 0 1.1rem; }
+  .task li { margin-bottom: 0.2rem; }
 
   .block.fast { border-color: var(--sun); background: #fff7e2; }
   .block.fast h2 { color: #8a5a00; }
   .block.fast h2 .rocket { width: 22px; height: 22px; color: #8a5a00; }
-  .fast-text { font-size: 1.02rem; font-weight: 600; }
+  .fast-text { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .fast-list { margin: 0.4rem 0 0.8rem 1.1rem; }
+  .fast-list li { margin-bottom: 0.3rem; }
+  .auftrag { border: 1.5px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0 0 0.9rem; background: #fff; }
+  .auftrag p { margin: 0; }
+  .auftrag-no, .task-no { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); background: var(--tint); border-radius: 6px; padding: 0.1rem 0.45rem; margin-right: 0.2rem; }
+  .auftrag details, .fast-sol { margin-top: 0.5rem; }
+  .auftrag summary, .fast-sol summary { cursor: pointer; font-weight: 700; color: var(--edge); font-size: 0.92rem; }
+  .auftrag ol, .fast-sol ul { margin: 0.4rem 0 0 1.3rem; }
+  .fast-sol { margin-bottom: 0.8rem; }
+  .fill { display: inline-block; min-width: 10rem; border-bottom: 1.5px dotted currentColor; }
+  .merke-box { margin-top: 0.9rem; background: var(--tint); border-left: 6px solid var(--key); border-radius: 10px; padding: 0.7rem 0.9rem; }
+  .fast-extra { font-size: 0.95rem; font-weight: 600; background: #fff; border-radius: 10px; padding: 0.7rem 0.9rem; border: 1.5px dashed var(--sun); }
+
+  /* merksatz */
+  .merk { background: var(--tint); border: 2px solid var(--key); border-left: 8px solid var(--key); border-radius: 14px; padding: 1.1rem 1.3rem; }
+  .merk .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+  .merk b { color: var(--edge); }
+  .secret { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.9rem; padding: 0.7rem 0.9rem;
+    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 10px; font-weight: 700; color: #8a5a00; font-size: 0.95rem; }
+  .secret svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  /* ---- QUIZ ENGINE ---- */
+  .quiz { margin-top: 0.4rem; }
+  .quiz-progress { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.74rem; color: var(--ink-soft); }
+  .pbar { flex: 1; height: 10px; background: #e7e5fb; border-radius: 999px; overflow: hidden; }
+  .pfill { height: 100%; width: 0; background: var(--ok); border-radius: 999px; transition: width 0.3s ease; }
+  .q { margin-bottom: 1.1rem; padding-bottom: 1.1rem; border-bottom: 1px dashed var(--line); }
+  .q:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .q-text { font-weight: 800; margin-bottom: 0.6rem; }
+  .q-text .qn { color: var(--edge); font-family: 'JetBrains Mono', monospace; }
+  .opts { display: grid; gap: 0.5rem; }
+  .opt {
+    display: flex; align-items: center; gap: 0.7rem; width: 100%; text-align: left;
+    font-family: 'Nunito', sans-serif; font-size: 0.98rem; font-weight: 700; color: var(--ink);
+    background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 0.6rem 0.8rem; cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .opt:hover:not([disabled]) { border-color: var(--key); transform: translateX(2px); }
+  .opt .lett { flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px; background: var(--tint); color: var(--edge);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; font-size: 0.85rem; }
+  .opt.correct { border-color: var(--ok); background: #e9f8ef; }
+  .opt.correct .lett { background: var(--ok); color: #fff; }
+  .opt.wrong { border-color: var(--no); background: #fdecf0; }
+  .opt.wrong .lett { background: var(--no); color: #fff; }
+  .opt[disabled] { cursor: default; opacity: 0.75; }
+  .opt.correct[disabled], .opt.wrong[disabled] { opacity: 1; }
+  .q-hint { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--no-dk);
+    background: #fdecf0; border-radius: 9px; padding: 0.5rem 0.7rem; display: none; }
+  .q-hint.show { display: block; }
+  .q-done { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--ok-dk); display: none; }
+  .q-done.show { display: block; }
+  .quiz-solved { margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 12px; background: #e9f8ef;
+    border: 2px solid var(--ok); color: var(--ok-dk); font-family: 'Fredoka', sans-serif; font-weight: 600;
+    display: none; align-items: center; gap: 0.6rem; }
+  .quiz-solved.show { display: flex; }
+  .quiz-solved svg { width: 22px; height: 22px; flex-shrink: 0; }
 
   .selfcheck-wrap {
     display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem;
@@ -113,6 +189,35 @@
   }
   @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 </style>
+<style>
+  .qi { background: var(--tint); border-radius: 12px; padding: 0.6rem 0.75rem; margin: -0.2rem 0 0.7rem; font-weight: 700; }
+  .qi .n { display: inline-flex; align-items: center; justify-content: center; width: 1.55rem; height: 1.55rem; border-radius: 50%;
+           color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; flex: none; }
+  .qi ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+  .qi li { display: flex; gap: 0.5rem; align-items: center; }
+  .qi .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.2rem 0 0.45rem; }
+  .qi .chip-i { background: #fff; border: 2px solid var(--key); border-radius: 9px; padding: 0.15rem 0.55rem; display: inline-flex; gap: 0.35rem; align-items: center; }
+  .qi .lk { display: inline-flex; vertical-align: middle; border: 2px dashed var(--ink-soft); border-radius: 8px; padding: 0.05rem 0.4rem; margin: 0 0.15rem; }
+  .qi .zeile { margin: 0.25rem 0; }
+  .qi .txt { font-weight: 600; color: var(--ink-soft); margin-bottom: 0.3rem; }
+  .qi .boxes { color: var(--ink-soft); font-style: italic; margin-bottom: 0.3rem; }
+  .block.abgabe { border-color: var(--key); }
+  .abgabe .warn { background: #fdecf0; border-left: 6px solid var(--no); border-radius: 10px; padding: 0.6rem 0.85rem; margin: 0.2rem 0 0.9rem; color: var(--no-dk); font-weight: 600; }
+  .abgabe .txt-muster { font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; background: #fff; border: 1.5px solid var(--line); border-radius: 8px; padding: 0.5rem 0.7rem; margin: 0.4rem 0; overflow-wrap: anywhere; }
+  .abgabe .name-regel { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.92rem; background: var(--tint); border-radius: 10px; padding: 0.55rem 0.7rem; margin: 0.45rem 0 0.3rem; overflow-wrap: anywhere; }
+  .abgabe .nr-teil { background: #fff; border: 1.5px solid var(--key); border-radius: 6px; padding: 0.05rem 0.35rem; }
+  .abgabe .nr-teil.neu { background: var(--sun); border-color: #c8890a; }
+  .abgabe .name-bsp { font-weight: 700; margin-bottom: 0.3rem; }
+</style>
+<style>
+  .fig svg[aria-label="Bild 2"] { max-width: 460px; margin: 0 auto; }
+  .fig svg[aria-label="Bild 3"] { max-width: 600px; margin: 0 auto; }
+  .fig svg[aria-label="Bild 4"] { max-width: 620px; margin: 0 auto; }
+  .kbd { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.82em; font-weight: 700; background: #fff;
+         border: 1.5px solid var(--ink); border-bottom-width: 3px; border-radius: 6px; padding: 0 0.35em; white-space: nowrap; }
+  .abtipp { background: #fff; border: 2px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0.6rem 0; }
+  .abtipp p { margin: 0.1rem 0; }
+</style>
 </head>
 <body>
 
@@ -130,43 +235,251 @@
       <div class="keycap">10</div>
       <h1>Text eingeben &amp; bewegen</h1>
     </div>
-    <p class="goal"><b>Das lernst du:</b> Text tippen, clever markieren, löschen und einfügen — in Word und in Google Docs (fast gleich!).</p>
+    <p class="goal"><b>Das lernst du:</b> Text tippen, clever markieren, löschen und einfügen, in Word und in Google Docs (fast gleich!).</p>
     <p class="rlp"><span class="tag">RLP 2.5 · E</span><span class="tag">3.1 · Textverarbeitung</span><span class="tag">2.6 · E</span></p>
   </header>
 
-  <div class="draft-note">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
-    <span>Diese Seite ist das Ger&uuml;st f&uuml;r diesen Lernpfad &mdash; Inhalte werden noch erg&auml;nzt.</span>
-  </div>
+  <p class="intro">In Stunde 09 hast du deinen Ordner <span class="hl">Schule › ITG</span> gesichert. Heute kommt dein erstes echtes Dokument hinein. Die Zaubertasten aus Stunde 04 helfen dir dabei, in <span class="hl">Word</span> und in <span class="hl">Google Docs</span>. Zuerst schaust du mit ein paar Fragen, was du schon weißt. Danach bringst du am Rechner ein Durcheinander-Rezept in Ordnung. Los geht’s!</p>
 
   <main>
+
+    <!-- ===================== VORWISSEN ===================== -->
     <section class="block">
-      <h2><span class="dot"></span>Los geht es &mdash; worum geht es heute?</h2>
-      <div class="todo">Hier kommt der Einstieg hin: eine kurze, spannende Hinf&uuml;hrung zum Thema.</div>
+      <h2><span class="dot"></span>Schau genau hin: Was weißt du schon?</h2>
+      <p>Sieh dir die drei Bilder an. Zu jedem Bild gehören drei Fragen. Bei vielen Fragen ist eine ganze Kombination richtig, also lies jede Antwort bis zum Ende. Wird sie <b style="color:var(--ok-dk)">grün</b>, ist sie richtig. Bei <b style="color:var(--no-dk)">rot</b> bekommst du einen Tipp.</p>
+
+      <!-- Fig 1 -->
+      <div class="fig"><svg viewBox="0 0 1000 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 1" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="1000" height="200" fill="#ffffff"/><rect x="8" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="70.0" y="59.0" width="40.0" height="58.0" rx="20.0" fill="#ffffff" stroke="#211a4d" stroke-width="2.6"/><path d="M70.0 81.0 H110.0 M90 59.0 V81.0" stroke="#211a4d" stroke-width="2.2"/><path d="M72.0 80.0 V76.0 a18.0 17.0 0 0 1 18.0 -16.0 V80.0 z" fill="#ff5d73"/><path d="M66.0 63.0 a10.0 10.0 0 0 1 6.0 -8.0" fill="none" stroke="#df3a53" stroke-width="2.6" stroke-linecap="round"/><path d="M59.0 65.0 a18.0 18.0 0 0 1 10.8 -14.4" fill="none" stroke="#df3a53" stroke-width="2.6" stroke-linecap="round"/><text x="124" y="118" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="900" font-size="20" fill="#df3a53">2x</text><text x="84" y="170" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="18" fill="#211a4d">Doppelklick</text><circle cx="30" cy="34" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="30" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><rect x="174" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="204" y="74" width="92" height="40" rx="7" fill="#c9c6e0"/><rect x="204" y="70" width="92" height="40" rx="7" fill="#ffffff" stroke="#211a4d" stroke-width="2.2"/><path d="M270.0 90 H230.0 M238.0 82 L230.0 90 L238.0 98" fill="none" stroke="#211a4d" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><text x="250" y="170" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="18" fill="#211a4d">Rücktaste</text><circle cx="196" cy="34" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="196" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><rect x="340" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="352" y="74" width="62" height="40" rx="7" fill="#c9c6e0"/><rect x="352" y="70" width="62" height="40" rx="7" fill="#ffffff" stroke="#211a4d" stroke-width="2.2"/><text x="383.0" y="95.76" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="16" fill="#211a4d">Strg</text><text x="420" y="97" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="22" fill="#211a4d">+</text><rect x="432" y="74" width="46" height="40" rx="7" fill="#c9c6e0"/><rect x="432" y="70" width="46" height="40" rx="7" fill="#ffffff" stroke="#211a4d" stroke-width="2.2"/><text x="455.0" y="97.2" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="20" fill="#211a4d">A</text><text x="416" y="170" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="18" fill="#211a4d">Strg + A</text><circle cx="362" cy="34" r="17" fill="#8e3bd2" stroke="#ffffff" stroke-width="3"/><text x="362" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><rect x="506" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="542" y="74" width="80" height="40" rx="7" fill="#c9c6e0"/><rect x="542" y="70" width="80" height="40" rx="7" fill="#ffffff" stroke="#211a4d" stroke-width="2.2"/><text x="582.0" y="97.2" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="20" fill="#211a4d">Entf</text><text x="582" y="170" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="18" fill="#211a4d">Entf</text><circle cx="528" cy="34" r="17" fill="#4eab65" stroke="#ffffff" stroke-width="3"/><text x="528" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text><rect x="672" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="734.0" y="59.0" width="40.0" height="58.0" rx="20.0" fill="#ffffff" stroke="#211a4d" stroke-width="2.6"/><path d="M734.0 81.0 H774.0 M754 59.0 V81.0" stroke="#211a4d" stroke-width="2.2"/><path d="M736.0 80.0 V76.0 a18.0 17.0 0 0 1 18.0 -16.0 V80.0 z" fill="#ff5d73"/><path d="M730.0 63.0 a10.0 10.0 0 0 1 6.0 -8.0" fill="none" stroke="#df3a53" stroke-width="2.6" stroke-linecap="round"/><path d="M723.0 65.0 a18.0 18.0 0 0 1 10.8 -14.4" fill="none" stroke="#df3a53" stroke-width="2.6" stroke-linecap="round"/><path d="M716.0 67.0 a26.0 26.0 0 0 1 15.6 -20.8" fill="none" stroke="#df3a53" stroke-width="2.6" stroke-linecap="round"/><text x="788" y="118" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="900" font-size="20" fill="#df3a53">3x</text><text x="748" y="170" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="18" fill="#211a4d">Dreifachklick</text><circle cx="694" cy="34" r="17" fill="#dd5b59" stroke="#ffffff" stroke-width="3"/><text x="694" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">5</text><rect x="838" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="850" y="74" width="56" height="40" rx="7" fill="#c9c6e0"/><rect x="850" y="70" width="56" height="40" rx="7" fill="#ffffff" stroke="#211a4d" stroke-width="2.2"/><path d="M878 79.0 L888.0 90 H883.0 V99.0 H873.0 V90 H868.0 z" fill="none" stroke="#211a4d" stroke-width="2.4" stroke-linejoin="round"/><text x="918" y="97" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="22" fill="#211a4d">+</text><rect x="930" y="74" width="48" height="40" rx="7" fill="#c9c6e0"/><rect x="930" y="70" width="48" height="40" rx="7" fill="#ffffff" stroke="#211a4d" stroke-width="2.2"/><path d="M941.0 90 H967.0 M959.0 82 L967.0 90 L959.0 98" fill="none" stroke="#211a4d" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><text x="914" y="170" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="17" fill="#211a4d">Umschalt + Pfeil</text><circle cx="860" cy="34" r="17" fill="#6e6e80" stroke="#ffffff" stroke-width="3"/><text x="860" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">6</text></svg><div class="fig-cap">Bild 1 &middot; Sechs Dinge, die du mit Maus und Tastatur tun kannst</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 1</span> <b>Ordne zu:</b> Was markiert Text (M), was löscht Text (L)? Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>M (Doppelklick)</li><li>L (Rücktaste)</li><li>M (Strg + A)</li><li>L (Entf)</li><li>M (Dreifachklick)</li><li>M (Umschalt + Pfeil)</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.1</span> &nbsp;<b>Ordne zu:</b> Was markiert Text, was löscht Text?</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">markiert: 1, 3, 5, 6</button>
+            <button class="opt" data-hint="Umschalt + Pfeil markiert Zeichen für Zeichen.">markiert: 1, 3, 5</button>
+            <button class="opt" data-hint="Die Rücktaste löscht das Zeichen links vom Cursor.">markiert: 1, 2, 3, 5, 6</button>
+            <button class="opt" data-hint="Entf löscht. Und Strg + A markiert den ganzen Text.">markiert: 1, 4, 5, 6</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Klicks, Strg + A und Umschalt markieren. Rücktaste und Entf löschen.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.2</span> &nbsp;<b>Ordne zu:</b> Was wird markiert?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Doppelklick</span><span class="chip-i">Dreifachklick</span><span class="chip-i">Strg + A</span><span class="chip-i">Umschalt + Pfeil</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>der ganze Text</span></li><li><span class="n" style="background:#d16b2f">2</span><span>ein Wort</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Zeichen für Zeichen</span></li><li><span class="n" style="background:#4eab65">4</span><span>ein ganzer Absatz</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Doppelklick (2), Dreifachklick (4), Strg + A (1), Umschalt + Pfeil (3)</button>
+            <button class="opt" data-hint="Zwei Klicks sind weniger als drei: Der Doppelklick nimmt nur ein Wort.">Doppelklick (4), Dreifachklick (2), Strg + A (1), Umschalt + Pfeil (3)</button>
+            <button class="opt" data-hint="A wie „alles“: Strg + A markiert den ganzen Text.">Doppelklick (2), Dreifachklick (1), Strg + A (4), Umschalt + Pfeil (3)</button>
+            <button class="opt" data-hint="Mit Umschalt und Pfeil wächst die Markierung Zeichen für Zeichen.">Doppelklick (3), Dreifachklick (4), Strg + A (1), Umschalt + Pfeil (2)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Je mehr Klicks, desto mehr Text. Strg + A nimmt alles.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.3</span> &nbsp;<b>Entscheide:</b> Welche Sätze stimmen?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Die Rücktaste löscht links vom Cursor.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Entf löscht links vom Cursor.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Tippst du los, ersetzt du den markierten Text.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Ein Klick in den Text setzt den Cursor.</span></li><li><span class="n" style="background:#dd5b59">5</span><span>Die Leertaste löscht ein Wort.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 3, 4</button>
+            <button class="opt" data-hint="Entf löscht rechts vom Cursor, die Rücktaste links.">1, 2, 3, 4</button>
+            <button class="opt" data-hint="Und Satz 3? Markierst du ein Wort und tippst, ist das Wort weg.">1, 4</button>
+            <button class="opt" data-hint="Die Leertaste macht eine Lücke, sie löscht nichts. Und Satz 1?">3, 4, 5</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt: Rücktaste links, Entf rechts. Und Vorsicht mit markiertem Text!</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Super: Bild 1 komplett gelöst!</div>
+      </div>
+
+      <!-- Fig 2 -->
+      <div class="fig"><svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 2" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="600" height="400" fill="#ffffff"/><rect x="16" y="16" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><text x="154" y="178" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Einfügen</text><rect x="308" y="16" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><text x="446" y="178" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Text markieren</text><rect x="16" y="208" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><text x="154" y="370" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Cursor setzen</text><rect x="308" y="208" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><text x="446" y="370" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Ausschneiden</text><rect x="68.7" y="61.800000000000004" width="50.599999999999994" height="64.39999999999999" rx="5.75" fill="#fff8e6" stroke="#c8890a" stroke-width="2.6"/><rect x="81.35" y="54.900000000000006" width="25.299999999999997" height="13.799999999999999" rx="3.4499999999999997" fill="#ffc23d" stroke="#211a4d" stroke-width="2.2"/><line x1="79.05" y1="82.5" x2="108.94999999999999" y2="82.5" stroke="#d9c08a" stroke-width="3.4" stroke-linecap="round"/><line x1="79.05" y1="95.15" x2="108.94999999999999" y2="95.15" stroke="#d9c08a" stroke-width="3.4" stroke-linecap="round"/><line x1="79.05" y1="107.8" x2="97.588" y2="107.8" stroke="#d9c08a" stroke-width="3.4" stroke-linecap="round"/><rect x="144" y="74" width="62" height="40" rx="7" fill="#c9c6e0"/><rect x="144" y="70" width="62" height="40" rx="7" fill="#ffffff" stroke="#211a4d" stroke-width="2.2"/><text x="175.0" y="95.76" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="16" fill="#211a4d">Strg</text><text x="218" y="97" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="22" fill="#211a4d">+</text><rect x="230" y="74" width="44" height="40" rx="7" fill="#c9c6e0"/><rect x="230" y="70" width="44" height="40" rx="7" fill="#ffffff" stroke="#211a4d" stroke-width="2.2"/><text x="252.0" y="97.2" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="20" fill="#211a4d">V</text><line x1="348" y1="66" x2="544" y2="66" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><rect x="403.8" y="80" width="113.80000000000001" height="16" rx="3" fill="#bcd3fb"/><line x1="348" y1="88" x2="544" y2="88" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="348" y1="110" x2="544" y2="110" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="348" y1="132" x2="469.52" y2="132" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="56" y1="254" x2="252" y2="254" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="56" y1="276" x2="252" y2="276" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="56" y1="298" x2="252" y2="298" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="56" y1="320" x2="177.51999999999998" y2="320" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="188" y1="306" x2="188" y2="330" stroke="#df3a53" stroke-width="3"/><line x1="183" y1="306" x2="193" y2="306" stroke="#df3a53" stroke-width="2"/><line x1="183" y1="330" x2="193" y2="330" stroke="#df3a53" stroke-width="2"/><path d="M202 314 l0 24 l6 -6 l5 10 l5 -2 l-5 -10 l8 0 z" fill="#ffffff" stroke="#211a4d" stroke-width="2.2" stroke-linejoin="round"/><circle cx="367.8" cy="302.8" r="10.4" fill="#ffffff" stroke="#211a4d" stroke-width="2.8"/><circle cx="404.2" cy="302.8" r="10.4" fill="#ffffff" stroke="#211a4d" stroke-width="2.8"/><path d="M374.3 295.0 L401.6 253.4 M397.7 295.0 L370.4 253.4" stroke="#211a4d" stroke-width="3.2" stroke-linecap="round"/><circle cx="386" cy="276.8" r="2.8600000000000003" fill="#211a4d"/><rect x="436" y="266" width="62" height="40" rx="7" fill="#c9c6e0"/><rect x="436" y="262" width="62" height="40" rx="7" fill="#ffffff" stroke="#211a4d" stroke-width="2.2"/><text x="467.0" y="287.76" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="16" fill="#211a4d">Strg</text><text x="510" y="289" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="22" fill="#211a4d">+</text><rect x="522" y="266" width="44" height="40" rx="7" fill="#c9c6e0"/><rect x="522" y="262" width="44" height="40" rx="7" fill="#ffffff" stroke="#211a4d" stroke-width="2.2"/><text x="544.0" y="289.2" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="20" fill="#211a4d">X</text><circle cx="40" cy="42" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="40" y="49" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><circle cx="332" cy="42" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="332" y="49" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><circle cx="40" cy="234" r="17" fill="#8e3bd2" stroke="#ffffff" stroke-width="3"/><text x="40" y="241" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><circle cx="332" cy="234" r="17" fill="#4eab65" stroke="#ffffff" stroke-width="3"/><text x="332" y="241" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text></svg><div class="fig-cap">Bild 2 &middot; Vier Schritte, um Text zu verschieben, aber durcheinander</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 2</span> <b>Bring</b> die Schritte in die richtige Reihenfolge. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>Zuerst: 2 (Text markieren)</li><li>dann 4 (Ausschneiden mit Strg + X)</li><li>dann 3 (Cursor an die neue Stelle setzen)</li><li>zuletzt: 1 (Einfügen mit Strg + V)</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.1</span> &nbsp;<b>Bring</b> die Schritte zum Verschieben in die richtige Reihenfolge.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">2 – 4 – 3 – 1</button>
+            <button class="opt" data-hint="Ausschneiden geht erst, wenn du etwas markiert hast.">4 – 2 – 3 – 1</button>
+            <button class="opt" data-hint="Klickst du vor dem Ausschneiden woanders hin, ist die Markierung weg.">2 – 3 – 4 – 1</button>
+            <button class="opt" data-hint="Einfügen ist immer der letzte Schritt.">2 – 4 – 1 – 3</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: markieren, ausschneiden, Cursor setzen, einfügen.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.2</span> &nbsp;<b>Ordne zu:</b> Was machen die Tasten?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Strg + C</span><span class="chip-i">Strg + X</span><span class="chip-i">Strg + V</span><span class="chip-i">Strg + Z</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Ausschneiden</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Rückgängig</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Kopieren</span></li><li><span class="n" style="background:#4eab65">4</span><span>Einfügen</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Strg + C (3), Strg + X (1), Strg + V (4), Strg + Z (2)</button>
+            <button class="opt" data-hint="C wie „Copy“ heißt Kopieren. X sieht aus wie eine offene Schere.">Strg + C (1), Strg + X (3), Strg + V (4), Strg + Z (2)</button>
+            <button class="opt" data-hint="Strg + V fügt ein. Strg + Z holt den letzten Schritt zurück.">Strg + C (3), Strg + X (1), Strg + V (2), Strg + Z (4)</button>
+            <button class="opt" data-hint="C kopiert, V fügt ein. Die beiden Tasten liegen nebeneinander.">Strg + C (4), Strg + X (1), Strg + V (3), Strg + Z (2)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: C kopiert, X schneidet aus, V fügt ein, Z macht rückgängig.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.3</span> &nbsp;<b>Entscheide:</b> Welche Sätze stimmen?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Beim Kopieren bleibt der Text an der alten Stelle.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Beim Ausschneiden verschwindet der Text an der alten Stelle.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Die Zwischenablage merkt sich, was du kopiert hast.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Mit Strg + V kannst du nur einmal einfügen.</span></li><li><span class="n" style="background:#dd5b59">5</span><span>Ausschneiden löscht den Text für immer.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 2, 3</button>
+            <button class="opt" data-hint="Und Satz 3? Der Text wartet in der Zwischenablage.">1, 2</button>
+            <button class="opt" data-hint="Du kannst so oft einfügen, wie du willst.">1, 2, 3, 4</button>
+            <button class="opt" data-hint="Ausgeschnittener Text wartet in der Zwischenablage. Und Satz 1?">2, 3, 5</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Die Zwischenablage hält den Text bereit, bis du etwas Neues kopierst.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Klasse: Bild 2 komplett gelöst!</div>
+      </div>
+
+      <!-- Fig 3 -->
+      <div class="fig"><svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 3" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="700" height="400" fill="#ffffff"/><rect x="14" y="14" width="324" height="372" rx="14" fill="#ffffff" stroke="#2f6fd6" stroke-width="3"/><path d="M15.5 60 V28 a12.5 12.5 0 0 1 12.5 -12.5 H324 a12.5 12.5 0 0 1 12.5 12.5 V60 z" fill="#2f6fd6"/><text x="34" y="46" text-anchor="start" font-family="Fredoka, Open Sans, sans-serif" font-weight="800" font-size="22" fill="#ffffff">Word</text><path d="M258 39 h14" stroke="#ffffff" stroke-width="2.4"/><path d="M298 32 l13 13 M311 32 l-13 13" stroke="#ffffff" stroke-width="2.2"/><path d="M30.4 72.4 h30.400000000000002 l4.800000000000001 4.800000000000001 v30.400000000000002 h-35.2 z" fill="#2f6fd6" stroke="#211a4d" stroke-width="1.8" stroke-linejoin="round"/><rect x="38.4" y="73.2" width="17.6" height="10.4" fill="#d9dbe6" stroke="#211a4d" stroke-width="1.2"/><rect x="36.0" y="90.0" width="24.0" height="16.0" fill="#ffffff" stroke="#211a4d" stroke-width="1.2"/><text x="72" y="96" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="16" fill="#2f6fd6">Speichern</text><text x="36" y="136" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="900" font-size="17" fill="#4f4880">B</text><text x="56" y="136" font-family="Nunito, Open Sans, sans-serif" font-style="italic" font-weight="700" font-size="17" fill="#4f4880">I</text><text x="70" y="136" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="17" fill="#4f4880">U</text><line x1="70" y1="139" x2="82" y2="139" stroke="#4f4880" stroke-width="1.8"/><line x1="22" y1="150" x2="330" y2="150" stroke="#d6d3ea" stroke-width="2"/><rect x="56" y="164" width="240" height="150" rx="3" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.6"/><line x1="74" y1="190" x2="278" y2="190" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="74" y1="212" x2="278" y2="212" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><rect x="71.0" y="226" width="97.8" height="16" rx="3" fill="#bcd3fb"/><line x1="74" y1="234" x2="278" y2="234" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="74" y1="256" x2="278" y2="256" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="74" y1="278" x2="200.48000000000002" y2="278" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="206.48000000000002" y1="267" x2="206.48000000000002" y2="285" stroke="#211a4d" stroke-width="3"/><line x1="201.48000000000002" y1="267" x2="211.48000000000002" y2="267" stroke="#211a4d" stroke-width="2"/><line x1="201.48000000000002" y1="285" x2="211.48000000000002" y2="285" stroke="#211a4d" stroke-width="2"/><text x="176.0" y="352" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="16" fill="#4f4880">Programm auf dem Rechner</text><rect x="362" y="14" width="324" height="372" rx="14" fill="#ffffff" stroke="#0d8f68" stroke-width="3"/><path d="M363.5 60 V28 a12.5 12.5 0 0 1 12.5 -12.5 H672 a12.5 12.5 0 0 1 12.5 12.5 V60 z" fill="#e9e7f3"/><rect x="376" y="24" width="150" height="36" rx="8" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.6"/><text x="390" y="48" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="17" fill="#211a4d">Google Docs</text><rect x="376" y="68" width="296" height="30" rx="15" fill="#f4f3fa" stroke="#c9c6e0" stroke-width="1.4"/><text x="394" y="89" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="15" fill="#4f4880">docs.google.com</text><path transform="translate(558,134)" d="M-14.9 7.7 a7.2 7.2 0 0 1 0.5 -14.4 a9.6 9.6 0 0 1 17.8 -3.4 a6.7 6.7 0 0 1 9.6 5.3 a6.2 6.2 0 0 1 1.9 12.5 z" fill="#e0f7ef" stroke="#0d8f68" stroke-width="2.6" stroke-linejoin="round"/><path d="M564 129 l3.3000000000000003 3.3000000000000003 l6.6000000000000005 -7.15" fill="none" stroke="#0d8f68" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><text x="588" y="141" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="14" fill="#0d8f68">gespeichert</text><text x="384" y="136" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="900" font-size="17" fill="#4f4880">B</text><text x="404" y="136" font-family="Nunito, Open Sans, sans-serif" font-style="italic" font-weight="700" font-size="17" fill="#4f4880">I</text><text x="418" y="136" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="17" fill="#4f4880">U</text><line x1="418" y1="139" x2="430" y2="139" stroke="#4f4880" stroke-width="1.8"/><line x1="370" y1="150" x2="678" y2="150" stroke="#d6d3ea" stroke-width="2"/><rect x="404" y="164" width="240" height="150" rx="3" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.6"/><line x1="422" y1="190" x2="626" y2="190" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="422" y1="212" x2="626" y2="212" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><rect x="419.0" y="226" width="97.8" height="16" rx="3" fill="#bcd3fb"/><line x1="422" y1="234" x2="626" y2="234" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="422" y1="256" x2="626" y2="256" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="422" y1="278" x2="548.48" y2="278" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="554.48" y1="267" x2="554.48" y2="285" stroke="#211a4d" stroke-width="3"/><line x1="549.48" y1="267" x2="559.48" y2="267" stroke="#211a4d" stroke-width="2"/><line x1="549.48" y1="285" x2="559.48" y2="285" stroke="#211a4d" stroke-width="2"/><text x="524.0" y="352" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="16" fill="#4f4880">im Browser, online</text></svg><div class="fig-cap">Bild 3 &middot; Word und Google Docs nebeneinander</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 3</span> <b>Ordne zu:</b> Gilt der Satz für Word (W), für Docs (D) oder für beide (B)? 1) Läuft im Browser. 2) Strg + C und Strg + V klappen. 3) Du musst selbst speichern. 4) Speichert alles automatisch. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>D (läuft im Browser)</li><li>B (Strg + C und Strg + V klappen)</li><li>W (selbst speichern)</li><li>D (speichert automatisch)</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.1</span> &nbsp;<b>Ordne zu:</b> Word, Docs oder beide?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">läuft im Browser</span><span class="chip-i">Strg + C und Strg + V</span><span class="chip-i">selbst speichern</span><span class="chip-i">speichert automatisch</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>nur Word</span></li><li><span class="n" style="background:#d16b2f">2</span><span>nur Docs</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>beide</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">läuft im Browser (2), Strg + C und Strg + V (3), selbst speichern (1), speichert automatisch (2)</button>
+            <button class="opt" data-hint="Die Tasten zum Kopieren und Einfügen klappen in beiden Programmen.">läuft im Browser (2), Strg + C und Strg + V (1), selbst speichern (1), speichert automatisch (2)</button>
+            <button class="opt" data-hint="Word ist ein Programm auf dem Rechner. Docs öffnest du im Browser.">läuft im Browser (1), Strg + C und Strg + V (3), selbst speichern (1), speichert automatisch (2)</button>
+            <button class="opt" data-hint="Docs speichert von selbst in die Cloud. In Word speicherst du selbst.">läuft im Browser (2), Strg + C und Strg + V (3), selbst speichern (2), speichert automatisch (1)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: fast gleich, nur Ort und Speichern sind anders.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.2</span> &nbsp;<b>Ergänze</b> die Sätze.</div>
+          <div class="qi"><div class="zeile">Word ist ein <span class="lk"><span class="n" style="background:#3675d8">1</span></span> auf dem Rechner.</div><div class="zeile">Docs öffnest du im <span class="lk"><span class="n" style="background:#d16b2f">2</span></span> .</div><div class="zeile">Die Tasten zum Kopieren sind <span class="lk"><span class="n" style="background:#8e3bd2">3</span></span> .</div></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Programm (1), Browser (2), gleich (3)</button>
+            <button class="opt" data-hint="Den Browser brauchst du für Docs, nicht für Word.">Browser (1), Programm (2), gleich (3)</button>
+            <button class="opt" data-hint="Im Explorer findest du Dateien. Docs öffnest du im Browser.">Programm (1), Explorer (2), gleich (3)</button>
+            <button class="opt" data-hint="Strg + C und Strg + V klappen in Word und Docs genau gleich.">Programm (1), Browser (2), anders (3)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: anderer Ort, gleiche Tasten.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.3</span> &nbsp;<b>Bring</b> die Schritte für ein neues Docs-Dokument in die richtige Reihenfolge.</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Leeres Dokument wählen.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Browser öffnen.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>docs.google.com eintippen.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Text tippen.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">2 – 3 – 1 – 4</button>
+            <button class="opt" data-hint="Die Adresse tippst du in den Browser. Er muss also zuerst offen sein.">3 – 2 – 1 – 4</button>
+            <button class="opt" data-hint="Leere Dokumente gibt es erst auf der Seite von Docs.">2 – 1 – 3 – 4</button>
+            <button class="opt" data-hint="Tippen kannst du erst, wenn ein Dokument offen ist.">2 – 3 – 4 – 1</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Browser, Adresse, leeres Dokument, los geht’s.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Stark: Bild 3 komplett gelöst!</div>
+      </div>
     </section>
 
+    <!-- ===================== SCHRITT FÜR SCHRITT ===================== -->
     <section class="block">
-      <h2><span class="dot"></span>Schritt f&uuml;r Schritt</h2>
-      <div class="todo">Hier kommt die Anleitung hin: die einzelnen Arbeitsschritte, gerne mit Screenshots.</div>
+      <h2><span class="dot"></span>Schritt für Schritt: Mein erstes Dokument</h2>
+      <p><span class="task-no">Aufgabe 4</span> In diesem Rezept ist alles durcheinander geraten. Tippe es ab und bring es in Ordnung.</p>
+      <div class="fig"><svg viewBox="0 0 760 236" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 4" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="760" height="236" fill="#ffffff"/><rect x="14" y="10" width="732" height="216" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><path d="M15.5 50 V24 a12.5 12.5 0 0 1 12.5 -12.5 H732 a12.5 12.5 0 0 1 12.5 12.5 V50 z" fill="#ff5d73"/><text x="34" y="38" text-anchor="start" font-family="Fredoka, Open Sans, sans-serif" font-weight="800" font-size="20" fill="#ffffff">Durcheinander-Rezept</text><text x="726" y="38" text-anchor="end" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="16" fill="#ffffff">so ist es falsch!</text><text x="44" y="88" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="900" font-size="25" fill="#211a4d">Pfannkuchen</text><text x="44" y="124" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="21" fill="#211a4d">Brate den Teig in der Pfanne goldbraun.</text><text x="44" y="152" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="21" fill="#211a4d">Guten Appetit!</text><text x="44" y="180" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="21" fill="#211a4d">Verrühre Mehl, Eier und Milch zu einem Teig.</text><text x="44" y="208" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="21" fill="#211a4d">Lass den Teig zehn Minuten ruhen.</text></svg><div class="fig-cap">Das Durcheinander-Rezept: So ist es falsch!</div></div>
+      <ol class="steps">
+        <li><b>Word öffnen.</b> Starte Word und wähle <b>Leeres Dokument</b>.</li>
+        <li><b>Abtippen.</b> Tippe die Überschrift und die vier Sätze ab. Nach jedem Satz drückst du <span class="kbd">Enter</span>.</li>
+        <li><b>Wort ersetzen.</b> Doppelklick auf <i>Milch</i>, dann tippe <i>Hafermilch</i>. Das markierte Wort wird ersetzt.</li>
+        <li><b>Ausschneiden.</b> Dreifachklick auf „Guten Appetit!“, dann <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">X</span></span>.</li>
+        <li><b>Einfügen.</b> Klicke in die leere Zeile ganz unten, dann <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">V</span></span>.</li>
+        <li><b>Ordnen.</b> Bring auch die anderen Sätze in die richtige Reihenfolge.</li>
+        <li><b>Rückgängig.</b> Lösche einen Satz mit <span class="kbd">Entf</span>. Hol ihn mit <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">Z</span></span> zurück.</li>
+        <li><b>Speichern.</b> <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">S</span></span> › Ordner <b>Schule › ITG</b>, Name <b>2026-11-17_ITG_Rezept</b> (Namens-Regel aus Stunde 06).</li>
+        <li><b>In Docs.</b> <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">A</span></span> und <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">C</span></span>, dann <a href="https://docs.google.com" target="_blank" rel="noopener">docs.google.com</a> › Leeres Dokument › <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">V</span></span>. Zum Schluss Word schließen und in Docs abmelden.</li>
+      </ol>
+      <details class="fast-sol"><summary>Lösung zu Schritt 6 zeigen</summary><div class="abtipp"><p><b>Pfannkuchen</b></p><p>Verrühre Mehl, Eier und Hafermilch zu einem Teig.</p><p>Lass den Teig zehn Minuten ruhen.</p><p>Brate den Teig in der Pfanne goldbraun.</p><p>Guten Appetit!</p></div></details>
+      <div class="merke-box"><b>Merke:</b> Ein <b>Klick</b> setzt den Cursor. <b>Doppelklick</b> markiert ein Wort, <b>Dreifachklick</b> einen Absatz, <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">A</span></span> alles. Die <b>Rücktaste</b> löscht links vom Cursor, <b>Entf</b> rechts. <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">C</span></span> kopiert, <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">X</span></span> schneidet aus, <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">V</span></span> fügt ein, <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">Z</span></span> macht rückgängig. In Word und in Google Docs ist das gleich.</div>
     </section>
 
+    <!-- ===================== ÜBUNGEN ===================== -->
     <section class="block">
-      <h2><span class="dot"></span>&Uuml;bungsaufgaben</h2>
-      <div class="todo">Hier kommen die Aufgaben hin &mdash; mit klarer Differenzierung (Basis &middot; mittel &middot; knifflig).</div>
+      <h2><span class="dot"></span>Übungsaufgaben</h2>
+      <div class="task">
+        <span class="task-no">Aufgabe 5</span> <span class="chip basis">Basis</span>
+        <p>Welche Taste hilft? Wähle aus <span class="kbd">Rücktaste</span>, <span class="kbd">Entf</span>, <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">Z</span></span> und <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">A</span></span>.</p>
+        <ul><li>Ein Zeichen links vom Cursor löschen.</li><li>Ein Zeichen rechts vom Cursor löschen.</li><li>Gelöschtes zurückholen.</li></ul>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Links vom Cursor: Rücktaste.</li><li>Rechts vom Cursor: Entf.</li><li>Zurückholen: Strg + Z. (Strg + A brauchst du hier nicht, es markiert alles.)</li></ul></details>
+      </div>
+      <div class="task">
+        <span class="task-no">Aufgabe 6</span> <span class="chip mittel">mittel</span>
+        <p>„Guten Appetit!“ soll zusätzlich ganz oben stehen und unten bleiben. Beschreibe, welche Tasten du drückst.</p>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Dreifachklick auf „Guten Appetit!“, dann Strg + C. Kopieren, nicht ausschneiden, denn unten soll der Satz ja bleiben.</li><li>Cursor ganz oben vor die Überschrift setzen, dann Strg + V.</li></ul></details>
+      </div>
+      <div class="task">
+        <span class="task-no">Aufgabe 7</span> <span class="chip knifflig">knifflig</span>
+        <p>Jemand sagt: „Steht ein Satz falsch, lösche ich ihn und tippe ihn an der richtigen Stelle neu.“ Beurteile das.</p>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Das klappt, ist aber langsam. Beim Neutippen schleichen sich leicht Tippfehler ein. Besser: Satz markieren, Strg + X, Cursor setzen, Strg + V. Bei langen Texten sparst du so viel Zeit.</li></ul></details>
+      </div>
     </section>
 
+    <!-- ===================== SCHNELLLÄUFER ===================== -->
     <section class="block fast">
-      <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnelll&auml;ufer:innen-Mission</h2>
+      <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnellläufer:innen-Mission</h2>
       <p class="fast-text">Schreibe denselben kurzen Text in Word UND in Docs und finde drei Unterschiede in der Bedienung.</p>
+      <ul class="fast-list">
+        <li><b>Unterschied 1:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Unterschied 2:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Unterschied 3:</b> <span class="fill">&nbsp;</span></li>
+      </ul>
+      <p class="fast-extra"><b>Vertiefung zur Wahl:</b> Trainiere das Markieren, löse ein Verschiebe-Puzzle, werde Tasten-Detektiv oder vergleiche Word und Docs. <a href="10-vertiefung-text-eingeben-und-bewegen.html">Zur Vertiefung</a> (auch per QR-Code unten rechts auf Seite 2 des Aufgabenblatts).</p>
     </section>
 
+    <!-- ===================== SICHERUNG ===================== -->
+    <section class="block">
+      <h2><span class="dot"></span>Das kann ich jetzt: kurzer Check</h2>
+      <p>Drei Fragen zum Abschluss. Wieder gilt: <b style="color:var(--ok-dk)">grün</b> = richtig, <b style="color:var(--no-dk)">rot</b> = Tipp.</p>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.1</span> &nbsp;<b>Ordne zu:</b> Was hilft dir?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Ein Wort ist zu viel.</span><span class="chip-i">Aus Versehen alles gelöscht.</span><span class="chip-i">Ein Satz soll nach unten.</span><span class="chip-i">Du willst alles markieren.</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Strg + Z</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Doppelklick und Entf</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Strg + A</span></li><li><span class="n" style="background:#4eab65">4</span><span>Strg + X und Strg + V</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Ein Wort ist zu viel. (2), Aus Versehen alles gelöscht. (1), Ein Satz soll nach unten. (4), Du willst alles markieren. (3)</button>
+            <button class="opt" data-hint="Strg + Z holt Gelöschtes zurück, Strg + A markiert alles.">Ein Wort ist zu viel. (2), Aus Versehen alles gelöscht. (3), Ein Satz soll nach unten. (4), Du willst alles markieren. (1)</button>
+            <button class="opt" data-hint="Zum Verschieben brauchst du Ausschneiden und Einfügen.">Ein Wort ist zu viel. (4), Aus Versehen alles gelöscht. (1), Ein Satz soll nach unten. (2), Du willst alles markieren. (3)</button>
+            <button class="opt" data-hint="Ein einzelnes Wort markierst du per Doppelklick. Rückgängig macht Strg + Z.">Ein Wort ist zu viel. (1), Aus Versehen alles gelöscht. (2), Ein Satz soll nach unten. (4), Du willst alles markieren. (3)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Für jedes Problem gibt es die passende Taste.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.2</span> &nbsp;<b>Ergänze</b> den Merksatz.</div>
+          <div class="qi"><div class="zeile">Ein Doppelklick markiert ein <span class="lk"><span class="n" style="background:#3675d8">1</span></span> .</div><div class="zeile">Die Rücktaste löscht <span class="lk"><span class="n" style="background:#d16b2f">2</span></span> vom Cursor.</div><div class="zeile">Mit Strg + <span class="lk"><span class="n" style="background:#8e3bd2">3</span></span> holst du Gelöschtes zurück.</div></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Wort (1), links (2), Z (3)</button>
+            <button class="opt" data-hint="Rechts vom Cursor löscht die Taste Entf.">Wort (1), rechts (2), Z (3)</button>
+            <button class="opt" data-hint="Einen Absatz markiert der Dreifachklick.">Absatz (1), links (2), Z (3)</button>
+            <button class="opt" data-hint="Strg + V fügt ein. Rückgängig ist Strg + Z.">Wort (1), links (2), V (3)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Wort, links, Z.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.3</span> &nbsp;<b>Bring</b> die Schritte zum Speichern in Word in die richtige Reihenfolge.</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Ordner Schule › ITG wählen.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Auf Speichern klicken.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Strg + S drücken.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Namen 2026-11-17_ITG_Rezept eintippen.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">3 – 1 – 4 – 2</button>
+            <button class="opt" data-hint="Das Speichern-Fenster öffnet erst Strg + S.">1 – 3 – 4 – 2</button>
+            <button class="opt" data-hint="Erst den Ort wählen, dann den Namen geben, so wie in Stunde 06.">3 – 4 – 1 – 2</button>
+            <button class="opt" data-hint="Klickst du zu früh auf Speichern, fehlt der gute Name.">3 – 1 – 2 – 4</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Strg + S, Ordner, Name, Speichern.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Perfekt: Dein Text tanzt jetzt nach deiner Pfeife!</div>
+      </div>
+    </section>
+
+    <!-- ===================== MERKSATZ ===================== -->
     <section class="block">
       <h2><span class="dot"></span>Das nehme ich mit</h2>
-      <div class="todo">Hier kommt der Merksatz / die Zusammenfassung hin.</div>
+      <div class="merk">
+        <p>Ein <b>Klick</b> setzt den Cursor. <b>Doppelklick</b> markiert ein Wort, <b>Dreifachklick</b> einen Absatz, <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">A</span></span> alles. Die <b>Rücktaste</b> löscht links vom Cursor, <b>Entf</b> rechts. <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">C</span></span> kopiert, <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">X</span></span> schneidet aus, <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">V</span></span> fügt ein, <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">Z</span></span> macht rückgängig. In Word und in Google Docs ist das gleich.</p>
+        <div class="secret">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12c.5.5 1 1.2 1 2h6c0-.8.5-1.5 1-2a7 7 0 0 0-4-12z"/></svg>
+          <span>Merk&#8209;Trick: Auf der Tastatur liegen Z, X, C und V direkt nebeneinander. Z ist der Rettungsknopf, X die Schere, C die Kopie und V der Kleber.</span>
+        </div>
+      </div>
     </section>
 
     <div class="selfcheck-wrap">
-      <span class="sc-label">Wie sicher f&uuml;hlst du dich nach dieser Stunde?</span>
+      <span class="sc-label">Wie sicher fühlst du dich nach dieser Stunde?</span>
       <div class="sc-stars" id="stars"></div>
       <span class="sc-feedback" id="fb"></span>
     </div>
@@ -182,9 +495,67 @@
 </div>
 
 <script>
+  /* ---------- Quiz-Engine ---------- */
+  (function(){
+    var LETTERS = ['A','B','C','D','E','F'];
+    var quizzes = document.querySelectorAll('[data-quiz]');
+    quizzes.forEach(function(quiz){
+      var questions = quiz.querySelectorAll('.q');
+      var total = questions.length;
+      var solved = 0;
+      var pcount = quiz.querySelector('.pcount');
+      var pfill = quiz.querySelector('.pfill');
+      var doneBox = quiz.querySelector('.quiz-solved');
+      function updateProgress(){
+        if (pcount) pcount.textContent = solved + ' / ' + total + ' richtig';
+        if (pfill) pfill.style.width = (total ? (solved/total*100) : 0) + '%';
+        if (doneBox && solved === total) doneBox.classList.add('show');
+      }
+      questions.forEach(function(q){
+        var optsContainer = q.querySelector('.opts');
+        var opts = Array.prototype.slice.call(q.querySelectorAll('.opt'));
+        for (var i = opts.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = opts[i]; opts[i] = opts[j]; opts[j] = tmp;
+        }
+        opts.forEach(function(opt){ optsContainer.appendChild(opt); });
+        var hint = q.querySelector('.q-hint');
+        var done = q.querySelector('.q-done');
+        var answered = false;
+        opts.forEach(function(opt, i){
+          var lett = document.createElement('span');
+          lett.className = 'lett';
+          lett.textContent = LETTERS[i];
+          opt.insertBefore(lett, opt.firstChild);
+          opt.addEventListener('click', function(){
+            if (answered) return;
+            if (opt.getAttribute('data-correct') === 'true') {
+              answered = true;
+              opt.classList.add('correct');
+              opts.forEach(function(o){ o.setAttribute('disabled','disabled'); });
+              if (hint) hint.classList.remove('show');
+              if (done) done.classList.add('show');
+              solved++;
+              updateProgress();
+            } else {
+              opt.classList.add('wrong');
+              opt.setAttribute('disabled','disabled');
+              if (hint) {
+                hint.textContent = opt.getAttribute('data-hint') || 'Nicht ganz — versuch es nochmal.';
+                hint.classList.add('show');
+              }
+            }
+          });
+        });
+      });
+      updateProgress();
+    });
+  })();
+
+  /* ---------- Selbsteinschätzung (Sterne, localStorage) ---------- */
   (function(){
     var key = 'itg_lp_10';
-    var msgs = {1:'Ganz frisch \u2014 \u00dcben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf \u2014 super!'};
+    var msgs = {1:'Ganz frisch — Üben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf — super!'};
     var svg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 18.9 6.1 21l1.2-6.5L2.5 9.9l6.6-.9z"/></svg>';
     var wrap = document.getElementById('stars'); var fb = document.getElementById('fb'); var stars = [];
     for (var n = 1; n <= 4; n++) { var b = document.createElement('button'); b.className = 'sc-star'; b.type = 'button'; b.innerHTML = svg; b.setAttribute('aria-label', 'Stufe ' + n); wrap.appendChild(b); stars.push(b); }
