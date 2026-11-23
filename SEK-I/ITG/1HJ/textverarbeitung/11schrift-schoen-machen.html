@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LP 11 · Schrift schön machen — ITG Klasse 6</title>
+<title>LP 11 · Schrift schön machen · ITG Klasse 6</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -12,6 +12,7 @@
     --key: #ff5d73; --edge: #df3a53; --tint: #ffe6ea; --ktext: #ffffff;
     --ink: #211a4d; --ink-soft: #4f4880; --bg: #f1f0fb; --card: #fff;
     --line: rgba(33,26,77,0.12); --sun: #ffc23d;
+    --ok: #39b56a; --ok-dk: #248049; --no: #e8607a; --no-dk: #b83a56;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -59,12 +60,8 @@
   .rlp .tag { display: inline-block; background: #e7e5fb; padding: 0.06rem 0.42rem; border-radius: 6px; margin: 0 0.15rem 0.25rem 0; }
   .rlp .tag.neu { background: var(--sun); color: var(--ink); }
 
-  .draft-note {
-    display: flex; align-items: center; gap: 0.6rem;
-    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 12px;
-    padding: 0.7rem 0.9rem; margin: 1.4rem 0; font-size: 0.9rem; font-weight: 700; color: #8a5a00;
-  }
-  .draft-note svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .intro { font-size: 1.05rem; margin: 1.4rem 0 1.6rem; }
+  .intro .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
 
   .block { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 1.4rem 1.5rem; margin-bottom: 1.1rem; }
   .block h2 {
@@ -72,15 +69,94 @@
     display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem;
   }
   .block h2 .dot { width: 14px; height: 14px; border-radius: 5px; background: var(--key); box-shadow: 0 2px 0 var(--edge); flex-shrink: 0; }
-  .todo {
-    border: 2px dashed var(--line); border-radius: 12px; padding: 1rem 1.1rem;
-    color: var(--ink-soft); font-style: italic; background: rgba(91,75,230,0.03);
+  .block p { margin-bottom: 0.6rem; }
+
+  /* figure */
+  .fig { background: var(--tint); border-radius: 14px; padding: 1rem; margin: 0.4rem 0 1rem; }
+  .fig svg { width: 100%; height: auto; display: block; }
+  .fig-cap { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); text-align: center; margin-top: 0.5rem; }
+
+  /* step list */
+  ol.steps { list-style: none; counter-reset: st; }
+  ol.steps li { counter-increment: st; position: relative; padding: 0.55rem 0 0.55rem 2.7rem; border-bottom: 1px dashed var(--line); }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li::before {
+    content: counter(st); position: absolute; left: 0; top: 0.5rem;
+    width: 30px; height: 30px; border-radius: 9px; background: var(--key); color: var(--ktext);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; box-shadow: 0 2px 0 var(--edge);
   }
+  ol.steps b { color: var(--edge); }
+
+  /* exercises + diff chips */
+  .task { border: 1.5px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; margin-bottom: 0.8rem; }
+  .chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.66rem;
+    letter-spacing: 0.05em; padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.5rem; }
+  .chip.basis { background: #e2f6ea; color: var(--ok-dk); border: 1.5px solid var(--ok); }
+  .chip.mittel { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+  .chip.knifflig { background: #fff3d1; color: #8a5a00; border: 1.5px solid var(--sun); }
+  .task ul { margin: 0.4rem 0 0 1.1rem; }
+  .task li { margin-bottom: 0.2rem; }
 
   .block.fast { border-color: var(--sun); background: #fff7e2; }
   .block.fast h2 { color: #8a5a00; }
   .block.fast h2 .rocket { width: 22px; height: 22px; color: #8a5a00; }
-  .fast-text { font-size: 1.02rem; font-weight: 600; }
+  .fast-text { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .fast-list { margin: 0.4rem 0 0.8rem 1.1rem; }
+  .fast-list li { margin-bottom: 0.3rem; }
+  .auftrag { border: 1.5px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0 0 0.9rem; background: #fff; }
+  .auftrag p { margin: 0; }
+  .auftrag-no, .task-no { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); background: var(--tint); border-radius: 6px; padding: 0.1rem 0.45rem; margin-right: 0.2rem; }
+  .auftrag details, .fast-sol { margin-top: 0.5rem; }
+  .auftrag summary, .fast-sol summary { cursor: pointer; font-weight: 700; color: var(--edge); font-size: 0.92rem; }
+  .auftrag ol, .fast-sol ul { margin: 0.4rem 0 0 1.3rem; }
+  .fast-sol { margin-bottom: 0.8rem; }
+  .fill { display: inline-block; min-width: 10rem; border-bottom: 1.5px dotted currentColor; }
+  .merke-box { margin-top: 0.9rem; background: var(--tint); border-left: 6px solid var(--key); border-radius: 10px; padding: 0.7rem 0.9rem; }
+  .fast-extra { font-size: 0.95rem; font-weight: 600; background: #fff; border-radius: 10px; padding: 0.7rem 0.9rem; border: 1.5px dashed var(--sun); }
+
+  /* merksatz */
+  .merk { background: var(--tint); border: 2px solid var(--key); border-left: 8px solid var(--key); border-radius: 14px; padding: 1.1rem 1.3rem; }
+  .merk .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+  .merk b { color: var(--edge); }
+  .secret { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.9rem; padding: 0.7rem 0.9rem;
+    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 10px; font-weight: 700; color: #8a5a00; font-size: 0.95rem; }
+  .secret svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  /* ---- QUIZ ENGINE ---- */
+  .quiz { margin-top: 0.4rem; }
+  .quiz-progress { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.74rem; color: var(--ink-soft); }
+  .pbar { flex: 1; height: 10px; background: #e7e5fb; border-radius: 999px; overflow: hidden; }
+  .pfill { height: 100%; width: 0; background: var(--ok); border-radius: 999px; transition: width 0.3s ease; }
+  .q { margin-bottom: 1.1rem; padding-bottom: 1.1rem; border-bottom: 1px dashed var(--line); }
+  .q:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .q-text { font-weight: 800; margin-bottom: 0.6rem; }
+  .q-text .qn { color: var(--edge); font-family: 'JetBrains Mono', monospace; }
+  .opts { display: grid; gap: 0.5rem; }
+  .opt {
+    display: flex; align-items: center; gap: 0.7rem; width: 100%; text-align: left;
+    font-family: 'Nunito', sans-serif; font-size: 0.98rem; font-weight: 700; color: var(--ink);
+    background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 0.6rem 0.8rem; cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .opt:hover:not([disabled]) { border-color: var(--key); transform: translateX(2px); }
+  .opt .lett { flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px; background: var(--tint); color: var(--edge);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; font-size: 0.85rem; }
+  .opt.correct { border-color: var(--ok); background: #e9f8ef; }
+  .opt.correct .lett { background: var(--ok); color: #fff; }
+  .opt.wrong { border-color: var(--no); background: #fdecf0; }
+  .opt.wrong .lett { background: var(--no); color: #fff; }
+  .opt[disabled] { cursor: default; opacity: 0.75; }
+  .opt.correct[disabled], .opt.wrong[disabled] { opacity: 1; }
+  .q-hint { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--no-dk);
+    background: #fdecf0; border-radius: 9px; padding: 0.5rem 0.7rem; display: none; }
+  .q-hint.show { display: block; }
+  .q-done { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--ok-dk); display: none; }
+  .q-done.show { display: block; }
+  .quiz-solved { margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 12px; background: #e9f8ef;
+    border: 2px solid var(--ok); color: var(--ok-dk); font-family: 'Fredoka', sans-serif; font-weight: 600;
+    display: none; align-items: center; gap: 0.6rem; }
+  .quiz-solved.show { display: flex; }
+  .quiz-solved svg { width: 22px; height: 22px; flex-shrink: 0; }
 
   .selfcheck-wrap {
     display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem;
@@ -113,6 +189,39 @@
   }
   @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 </style>
+<style>
+  .qi { background: var(--tint); border-radius: 12px; padding: 0.6rem 0.75rem; margin: -0.2rem 0 0.7rem; font-weight: 700; }
+  .qi .n { display: inline-flex; align-items: center; justify-content: center; width: 1.55rem; height: 1.55rem; border-radius: 50%;
+           color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; flex: none; }
+  .qi ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+  .qi li { display: flex; gap: 0.5rem; align-items: center; }
+  .qi .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.2rem 0 0.45rem; }
+  .qi .chip-i { background: #fff; border: 2px solid var(--key); border-radius: 9px; padding: 0.15rem 0.55rem; display: inline-flex; gap: 0.35rem; align-items: center; }
+  .qi .lk { display: inline-flex; vertical-align: middle; border: 2px dashed var(--ink-soft); border-radius: 8px; padding: 0.05rem 0.4rem; margin: 0 0.15rem; }
+  .qi .zeile { margin: 0.25rem 0; }
+  .qi .txt { font-weight: 600; color: var(--ink-soft); margin-bottom: 0.3rem; }
+  .qi .boxes { color: var(--ink-soft); font-style: italic; margin-bottom: 0.3rem; }
+  .block.abgabe { border-color: var(--key); }
+  .abgabe .warn { background: #fdecf0; border-left: 6px solid var(--no); border-radius: 10px; padding: 0.6rem 0.85rem; margin: 0.2rem 0 0.9rem; color: var(--no-dk); font-weight: 600; }
+  .abgabe .txt-muster { font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; background: #fff; border: 1.5px solid var(--line); border-radius: 8px; padding: 0.5rem 0.7rem; margin: 0.4rem 0; overflow-wrap: anywhere; }
+  .abgabe .name-regel { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.92rem; background: var(--tint); border-radius: 10px; padding: 0.55rem 0.7rem; margin: 0.45rem 0 0.3rem; overflow-wrap: anywhere; }
+  .abgabe .nr-teil { background: #fff; border: 1.5px solid var(--key); border-radius: 6px; padding: 0.05rem 0.35rem; }
+  .abgabe .nr-teil.neu { background: var(--sun); border-color: #c8890a; }
+  .abgabe .name-bsp { font-weight: 700; margin-bottom: 0.3rem; }
+</style>
+<style>
+  .fig svg[aria-label="Bild 2"] { max-width: 460px; margin: 0 auto; }
+  .fig svg[aria-label="Bild 3"] { max-width: 600px; margin: 0 auto; }
+  .fig svg[aria-label="Bild 4"] { max-width: 620px; margin: 0 auto; }
+  .kbd { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.82em; font-weight: 700; background: #fff;
+         border: 1.5px solid var(--ink); border-bottom-width: 3px; border-radius: 6px; padding: 0 0.35em; white-space: nowrap; }
+  .abtipp { background: #fff; border: 2px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0.6rem 0; }
+  .abtipp p { margin: 0.1rem 0; }
+</style>
+<style>
+  .fig svg[aria-label="Bild 1"] { max-width: 760px; margin: 0 auto; }
+  .muster { background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.6rem 0.9rem; margin: 0.5rem 0; }
+</style>
 </head>
 <body>
 
@@ -134,39 +243,248 @@
     <p class="rlp"><span class="tag">RLP 2.5 · E/G</span><span class="tag">2.6 · F</span></p>
   </header>
 
-  <div class="draft-note">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
-    <span>Diese Seite ist das Ger&uuml;st f&uuml;r diesen Lernpfad &mdash; Inhalte werden noch erg&auml;nzt.</span>
-  </div>
+  <p class="intro">In Stunde 10 hast du dein Rezept getippt und geordnet. Es liegt in <span class="hl">Schule › ITG</span>. Heute machst du es schön. Dafür brauchst du das Markieren aus Stunde 10, denn es gilt: <span class="hl">erst markieren, dann formatieren</span>. Zuerst schaust du mit ein paar Fragen, was du schon weißt. Danach gestaltest du dein Rezept am Rechner. Los geht’s!</p>
 
   <main>
+
+    <!-- ===================== VORWISSEN ===================== -->
     <section class="block">
-      <h2><span class="dot"></span>Los geht es &mdash; worum geht es heute?</h2>
-      <div class="todo">Hier kommt der Einstieg hin: eine kurze, spannende Hinf&uuml;hrung zum Thema.</div>
+      <h2><span class="dot"></span>Schau genau hin: Was weißt du schon?</h2>
+      <p>Sieh dir die drei Bilder an. Zu jedem Bild gehören drei Fragen. Bei vielen Fragen ist eine ganze Kombination richtig, also lies jede Antwort bis zum Ende. Wird sie <b style="color:var(--ok-dk)">grün</b>, ist sie richtig. Bei <b style="color:var(--no-dk)">rot</b> bekommst du einen Tipp.</p>
+
+      <!-- Fig 1 -->
+      <div class="fig"><svg viewBox="0 0 1000 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 1" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="1000" height="200" fill="#ffffff"/><rect x="8" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><text x="84" y="128" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="36" fill="#211a4d" font-style="italic">Teig</text><circle cx="30" cy="34" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="30" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><rect x="174" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><text x="250" y="128" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="54" fill="#211a4d">Teig</text><circle cx="196" cy="34" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="196" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><rect x="340" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><text x="416" y="128" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="900" font-size="36" fill="#211a4d">Teig</text><circle cx="362" cy="34" r="17" fill="#8e3bd2" stroke="#ffffff" stroke-width="3"/><text x="362" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><rect x="506" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><text x="582" y="128" text-anchor="middle" font-family="Libertinus Serif, Georgia, serif" font-weight="500" font-size="36" fill="#211a4d">Teig</text><circle cx="528" cy="34" r="17" fill="#4eab65" stroke="#ffffff" stroke-width="3"/><text x="528" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text><rect x="672" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><text x="748" y="128" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="36" fill="#211a4d" text-decoration="underline">Teig</text><circle cx="694" cy="34" r="17" fill="#dd5b59" stroke="#ffffff" stroke-width="3"/><text x="694" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">5</text><rect x="838" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><text x="914" y="128" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="36" fill="#df3a53">Teig</text><circle cx="860" cy="34" r="17" fill="#6e6e80" stroke="#ffffff" stroke-width="3"/><text x="860" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">6</text></svg><div class="fig-cap">Bild 1 &middot; Sechs Karten: Bei jeder wurde eine Sache an der Schrift geändert</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 1</span> <b>Ordne zu:</b> Was wurde bei jeder Karte geändert? F = fett, K = kursiv, U = unterstrichen, G = Größe, Fa = Farbe, A = Schriftart. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>K (kursiv)</li><li>G (größer)</li><li>F (fett)</li><li>A (andere Schriftart)</li><li>U (unterstrichen)</li><li>Fa (andere Farbe)</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.1</span> &nbsp;<b>Ordne zu:</b> Was wurde bei den Karten geändert?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Karte 1</span><span class="chip-i">Karte 2</span><span class="chip-i">Karte 3</span><span class="chip-i">Karte 5</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>fett</span></li><li><span class="n" style="background:#d16b2f">2</span><span>kursiv</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>unterstrichen</span></li><li><span class="n" style="background:#4eab65">4</span><span>Schriftgröße</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Karte 1 (2), Karte 2 (4), Karte 3 (1), Karte 5 (3)</button>
+            <button class="opt" data-hint="Kursive Buchstaben sind schräg, fette Buchstaben sind dick.">Karte 1 (1), Karte 2 (4), Karte 3 (2), Karte 5 (3)</button>
+            <button class="opt" data-hint="Bei Karte 2 sind die Buchstaben nicht dicker, sondern einfach größer.">Karte 1 (2), Karte 2 (1), Karte 3 (4), Karte 5 (3)</button>
+            <button class="opt" data-hint="Unterstrichen heißt: Unter dem Wort steht eine Linie.">Karte 1 (3), Karte 2 (4), Karte 3 (1), Karte 5 (2)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: 1 kursiv, 2 größer, 3 fett, 5 unterstrichen.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.2</span> &nbsp;<b>Ordne zu:</b> Welcher Knopf in Word macht das?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">fett</span><span class="chip-i">kursiv</span><span class="chip-i">unterstrichen</span><span class="chip-i">Schriftfarbe</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>U</span></li><li><span class="n" style="background:#d16b2f">2</span><span>A mit Farbbalken</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>F</span></li><li><span class="n" style="background:#4eab65">4</span><span>K</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">fett (3), kursiv (4), unterstrichen (1), Schriftfarbe (2)</button>
+            <button class="opt" data-hint="F steht für fett, K für kursiv.">fett (4), kursiv (3), unterstrichen (1), Schriftfarbe (2)</button>
+            <button class="opt" data-hint="U wie unterstrichen, und das U hat selbst einen Strich darunter.">fett (3), kursiv (1), unterstrichen (4), Schriftfarbe (2)</button>
+            <button class="opt" data-hint="Das A mit dem bunten Balken ändert die Farbe der Schrift.">fett (2), kursiv (4), unterstrichen (1), Schriftfarbe (3)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: F fett, K kursiv, U unterstrichen, A mit Balken für die Farbe. In Docs heißen sie B, I, U.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.3</span> &nbsp;<b>Entscheide:</b> Welche Sätze stimmen?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Vor dem Formatieren markierst du den Text.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Je mehr Farben, desto besser lesbar.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Die Schriftgröße misst man in Punkt (pt).</span></li><li><span class="n" style="background:#4eab65">4</span><span>Fett passt für wichtige Wörter.</span></li><li><span class="n" style="background:#dd5b59">5</span><span>Beim Formatieren wird der Text gelöscht.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 3, 4</button>
+            <button class="opt" data-hint="Viele Farben machen einen Text unruhig, nicht besser lesbar.">1, 2, 3, 4</button>
+            <button class="opt" data-hint="Und Satz 3? 11 oder 12 Punkt ist eine normale Textgröße.">1, 4</button>
+            <button class="opt" data-hint="Formatieren ändert nur das Aussehen, der Text bleibt. Und Satz 1?">3, 4, 5</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt: erst markieren, Größe in Punkt, fett für Wichtiges.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Super: Bild 1 komplett gelöst!</div>
+      </div>
+
+      <!-- Fig 2 -->
+      <div class="fig"><svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 2" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="600" height="400" fill="#ffffff"/><rect x="16" y="16" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><text x="154" y="178" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Auf F klicken</text><rect x="308" y="16" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><text x="446" y="178" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Rezept öffnen</text><rect x="16" y="208" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><text x="154" y="370" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Wort markieren</text><rect x="308" y="208" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><text x="446" y="370" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Prüfen</text><rect x="90" y="72" width="40" height="34" rx="6" fill="#ffe6ea" stroke="#df3a53" stroke-width="2.4"/><text x="110.0" y="96" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="900" font-size="20" fill="#211a4d">F</text><rect x="136" y="72" width="40" height="34" rx="6" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.6"/><text x="156.0" y="96" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="20" fill="#211a4d" font-style="italic">K</text><rect x="182" y="72" width="40" height="34" rx="6" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.6"/><text x="202.0" y="96" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="20" fill="#211a4d" text-decoration="underline">U</text><path d="M120 98 l0 24 l6 -6 l5 10 l5 -2 l-5 -10 l8 0 z" fill="#ffffff" stroke="#211a4d" stroke-width="2.2" stroke-linejoin="round"/><path d="M419.0 44.0 h38.0 l16.0 16.0 v52.0 h-54.0 z" fill="#ffffff" stroke="#2f6fd6" stroke-width="2.6" stroke-linejoin="round"/><path d="M457.0 44.0 v16.0 h16.0" fill="none" stroke="#2f6fd6" stroke-width="2"/><line x1="429.0" y1="74.0" x2="463.0" y2="74.0" stroke="#c9c6e0" stroke-width="3.4" stroke-linecap="round"/><line x1="429.0" y1="85.0" x2="463.0" y2="85.0" stroke="#c9c6e0" stroke-width="3.4" stroke-linecap="round"/><line x1="429.0" y1="96.0" x2="450.08" y2="96.0" stroke="#c9c6e0" stroke-width="3.4" stroke-linecap="round"/><text x="446" y="134.0" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="15" fill="#2f6fd6">Rezept</text><line x1="56" y1="258" x2="252" y2="258" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><rect x="72.6" y="272" width="68.72" height="16" rx="3" fill="#bcd3fb"/><line x1="56" y1="280" x2="252" y2="280" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="56" y1="302" x2="252" y2="302" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="56" y1="324" x2="177.51999999999998" y2="324" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><text x="348" y="284" font-family="Nunito, Open Sans, sans-serif" font-size="22" fill="#211a4d" font-weight="500">Verrühre <tspan font-weight="900">Mehl</tspan></text><line x1="348" y1="312" x2="544" y2="312" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="348" y1="334" x2="469.52" y2="334" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><path d="M522 272 l7.199999999999999 7.199999999999999 l14.399999999999999 -15.6" fill="none" stroke="#0d8f68" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="40" cy="42" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="40" y="49" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><circle cx="332" cy="42" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="332" y="49" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><circle cx="40" cy="234" r="17" fill="#8e3bd2" stroke="#ffffff" stroke-width="3"/><text x="40" y="241" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><circle cx="332" cy="234" r="17" fill="#4eab65" stroke="#ffffff" stroke-width="3"/><text x="332" y="241" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text></svg><div class="fig-cap">Bild 2 &middot; Vier Schritte, um ein Wort fett zu machen, aber durcheinander</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 2</span> <b>Bring</b> die Schritte in die richtige Reihenfolge. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>Zuerst: 2 (Rezept öffnen)</li><li>dann 3 (Wort markieren)</li><li>dann 1 (auf F klicken)</li><li>zuletzt: 4 (daneben klicken und prüfen)</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.1</span> &nbsp;<b>Bring</b> die Schritte, um ein Wort fett zu machen, in die richtige Reihenfolge.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">2 – 3 – 1 – 4</button>
+            <button class="opt" data-hint="Markieren kannst du erst, wenn das Rezept offen ist.">3 – 2 – 1 – 4</button>
+            <button class="opt" data-hint="Klickst du auf F, bevor etwas markiert ist, weiß Word nicht, was fett werden soll.">2 – 1 – 3 – 4</button>
+            <button class="opt" data-hint="Prüfen kommt ganz am Schluss.">2 – 3 – 4 – 1</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: öffnen, markieren, F klicken, prüfen.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.2</span> &nbsp;<b>Ordne zu:</b> Welche Schriftgröße passt?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Titel auf einem Plakat</span><span class="chip-i">Überschrift</span><span class="chip-i">normaler Text</span><span class="chip-i">kleiner Hinweis</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>11 pt</span></li><li><span class="n" style="background:#d16b2f">2</span><span>48 pt</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>8 pt</span></li><li><span class="n" style="background:#4eab65">4</span><span>20 pt</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Titel auf einem Plakat (2), Überschrift (4), normaler Text (1), kleiner Hinweis (3)</button>
+            <button class="opt" data-hint="Ein Plakat liest man von weitem: Da muss die Schrift riesig sein.">Titel auf einem Plakat (4), Überschrift (2), normaler Text (1), kleiner Hinweis (3)</button>
+            <button class="opt" data-hint="Normaler Text hat meist 11 oder 12 Punkt, 8 Punkt ist sehr klein.">Titel auf einem Plakat (2), Überschrift (4), normaler Text (3), kleiner Hinweis (1)</button>
+            <button class="opt" data-hint="Mit 20 Punkt wäre der ganze Text riesig. Das passt eher zur Überschrift.">Titel auf einem Plakat (2), Überschrift (1), normaler Text (4), kleiner Hinweis (3)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Je wichtiger und je weiter weg, desto größer.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.3</span> &nbsp;<b>Entscheide:</b> Welche Sätze stimmen?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Mit Strg + A markierst du alles und änderst die Schrift für den ganzen Text.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Für ein fettes Wort reicht: Doppelklick, dann F.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Mit Strg + Z machst du eine Formatierung rückgängig.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Für eine neue Farbe musst du den Text neu tippen.</span></li><li><span class="n" style="background:#dd5b59">5</span><span>Fett geht nur bei Überschriften.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 2, 3</button>
+            <button class="opt" data-hint="Und Satz 3? Der Rettungsknopf klappt auch beim Formatieren.">1, 2</button>
+            <button class="opt" data-hint="Neu tippen musst du nie: markieren und Farbe wählen reicht.">1, 2, 3, 4</button>
+            <button class="opt" data-hint="Fett geht bei jedem Wort. Und Satz 1?">2, 3, 5</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: markieren, Knopf drücken, und Strg + Z rettet dich immer.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Klasse: Bild 2 komplett gelöst!</div>
+      </div>
+
+      <!-- Fig 3 -->
+      <div class="fig"><svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 3" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="700" height="400" fill="#ffffff"/><rect x="14" y="14" width="324" height="372" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><circle cx="40" cy="40" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="40" y="47" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><rect x="362" y="14" width="324" height="372" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><circle cx="388" cy="40" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="388" y="47" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><text x="42" y="92" text-anchor="start" font-family="Libertinus Serif, Georgia, serif" font-weight="900" font-size="27" fill="#e0218a" font-style="italic" text-decoration="underline">PFANNKUCHEN</text><text x="42" y="148" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="500" font-size="15" fill="#2f6fd6" text-decoration="underline">Verrühre Mehl, Eier</text><text x="42" y="194" text-anchor="start" font-family="Libertinus Serif, Georgia, serif" font-weight="800" font-size="22" fill="#0d8f68" font-style="italic">und Hafermilch.</text><text x="42" y="240" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="19" fill="#c8890a" text-decoration="underline">Lass den Teig ruhen.</text><text x="42" y="286" text-anchor="start" font-family="Libertinus Serif, Georgia, serif" font-weight="800" font-size="21" fill="#8e3bd2" font-style="italic" text-decoration="underline">Brate ihn goldbraun.</text><text x="42" y="332" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="500" font-size="22" fill="#ff5d73" text-decoration="underline">Guten Appetit!!!</text><text x="390" y="92" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="32" fill="#df3a53">Pfannkuchen</text><text x="390" y="148" font-family="Nunito, Open Sans, sans-serif" font-size="17" fill="#211a4d" font-weight="500">Verrühre <tspan font-weight="900">Mehl</tspan>, <tspan font-weight="900">Eier</tspan> und</text><text x="390" y="174" font-family="Nunito, Open Sans, sans-serif" font-size="17" fill="#211a4d" font-weight="500"><tspan font-weight="900">Hafermilch</tspan> zu einem Teig.</text><text x="390" y="214" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="17" fill="#211a4d">Lass den Teig zehn Minuten ruhen.</text><text x="390" y="254" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="17" fill="#211a4d">Brate den Teig goldbraun.</text><text x="390" y="294" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="17" fill="#211a4d" font-style="italic">Guten Appetit!</text></svg><div class="fig-cap">Bild 3 &middot; Zweimal dasselbe Rezept</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 3</span> <b>Ordne zu:</b> Rezept 1 oder Rezept 2? a) Viele Schriftarten. b) Nur wichtige Wörter sind fett. c) Fast alles ist unterstrichen. d) Nur die Überschrift ist farbig. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>a) Rezept 1</li><li>b) Rezept 2</li><li>c) Rezept 1</li><li>d) Rezept 2</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.1</span> &nbsp;<b>Ordne zu:</b> Gehört das zu Rezept 1 oder Rezept 2?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">viele Schriftarten</span><span class="chip-i">nur wichtige Wörter fett</span><span class="chip-i">fast alles unterstrichen</span><span class="chip-i">eine Farbe für die Überschrift</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Rezept 1</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Rezept 2</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">viele Schriftarten (1), nur wichtige Wörter fett (2), fast alles unterstrichen (1), eine Farbe für die Überschrift (2)</button>
+            <button class="opt" data-hint="Zähl die Schriftarten in Rezept 1: fast jede Zeile sieht anders aus.">viele Schriftarten (2), nur wichtige Wörter fett (1), fast alles unterstrichen (1), eine Farbe für die Überschrift (2)</button>
+            <button class="opt" data-hint="Schau unter die Zeilen: Wo stehen die vielen Striche?">viele Schriftarten (1), nur wichtige Wörter fett (2), fast alles unterstrichen (2), eine Farbe für die Überschrift (2)</button>
+            <button class="opt" data-hint="In Rezept 1 hat jede Zeile eine andere Farbe, nicht nur die Überschrift.">viele Schriftarten (1), nur wichtige Wörter fett (2), fast alles unterstrichen (1), eine Farbe für die Überschrift (1)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Rezept 1 ist überladen, Rezept 2 ist klar.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.2</span> &nbsp;<b>Ergänze</b> die Sätze.</div>
+          <div class="qi"><div class="zeile">Weniger ist <span class="lk"><span class="n" style="background:#3675d8">1</span></span> .</div><div class="zeile">Nimm höchstens <span class="lk"><span class="n" style="background:#d16b2f">2</span></span> Schriftarten.</div><div class="zeile">Fett nur für <span class="lk"><span class="n" style="background:#8e3bd2">3</span></span> Wörter.</div></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">mehr (1), zwei (2), wichtige (3)</button>
+            <button class="opt" data-hint="Bunter ist nicht besser lesbar. Wenige Effekte wirken stärker.">bunter (1), zwei (2), wichtige (3)</button>
+            <button class="opt" data-hint="Fünf Schriftarten sind zu viel, das sieht man an Rezept 1.">mehr (1), fünf (2), wichtige (3)</button>
+            <button class="opt" data-hint="Ist alles fett, fällt nichts mehr auf.">mehr (1), zwei (2), alle (3)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Weniger ist mehr.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.3</span> &nbsp;<b>Entscheide:</b> Was macht ein Rezept gut lesbar?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Die Überschrift ist größer und fett.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Jeder Satz hat eine andere Farbe.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Der Text steht in einer klaren Schrift wie Arial.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Alles ist kursiv und unterstrichen.</span></li><li><span class="n" style="background:#dd5b59">5</span><span>Die Zutaten sind fett.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 3, 5</button>
+            <button class="opt" data-hint="Viele Farben lenken ab. Satz 2 passt nicht.">1, 2, 3, 5</button>
+            <button class="opt" data-hint="Und Satz 5? Fette Zutaten findet man beim Einkaufen schneller.">1, 3</button>
+            <button class="opt" data-hint="Ist alles kursiv und unterstrichen, fällt nichts mehr auf. Und Satz 1?">3, 4, 5</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt: große Überschrift, klare Schrift, Wichtiges fett.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Stark: Bild 3 komplett gelöst!</div>
+      </div>
     </section>
 
+    <!-- ===================== SCHRITT FÜR SCHRITT ===================== -->
     <section class="block">
-      <h2><span class="dot"></span>Schritt f&uuml;r Schritt</h2>
-      <div class="todo">Hier kommt die Anleitung hin: die einzelnen Arbeitsschritte, gerne mit Screenshots.</div>
+      <h2><span class="dot"></span>Schritt für Schritt: Mein Rezept wird schön</h2>
+      <p><span class="task-no">Aufgabe 4</span> Gestalte dein Rezept aus Stunde 10 so wie im Bild. Rezept nicht da? Tippe es nach dem Bild ab.</p>
+      <div class="fig"><svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 4" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="760" height="260" fill="#ffffff"/><rect x="14" y="10" width="732" height="240" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><path d="M15.5 50 V24 a12.5 12.5 0 0 1 12.5 -12.5 H732 a12.5 12.5 0 0 1 12.5 12.5 V50 z" fill="#ff5d73"/><text x="34" y="38" text-anchor="start" font-family="Fredoka, Open Sans, sans-serif" font-weight="800" font-size="20" fill="#ffffff">So soll es aussehen</text><text x="726" y="38" text-anchor="end" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="16" fill="#ffffff">Arial · Text 12 · Überschrift 20</text><text x="44" y="94" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="900" font-size="32" fill="#df3a53">Pfannkuchen</text><text x="44" y="134" font-family="Nunito, Open Sans, sans-serif" font-size="20" fill="#211a4d" font-weight="500">Verrühre <tspan font-weight="900">Mehl</tspan>, <tspan font-weight="900">Eier</tspan> und <tspan font-weight="900">Hafermilch</tspan> zu einem Teig.</text><text x="44" y="164" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="20" fill="#211a4d">Lass den Teig zehn Minuten ruhen.</text><text x="44" y="194" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="20" fill="#211a4d">Brate den Teig in der Pfanne goldbraun.</text><text x="44" y="224" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="20" fill="#211a4d" font-style="italic">Guten Appetit!</text></svg><div class="fig-cap">So soll dein Rezept am Ende aussehen</div></div>
+      <ol class="steps">
+        <li><b>Öffnen.</b> Word › Öffnen › <b>Schule › ITG</b> › <b>2026-11-17_ITG_Rezept</b>.</li>
+        <li><b>Neuer Name.</b> Datei › Speichern unter: <b>2026-11-24_ITG_Rezept_schoen</b>. So bleibt das alte Rezept erhalten.</li>
+        <li><b>Schriftart.</b> <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">A</span></span>, dann bei der Schriftart <b>Arial</b> wählen.</li>
+        <li><b>Größe.</b> Alles ist noch markiert: Schriftgröße <b>12</b> wählen.</li>
+        <li><b>Überschrift.</b> Dreifachklick auf „Pfannkuchen“, Größe <b>20</b>, dann <b>F</b>.</li>
+        <li><b>Farbe.</b> Die Überschrift bleibt markiert: Klicke auf das <b>A mit dem Farbbalken</b> und wähle Rot.</li>
+        <li><b>Fett.</b> Doppelklick auf <i>Mehl</i>, dann <b>F</b>. Genauso bei <i>Eier</i> und <i>Hafermilch</i>.</li>
+        <li><b>Kursiv.</b> Dreifachklick auf „Guten Appetit!“, dann <b>K</b>.</li>
+        <li><b>Speichern.</b> <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">S</span></span>. Vergleiche mit dem Bild. Ging etwas schief? <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">Z</span></span> rettet dich.</li>
+      </ol>
+      <p class="muster"><b>In Google Docs</b> geht alles genauso, nur heißen die Knöpfe dort <b>B</b> (fett), <i><b>I</b></i> (kursiv) und <u><b>U</b></u> (unterstrichen).</p>
+      <div class="merke-box"><b>Merke:</b> <b>Erst markieren, dann formatieren.</b> Schriftart, Schriftgröße (in Punkt, pt) und Schriftfarbe ändern das Aussehen der Schrift. <b>Fett</b> hebt wichtige Wörter hervor, <i>kursiv</i> passt zu Titeln, <u>unterstrichen</u> sieht aus wie ein Link. <b>Weniger ist mehr:</b> eine Schriftart, wenige Farben. Word zeigt die Knöpfe <b>F K U</b>, Google Docs <b>B I U</b>.</div>
     </section>
 
+    <!-- ===================== ÜBUNGEN ===================== -->
     <section class="block">
-      <h2><span class="dot"></span>&Uuml;bungsaufgaben</h2>
-      <div class="todo">Hier kommen die Aufgaben hin &mdash; mit klarer Differenzierung (Basis &middot; mittel &middot; knifflig).</div>
+      <h2><span class="dot"></span>Übungsaufgaben</h2>
+      <div class="task">
+        <span class="task-no">Aufgabe 5</span> <span class="chip basis">Basis</span>
+        <p>Welcher Knopf in Word hilft? Wähle aus <b>F</b>, <b>K</b>, <b>U</b> und <b>A</b> (Farbe).</p>
+        <ul><li>Ein wichtiges Wort hervorheben.</li><li>Einen Buchtitel schräg stellen.</li><li>Die Überschrift rot färben.</li></ul>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Wichtiges Wort: F (fett).</li><li>Buchtitel: K (kursiv).</li><li>Überschrift rot: A mit dem Farbbalken.</li></ul></details>
+      </div>
+      <div class="task">
+        <span class="task-no">Aufgabe 6</span> <span class="chip mittel">mittel</span>
+        <p>Der ganze Text soll in Arial 12 stehen, nur die Überschrift in Größe 20. Beschreibe, wie du vorgehst.</p>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li><span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">A</span></span> markiert alles. Dann Schriftart Arial und Größe 12 wählen.</li><li>Danach Dreifachklick auf die Überschrift und Größe 20 wählen.</li></ul></details>
+      </div>
+      <div class="task">
+        <span class="task-no">Aufgabe 7</span> <span class="chip knifflig">knifflig</span>
+        <p>Jemand sagt: „Je mehr Farben und Schriften, desto schöner das Dokument.“ Beurteile das.</p>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Das stimmt nicht. Viele Farben und Schriften machen den Text unruhig und schwer lesbar. Wenn alles auffällt, fällt nichts mehr auf. Besser: eine Schriftart, wenige Farben, nur Wichtiges fett. Weniger ist mehr.</li></ul></details>
+      </div>
     </section>
 
+    <!-- ===================== SCHNELLLÄUFER ===================== -->
     <section class="block fast">
-      <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnelll&auml;ufer:innen-Mission</h2>
-      <p class="fast-text">Gestalte ein „Weniger-ist-mehr"-Beispiel: derselbe Text einmal überladen, einmal edel — und erkläre den Unterschied.</p>
+      <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnellläufer:innen-Mission</h2>
+      <p class="fast-text">Gestalte ein „Weniger-ist-mehr“-Beispiel: derselbe Text einmal überladen, einmal edel — und erkläre den Unterschied.</p>
+      <ul class="fast-list">
+        <li><b>Überladen ist:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Edel ist:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Der Unterschied:</b> <span class="fill">&nbsp;</span></li>
+      </ul>
+      <p class="fast-extra"><b>Vertiefung zur Wahl:</b> Formatiere in der Werkstatt, werde Format-Detektiv oder entscheide: überladen oder edel? <a href="11-vertiefung-schrift-schoen-machen.html">Zur Vertiefung</a> (auch per QR-Code unten rechts auf Seite 2 des Aufgabenblatts).</p>
     </section>
 
+    <!-- ===================== SICHERUNG ===================== -->
+    <section class="block">
+      <h2><span class="dot"></span>Das kann ich jetzt: kurzer Check</h2>
+      <p>Drei Fragen zum Abschluss. Wieder gilt: <b style="color:var(--ok-dk)">grün</b> = richtig, <b style="color:var(--no-dk)">rot</b> = Tipp.</p>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.1</span> &nbsp;<b>Ordne zu:</b> Was hilft dir?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Ein Wort soll auffallen.</span><span class="chip-i">Die Überschrift ist zu klein.</span><span class="chip-i">Ein Buchtitel steht im Text.</span><span class="chip-i">Der ganze Text soll Arial sein.</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Schriftgröße</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Strg + A, dann Schriftart</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>fett</span></li><li><span class="n" style="background:#4eab65">4</span><span>kursiv</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Ein Wort soll auffallen. (3), Die Überschrift ist zu klein. (1), Ein Buchtitel steht im Text. (4), Der ganze Text soll Arial sein. (2)</button>
+            <button class="opt" data-hint="Buchtitel setzt man kursiv, wichtige Wörter fett.">Ein Wort soll auffallen. (4), Die Überschrift ist zu klein. (1), Ein Buchtitel steht im Text. (3), Der ganze Text soll Arial sein. (2)</button>
+            <button class="opt" data-hint="Für den ganzen Text markierst du zuerst alles mit Strg + A.">Ein Wort soll auffallen. (3), Die Überschrift ist zu klein. (2), Ein Buchtitel steht im Text. (4), Der ganze Text soll Arial sein. (1)</button>
+            <button class="opt" data-hint="Eine zu kleine Überschrift wird mit der Schriftgröße größer, nicht mit fett.">Ein Wort soll auffallen. (1), Die Überschrift ist zu klein. (3), Ein Buchtitel steht im Text. (4), Der ganze Text soll Arial sein. (2)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Für jedes Problem gibt es das passende Werkzeug.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.2</span> &nbsp;<b>Ergänze</b> den Merksatz.</div>
+          <div class="qi"><div class="zeile">Erst <span class="lk"><span class="n" style="background:#3675d8">1</span></span> , dann formatieren.</div><div class="zeile">Die Schriftgröße misst man in <span class="lk"><span class="n" style="background:#d16b2f">2</span></span> .</div><div class="zeile">Fett und Farbe setzt du <span class="lk"><span class="n" style="background:#8e3bd2">3</span></span> ein.</div></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">markieren (1), Punkt (2), sparsam (3)</button>
+            <button class="opt" data-hint="Formatieren klappt nur bei markiertem Text.">tippen (1), Punkt (2), sparsam (3)</button>
+            <button class="opt" data-hint="Die Schriftgröße steht im Kästchen neben der Schriftart, zum Beispiel 11 pt.">markieren (1), Zentimetern (2), sparsam (3)</button>
+            <button class="opt" data-hint="Weniger ist mehr: Was überall fett ist, fällt nicht mehr auf.">markieren (1), Punkt (2), überall (3)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: markieren, Punkt, sparsam.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.3</span> &nbsp;<b>Bring</b> die Schritte, um in Docs die Schriftfarbe zu ändern, in die richtige Reihenfolge.</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Farbe anklicken.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Text markieren.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Auf das A mit dem Farbbalken klicken.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Daneben klicken und prüfen.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">2 – 3 – 1 – 4</button>
+            <button class="opt" data-hint="Zuerst muss klar sein, welcher Text die Farbe bekommt.">3 – 2 – 1 – 4</button>
+            <button class="opt" data-hint="Die Farben siehst du erst, wenn du auf das A geklickt hast.">2 – 1 – 3 – 4</button>
+            <button class="opt" data-hint="Prüfen geht erst, wenn die Farbe gewählt ist.">2 – 3 – 4 – 1</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: markieren, A klicken, Farbe wählen, prüfen. In Word geht es genauso.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Perfekt: Deine Schrift sieht jetzt richtig gut aus!</div>
+      </div>
+    </section>
+
+    <!-- ===================== MERKSATZ ===================== -->
     <section class="block">
       <h2><span class="dot"></span>Das nehme ich mit</h2>
-      <div class="todo">Hier kommt der Merksatz / die Zusammenfassung hin.</div>
+      <div class="merk">
+        <p><b>Erst markieren, dann formatieren.</b> Schriftart, Schriftgröße (in Punkt, pt) und Schriftfarbe ändern das Aussehen der Schrift. <b>Fett</b> hebt wichtige Wörter hervor, <i>kursiv</i> passt zu Titeln, <u>unterstrichen</u> sieht aus wie ein Link. <b>Weniger ist mehr:</b> eine Schriftart, wenige Farben. Word zeigt die Knöpfe <b>F K U</b>, Google Docs <b>B I U</b>.</p>
+        <div class="secret">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12c.5.5 1 1.2 1 2h6c0-.8.5-1.5 1-2a7 7 0 0 0-4-12z"/></svg>
+          <span>Merk&#8209;Trick: Ein Text ist wie ein Outfit. Ein auffälliges Teil wirkt, zehn auffällige Teile wirken wie Verkleidung.</span>
+        </div>
+      </div>
     </section>
 
     <div class="selfcheck-wrap">
-      <span class="sc-label">Wie sicher f&uuml;hlst du dich nach dieser Stunde?</span>
+      <span class="sc-label">Wie sicher fühlst du dich nach dieser Stunde?</span>
       <div class="sc-stars" id="stars"></div>
       <span class="sc-feedback" id="fb"></span>
     </div>
@@ -182,9 +500,67 @@
 </div>
 
 <script>
+  /* ---------- Quiz-Engine ---------- */
+  (function(){
+    var LETTERS = ['A','B','C','D','E','F'];
+    var quizzes = document.querySelectorAll('[data-quiz]');
+    quizzes.forEach(function(quiz){
+      var questions = quiz.querySelectorAll('.q');
+      var total = questions.length;
+      var solved = 0;
+      var pcount = quiz.querySelector('.pcount');
+      var pfill = quiz.querySelector('.pfill');
+      var doneBox = quiz.querySelector('.quiz-solved');
+      function updateProgress(){
+        if (pcount) pcount.textContent = solved + ' / ' + total + ' richtig';
+        if (pfill) pfill.style.width = (total ? (solved/total*100) : 0) + '%';
+        if (doneBox && solved === total) doneBox.classList.add('show');
+      }
+      questions.forEach(function(q){
+        var optsContainer = q.querySelector('.opts');
+        var opts = Array.prototype.slice.call(q.querySelectorAll('.opt'));
+        for (var i = opts.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = opts[i]; opts[i] = opts[j]; opts[j] = tmp;
+        }
+        opts.forEach(function(opt){ optsContainer.appendChild(opt); });
+        var hint = q.querySelector('.q-hint');
+        var done = q.querySelector('.q-done');
+        var answered = false;
+        opts.forEach(function(opt, i){
+          var lett = document.createElement('span');
+          lett.className = 'lett';
+          lett.textContent = LETTERS[i];
+          opt.insertBefore(lett, opt.firstChild);
+          opt.addEventListener('click', function(){
+            if (answered) return;
+            if (opt.getAttribute('data-correct') === 'true') {
+              answered = true;
+              opt.classList.add('correct');
+              opts.forEach(function(o){ o.setAttribute('disabled','disabled'); });
+              if (hint) hint.classList.remove('show');
+              if (done) done.classList.add('show');
+              solved++;
+              updateProgress();
+            } else {
+              opt.classList.add('wrong');
+              opt.setAttribute('disabled','disabled');
+              if (hint) {
+                hint.textContent = opt.getAttribute('data-hint') || 'Nicht ganz — versuch es nochmal.';
+                hint.classList.add('show');
+              }
+            }
+          });
+        });
+      });
+      updateProgress();
+    });
+  })();
+
+  /* ---------- Selbsteinschätzung (Sterne, localStorage) ---------- */
   (function(){
     var key = 'itg_lp_11';
-    var msgs = {1:'Ganz frisch \u2014 \u00dcben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf \u2014 super!'};
+    var msgs = {1:'Ganz frisch — Üben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf — super!'};
     var svg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 18.9 6.1 21l1.2-6.5L2.5 9.9l6.6-.9z"/></svg>';
     var wrap = document.getElementById('stars'); var fb = document.getElementById('fb'); var stars = [];
     for (var n = 1; n <= 4; n++) { var b = document.createElement('button'); b.className = 'sc-star'; b.type = 'button'; b.innerHTML = svg; b.setAttribute('aria-label', 'Stufe ' + n); wrap.appendChild(b); stars.push(b); }
