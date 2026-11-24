@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vertiefung · Seite einrichten &amp; als PDF ausgeben · ITG Klasse 6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --key: #ff5d73; --edge: #df3a53; --tint: #ffe6ea; --ktext: #ffffff;
+    --ink: #211a4d; --ink-soft: #4f4880; --bg: #f1f0fb; --card: #fff;
+    --line: rgba(33,26,77,0.12); --sun: #ffc23d;
+    --ok: #39b56a; --ok-dk: #248049; --no: #e8607a; --no-dk: #b83a56;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--ink);
+    line-height: 1.65; padding-bottom: 2rem;
+    background-image:
+      linear-gradient(rgba(91,75,230,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(91,75,230,0.05) 1px, transparent 1px);
+    background-size: 26px 26px, 26px 26px;
+  }
+  ::selection { background: var(--sun); color: var(--ink); }
+  :focus-visible { outline: 3px solid var(--key); outline-offset: 3px; border-radius: 6px; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 5vw; }
+
+  .topbar { background: var(--key); }
+  .back {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    max-width: 860px; margin: 0 auto; padding: 0.7rem 5vw;
+    color: var(--ktext); text-decoration: none; font-weight: 700;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; letter-spacing: 0.06em;
+  }
+  .back:hover { text-decoration: underline; }
+
+  .lp-hero { padding: 2.4rem 0 1.8rem; }
+  .badges { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  .b-sjw, .b-unit {
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.68rem;
+    letter-spacing: 0.08em; padding: 0.28rem 0.65rem; border-radius: 999px;
+  }
+  .b-sjw { background: var(--key); color: var(--ktext); box-shadow: 0 3px 0 var(--edge); }
+  .b-unit { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+
+  .hero-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.1rem; }
+  .keycap {
+    font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 1.8rem;
+    color: var(--ktext); background: var(--key); box-shadow: 0 5px 0 var(--edge);
+    width: 62px; height: 62px; border-radius: 16px; display: grid; place-items: center; flex-shrink: 0;
+  }
+  h1 { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(1.5rem, 4.5vw, 2.3rem); line-height: 1.1; }
+
+  .goal { font-size: 1.06rem; margin-bottom: 0.9rem; }
+  .goal b { color: var(--key); }
+  .rlp { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); font-weight: 700; }
+  .rlp .tag { display: inline-block; background: #e7e5fb; padding: 0.06rem 0.42rem; border-radius: 6px; margin: 0 0.15rem 0.25rem 0; }
+  .rlp .tag.neu { background: var(--sun); color: var(--ink); }
+
+  .intro { font-size: 1.05rem; margin: 1.4rem 0 1.6rem; }
+  .intro .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+
+  .block { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 1.4rem 1.5rem; margin-bottom: 1.1rem; }
+  .block h2 {
+    font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 1.25rem;
+    display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem;
+  }
+  .block h2 .dot { width: 14px; height: 14px; border-radius: 5px; background: var(--key); box-shadow: 0 2px 0 var(--edge); flex-shrink: 0; }
+  .block p { margin-bottom: 0.6rem; }
+
+  /* figure */
+  .fig { background: var(--tint); border-radius: 14px; padding: 1rem; margin: 0.4rem 0 1rem; }
+  .fig svg { width: 100%; height: auto; display: block; }
+  .fig-cap { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); text-align: center; margin-top: 0.5rem; }
+
+  /* step list */
+  ol.steps { list-style: none; counter-reset: st; }
+  ol.steps li { counter-increment: st; position: relative; padding: 0.55rem 0 0.55rem 2.7rem; border-bottom: 1px dashed var(--line); }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li::before {
+    content: counter(st); position: absolute; left: 0; top: 0.5rem;
+    width: 30px; height: 30px; border-radius: 9px; background: var(--key); color: var(--ktext);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; box-shadow: 0 2px 0 var(--edge);
+  }
+  ol.steps b { color: var(--edge); }
+
+  /* exercises + diff chips */
+  .task { border: 1.5px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; margin-bottom: 0.8rem; }
+  .chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.66rem;
+    letter-spacing: 0.05em; padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.5rem; }
+  .chip.basis { background: #e2f6ea; color: var(--ok-dk); border: 1.5px solid var(--ok); }
+  .chip.mittel { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+  .chip.knifflig { background: #fff3d1; color: #8a5a00; border: 1.5px solid var(--sun); }
+  .task ul { margin: 0.4rem 0 0 1.1rem; }
+  .task li { margin-bottom: 0.2rem; }
+
+  .block.fast { border-color: var(--sun); background: #fff7e2; }
+  .block.fast h2 { color: #8a5a00; }
+  .block.fast h2 .rocket { width: 22px; height: 22px; color: #8a5a00; }
+  .fast-text { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .fast-list { margin: 0.4rem 0 0.8rem 1.1rem; }
+  .fast-list li { margin-bottom: 0.3rem; }
+  .auftrag { border: 1.5px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0 0 0.9rem; background: #fff; }
+  .auftrag p { margin: 0; }
+  .auftrag-no, .task-no { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); background: var(--tint); border-radius: 6px; padding: 0.1rem 0.45rem; margin-right: 0.2rem; }
+  .auftrag details, .fast-sol { margin-top: 0.5rem; }
+  .auftrag summary, .fast-sol summary { cursor: pointer; font-weight: 700; color: var(--edge); font-size: 0.92rem; }
+  .auftrag ol, .fast-sol ul { margin: 0.4rem 0 0 1.3rem; }
+  .fast-sol { margin-bottom: 0.8rem; }
+  .fill { display: inline-block; min-width: 10rem; border-bottom: 1.5px dotted currentColor; }
+  .merke-box { margin-top: 0.9rem; background: var(--tint); border-left: 6px solid var(--key); border-radius: 10px; padding: 0.7rem 0.9rem; }
+  .fast-extra { font-size: 0.95rem; font-weight: 600; background: #fff; border-radius: 10px; padding: 0.7rem 0.9rem; border: 1.5px dashed var(--sun); }
+
+  /* merksatz */
+  .merk { background: var(--tint); border: 2px solid var(--key); border-left: 8px solid var(--key); border-radius: 14px; padding: 1.1rem 1.3rem; }
+  .merk .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+  .merk b { color: var(--edge); }
+  .secret { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.9rem; padding: 0.7rem 0.9rem;
+    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 10px; font-weight: 700; color: #8a5a00; font-size: 0.95rem; }
+  .secret svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  /* ---- QUIZ ENGINE ---- */
+  .quiz { margin-top: 0.4rem; }
+  .quiz-progress { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.74rem; color: var(--ink-soft); }
+  .pbar { flex: 1; height: 10px; background: #e7e5fb; border-radius: 999px; overflow: hidden; }
+  .pfill { height: 100%; width: 0; background: var(--ok); border-radius: 999px; transition: width 0.3s ease; }
+  .q { margin-bottom: 1.1rem; padding-bottom: 1.1rem; border-bottom: 1px dashed var(--line); }
+  .q:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .q-text { font-weight: 800; margin-bottom: 0.6rem; }
+  .q-text .qn { color: var(--edge); font-family: 'JetBrains Mono', monospace; }
+  .opts { display: grid; gap: 0.5rem; }
+  .opt {
+    display: flex; align-items: center; gap: 0.7rem; width: 100%; text-align: left;
+    font-family: 'Nunito', sans-serif; font-size: 0.98rem; font-weight: 700; color: var(--ink);
+    background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 0.6rem 0.8rem; cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .opt:hover:not([disabled]) { border-color: var(--key); transform: translateX(2px); }
+  .opt .lett { flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px; background: var(--tint); color: var(--edge);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; font-size: 0.85rem; }
+  .opt.correct { border-color: var(--ok); background: #e9f8ef; }
+  .opt.correct .lett { background: var(--ok); color: #fff; }
+  .opt.wrong { border-color: var(--no); background: #fdecf0; }
+  .opt.wrong .lett { background: var(--no); color: #fff; }
+  .opt[disabled] { cursor: default; opacity: 0.75; }
+  .opt.correct[disabled], .opt.wrong[disabled] { opacity: 1; }
+  .q-hint { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--no-dk);
+    background: #fdecf0; border-radius: 9px; padding: 0.5rem 0.7rem; display: none; }
+  .q-hint.show { display: block; }
+  .q-done { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--ok-dk); display: none; }
+  .q-done.show { display: block; }
+  .quiz-solved { margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 12px; background: #e9f8ef;
+    border: 2px solid var(--ok); color: var(--ok-dk); font-family: 'Fredoka', sans-serif; font-weight: 600;
+    display: none; align-items: center; gap: 0.6rem; }
+  .quiz-solved.show { display: flex; }
+  .quiz-solved svg { width: 22px; height: 22px; flex-shrink: 0; }
+
+  .selfcheck-wrap {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem;
+    background: var(--tint); border-radius: 14px; padding: 1rem 1.2rem; margin: 1.4rem 0;
+  }
+  .sc-label { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 0.98rem; }
+  .sc-stars { display: flex; gap: 0.3rem; }
+  .sc-star { width: 30px; height: 30px; background: none; border: none; padding: 0; cursor: pointer; color: rgba(33,26,77,0.22); transition: transform 0.12s ease, color 0.12s ease; }
+  .sc-star svg { width: 100%; height: 100%; display: block; }
+  .sc-star:hover { transform: scale(1.18) rotate(-6deg); }
+  .sc-star.on { color: var(--sun); }
+  .sc-feedback { font-family: 'Fredoka', sans-serif; font-weight: 600; color: var(--edge); opacity: 0; transition: opacity 0.2s ease; }
+  .sc-feedback.show { opacity: 1; }
+
+  .lp-nav { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; margin-top: 1.6rem; flex-wrap: wrap; }
+  .lp-nav a, .lp-nav span.nav-empty {
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.78rem;
+    text-decoration: none; padding: 0.6rem 0.9rem; border-radius: 10px;
+  }
+  .nav-prev, .nav-next { background: var(--card); border: 2px solid var(--key); color: var(--edge); box-shadow: 0 3px 0 var(--edge); transition: transform 0.12s ease, box-shadow 0.12s ease; }
+  .nav-prev:hover, .nav-next:hover { transform: translateY(2px); box-shadow: 0 1px 0 var(--edge); }
+  .nav-over { background: var(--key); color: var(--ktext); box-shadow: 0 3px 0 var(--edge); }
+  .nav-empty { color: rgba(33,26,77,0.28); border: 2px dashed var(--line); }
+  .nav-next.locked { color: rgba(33,26,77,0.28); border: 2px dashed var(--line); background: transparent; box-shadow: none; cursor: default; pointer-events: none; }
+  .nav-next.locked:hover { transform: none; box-shadow: none; }
+
+  footer {
+    text-align: center; margin-top: 2rem; padding: 1.4rem 5vw 0;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); font-weight: 700;
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+</style>
+<style>
+  .qi { background: var(--tint); border-radius: 12px; padding: 0.6rem 0.75rem; margin: -0.2rem 0 0.7rem; font-weight: 700; }
+  .qi .n { display: inline-flex; align-items: center; justify-content: center; width: 1.55rem; height: 1.55rem; border-radius: 50%;
+           color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; flex: none; }
+  .qi ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+  .qi li { display: flex; gap: 0.5rem; align-items: center; }
+  .qi .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.2rem 0 0.45rem; }
+  .qi .chip-i { background: #fff; border: 2px solid var(--key); border-radius: 9px; padding: 0.15rem 0.55rem; display: inline-flex; gap: 0.35rem; align-items: center; }
+  .qi .lk { display: inline-flex; vertical-align: middle; border: 2px dashed var(--ink-soft); border-radius: 8px; padding: 0.05rem 0.4rem; margin: 0 0.15rem; }
+  .qi .zeile { margin: 0.25rem 0; }
+  .qi .txt { font-weight: 600; color: var(--ink-soft); margin-bottom: 0.3rem; }
+  .qi .boxes { color: var(--ink-soft); font-style: italic; margin-bottom: 0.3rem; }
+  .block.abgabe { border-color: var(--key); }
+  .abgabe .warn { background: #fdecf0; border-left: 6px solid var(--no); border-radius: 10px; padding: 0.6rem 0.85rem; margin: 0.2rem 0 0.9rem; color: var(--no-dk); font-weight: 600; }
+  .abgabe .txt-muster { font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; background: #fff; border: 1.5px solid var(--line); border-radius: 8px; padding: 0.5rem 0.7rem; margin: 0.4rem 0; overflow-wrap: anywhere; }
+  .abgabe .name-regel { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.92rem; background: var(--tint); border-radius: 10px; padding: 0.55rem 0.7rem; margin: 0.45rem 0 0.3rem; overflow-wrap: anywhere; }
+  .abgabe .nr-teil { background: #fff; border: 1.5px solid var(--key); border-radius: 6px; padding: 0.05rem 0.35rem; }
+  .abgabe .nr-teil.neu { background: var(--sun); border-color: #c8890a; }
+  .abgabe .name-bsp { font-weight: 700; margin-bottom: 0.3rem; }
+</style>
+<style>
+  .fig svg[aria-label="Bild 2"] { max-width: 460px; margin: 0 auto; }
+  .fig svg[aria-label="Bild 3"] { max-width: 600px; margin: 0 auto; }
+  .fig svg[aria-label="Bild 4"] { max-width: 620px; margin: 0 auto; }
+  .kbd { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.82em; font-weight: 700; background: #fff;
+         border: 1.5px solid var(--ink); border-bottom-width: 3px; border-radius: 6px; padding: 0 0.35em; white-space: nowrap; }
+  .abtipp { background: #fff; border: 2px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0.6rem 0; }
+  .abtipp p { margin: 0.1rem 0; }
+</style>
+<style>
+  .fig svg[aria-label="Bild 1"] { max-width: 760px; margin: 0 auto; }
+  .muster { background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.6rem 0.9rem; margin: 0.5rem 0; }
+</style>
+<style>
+  .wahl { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.6rem; margin: 0 0 1.2rem; }
+  .wahl a { display: block; background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.65rem 0.8rem; color: var(--ink); text-decoration: none; font-weight: 700; line-height: 1.25; }
+  .wahl a:hover, .wahl a:focus-visible { border-color: var(--key); }
+  .wahl small { display: block; font-weight: 600; color: var(--ink-soft); margin-top: 0.15rem; }
+  .vk { display: inline-block; font-family: 'JetBrains Mono', Menlo, monospace; font-weight: 700; background: var(--key); color: #fff; border-radius: 8px; padding: 0.05rem 0.45rem; margin-right: 0.35rem; }
+  .hinweis { background: #fff6e0; border-left: 4px solid #c8890a; border-radius: 0 10px 10px 0; padding: 0.55rem 0.8rem; color: #8a5a00; font-weight: 700; margin: 0.6rem 0; }
+  .auftragzeile { background: var(--tint); border-radius: 12px; padding: 0.6rem 0.85rem; font-weight: 800; margin: 0.5rem 0; }
+  .meldung { font-weight: 700; min-height: 1.6em; margin: 0.3rem 0; }
+  .meldung.ok { color: var(--ok-dk); }
+  .meldung.no { color: var(--no-dk); }
+  .knopf { padding: 0.4rem 0.8rem; border-radius: 8px; border: 2px solid var(--key); background: #fff; color: var(--edge); font: inherit; font-weight: 800; cursor: pointer; margin: 0.2rem 0.3rem 0.2rem 0; }
+  .kbd { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.85em; font-weight: 700; background: #fff; border: 1.5px solid var(--ink); border-bottom-width: 3px; border-radius: 6px; padding: 0 0.35em; white-space: nowrap; }
+  .sort { list-style: none; padding: 0; margin: 0.7rem 0 0; }
+  .sort li { background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.65rem 0.8rem; margin-bottom: 0.5rem; font-weight: 700; }
+  .sort .wk { display: flex; gap: 0.45rem; flex-wrap: wrap; margin-top: 0.4rem; }
+  .sort button { padding: 0.35rem 0.7rem; border-radius: 8px; border: 2px solid var(--tint); background: #fff; color: var(--ink); font: inherit; font-size: 0.92rem; font-weight: 700; cursor: pointer; }
+  .sort li.ok { border-color: var(--ok); }
+  .sort li.no { border-color: var(--no); }
+  .sort p { margin: 0.4rem 0 0; font-weight: 600; font-size: 0.93rem; }
+  .werkstatt { background: #fff; border: 2px solid var(--tint); border-radius: 12px; overflow: hidden; margin: 0.5rem 0; }
+  .leiste { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; background: #f4f3fa; border-bottom: 2px solid var(--tint); padding: 0.45rem 0.6rem; }
+  .leiste button, .leiste select { font: inherit; font-weight: 800; min-width: 2.3rem; height: 2.2rem; border-radius: 7px; border: 1.5px solid #c9c6e0; background: #fff; color: var(--ink); cursor: pointer; }
+  .leiste .trenn { width: 1px; height: 1.6rem; background: #c9c6e0; margin: 0 0.2rem; }
+  .blatt { padding: 0.9rem 1.1rem; font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 1.55; color: #222; outline: none; min-height: 9rem; }
+  .blatt p { margin: 0.2rem 0; }
+  .check { list-style: none; padding: 0; margin: 0.6rem 0 0; }
+  .check li { padding: 0.3rem 0 0.3rem 1.8rem; position: relative; font-weight: 700; }
+  .check li::before { content: ""; position: absolute; left: 0.2rem; top: 0.45rem; width: 1rem; height: 1rem; border-radius: 4px; border: 2px solid #c9c6e0; background: #fff; }
+  .check li.ok { color: var(--ok-dk); }
+  .check li.ok::before { background: var(--ok); border-color: var(--ok); }
+
+  .baukasten { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; align-items: start; }
+  .regel label { display: block; margin: 0.25rem 0; font-weight: 700; }
+  .papier { background: #fff; border: 2px solid #c9c6e0; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin: 0 auto; position: relative; transition: all 0.2s; }
+  .papier .inhalt { position: absolute; background: repeating-linear-gradient(#fff 0 10px, #c9c6e0 10px 13px); }
+  .papier .kz, .papier .fz { position: absolute; left: 0; right: 0; font-size: 0.7rem; font-weight: 800; text-align: center; color: var(--edge); }
+  @media (max-width: 560px) { .baukasten { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="back" href="15seite-einrichten-und-als-pdf-ausgeben.html">&#8592; Zur&uuml;ck zum Lernpfad 15</a>
+</div>
+
+<div class="wrap">
+  <header class="lp-hero">
+    <div class="badges">
+      <span class="b-sjw">Vertiefung zur Wahl</span>
+      <span class="b-unit">Einheit 03 · Textverarbeitung</span>
+    </div>
+    <div class="hero-row">
+      <div class="keycap">15</div>
+      <h1>Seite einrichten &amp; als PDF ausgeben: Weiterüben</h1>
+    </div>
+    <p class="goal"><b>So geht’s:</b> Du hast dein Aufgabenblatt fertig? Such dir aus, was dich interessiert. Du musst nicht alles machen.</p>
+  </header>
+
+  <main>
+    <nav class="wahl" aria-label="Angebote">
+      <a href="#v1">V1 · Seiten-Baukasten<small>fünf Aufträge</small></a>
+      <a href="#v2">V2 · .docx oder .pdf?<small>acht Fälle</small></a>
+      <a href="#v3">V3 · Wo gehört es hin?<small>Kopf, Fuß oder Text</small></a>
+    </nav>
+
+    <section class="block" id="v1">
+      <h2><span class="vk">V1</span>Seiten-Baukasten</h2>
+      <p>Stelle die Seite so ein, wie es die Aufträge verlangen. Die Vorschau zeigt sofort, was passiert.</p>
+      <div class="baukasten">
+        <div class="regel">
+          <label><input type="radio" name="fmt" value="hoch" checked> Hochformat</label>
+          <label><input type="radio" name="fmt" value="quer"> Querformat</label>
+          <label>Ränder <select id="b-rand"><option value="5">Schmal</option><option value="12" selected>Normal</option><option value="20">Breit</option></select></label>
+          <label><input type="checkbox" id="b-kopf"> Kopfzeile „Kochbuch der 6.1“</label>
+          <label><input type="checkbox" id="b-fuss"> Fußzeile mit Vornamen</label>
+          <label><input type="checkbox" id="b-zahl"> Seitenzahl als Feld</label>
+        </div>
+        <div><div class="papier" id="b-papier"><div class="kz" id="b-kz"></div><div class="inhalt" id="b-inhalt"></div><div class="fz" id="b-fz"></div></div></div>
+      </div>
+      <ul class="check" id="b-liste"></ul>
+      <p class="meldung ok" id="b-fertig" aria-live="polite"></p>
+    </section>
+
+    <section class="block" id="v2">
+      <h2><span class="vk">V2</span>.docx oder .pdf?</h2>
+      <p>Welche Datei passt besser? Entscheide bei jedem Fall.</p>
+      <ul class="sort" id="s-liste"></ul>
+      <p class="meldung ok" id="s-fertig" aria-live="polite"></p>
+    </section>
+
+    <section class="block" id="v3">
+      <h2><span class="vk">V3</span>Wo gehört es hin?</h2>
+      <p>Kopfzeile, Fußzeile oder Textbereich?</p>
+      <ul class="sort" id="w-liste"></ul>
+      <p class="meldung ok" id="w-fertig" aria-live="polite"></p>
+    </section>
+
+    <nav class="lp-nav">
+      <a class="nav-prev" href="15seite-einrichten-und-als-pdf-ausgeben.html">&#8592; Lernpfad 15</a>
+      <a class="nav-over" href="../../itg-kursuebersicht.html">&#8801; Kurs&uuml;bersicht</a>
+    </nav>
+  </main>
+
+  <footer>ITG &middot; Klasse 6 &middot; Schuljahr 2026/27 &middot; Einheit 03 · Textverarbeitung</footer>
+</div>
+
+<script>
+(function () {
+
+  function sortierSpiel(listeId, fertigId, saetze, knoepfe, fazit) {
+    var wl = document.getElementById(listeId), fertig = 0;
+    saetze.forEach(function (d) {
+      var li = document.createElement('li');
+      li.appendChild(document.createTextNode(d[0]));
+      var wk = document.createElement('div'); wk.className = 'wk';
+      var antwort = document.createElement('p');
+      knoepfe.forEach(function (w) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.textContent = w[0];
+        b.addEventListener('click', function () {
+          var richtig = w[1] === d[1];
+          if (!li.dataset.fertig) { li.dataset.fertig = '1'; fertig++; }
+          li.classList.toggle('ok', richtig); li.classList.toggle('no', !richtig);
+          antwort.textContent = (richtig ? 'Richtig. ' : 'Schau noch einmal. ') + d[2];
+          if (fertig === saetze.length) document.getElementById(fertigId).textContent = fazit;
+        });
+        wk.appendChild(b);
+      });
+      li.appendChild(wk); li.appendChild(antwort); wl.appendChild(li);
+    });
+  }
+
+
+  /* ---------- V1 Seiten-Baukasten ---------- */
+  var pap = document.getElementById('b-papier'), inh = document.getElementById('b-inhalt');
+  var rand = document.getElementById('b-rand'), kopf = document.getElementById('b-kopf'), fuss = document.getElementById('b-fuss'), zahl = document.getElementById('b-zahl');
+  function fmt() { return document.querySelector('input[name=fmt]:checked').value; }
+  var AUFTRAEGE = [
+    ['Stelle die Ränder auf Normal.', function () { return rand.value === '12'; }],
+    ['Schalte die Kopfzeile ein.', function () { return kopf.checked; }],
+    ['Schalte Fußzeile und Seitenzahl ein.', function () { return fuss.checked && zahl.checked; }],
+    ['Für eine breite Tabelle: Querformat.', function () { return liste.dataset.quer === '1'; }],
+    ['Zum Schluss wieder Hochformat für das Kochbuch.', function () { return fmt() === 'hoch' && liste.dataset.quer === '1'; }]
+  ];
+  var liste = document.getElementById('b-liste');
+  AUFTRAEGE.forEach(function (a) { var li = document.createElement('li'); li.textContent = a[0]; liste.appendChild(li); });
+  function zeichne() {
+    var q = fmt() === 'quer', w = q ? 240 : 170, h = q ? 170 : 240, r = +rand.value;
+    if (q) liste.dataset.quer = '1';
+    pap.style.width = w + 'px'; pap.style.height = h + 'px';
+    inh.style.left = r + 'px'; inh.style.right = r + 'px'; inh.style.top = (r + 10) + 'px'; inh.style.bottom = (r + 10) + 'px';
+    document.getElementById('b-kz').style.top = '3px'; document.getElementById('b-kz').textContent = kopf.checked ? 'Kochbuch der 6.1' : '';
+    document.getElementById('b-fz').style.bottom = '3px';
+    document.getElementById('b-fz').textContent = (fuss.checked ? 'Vorname' : '') + (zahl.checked ? '        1' : '');
+    var ok = 0;
+    AUFTRAEGE.forEach(function (a, i) { var res = a[1](); liste.children[i].classList.toggle('ok', res); if (res) ok++; });
+    document.getElementById('b-fertig').textContent = ok === AUFTRAEGE.length ? 'Seite fertig eingerichtet!' : '';
+  }
+  document.querySelectorAll('.regel input, .regel select').forEach(function (el) { el.addEventListener('change', zeichne); });
+  zeichne();
+
+  /* ---------- V2 .docx oder .pdf? ---------- */
+  sortierSpiel('s-liste', 's-fertig', [
+    ['Bewerbung für ein Praktikum verschicken', 'p', 'Sie soll genau so ankommen, wie du sie gestaltet hast.'],
+    ['Mit der Gruppe am Referat weiterschreiben', 'd', 'Weiterschreiben geht nur in der bearbeitbaren Datei.'],
+    ['Plakat an die Druckerei schicken', 'p', 'Die Druckerei druckt genau, was im PDF steht.'],
+    ['Die Lehrperson soll Fehler direkt im Text verbessern', 'd', 'Dafür muss sie im Text schreiben können.'],
+    ['Speiseplan auf der Schul-Website', 'p', 'Jeder kann ihn öffnen, ohne Word zu haben.'],
+    ['Kochbuch nächste Woche um ein Rezept ergänzen', 'd', 'Du arbeitest weiter: also die .docx behalten.'],
+    ['Einladung per Mail an Großeltern', 'p', 'Sie sieht auf jedem Handy gleich aus.'],
+    ['Vorlage, die andere selbst ausfüllen sollen', 'd', 'Ausfüllen geht in der bearbeitbaren Datei.']
+  ], [['.docx', 'd'], ['.pdf', 'p']], 'Geschafft: PDF zum Zeigen, .docx zum Weiterarbeiten.');
+
+  /* ---------- V3 Wo gehört es hin? ---------- */
+  sortierSpiel('w-liste', 'w-fertig', [
+    ['Seitenzahl', 'f', 'Meist unten in der Fußzeile.'],
+    ['Titel des Kochbuchs auf jeder Seite', 'k', 'Oben, auf jeder Seite gleich: Kopfzeile.'],
+    ['Rezept für Obstsalat', 't', 'Inhalt gehört in den Textbereich.'],
+    ['Name der Autorin oder des Autors', 'f', 'Steht oft klein unten in der Fußzeile.'],
+    ['Bild vom Pfannkuchen', 't', 'Bilder gehören zum Inhalt.'],
+    ['Schulname und Klasse', 'k', 'Steht oft oben in der Kopfzeile.']
+  ], [['Kopfzeile', 'k'], ['Fußzeile', 'f'], ['Textbereich', 't']], 'Geschafft: Was sich wiederholt, gehört in Kopf- oder Fußzeile.');
+
+})();
+</script>
+</body>
+</html>

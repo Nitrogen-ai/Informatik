@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LP 14 · Bilder & Tabellen einfügen — ITG Klasse 6</title>
+<title>LP 14 · Bilder &amp; Tabellen einfügen · ITG Klasse 6</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -12,6 +12,7 @@
     --key: #ff5d73; --edge: #df3a53; --tint: #ffe6ea; --ktext: #ffffff;
     --ink: #211a4d; --ink-soft: #4f4880; --bg: #f1f0fb; --card: #fff;
     --line: rgba(33,26,77,0.12); --sun: #ffc23d;
+    --ok: #39b56a; --ok-dk: #248049; --no: #e8607a; --no-dk: #b83a56;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -59,12 +60,8 @@
   .rlp .tag { display: inline-block; background: #e7e5fb; padding: 0.06rem 0.42rem; border-radius: 6px; margin: 0 0.15rem 0.25rem 0; }
   .rlp .tag.neu { background: var(--sun); color: var(--ink); }
 
-  .draft-note {
-    display: flex; align-items: center; gap: 0.6rem;
-    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 12px;
-    padding: 0.7rem 0.9rem; margin: 1.4rem 0; font-size: 0.9rem; font-weight: 700; color: #8a5a00;
-  }
-  .draft-note svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .intro { font-size: 1.05rem; margin: 1.4rem 0 1.6rem; }
+  .intro .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
 
   .block { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 1.4rem 1.5rem; margin-bottom: 1.1rem; }
   .block h2 {
@@ -72,15 +69,94 @@
     display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem;
   }
   .block h2 .dot { width: 14px; height: 14px; border-radius: 5px; background: var(--key); box-shadow: 0 2px 0 var(--edge); flex-shrink: 0; }
-  .todo {
-    border: 2px dashed var(--line); border-radius: 12px; padding: 1rem 1.1rem;
-    color: var(--ink-soft); font-style: italic; background: rgba(91,75,230,0.03);
+  .block p { margin-bottom: 0.6rem; }
+
+  /* figure */
+  .fig { background: var(--tint); border-radius: 14px; padding: 1rem; margin: 0.4rem 0 1rem; }
+  .fig svg { width: 100%; height: auto; display: block; }
+  .fig-cap { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); text-align: center; margin-top: 0.5rem; }
+
+  /* step list */
+  ol.steps { list-style: none; counter-reset: st; }
+  ol.steps li { counter-increment: st; position: relative; padding: 0.55rem 0 0.55rem 2.7rem; border-bottom: 1px dashed var(--line); }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li::before {
+    content: counter(st); position: absolute; left: 0; top: 0.5rem;
+    width: 30px; height: 30px; border-radius: 9px; background: var(--key); color: var(--ktext);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; box-shadow: 0 2px 0 var(--edge);
   }
+  ol.steps b { color: var(--edge); }
+
+  /* exercises + diff chips */
+  .task { border: 1.5px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; margin-bottom: 0.8rem; }
+  .chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.66rem;
+    letter-spacing: 0.05em; padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.5rem; }
+  .chip.basis { background: #e2f6ea; color: var(--ok-dk); border: 1.5px solid var(--ok); }
+  .chip.mittel { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+  .chip.knifflig { background: #fff3d1; color: #8a5a00; border: 1.5px solid var(--sun); }
+  .task ul { margin: 0.4rem 0 0 1.1rem; }
+  .task li { margin-bottom: 0.2rem; }
 
   .block.fast { border-color: var(--sun); background: #fff7e2; }
   .block.fast h2 { color: #8a5a00; }
   .block.fast h2 .rocket { width: 22px; height: 22px; color: #8a5a00; }
-  .fast-text { font-size: 1.02rem; font-weight: 600; }
+  .fast-text { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .fast-list { margin: 0.4rem 0 0.8rem 1.1rem; }
+  .fast-list li { margin-bottom: 0.3rem; }
+  .auftrag { border: 1.5px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0 0 0.9rem; background: #fff; }
+  .auftrag p { margin: 0; }
+  .auftrag-no, .task-no { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); background: var(--tint); border-radius: 6px; padding: 0.1rem 0.45rem; margin-right: 0.2rem; }
+  .auftrag details, .fast-sol { margin-top: 0.5rem; }
+  .auftrag summary, .fast-sol summary { cursor: pointer; font-weight: 700; color: var(--edge); font-size: 0.92rem; }
+  .auftrag ol, .fast-sol ul { margin: 0.4rem 0 0 1.3rem; }
+  .fast-sol { margin-bottom: 0.8rem; }
+  .fill { display: inline-block; min-width: 10rem; border-bottom: 1.5px dotted currentColor; }
+  .merke-box { margin-top: 0.9rem; background: var(--tint); border-left: 6px solid var(--key); border-radius: 10px; padding: 0.7rem 0.9rem; }
+  .fast-extra { font-size: 0.95rem; font-weight: 600; background: #fff; border-radius: 10px; padding: 0.7rem 0.9rem; border: 1.5px dashed var(--sun); }
+
+  /* merksatz */
+  .merk { background: var(--tint); border: 2px solid var(--key); border-left: 8px solid var(--key); border-radius: 14px; padding: 1.1rem 1.3rem; }
+  .merk .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+  .merk b { color: var(--edge); }
+  .secret { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.9rem; padding: 0.7rem 0.9rem;
+    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 10px; font-weight: 700; color: #8a5a00; font-size: 0.95rem; }
+  .secret svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  /* ---- QUIZ ENGINE ---- */
+  .quiz { margin-top: 0.4rem; }
+  .quiz-progress { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.74rem; color: var(--ink-soft); }
+  .pbar { flex: 1; height: 10px; background: #e7e5fb; border-radius: 999px; overflow: hidden; }
+  .pfill { height: 100%; width: 0; background: var(--ok); border-radius: 999px; transition: width 0.3s ease; }
+  .q { margin-bottom: 1.1rem; padding-bottom: 1.1rem; border-bottom: 1px dashed var(--line); }
+  .q:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .q-text { font-weight: 800; margin-bottom: 0.6rem; }
+  .q-text .qn { color: var(--edge); font-family: 'JetBrains Mono', monospace; }
+  .opts { display: grid; gap: 0.5rem; }
+  .opt {
+    display: flex; align-items: center; gap: 0.7rem; width: 100%; text-align: left;
+    font-family: 'Nunito', sans-serif; font-size: 0.98rem; font-weight: 700; color: var(--ink);
+    background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 0.6rem 0.8rem; cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .opt:hover:not([disabled]) { border-color: var(--key); transform: translateX(2px); }
+  .opt .lett { flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px; background: var(--tint); color: var(--edge);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; font-size: 0.85rem; }
+  .opt.correct { border-color: var(--ok); background: #e9f8ef; }
+  .opt.correct .lett { background: var(--ok); color: #fff; }
+  .opt.wrong { border-color: var(--no); background: #fdecf0; }
+  .opt.wrong .lett { background: var(--no); color: #fff; }
+  .opt[disabled] { cursor: default; opacity: 0.75; }
+  .opt.correct[disabled], .opt.wrong[disabled] { opacity: 1; }
+  .q-hint { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--no-dk);
+    background: #fdecf0; border-radius: 9px; padding: 0.5rem 0.7rem; display: none; }
+  .q-hint.show { display: block; }
+  .q-done { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--ok-dk); display: none; }
+  .q-done.show { display: block; }
+  .quiz-solved { margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 12px; background: #e9f8ef;
+    border: 2px solid var(--ok); color: var(--ok-dk); font-family: 'Fredoka', sans-serif; font-weight: 600;
+    display: none; align-items: center; gap: 0.6rem; }
+  .quiz-solved.show { display: flex; }
+  .quiz-solved svg { width: 22px; height: 22px; flex-shrink: 0; }
 
   .selfcheck-wrap {
     display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem;
@@ -113,6 +189,39 @@
   }
   @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 </style>
+<style>
+  .qi { background: var(--tint); border-radius: 12px; padding: 0.6rem 0.75rem; margin: -0.2rem 0 0.7rem; font-weight: 700; }
+  .qi .n { display: inline-flex; align-items: center; justify-content: center; width: 1.55rem; height: 1.55rem; border-radius: 50%;
+           color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; flex: none; }
+  .qi ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+  .qi li { display: flex; gap: 0.5rem; align-items: center; }
+  .qi .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.2rem 0 0.45rem; }
+  .qi .chip-i { background: #fff; border: 2px solid var(--key); border-radius: 9px; padding: 0.15rem 0.55rem; display: inline-flex; gap: 0.35rem; align-items: center; }
+  .qi .lk { display: inline-flex; vertical-align: middle; border: 2px dashed var(--ink-soft); border-radius: 8px; padding: 0.05rem 0.4rem; margin: 0 0.15rem; }
+  .qi .zeile { margin: 0.25rem 0; }
+  .qi .txt { font-weight: 600; color: var(--ink-soft); margin-bottom: 0.3rem; }
+  .qi .boxes { color: var(--ink-soft); font-style: italic; margin-bottom: 0.3rem; }
+  .block.abgabe { border-color: var(--key); }
+  .abgabe .warn { background: #fdecf0; border-left: 6px solid var(--no); border-radius: 10px; padding: 0.6rem 0.85rem; margin: 0.2rem 0 0.9rem; color: var(--no-dk); font-weight: 600; }
+  .abgabe .txt-muster { font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; background: #fff; border: 1.5px solid var(--line); border-radius: 8px; padding: 0.5rem 0.7rem; margin: 0.4rem 0; overflow-wrap: anywhere; }
+  .abgabe .name-regel { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.92rem; background: var(--tint); border-radius: 10px; padding: 0.55rem 0.7rem; margin: 0.45rem 0 0.3rem; overflow-wrap: anywhere; }
+  .abgabe .nr-teil { background: #fff; border: 1.5px solid var(--key); border-radius: 6px; padding: 0.05rem 0.35rem; }
+  .abgabe .nr-teil.neu { background: var(--sun); border-color: #c8890a; }
+  .abgabe .name-bsp { font-weight: 700; margin-bottom: 0.3rem; }
+</style>
+<style>
+  .fig svg[aria-label="Bild 2"] { max-width: 460px; margin: 0 auto; }
+  .fig svg[aria-label="Bild 3"] { max-width: 600px; margin: 0 auto; }
+  .fig svg[aria-label="Bild 4"] { max-width: 620px; margin: 0 auto; }
+  .kbd { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.82em; font-weight: 700; background: #fff;
+         border: 1.5px solid var(--ink); border-bottom-width: 3px; border-radius: 6px; padding: 0 0.35em; white-space: nowrap; }
+  .abtipp { background: #fff; border: 2px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0.6rem 0; }
+  .abtipp p { margin: 0.1rem 0; }
+</style>
+<style>
+  .fig svg[aria-label="Bild 1"] { max-width: 760px; margin: 0 auto; }
+  .muster { background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.6rem 0.9rem; margin: 0.5rem 0; }
+</style>
 </head>
 <body>
 
@@ -134,39 +243,238 @@
     <p class="rlp"><span class="tag">RLP 2.5 · E/G</span><span class="tag">3.1</span></p>
   </header>
 
-  <div class="draft-note">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
-    <span>Diese Seite ist das Ger&uuml;st f&uuml;r diesen Lernpfad &mdash; Inhalte werden noch erg&auml;nzt.</span>
-  </div>
+  <p class="intro">Ein Kochbuch ohne Bild? Langweilig! Heute bekommt dein Pfannkuchen ein <span class="hl">Bild</span> und einen Zeitplan als <span class="hl">Tabelle</span>. Auch Bilder und Tabellen sind Objekte mit Eigenschaften, wie in Stunde 13. Los geht’s!</p>
 
   <main>
+
     <section class="block">
-      <h2><span class="dot"></span>Los geht es &mdash; worum geht es heute?</h2>
-      <div class="todo">Hier kommt der Einstieg hin: eine kurze, spannende Hinf&uuml;hrung zum Thema.</div>
+      <h2><span class="dot"></span>Schau genau hin: Was weißt du schon?</h2>
+      <p>Sieh dir die drei Bilder an. Zu jedem Bild gehören drei Fragen. Bei vielen Fragen ist eine ganze Kombination richtig, also lies jede Antwort bis zum Ende. Wird sie <b style="color:var(--ok-dk)">grün</b>, ist sie richtig. Bei <b style="color:var(--no-dk)">rot</b> bekommst du einen Tipp.</p>
+
+      <div class="fig"><svg viewBox="0 0 1000 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 1" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="1000" height="200" fill="#ffffff"/><rect x="8" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="30" y="68" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="66" y="68" width="36" height="22" fill="#ffd76a" stroke="#211a4d" stroke-width="1.6"/><rect x="102" y="68" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="30" y="90" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="66" y="90" width="36" height="22" fill="#ffd76a" stroke="#211a4d" stroke-width="1.6"/><rect x="102" y="90" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="30" y="112" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="66" y="112" width="36" height="22" fill="#ffd76a" stroke="#211a4d" stroke-width="1.6"/><rect x="102" y="112" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="30" y="134" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="66" y="134" width="36" height="22" fill="#ffd76a" stroke="#211a4d" stroke-width="1.6"/><rect x="102" y="134" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><circle cx="30" cy="34" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="30" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><rect x="174" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="196" y="68" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="232" y="68" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="268" y="68" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="196" y="90" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="232" y="90" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="268" y="90" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="196" y="112" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="232" y="112" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="268" y="112" width="36" height="22" fill="#ffd76a" stroke="#211a4d" stroke-width="1.6"/><rect x="196" y="134" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="232" y="134" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="268" y="134" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><circle cx="196" cy="34" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="196" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><rect x="340" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="366" y="70" width="92" height="66" rx="4" fill="#e6effc" stroke="#2f6fd6" stroke-width="2.2"/><circle cx="432.24" cy="89.8" r="7.26" fill="#ffc23d"/><path d="M369 133 L400.96 97.72 L423.04 117.52 L435.92 106.96000000000001 L455 133 z" fill="#0d8f68" opacity="0.8"/><rect x="360" y="64" width="12" height="12" fill="#ffffff" stroke="#211a4d" stroke-width="2"/><rect x="452" y="64" width="12" height="12" fill="#ffffff" stroke="#211a4d" stroke-width="2"/><rect x="360" y="130" width="12" height="12" fill="#ffffff" stroke="#211a4d" stroke-width="2"/><rect x="452" y="130" width="12" height="12" fill="#ffffff" stroke="#211a4d" stroke-width="2"/><circle cx="458" cy="136" r="14" fill="none" stroke="#df3a53" stroke-width="3"/><circle cx="362" cy="34" r="17" fill="#8e3bd2" stroke="#ffffff" stroke-width="3"/><text x="362" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><rect x="506" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="528" y="68" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="564" y="68" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="600" y="68" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="528" y="90" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="564" y="90" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="600" y="90" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="528" y="112" width="36" height="22" fill="#ffd76a" stroke="#211a4d" stroke-width="1.6"/><rect x="564" y="112" width="36" height="22" fill="#ffd76a" stroke="#211a4d" stroke-width="1.6"/><rect x="600" y="112" width="36" height="22" fill="#ffd76a" stroke="#211a4d" stroke-width="1.6"/><rect x="528" y="134" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="564" y="134" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="600" y="134" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><circle cx="528" cy="34" r="17" fill="#4eab65" stroke="#ffffff" stroke-width="3"/><text x="528" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text><rect x="672" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="694" y="70" width="52" height="44" rx="4" fill="#e6effc" stroke="#2f6fd6" stroke-width="2.2"/><circle cx="731.44" cy="83.2" r="4.84" fill="#ffc23d"/><path d="M697 111 L713.76 88.48 L726.24 101.68 L733.52 94.64 L743 111 z" fill="#0d8f68" opacity="0.8"/><line x1="754" y1="74" x2="802.0" y2="74" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="754" y1="88" x2="791.44" y2="88" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="754" y1="102" x2="797.2" y2="102" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="694" y1="130" x2="802.0" y2="130" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="694" y1="144" x2="778.24" y2="144" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="694" y1="158" x2="791.2" y2="158" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><circle cx="694" cy="34" r="17" fill="#dd5b59" stroke="#ffffff" stroke-width="3"/><text x="694" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">5</text><rect x="838" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="860" y="68" width="36" height="22" fill="#ffd76a" stroke="#211a4d" stroke-width="1.6"/><rect x="896" y="68" width="36" height="22" fill="#ffd76a" stroke="#211a4d" stroke-width="1.6"/><rect x="932" y="68" width="36" height="22" fill="#ffd76a" stroke="#211a4d" stroke-width="1.6"/><rect x="860" y="90" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="896" y="90" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="932" y="90" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="860" y="112" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="896" y="112" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="932" y="112" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="860" y="134" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="896" y="134" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="932" y="134" width="36" height="22" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="860" y="68" width="108" height="22" fill="none" stroke="#211a4d" stroke-width="3.2"/><circle cx="860" cy="34" r="17" fill="#6e6e80" stroke="#ffffff" stroke-width="3"/><text x="860" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">6</text></svg><div class="fig-cap">Bild 1 &middot; Sechs Karten: Teile von Tabellen und Bildern</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 1</span> <b>Ordne zu:</b> A = Zeile, B = Spalte, C = Zelle, D = Überschriftenzeile, E = Ziehpunkt, F = Textumbruch. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>1) B</li><li>2) C</li><li>3) E</li><li>4) A</li><li>5) F</li><li>6) D</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.1</span> &nbsp;<b>Ordne zu:</b> Was ist bei den Karten gelb markiert?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Karte 1</span><span class="chip-i">Karte 2</span><span class="chip-i">Karte 4</span><span class="chip-i">Karte 6</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Zeile</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Spalte</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Zelle</span></li><li><span class="n" style="background:#4eab65">4</span><span>Überschriftenzeile</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Karte 1 (2), Karte 2 (3), Karte 4 (1), Karte 6 (4)</button>
+            <button class="opt" data-hint="Eine Spalte steht senkrecht wie eine Säule, eine Zeile liegt waagerecht.">Karte 1 (1), Karte 2 (3), Karte 4 (2), Karte 6 (4)</button>
+            <button class="opt" data-hint="Ein einzelnes Kästchen ist eine Zelle. Die erste Zeile ist die Überschriftenzeile.">Karte 1 (2), Karte 2 (4), Karte 4 (1), Karte 6 (3)</button>
+            <button class="opt" data-hint="Bei Karte 1 ist ein senkrechter Streifen markiert: eine Spalte.">Karte 1 (3), Karte 2 (2), Karte 4 (1), Karte 6 (4)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Spalte senkrecht, Zeile waagerecht, Zelle ein Feld.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.2</span> &nbsp;<b>Ordne zu:</b> Was passiert beim Textumbruch?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Mit Text in Zeile</span><span class="chip-i">Quadratisch</span><span class="chip-i">Oben und unten</span><span class="chip-i">Hinter den Text</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Text fließt um das Bild herum.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Bild steht wie ein großer Buchstabe in der Zeile.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Text steht nur über und unter dem Bild.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Text liegt über dem Bild.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Mit Text in Zeile (2), Quadratisch (1), Oben und unten (3), Hinter den Text (4)</button>
+            <button class="opt" data-hint="Mit Text in Zeile ist die Grundeinstellung: Das Bild sitzt in der Zeile wie ein Buchstabe.">Mit Text in Zeile (1), Quadratisch (2), Oben und unten (3), Hinter den Text (4)</button>
+            <button class="opt" data-hint="Bei Hinter den Text liegt das Bild wie ein Hintergrund unter dem Text.">Mit Text in Zeile (2), Quadratisch (1), Oben und unten (4), Hinter den Text (3)</button>
+            <button class="opt" data-hint="Bei Oben und unten bleibt neben dem Bild alles frei.">Mit Text in Zeile (2), Quadratisch (3), Oben und unten (1), Hinter den Text (4)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Quadratisch ist meist die beste Wahl neben Text.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.3</span> &nbsp;<b>Entscheide:</b> Welche Sätze stimmen?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Mit Tab springst du in die nächste Zelle.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Eine Zeile verläuft waagerecht.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Ziehst du an der Ecke, bleibt das Bild unverzerrt.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Eine Spalte verläuft waagerecht.</span></li><li><span class="n" style="background:#dd5b59">5</span><span>Tabellen gibt es nur in Word.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 2, 3</button>
+            <button class="opt" data-hint="Und Satz 3? An der Ecke bleiben Breite und Höhe im gleichen Verhältnis.">1, 2</button>
+            <button class="opt" data-hint="Spalten stehen senkrecht wie Säulen.">1, 2, 3, 4</button>
+            <button class="opt" data-hint="Auch Docs hat Tabellen: Einfügen › Tabelle. Und Satz 1?">2, 3, 5</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt: Tab, waagerecht, Ecke.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Super: Bild 1 komplett gelöst!</div>
+      </div>
+
+      <div class="fig"><svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 2" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="600" height="400" fill="#ffffff"/><rect x="16" y="16" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="112" y="66" width="70" height="54" rx="4" fill="#e6effc" stroke="#2f6fd6" stroke-width="2.2"/><circle cx="162.4" cy="82.2" r="5.94" fill="#ffc23d"/><path d="M115 117 L138.6 88.68 L155.4 104.88 L165.2 96.24000000000001 L179 117 z" fill="#0d8f68" opacity="0.8"/><line x1="56" y1="70" x2="104.0" y2="70" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="56" y1="84" x2="93.44" y2="84" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="56" y1="98" x2="99.2" y2="98" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="56" y1="112" x2="84.8" y2="112" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="192" y1="70" x2="248.0" y2="70" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="192" y1="84" x2="235.68" y2="84" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="192" y1="98" x2="242.4" y2="98" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="192" y1="112" x2="225.6" y2="112" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="56" y1="140" x2="248.0" y2="140" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><text x="154" y="178" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Quadratisch wählen</text><rect x="308" y="16" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="358" y="60" width="176" height="30" rx="6" fill="#ffe6ea" stroke="#df3a53" stroke-width="2"/><text x="370" y="81" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="16" fill="#211a4d">Einfügen</text><rect x="358" y="94" width="176" height="64" rx="6" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.4"/><rect x="370" y="102" width="26" height="20" rx="4" fill="#e6effc" stroke="#2f6fd6" stroke-width="2.2"/><circle cx="388.72" cy="108.0" r="2.2" fill="#ffc23d"/><path d="M373 119 L379.88 110.4 L386.12 116.4 L389.76 113.2 L393 119 z" fill="#0d8f68" opacity="0.8"/><text x="404" y="118" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="15" fill="#211a4d">Bilder</text><rect x="370" y="130" width="9" height="9" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="379" y="130" width="9" height="9" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="388" y="130" width="9" height="9" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="370" y="139" width="9" height="9" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="379" y="139" width="9" height="9" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="388" y="139" width="9" height="9" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><text x="404" y="146" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="15" fill="#4f4880">Tabelle</text><text x="446" y="178" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Einfügen › Bilder</text><rect x="16" y="208" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="86" y="254" width="100" height="76" rx="4" fill="#e6effc" stroke="#2f6fd6" stroke-width="2.2"/><circle cx="158.0" cy="276.8" r="8.36" fill="#ffc23d"/><path d="M89 327 L124.0 285.92 L148.0 308.72 L162.0 296.56 L183 327 z" fill="#0d8f68" opacity="0.8"/><rect x="180" y="324" width="12" height="12" fill="#ffffff" stroke="#211a4d" stroke-width="2"/><path d="M194 338 l26 18 M220 356 l-12 -1 M220 356 l-3 -11" stroke="#df3a53" stroke-width="3.2" stroke-linecap="round"/><text x="154" y="370" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">An der Ecke ziehen</text><rect x="308" y="208" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><text x="360" y="280" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="20" fill="#df3a53">Pfannkuchen</text><line x1="490" y1="260" x2="490" y2="286" stroke="#211a4d" stroke-width="3"/><line x1="485" y1="260" x2="495" y2="260" stroke="#211a4d" stroke-width="2"/><line x1="485" y1="286" x2="495" y2="286" stroke="#211a4d" stroke-width="2"/><line x1="360" y1="308" x2="540" y2="308" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="360" y1="326" x2="471.6" y2="326" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><text x="446" y="370" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Cursor setzen</text><circle cx="40" cy="42" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="40" y="49" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><circle cx="332" cy="42" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="332" y="49" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><circle cx="40" cy="234" r="17" fill="#8e3bd2" stroke="#ffffff" stroke-width="3"/><text x="40" y="241" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><circle cx="332" cy="234" r="17" fill="#4eab65" stroke="#ffffff" stroke-width="3"/><text x="332" y="241" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text></svg><div class="fig-cap">Bild 2 &middot; Vier Schritte zum Bild, aber durcheinander</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 2</span> <b>Bring</b> die Schritte in die richtige Reihenfolge. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>Zuerst: 4 (Cursor setzen)</li><li>dann 2 (Einfügen › Bilder)</li><li>dann 3 (an der Ecke ziehen)</li><li>zuletzt: 1 (Quadratisch wählen)</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.1</span> &nbsp;<b>Bring</b> die Schritte zum Einfügen eines Bildes in die richtige Reihenfolge.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">4 – 2 – 3 – 1</button>
+            <button class="opt" data-hint="Das Bild landet dort, wo der Cursor steht. Also zuerst den Cursor setzen.">2 – 4 – 3 – 1</button>
+            <button class="opt" data-hint="Größer oder kleiner ziehen kannst du erst, wenn das Bild da ist.">4 – 3 – 2 – 1</button>
+            <button class="opt" data-hint="Beide Reihenfolgen am Ende klappen, aber erst die Größe, dann der Umbruch ist übersichtlicher.">4 – 2 – 1 – 3</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Cursor, einfügen, Größe, Umbruch.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.2</span> &nbsp;<b>Ergänze</b> die Sätze.</div>
+          <div class="qi"><div class="zeile">Waagerecht heißt <span class="lk"><span class="n" style="background:#3675d8">1</span></span> .</div><div class="zeile">Senkrecht heißt <span class="lk"><span class="n" style="background:#d16b2f">2</span></span> .</div><div class="zeile">Ein einzelnes Feld heißt <span class="lk"><span class="n" style="background:#8e3bd2">3</span></span> .</div></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Zeile (1), Spalte (2), Zelle (3)</button>
+            <button class="opt" data-hint="Eine Zeile liest du von links nach rechts, eine Spalte von oben nach unten.">Spalte (1), Zeile (2), Zelle (3)</button>
+            <button class="opt" data-hint="Der Rahmen ist die Linie um die Felder. Das Feld selbst heißt Zelle.">Zeile (1), Spalte (2), Rahmen (3)</button>
+            <button class="opt" data-hint="Die Zelle ist ein Feld, die Spalte eine ganze senkrechte Reihe.">Zeile (1), Zelle (2), Spalte (3)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Zeile, Spalte, Zelle.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.3</span> &nbsp;<b>Entscheide:</b> Welche Sätze stimmen?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Ein Bild ist ein Objekt mit Eigenschaften wie Größe und Textumbruch.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Bei fremden Bildern nennst du die Quelle.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Ziehst du nur an der Seite, kann das Bild verzerren.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Jedes Bild aus dem Internet darfst du einfach benutzen.</span></li><li><span class="n" style="background:#dd5b59">5</span><span>Mit Hinter den Text wird das Bild gelöscht.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 2, 3</button>
+            <button class="opt" data-hint="Und Satz 3? An der Seite ziehst du nur die Breite.">1, 2</button>
+            <button class="opt" data-hint="Bilder gehören jemandem. Du brauchst eine Erlaubnis oder freie Bilder mit Quelle.">1, 2, 3, 4</button>
+            <button class="opt" data-hint="Hinter den Text legt das Bild nach hinten, es bleibt da. Und Satz 1?">2, 3, 5</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Bilder sind Objekte, und fremde Bilder brauchen eine Quelle.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Klasse: Bild 2 komplett gelöst!</div>
+      </div>
+
+      <div class="fig"><svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 3" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="700" height="400" fill="#ffffff"/><rect x="14" y="14" width="324" height="372" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><text x="44" y="110" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="18" fill="#211a4d">Zeitplan</text><rect x="44" y="126" width="70" height="34" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><text x="51" y="149.12" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="13" fill="#211a4d">Teig rüh-</text><rect x="114" y="126" width="196" height="34" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><text x="121" y="149.12" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="13" fill="#211a4d">5</text><rect x="44" y="160" width="70" height="34" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><text x="51" y="183.12" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="13" fill="#211a4d">ren</text><rect x="114" y="160" width="196" height="34" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="44" y="194" width="70" height="34" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><text x="51" y="217.12" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="13" fill="#211a4d">Ruhen</text><rect x="114" y="194" width="196" height="34" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><text x="121" y="217.12" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="13" fill="#211a4d">10 min</text><rect x="44" y="228" width="70" height="34" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><text x="51" y="251.12" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="13" fill="#211a4d">Braten</text><rect x="114" y="228" width="196" height="34" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><text x="121" y="251.12" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="13" fill="#211a4d">eine Viertelstunde</text><circle cx="40" cy="40" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="40" y="47" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><rect x="362" y="14" width="324" height="372" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><text x="392" y="110" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="18" fill="#211a4d">Zeitplan</text><rect x="392" y="126" width="160" height="34" fill="#ffe6ea" stroke="#211a4d" stroke-width="1.6"/><text x="399" y="149.12" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="14" fill="#211a4d">Schritt</text><rect x="552" y="126" width="106" height="34" fill="#ffe6ea" stroke="#211a4d" stroke-width="1.6"/><text x="559" y="149.12" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="14" fill="#211a4d">Zeit</text><rect x="392" y="160" width="160" height="34" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><text x="399" y="183.12" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="14" fill="#211a4d">Teig rühren</text><rect x="552" y="160" width="106" height="34" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><text x="559" y="183.12" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="14" fill="#211a4d">5 min</text><rect x="392" y="194" width="160" height="34" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><text x="399" y="217.12" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="14" fill="#211a4d">Ruhen lassen</text><rect x="552" y="194" width="106" height="34" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><text x="559" y="217.12" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="14" fill="#211a4d">10 min</text><rect x="392" y="228" width="160" height="34" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><text x="399" y="251.12" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="14" fill="#211a4d">Braten</text><rect x="552" y="228" width="106" height="34" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><text x="559" y="251.12" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="14" fill="#211a4d">15 min</text><circle cx="388" cy="40" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="388" y="47" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text></svg><div class="fig-cap">Bild 3 &middot; Zweimal derselbe Zeitplan</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 3</span> <b>Ordne zu:</b> Tabelle 1 oder 2? a) Überschriftenzeile vorhanden. b) Wörter brechen mitten um. c) Einheiten mal so, mal so. d) Breite passt zum Inhalt. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>a) 2</li><li>b) 1</li><li>c) 1</li><li>d) 2</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.1</span> &nbsp;<b>Ordne zu:</b> Gehört das zu Tabelle 1 oder Tabelle 2?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Überschriftenzeile hervorgehoben</span><span class="chip-i">Wörter brechen mitten im Wort um</span><span class="chip-i">Zeiten mal mit, mal ohne Einheit</span><span class="chip-i">Spaltenbreite passt zum Inhalt</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Tabelle 1</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Tabelle 2</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Überschriftenzeile hervorgehoben (2), Wörter brechen mitten im Wort um (1), Zeiten mal mit, mal ohne Einheit (1), Spaltenbreite passt zum Inhalt (2)</button>
+            <button class="opt" data-hint="Tabelle 1 hat gar keine Überschriftenzeile: Was steht in den Spalten?">Überschriftenzeile hervorgehoben (1), Wörter brechen mitten im Wort um (1), Zeiten mal mit, mal ohne Einheit (1), Spaltenbreite passt zum Inhalt (2)</button>
+            <button class="opt" data-hint="Schau dir „Teig rüh-ren“ in Tabelle 1 an.">Überschriftenzeile hervorgehoben (2), Wörter brechen mitten im Wort um (2), Zeiten mal mit, mal ohne Einheit (1), Spaltenbreite passt zum Inhalt (2)</button>
+            <button class="opt" data-hint="„5“ und „eine Viertelstunde“: Das ist uneinheitlich.">Überschriftenzeile hervorgehoben (2), Wörter brechen mitten im Wort um (1), Zeiten mal mit, mal ohne Einheit (2), Spaltenbreite passt zum Inhalt (2)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Tabelle 2 ist klar, Tabelle 1 durcheinander.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.2</span> &nbsp;<b>Entscheide:</b> Was macht eine Tabelle gut lesbar?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>eine fette, farbig hinterlegte Überschriftenzeile</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Spalten, die zum Inhalt passen</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>jede Zelle in einer anderen Farbe</span></li><li><span class="n" style="background:#4eab65">4</span><span>Einheiten wie min immer gleich</span></li><li><span class="n" style="background:#dd5b59">5</span><span>möglichst viele Spalten</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 2, 4</button>
+            <button class="opt" data-hint="Bunte Zellen lenken ab. Weniger ist mehr, wie bei der Schrift.">1, 2, 3, 4</button>
+            <button class="opt" data-hint="Und die Einheiten? „5 min“ und „10 min“ liest man schneller als „5“ und „zehn Minuten“.">1, 2</button>
+            <button class="opt" data-hint="Zu viele Spalten machen eine Tabelle eng und unübersichtlich.">2, 4, 5</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt: klare Überschriften, passende Breite, gleiche Einheiten.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.3</span> &nbsp;<b>Bring</b> die Schritte für eine Tabelle in die richtige Reihenfolge.</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Inhalt in die Zellen tippen.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Einfügen › Tabelle wählen.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Größe 2 × 4 auswählen.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Erste Zeile fett machen.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">2 – 3 – 1 – 4</button>
+            <button class="opt" data-hint="Die Größe wählst du im Menü Tabelle aus.">3 – 2 – 1 – 4</button>
+            <button class="opt" data-hint="Tippen kannst du erst, wenn die Tabelle da ist.">2 – 1 – 3 – 4</button>
+            <button class="opt" data-hint="Fett machen geht am besten, wenn schon Text drinsteht.">2 – 3 – 4 – 1</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: einfügen, Größe, tippen, schön machen.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Stark: Bild 3 komplett gelöst!</div>
+      </div>
     </section>
 
     <section class="block">
-      <h2><span class="dot"></span>Schritt f&uuml;r Schritt</h2>
-      <div class="todo">Hier kommt die Anleitung hin: die einzelnen Arbeitsschritte, gerne mit Screenshots.</div>
+      <h2><span class="dot"></span>Schritt für Schritt: Bild und Zeitplan</h2>
+      <p><span class="task-no">Aufgabe 4</span> Dein Kochbuch bekommt ein Bild und einen Zeitplan.</p>
+      <div class="fig"><svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 4" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="760" height="260" fill="#ffffff"/><rect x="14" y="10" width="732" height="240" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><path d="M15.5 50 V24 a12.5 12.5 0 0 1 12.5 -12.5 H732 a12.5 12.5 0 0 1 12.5 12.5 V50 z" fill="#ff5d73"/><text x="34" y="38" text-anchor="start" font-family="Fredoka, Open Sans, sans-serif" font-weight="800" font-size="20" fill="#ffffff">So soll es aussehen</text><text x="726" y="38" text-anchor="end" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="16" fill="#ffffff">Bild rechts · Text daneben · Tabelle</text><text x="44" y="92" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="24" fill="#df3a53">Pfannkuchen</text><text x="44" y="122" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="15" fill="#211a4d">Verrühre Mehl, Eier und Hafermilch.</text><text x="44" y="144" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="15" fill="#211a4d">Lass den Teig ruhen, dann braten.</text><rect x="44" y="162" width="180" height="24" fill="#ffe6ea" stroke="#211a4d" stroke-width="1.6"/><text x="51" y="178.32" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="13" fill="#211a4d">Schritt</text><rect x="224" y="162" width="90" height="24" fill="#ffe6ea" stroke="#211a4d" stroke-width="1.6"/><text x="231" y="178.32" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="13" fill="#211a4d">Zeit</text><rect x="44" y="186" width="180" height="24" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><text x="51" y="202.32" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="13" fill="#211a4d">Teig rühren</text><rect x="224" y="186" width="90" height="24" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><text x="231" y="202.32" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="13" fill="#211a4d">5 min</text><rect x="44" y="210" width="180" height="24" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><text x="51" y="226.32" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="13" fill="#211a4d">Ruhen lassen</text><rect x="224" y="210" width="90" height="24" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><text x="231" y="226.32" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="13" fill="#211a4d">10 min</text><rect x="520" y="66" width="200" height="150" rx="10" fill="#fff6e0"/><ellipse cx="620.0" cy="183.0" rx="84.0" ry="15.0" fill="#d9dbe6" stroke="#211a4d" stroke-width="2"/><ellipse cx="620.0" cy="171.0" rx="64.0" ry="11.25" fill="#f2c26b" stroke="#c8890a" stroke-width="2"/><ellipse cx="620.0" cy="157.5" rx="64.0" ry="11.25" fill="#f2c26b" stroke="#c8890a" stroke-width="2"/><ellipse cx="620.0" cy="144.0" rx="64.0" ry="11.25" fill="#f2c26b" stroke="#c8890a" stroke-width="2"/><ellipse cx="620.0" cy="130.5" rx="64.0" ry="11.25" fill="#f2c26b" stroke="#c8890a" stroke-width="2"/><ellipse cx="620.0" cy="129.0" rx="20.0" ry="5.250000000000001" fill="#ffffff" stroke="#e8d9b0" stroke-width="1.5"/><circle cx="580.0" cy="121.5" r="7.000000000000001" fill="#c43a5a"/><circle cx="630.0" cy="121.5" r="7.000000000000001" fill="#c43a5a"/><circle cx="664.0" cy="121.5" r="7.000000000000001" fill="#c43a5a"/><text x="620" y="234" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="11" fill="#4f4880">Bild: Pfannkuchen (eigene Zeichnung)</text><line x1="380" y1="120" x2="500.0" y2="120" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="380" y1="138" x2="473.6" y2="138" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="380" y1="156" x2="488.0" y2="156" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="380" y1="174" x2="452.0" y2="174" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/></svg><div class="fig-cap">So soll dein Pfannkuchen-Rezept aussehen</div></div>
+      <ol class="steps">
+        <li><b>Öffnen.</b> Dein Kochbuch <b>2026-12-08_ITG_Kochbuch</b> aus <b>Schule › ITG</b>.</li>
+        <li><b>Neuer Name.</b> Datei › Speichern unter: <b>2026-12-15_ITG_Kochbuch_Bild</b>.</li>
+        <li><b>Bild holen.</b> Rechtsklick auf das Pfannkuchen-Bild unten › Bild speichern unter › <b>Schule › ITG</b>.</li>
+        <li><b>Einfügen.</b> Cursor hinter die Überschrift <i>Pfannkuchen</i>, dann Einfügen › <b>Bilder</b> › Dieses Gerät.</li>
+        <li><b>Größe.</b> Bild anklicken und an einer <b>Ecke</b> ziehen, bis es etwa 5 cm breit ist.</li>
+        <li><b>Umbruch.</b> Knopf <b>Layoutoptionen</b> neben dem Bild › <b>Quadratisch</b>. Bild nach rechts schieben.</li>
+        <li><b>Tabelle.</b> Unter <i>So geht’s</i>: Einfügen › <b>Tabelle</b> › 2 × 4 Kästchen.</li>
+        <li><b>Füllen.</b> Schritt | Zeit, Teig rühren | 5 min, Ruhen lassen | 10 min, Braten | 15 min. Mit <span style="white-space:nowrap"><span class="kbd">Tab</span></span> weiter.</li>
+        <li><b>Schön.</b> Erste Zeile fett, unter das Bild: <i>Bild: eigene Zeichnung</i>. <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">S</span></span>.</li>
+      </ol>
+      <div class="fig"><img src="bilder/14-pfannkuchen.png" alt="Gezeichneter Stapel Pfannkuchen mit Beeren" style="max-width:300px;width:100%;display:block;margin:0 auto;border-radius:12px"><div class="fig-cap">Pfannkuchen-Bild (eigene Zeichnung, frei nutzbar) · <a href="bilder/14-pfannkuchen.png" download>Herunterladen</a></div></div><p class="muster"><b>In Google Docs:</b> Einfügen › Bild › Vom Computer hochladen. Bild anklicken, dann in der Leiste <b>Text umbrechen</b>. Tabellen: Einfügen › Tabelle.</p>
+      <div class="merke-box"><b>Merke:</b> Ein <b>Bild</b> ist ein Objekt mit Größe, Position und <b>Textumbruch</b>. Ziehe an einer <b>Ecke</b>, dann verzerrt nichts. Bei <i>Quadratisch</i> fließt der Text um das Bild. Eine <b>Tabelle</b> hat <b>Zeilen</b> (waagerecht) und <b>Spalten</b> (senkrecht), ihre Felder heißen <b>Zellen</b>. Mit <span class="kbd">Tab</span> springst du weiter. Fremde Bilder brauchen eine <b>Quelle</b>.</div>
     </section>
 
     <section class="block">
-      <h2><span class="dot"></span>&Uuml;bungsaufgaben</h2>
-      <div class="todo">Hier kommen die Aufgaben hin &mdash; mit klarer Differenzierung (Basis &middot; mittel &middot; knifflig).</div>
+      <h2><span class="dot"></span>Übungsaufgaben</h2>
+      <div class="task">
+        <span class="task-no">Aufgabe 5</span> <span class="chip basis">Basis</span>
+        <p>Was ist gemeint? Wähle aus Zeile, Spalte, Zelle und Rahmen.</p><ul><li>eine waagerechte Reihe</li><li>eine senkrechte Reihe</li><li>ein einzelnes Feld</li></ul>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Waagerecht: Zeile.</li><li>Senkrecht: Spalte.</li><li>Ein Feld: Zelle. (Der Rahmen ist nur die Linie.)</li></ul></details>
+      </div>
+      <div class="task">
+        <span class="task-no">Aufgabe 6</span> <span class="chip mittel">mittel</span>
+        <p>Dein Bild ist riesig und schiebt den Text auf die nächste Seite. Beschreibe, wie du es passend machst.</p>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Bild anklicken und an einer Ecke kleiner ziehen.</li><li>Layoutoptionen › Quadratisch und das Bild an den Rand schieben, dann fließt der Text daneben.</li></ul></details>
+      </div>
+      <div class="task">
+        <span class="task-no">Aufgabe 7</span> <span class="chip knifflig">knifflig</span>
+        <p>Jemand sagt: „Für eine Tabelle drücke ich einfach die Leertaste, bis alles untereinander steht.“ Beurteile das.</p>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Keine gute Idee: Ändert sich ein Wort oder die Schrift, verrutscht alles. Eine echte Tabelle hält die Spalten fest, lässt sich formatieren und um Zeilen erweitern.</li></ul></details>
+      </div>
     </section>
 
     <section class="block fast">
-      <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnelll&auml;ufer:innen-Mission</h2>
+      <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnellläufer:innen-Mission</h2>
       <p class="fast-text">Gestalte einen kleinen Steckbrief mit Bild und Mini-Tabelle, alles sauber ausgerichtet.</p>
+      <ul class="fast-list">
+        <li><b>Mein Steckbrief-Thema:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Das Bild:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Die Tabelle hat diese Spalten:</b> <span class="fill">&nbsp;</span></li>
+      </ul>
+      <p class="fast-extra"><b>Vertiefung zur Wahl:</b> Finde Zellen, probiere Textumbrüche aus oder rette ein verzerrtes Bild. <a href="14-vertiefung-bilder-und-tabellen.html">Zur Vertiefung</a> (auch per QR-Code unten rechts auf Seite 2 des Aufgabenblatts).</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="dot"></span>Das kann ich jetzt: kurzer Check</h2>
+      <p>Drei Fragen zum Abschluss. Wieder gilt: <b style="color:var(--ok-dk)">grün</b> = richtig, <b style="color:var(--no-dk)">rot</b> = Tipp.</p>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.1</span> &nbsp;<b>Ordne zu:</b> Was hilft dir?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Das Bild liegt über dem Text.</span><span class="chip-i">Das Bild ist verzerrt.</span><span class="chip-i">Ein Schritt fehlt in der Tabelle.</span><span class="chip-i">Das Bild ist aus dem Internet.</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Zeile unterhalb einfügen</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Quelle unter das Bild schreiben</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Textumbruch ändern</span></li><li><span class="n" style="background:#4eab65">4</span><span>an der Ecke neu ziehen</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Das Bild liegt über dem Text. (3), Das Bild ist verzerrt. (4), Ein Schritt fehlt in der Tabelle. (1), Das Bild ist aus dem Internet. (2)</button>
+            <button class="opt" data-hint="Wie Bild und Text zueinander stehen, regelt der Textumbruch. Verzerrt? Neu an der Ecke ziehen.">Das Bild liegt über dem Text. (4), Das Bild ist verzerrt. (3), Ein Schritt fehlt in der Tabelle. (1), Das Bild ist aus dem Internet. (2)</button>
+            <button class="opt" data-hint="Fehlt ein Schritt, brauchst du eine neue Zeile. Fremde Bilder brauchen eine Quelle.">Das Bild liegt über dem Text. (3), Das Bild ist verzerrt. (4), Ein Schritt fehlt in der Tabelle. (2), Das Bild ist aus dem Internet. (1)</button>
+            <button class="opt" data-hint="Ein verzerrtes Bild wird an der Ecke wieder gerade.">Das Bild liegt über dem Text. (3), Das Bild ist verzerrt. (1), Ein Schritt fehlt in der Tabelle. (4), Das Bild ist aus dem Internet. (2)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Umbruch, Ecke, Zeile, Quelle.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.2</span> &nbsp;<b>Ergänze</b> den Merksatz.</div>
+          <div class="qi"><div class="zeile">Ziehe ein Bild an der <span class="lk"><span class="n" style="background:#3675d8">1</span></span> .</div><div class="zeile">Mit Textumbruch <span class="lk"><span class="n" style="background:#d16b2f">2</span></span> fließt der Text um das Bild.</div><div class="zeile">Mit der Taste <span class="lk"><span class="n" style="background:#8e3bd2">3</span></span> springst du in die nächste Zelle.</div></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Ecke (1), Quadratisch (2), Tab (3)</button>
+            <button class="opt" data-hint="An der Seite ziehst du nur in eine Richtung: Das Bild verzerrt.">Seite (1), Quadratisch (2), Tab (3)</button>
+            <button class="opt" data-hint="Hinter den Text legt das Bild unter den Text, der Text fließt nicht drumherum.">Ecke (1), Hinter den Text (2), Tab (3)</button>
+            <button class="opt" data-hint="Enter macht in der Zelle eine neue Zeile. Weiter geht es mit Tab.">Ecke (1), Quadratisch (2), Enter (3)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Ecke, Quadratisch, Tab.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.3</span> &nbsp;<b>Bring</b> die Schritte für ein Bild in Docs in die richtige Reihenfolge.</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Vom Computer hochladen.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Cursor an die Stelle setzen.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Text umbrechen wählen.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Einfügen › Bild klicken.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">2 – 4 – 1 – 3</button>
+            <button class="opt" data-hint="Das Bild kommt dorthin, wo der Cursor steht.">4 – 2 – 1 – 3</button>
+            <button class="opt" data-hint="Hochladen kannst du erst, wenn du im Menü Einfügen › Bild bist.">2 – 1 – 4 – 3</button>
+            <button class="opt" data-hint="Den Umbruch wählst du, wenn das Bild schon da ist.">2 – 4 – 3 – 1</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Cursor, Einfügen › Bild, hochladen, umbrechen.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Perfekt: Dein Kochbuch hat jetzt Bild und Zeitplan!</div>
+      </div>
     </section>
 
     <section class="block">
       <h2><span class="dot"></span>Das nehme ich mit</h2>
-      <div class="todo">Hier kommt der Merksatz / die Zusammenfassung hin.</div>
+      <div class="merk">
+        <p>Ein <b>Bild</b> ist ein Objekt mit Größe, Position und <b>Textumbruch</b>. Ziehe an einer <b>Ecke</b>, dann verzerrt nichts. Bei <i>Quadratisch</i> fließt der Text um das Bild. Eine <b>Tabelle</b> hat <b>Zeilen</b> (waagerecht) und <b>Spalten</b> (senkrecht), ihre Felder heißen <b>Zellen</b>. Mit <span class="kbd">Tab</span> springst du weiter. Fremde Bilder brauchen eine <b>Quelle</b>.</p>
+        <div class="secret">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12c.5.5 1 1.2 1 2h6c0-.8.5-1.5 1-2a7 7 0 0 0-4-12z"/></svg>
+          <span>Merk&#8209;Trick: Zeile wie Zeile im Heft (waagerecht), Spalte wie Säule (senkrecht). Die Zelle ist das Kästchen, wo beide sich treffen.</span>
+        </div>
+      </div>
     </section>
 
     <div class="selfcheck-wrap">
-      <span class="sc-label">Wie sicher f&uuml;hlst du dich nach dieser Stunde?</span>
+      <span class="sc-label">Wie sicher fühlst du dich nach dieser Stunde?</span>
       <div class="sc-stars" id="stars"></div>
       <span class="sc-feedback" id="fb"></span>
     </div>
@@ -182,9 +490,67 @@
 </div>
 
 <script>
+  /* ---------- Quiz-Engine ---------- */
+  (function(){
+    var LETTERS = ['A','B','C','D','E','F'];
+    var quizzes = document.querySelectorAll('[data-quiz]');
+    quizzes.forEach(function(quiz){
+      var questions = quiz.querySelectorAll('.q');
+      var total = questions.length;
+      var solved = 0;
+      var pcount = quiz.querySelector('.pcount');
+      var pfill = quiz.querySelector('.pfill');
+      var doneBox = quiz.querySelector('.quiz-solved');
+      function updateProgress(){
+        if (pcount) pcount.textContent = solved + ' / ' + total + ' richtig';
+        if (pfill) pfill.style.width = (total ? (solved/total*100) : 0) + '%';
+        if (doneBox && solved === total) doneBox.classList.add('show');
+      }
+      questions.forEach(function(q){
+        var optsContainer = q.querySelector('.opts');
+        var opts = Array.prototype.slice.call(q.querySelectorAll('.opt'));
+        for (var i = opts.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = opts[i]; opts[i] = opts[j]; opts[j] = tmp;
+        }
+        opts.forEach(function(opt){ optsContainer.appendChild(opt); });
+        var hint = q.querySelector('.q-hint');
+        var done = q.querySelector('.q-done');
+        var answered = false;
+        opts.forEach(function(opt, i){
+          var lett = document.createElement('span');
+          lett.className = 'lett';
+          lett.textContent = LETTERS[i];
+          opt.insertBefore(lett, opt.firstChild);
+          opt.addEventListener('click', function(){
+            if (answered) return;
+            if (opt.getAttribute('data-correct') === 'true') {
+              answered = true;
+              opt.classList.add('correct');
+              opts.forEach(function(o){ o.setAttribute('disabled','disabled'); });
+              if (hint) hint.classList.remove('show');
+              if (done) done.classList.add('show');
+              solved++;
+              updateProgress();
+            } else {
+              opt.classList.add('wrong');
+              opt.setAttribute('disabled','disabled');
+              if (hint) {
+                hint.textContent = opt.getAttribute('data-hint') || 'Nicht ganz — versuch es nochmal.';
+                hint.classList.add('show');
+              }
+            }
+          });
+        });
+      });
+      updateProgress();
+    });
+  })();
+
+  /* ---------- Selbsteinschätzung (Sterne, localStorage) ---------- */
   (function(){
     var key = 'itg_lp_14';
-    var msgs = {1:'Ganz frisch \u2014 \u00dcben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf \u2014 super!'};
+    var msgs = {1:'Ganz frisch — Üben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf — super!'};
     var svg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 18.9 6.1 21l1.2-6.5L2.5 9.9l6.6-.9z"/></svg>';
     var wrap = document.getElementById('stars'); var fb = document.getElementById('fb'); var stars = [];
     for (var n = 1; n <= 4; n++) { var b = document.createElement('button'); b.className = 'sc-star'; b.type = 'button'; b.innerHTML = svg; b.setAttribute('aria-label', 'Stufe ' + n); wrap.appendChild(b); stars.push(b); }

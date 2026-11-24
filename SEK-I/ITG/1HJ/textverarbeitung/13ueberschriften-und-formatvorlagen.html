@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LP 13 · Überschriften & Formatvorlagen — ITG Klasse 6</title>
+<title>LP 13 · Überschriften &amp; Formatvorlagen · ITG Klasse 6</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -12,6 +12,7 @@
     --key: #ff5d73; --edge: #df3a53; --tint: #ffe6ea; --ktext: #ffffff;
     --ink: #211a4d; --ink-soft: #4f4880; --bg: #f1f0fb; --card: #fff;
     --line: rgba(33,26,77,0.12); --sun: #ffc23d;
+    --ok: #39b56a; --ok-dk: #248049; --no: #e8607a; --no-dk: #b83a56;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -59,12 +60,8 @@
   .rlp .tag { display: inline-block; background: #e7e5fb; padding: 0.06rem 0.42rem; border-radius: 6px; margin: 0 0.15rem 0.25rem 0; }
   .rlp .tag.neu { background: var(--sun); color: var(--ink); }
 
-  .draft-note {
-    display: flex; align-items: center; gap: 0.6rem;
-    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 12px;
-    padding: 0.7rem 0.9rem; margin: 1.4rem 0; font-size: 0.9rem; font-weight: 700; color: #8a5a00;
-  }
-  .draft-note svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .intro { font-size: 1.05rem; margin: 1.4rem 0 1.6rem; }
+  .intro .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
 
   .block { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 1.4rem 1.5rem; margin-bottom: 1.1rem; }
   .block h2 {
@@ -72,15 +69,94 @@
     display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem;
   }
   .block h2 .dot { width: 14px; height: 14px; border-radius: 5px; background: var(--key); box-shadow: 0 2px 0 var(--edge); flex-shrink: 0; }
-  .todo {
-    border: 2px dashed var(--line); border-radius: 12px; padding: 1rem 1.1rem;
-    color: var(--ink-soft); font-style: italic; background: rgba(91,75,230,0.03);
+  .block p { margin-bottom: 0.6rem; }
+
+  /* figure */
+  .fig { background: var(--tint); border-radius: 14px; padding: 1rem; margin: 0.4rem 0 1rem; }
+  .fig svg { width: 100%; height: auto; display: block; }
+  .fig-cap { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); text-align: center; margin-top: 0.5rem; }
+
+  /* step list */
+  ol.steps { list-style: none; counter-reset: st; }
+  ol.steps li { counter-increment: st; position: relative; padding: 0.55rem 0 0.55rem 2.7rem; border-bottom: 1px dashed var(--line); }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li::before {
+    content: counter(st); position: absolute; left: 0; top: 0.5rem;
+    width: 30px; height: 30px; border-radius: 9px; background: var(--key); color: var(--ktext);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; box-shadow: 0 2px 0 var(--edge);
   }
+  ol.steps b { color: var(--edge); }
+
+  /* exercises + diff chips */
+  .task { border: 1.5px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; margin-bottom: 0.8rem; }
+  .chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.66rem;
+    letter-spacing: 0.05em; padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.5rem; }
+  .chip.basis { background: #e2f6ea; color: var(--ok-dk); border: 1.5px solid var(--ok); }
+  .chip.mittel { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+  .chip.knifflig { background: #fff3d1; color: #8a5a00; border: 1.5px solid var(--sun); }
+  .task ul { margin: 0.4rem 0 0 1.1rem; }
+  .task li { margin-bottom: 0.2rem; }
 
   .block.fast { border-color: var(--sun); background: #fff7e2; }
   .block.fast h2 { color: #8a5a00; }
   .block.fast h2 .rocket { width: 22px; height: 22px; color: #8a5a00; }
-  .fast-text { font-size: 1.02rem; font-weight: 600; }
+  .fast-text { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .fast-list { margin: 0.4rem 0 0.8rem 1.1rem; }
+  .fast-list li { margin-bottom: 0.3rem; }
+  .auftrag { border: 1.5px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0 0 0.9rem; background: #fff; }
+  .auftrag p { margin: 0; }
+  .auftrag-no, .task-no { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); background: var(--tint); border-radius: 6px; padding: 0.1rem 0.45rem; margin-right: 0.2rem; }
+  .auftrag details, .fast-sol { margin-top: 0.5rem; }
+  .auftrag summary, .fast-sol summary { cursor: pointer; font-weight: 700; color: var(--edge); font-size: 0.92rem; }
+  .auftrag ol, .fast-sol ul { margin: 0.4rem 0 0 1.3rem; }
+  .fast-sol { margin-bottom: 0.8rem; }
+  .fill { display: inline-block; min-width: 10rem; border-bottom: 1.5px dotted currentColor; }
+  .merke-box { margin-top: 0.9rem; background: var(--tint); border-left: 6px solid var(--key); border-radius: 10px; padding: 0.7rem 0.9rem; }
+  .fast-extra { font-size: 0.95rem; font-weight: 600; background: #fff; border-radius: 10px; padding: 0.7rem 0.9rem; border: 1.5px dashed var(--sun); }
+
+  /* merksatz */
+  .merk { background: var(--tint); border: 2px solid var(--key); border-left: 8px solid var(--key); border-radius: 14px; padding: 1.1rem 1.3rem; }
+  .merk .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+  .merk b { color: var(--edge); }
+  .secret { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.9rem; padding: 0.7rem 0.9rem;
+    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 10px; font-weight: 700; color: #8a5a00; font-size: 0.95rem; }
+  .secret svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  /* ---- QUIZ ENGINE ---- */
+  .quiz { margin-top: 0.4rem; }
+  .quiz-progress { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.74rem; color: var(--ink-soft); }
+  .pbar { flex: 1; height: 10px; background: #e7e5fb; border-radius: 999px; overflow: hidden; }
+  .pfill { height: 100%; width: 0; background: var(--ok); border-radius: 999px; transition: width 0.3s ease; }
+  .q { margin-bottom: 1.1rem; padding-bottom: 1.1rem; border-bottom: 1px dashed var(--line); }
+  .q:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .q-text { font-weight: 800; margin-bottom: 0.6rem; }
+  .q-text .qn { color: var(--edge); font-family: 'JetBrains Mono', monospace; }
+  .opts { display: grid; gap: 0.5rem; }
+  .opt {
+    display: flex; align-items: center; gap: 0.7rem; width: 100%; text-align: left;
+    font-family: 'Nunito', sans-serif; font-size: 0.98rem; font-weight: 700; color: var(--ink);
+    background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 0.6rem 0.8rem; cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .opt:hover:not([disabled]) { border-color: var(--key); transform: translateX(2px); }
+  .opt .lett { flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px; background: var(--tint); color: var(--edge);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; font-size: 0.85rem; }
+  .opt.correct { border-color: var(--ok); background: #e9f8ef; }
+  .opt.correct .lett { background: var(--ok); color: #fff; }
+  .opt.wrong { border-color: var(--no); background: #fdecf0; }
+  .opt.wrong .lett { background: var(--no); color: #fff; }
+  .opt[disabled] { cursor: default; opacity: 0.75; }
+  .opt.correct[disabled], .opt.wrong[disabled] { opacity: 1; }
+  .q-hint { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--no-dk);
+    background: #fdecf0; border-radius: 9px; padding: 0.5rem 0.7rem; display: none; }
+  .q-hint.show { display: block; }
+  .q-done { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--ok-dk); display: none; }
+  .q-done.show { display: block; }
+  .quiz-solved { margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 12px; background: #e9f8ef;
+    border: 2px solid var(--ok); color: var(--ok-dk); font-family: 'Fredoka', sans-serif; font-weight: 600;
+    display: none; align-items: center; gap: 0.6rem; }
+  .quiz-solved.show { display: flex; }
+  .quiz-solved svg { width: 22px; height: 22px; flex-shrink: 0; }
 
   .selfcheck-wrap {
     display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem;
@@ -113,6 +189,42 @@
   }
   @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 </style>
+<style>
+  .qi { background: var(--tint); border-radius: 12px; padding: 0.6rem 0.75rem; margin: -0.2rem 0 0.7rem; font-weight: 700; }
+  .qi .n { display: inline-flex; align-items: center; justify-content: center; width: 1.55rem; height: 1.55rem; border-radius: 50%;
+           color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; flex: none; }
+  .qi ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+  .qi li { display: flex; gap: 0.5rem; align-items: center; }
+  .qi .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.2rem 0 0.45rem; }
+  .qi .chip-i { background: #fff; border: 2px solid var(--key); border-radius: 9px; padding: 0.15rem 0.55rem; display: inline-flex; gap: 0.35rem; align-items: center; }
+  .qi .lk { display: inline-flex; vertical-align: middle; border: 2px dashed var(--ink-soft); border-radius: 8px; padding: 0.05rem 0.4rem; margin: 0 0.15rem; }
+  .qi .zeile { margin: 0.25rem 0; }
+  .qi .txt { font-weight: 600; color: var(--ink-soft); margin-bottom: 0.3rem; }
+  .qi .boxes { color: var(--ink-soft); font-style: italic; margin-bottom: 0.3rem; }
+  .block.abgabe { border-color: var(--key); }
+  .abgabe .warn { background: #fdecf0; border-left: 6px solid var(--no); border-radius: 10px; padding: 0.6rem 0.85rem; margin: 0.2rem 0 0.9rem; color: var(--no-dk); font-weight: 600; }
+  .abgabe .txt-muster { font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; background: #fff; border: 1.5px solid var(--line); border-radius: 8px; padding: 0.5rem 0.7rem; margin: 0.4rem 0; overflow-wrap: anywhere; }
+  .abgabe .name-regel { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.92rem; background: var(--tint); border-radius: 10px; padding: 0.55rem 0.7rem; margin: 0.45rem 0 0.3rem; overflow-wrap: anywhere; }
+  .abgabe .nr-teil { background: #fff; border: 1.5px solid var(--key); border-radius: 6px; padding: 0.05rem 0.35rem; }
+  .abgabe .nr-teil.neu { background: var(--sun); border-color: #c8890a; }
+  .abgabe .name-bsp { font-weight: 700; margin-bottom: 0.3rem; }
+</style>
+<style>
+  .fig svg[aria-label="Bild 2"] { max-width: 460px; margin: 0 auto; }
+  .fig svg[aria-label="Bild 3"] { max-width: 600px; margin: 0 auto; }
+  .fig svg[aria-label="Bild 4"] { max-width: 620px; margin: 0 auto; }
+  .kbd { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.82em; font-weight: 700; background: #fff;
+         border: 1.5px solid var(--ink); border-bottom-width: 3px; border-radius: 6px; padding: 0 0.35em; white-space: nowrap; }
+  .abtipp { background: #fff; border: 2px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0.6rem 0; }
+  .abtipp p { margin: 0.1rem 0; }
+</style>
+<style>
+  .fig svg[aria-label="Bild 1"] { max-width: 760px; margin: 0 auto; }
+  .muster { background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.6rem 0.9rem; margin: 0.5rem 0; }
+</style>
+<style>
+.abtipp { background: #fff; border: 2px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0.6rem 0; } .abtipp p { margin: 0.1rem 0; }
+</style>
 </head>
 <body>
 
@@ -130,43 +242,242 @@
       <div class="keycap">13</div>
       <h1>Überschriften &amp; Formatvorlagen</h1>
     </div>
-    <p class="goal"><b>Das lernst du:</b> Formatvorlagen (Überschrift 1, 2 …) nutzen, damit dein Dokument automatisch Struktur bekommt — und verstehen: Software arbeitet mit „Objekten" und „Eigenschaften".</p>
-    <p class="rlp"><span class="tag">RLP 2.5 · G · Objekte/Attribute</span><span class="tag">2.6 · F/G</span></p>
+    <p class="goal"><b>Das lernst du:</b> Formatvorlagen (Überschrift 1, 2 …) nutzen, damit dein Dokument automatisch Struktur bekommt — und verstehen: Software arbeitet mit „Objekten“ und „Eigenschaften“.</p>
+    <p class="rlp"><span class="tag">RLP 2.5 · G</span><span class="tag">Objekte/Attribute</span><span class="tag">2.6 · F/G</span></p>
   </header>
 
-  <div class="draft-note">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
-    <span>Diese Seite ist das Ger&uuml;st f&uuml;r diesen Lernpfad &mdash; Inhalte werden noch erg&auml;nzt.</span>
-  </div>
+  <p class="intro">Dein Rezept wird heute zum <span class="hl">Kochbuch</span>. Damit das Programm erkennt, wo ein Kapitel beginnt, bekommen Überschriften eine <span class="hl">Formatvorlage</span>. Dahinter steckt eine wichtige Idee der Informatik: Alles im Dokument ist ein <b>Objekt</b> mit <b>Eigenschaften</b>. Los geht’s!</p>
 
   <main>
+
     <section class="block">
-      <h2><span class="dot"></span>Los geht es &mdash; worum geht es heute?</h2>
-      <div class="todo">Hier kommt der Einstieg hin: eine kurze, spannende Hinf&uuml;hrung zum Thema.</div>
+      <h2><span class="dot"></span>Schau genau hin: Was weißt du schon?</h2>
+      <p>Sieh dir die drei Bilder an. Zu jedem Bild gehören drei Fragen. Bei vielen Fragen ist eine ganze Kombination richtig, also lies jede Antwort bis zum Ende. Wird sie <b style="color:var(--ok-dk)">grün</b>, ist sie richtig. Bei <b style="color:var(--no-dk)">rot</b> bekommst du einen Tipp.</p>
+
+      <div class="fig"><svg viewBox="0 0 1000 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 1" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="1000" height="200" fill="#ffffff"/><rect x="8" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="44.0" y="82" width="80" height="40" rx="6" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.8"/><text x="84.0" y="110" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="20" fill="#211a4d">12 pt</text><text x="84.0" y="172" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="18" fill="#211a4d">Größe 12 pt</text><circle cx="30" cy="34" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="30" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><rect x="174" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="206.0" y="70" width="88" height="64" rx="4" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.8"/><line x1="216.0" y1="86" x2="284.0" y2="86" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="216.0" y1="98" x2="269.04" y2="98" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="216.0" y1="110" x2="277.2" y2="110" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="216.0" y1="122" x2="256.8" y2="122" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><text x="250.0" y="172" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="18" fill="#211a4d">Absatz</text><circle cx="196" cy="34" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="196" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><rect x="340" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="386.0" y="78" width="60" height="44" rx="8" fill="#df3a53"/><text x="416.0" y="172" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="18" fill="#211a4d">Farbe Rot</text><circle cx="362" cy="34" r="17" fill="#8e3bd2" stroke="#ffffff" stroke-width="3"/><text x="362" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><rect x="506" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="540.0" y="74" width="84" height="58" rx="4" fill="#e6effc" stroke="#2f6fd6" stroke-width="2.2"/><circle cx="600.48" cy="91.4" r="6.38" fill="#ffc23d"/><path d="M543.0 129 L571.92 98.36 L592.08 115.75999999999999 L603.84 106.48 L621.0 129 z" fill="#0d8f68" opacity="0.8"/><text x="582.0" y="172" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="18" fill="#211a4d">Bild</text><circle cx="528" cy="34" r="17" fill="#4eab65" stroke="#ffffff" stroke-width="3"/><text x="528" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text><rect x="672" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><text x="748.0" y="124" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="58" fill="#211a4d">A</text><text x="748.0" y="172" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="18" fill="#211a4d">Zeichen</text><circle cx="694" cy="34" r="17" fill="#dd5b59" stroke="#ffffff" stroke-width="3"/><text x="694" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">5</text><rect x="838" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><line x1="870.0" y1="84" x2="958.0" y2="84" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="879.68" y1="97" x2="948.3199999999999" y2="97" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="874.4" y1="110" x2="953.6" y2="110" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="887.6" y1="123" x2="940.4" y2="123" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><text x="914.0" y="172" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="18" fill="#211a4d">zentriert</text><circle cx="860" cy="34" r="17" fill="#6e6e80" stroke="#ffffff" stroke-width="3"/><text x="860" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">6</text></svg><div class="fig-cap">Bild 1 &middot; Sechs Karten: Dinge im Dokument und wie sie aussehen</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 1</span> <b>Ordne zu:</b> O = Objekt (ein Ding im Dokument), E = Eigenschaft (beschreibt, wie es aussieht). Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>1) E (Größe 12 pt)</li><li>2) O (Absatz)</li><li>3) E (Farbe Rot)</li><li>4) O (Bild)</li><li>5) O (Zeichen)</li><li>6) E (zentriert)</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.1</span> &nbsp;<b>Ordne zu:</b> Objekt oder Eigenschaft?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Karte 1</span><span class="chip-i">Karte 2</span><span class="chip-i">Karte 4</span><span class="chip-i">Karte 6</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Objekt</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Eigenschaft</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Karte 1 (2), Karte 2 (1), Karte 4 (1), Karte 6 (2)</button>
+            <button class="opt" data-hint="Ein Objekt ist ein Ding im Dokument. Die Größe 12 pt ist kein Ding, sondern beschreibt eins.">Karte 1 (1), Karte 2 (2), Karte 4 (1), Karte 6 (2)</button>
+            <button class="opt" data-hint="Ein Bild ist ein Ding, das du anklicken und verschieben kannst: ein Objekt.">Karte 1 (2), Karte 2 (1), Karte 4 (2), Karte 6 (2)</button>
+            <button class="opt" data-hint="Zentriert beschreibt, wie ein Absatz steht. Das ist eine Eigenschaft.">Karte 1 (2), Karte 2 (1), Karte 4 (1), Karte 6 (1)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Absatz und Bild sind Objekte, Größe und zentriert sind Eigenschaften.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.2</span> &nbsp;<b>Ordne zu:</b> Welche Eigenschaft passt zu welchem Objekt?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Zeichen</span><span class="chip-i">Absatz</span><span class="chip-i">Bild</span><span class="chip-i">Tabelle</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Ausrichtung</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Schriftfarbe</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Breite in cm</span></li><li><span class="n" style="background:#4eab65">4</span><span>Anzahl der Zeilen</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Zeichen (2), Absatz (1), Bild (3), Tabelle (4)</button>
+            <button class="opt" data-hint="Die Ausrichtung gilt für den ganzen Absatz, die Farbe für einzelne Zeichen.">Zeichen (1), Absatz (2), Bild (3), Tabelle (4)</button>
+            <button class="opt" data-hint="Eine Tabelle hat Zeilen, ein Bild hat eine Breite.">Zeichen (2), Absatz (1), Bild (4), Tabelle (3)</button>
+            <button class="opt" data-hint="Ein Absatz wird ausgerichtet, ein Bild bekommt eine Breite.">Zeichen (2), Absatz (3), Bild (1), Tabelle (4)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Jedes Objekt hat seine eigenen Eigenschaften.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.3</span> &nbsp;<b>Entscheide:</b> Welche Sätze stimmen?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Überschrift 1 ist eine Formatvorlage.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Eine Formatvorlage speichert mehrere Eigenschaften.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Änderst du die Vorlage, ändern sich alle Absätze mit dieser Vorlage.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Fett und groß gemachte Zeilen sind automatisch Überschriften.</span></li><li><span class="n" style="background:#dd5b59">5</span><span>Formatvorlagen gibt es nur in Word.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 2, 3</button>
+            <button class="opt" data-hint="Und Satz 3? Genau das macht Formatvorlagen so praktisch.">1, 2</button>
+            <button class="opt" data-hint="Fett und groß sieht nur aus wie eine Überschrift. Das Programm erkennt sie nicht.">1, 2, 3, 4</button>
+            <button class="opt" data-hint="Auch Google Docs hat Formatvorlagen. Und Satz 1?">2, 3, 5</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt: Eine Vorlage ist ein gespeichertes Bündel von Eigenschaften.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Super: Bild 1 komplett gelöst!</div>
+      </div>
+
+      <div class="fig"><svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 2" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="600" height="400" fill="#ffffff"/><rect x="16" y="16" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="38" y="70" width="78" height="46" rx="5" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.4"/><text x="77" y="98" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="11.5" fill="#211a4d">Standard</text><rect x="120" y="70" width="78" height="46" rx="5" fill="#ffe6ea" stroke="#df3a53" stroke-width="2.4"/><text x="159" y="98" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="11.5" fill="#211a4d">Überschrift 1</text><rect x="202" y="70" width="78" height="46" rx="5" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.4"/><text x="241" y="98" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="11.5" fill="#211a4d">Titel</text><path d="M136 104 l0 24 l6 -6 l5 10 l5 -2 l-5 -10 l8 0 z" fill="#ffffff" stroke="#211a4d" stroke-width="2.2" stroke-linejoin="round"/><text x="154" y="178" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Überschrift 1 wählen</text><rect x="308" y="16" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="358" y="60" width="150" height="96" rx="6" fill="#f4f3fa" stroke="#c9c6e0" stroke-width="1.4"/><text x="368" y="78" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="12" fill="#4f4880">Navigation</text><text x="370" y="100" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="13" fill="#211a4d">Pfannkuchen</text><text x="384" y="120" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="13" fill="#211a4d">Zutaten</text><text x="384" y="140" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="13" fill="#211a4d">So geht’s</text><path d="M522 80 l7.199999999999999 7.199999999999999 l14.399999999999999 -15.6" fill="none" stroke="#0d8f68" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round"/><text x="446" y="178" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Navigation prüfen</text><rect x="16" y="208" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><text x="66" y="282" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="20" fill="#211a4d">Zutaten</text><line x1="144" y1="262" x2="144" y2="288" stroke="#df3a53" stroke-width="3"/><line x1="139" y1="262" x2="149" y2="262" stroke="#df3a53" stroke-width="2"/><line x1="139" y1="288" x2="149" y2="288" stroke="#df3a53" stroke-width="2"/><line x1="66" y1="312" x2="246" y2="312" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="66" y1="330" x2="177.6" y2="330" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><text x="154" y="370" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">In die Zeile klicken</text><rect x="308" y="208" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><path d="M419.0 236.0 h38.0 l16.0 16.0 v52.0 h-54.0 z" fill="#ffffff" stroke="#2f6fd6" stroke-width="2.6" stroke-linejoin="round"/><path d="M457.0 236.0 v16.0 h16.0" fill="none" stroke="#2f6fd6" stroke-width="2"/><line x1="429.0" y1="266.0" x2="463.0" y2="266.0" stroke="#c9c6e0" stroke-width="3.4" stroke-linecap="round"/><line x1="429.0" y1="277.0" x2="463.0" y2="277.0" stroke="#c9c6e0" stroke-width="3.4" stroke-linecap="round"/><line x1="429.0" y1="288.0" x2="450.08" y2="288.0" stroke="#c9c6e0" stroke-width="3.4" stroke-linecap="round"/><text x="446" y="326.0" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="15" fill="#2f6fd6">Kochbuch</text><text x="446" y="370" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Kochbuch öffnen</text><circle cx="40" cy="42" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="40" y="49" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><circle cx="332" cy="42" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="332" y="49" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><circle cx="40" cy="234" r="17" fill="#8e3bd2" stroke="#ffffff" stroke-width="3"/><text x="40" y="241" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><circle cx="332" cy="234" r="17" fill="#4eab65" stroke="#ffffff" stroke-width="3"/><text x="332" y="241" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text></svg><div class="fig-cap">Bild 2 &middot; Vier Schritte zur echten Überschrift, aber durcheinander</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 2</span> <b>Bring</b> die Schritte in die richtige Reihenfolge. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>Zuerst: 4 (Kochbuch öffnen)</li><li>dann 3 (in die Zeile klicken)</li><li>dann 1 (Überschrift 1 wählen)</li><li>zuletzt: 2 (Navigation prüfen)</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.1</span> &nbsp;<b>Bring</b> die Schritte für eine Überschrift mit Formatvorlage in die richtige Reihenfolge.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">4 – 3 – 1 – 2</button>
+            <button class="opt" data-hint="Erst muss das Kochbuch offen sein, dann klickst du in die Zeile.">3 – 4 – 1 – 2</button>
+            <button class="opt" data-hint="Die Vorlage gilt für den Absatz, in dem der Cursor steht. Also erst hineinklicken.">4 – 1 – 3 – 2</button>
+            <button class="opt" data-hint="In der Navigation siehst du die Überschrift erst, wenn sie die Vorlage hat.">4 – 3 – 2 – 1</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: öffnen, hineinklicken, Überschrift 1, prüfen.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.2</span> &nbsp;<b>Ordne zu:</b> Welche Formatvorlage passt?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Kochbuch der 6.1</span><span class="chip-i">Pfannkuchen</span><span class="chip-i">Zutaten</span><span class="chip-i">Verrühre Mehl, Eier …</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Standard</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Überschrift 2</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Titel</span></li><li><span class="n" style="background:#4eab65">4</span><span>Überschrift 1</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Kochbuch der 6.1 (3), Pfannkuchen (4), Zutaten (2), Verrühre Mehl, Eier … (1)</button>
+            <button class="opt" data-hint="Der Name des ganzen Buchs ist der Titel. Ein Rezept ist ein Kapitel: Überschrift 1.">Kochbuch der 6.1 (4), Pfannkuchen (3), Zutaten (2), Verrühre Mehl, Eier … (1)</button>
+            <button class="opt" data-hint="Zutaten ist ein Unterkapitel im Rezept: eine Ebene tiefer.">Kochbuch der 6.1 (3), Pfannkuchen (2), Zutaten (4), Verrühre Mehl, Eier … (1)</button>
+            <button class="opt" data-hint="Normaler Text bleibt Standard.">Kochbuch der 6.1 (3), Pfannkuchen (4), Zutaten (1), Verrühre Mehl, Eier … (2)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Titel, Kapitel, Unterkapitel, Text.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.3</span> &nbsp;<b>Entscheide:</b> Welche Sätze stimmen?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>In der Navigation springst du mit einem Klick zu einer Überschrift.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Die Navigation zeigt nur Überschriften mit Formatvorlage.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Auch Google Docs zeigt eine Gliederung der Überschriften.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Die Navigation ändert die Schriftfarbe.</span></li><li><span class="n" style="background:#dd5b59">5</span><span>Text in Standard steht in der Navigation.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 2, 3</button>
+            <button class="opt" data-hint="Und Satz 3? Docs zeigt die Gliederung links neben dem Text.">1, 2</button>
+            <button class="opt" data-hint="In der Navigation stehen nur Überschriften, kein normaler Text.">1, 2, 3, 5</button>
+            <button class="opt" data-hint="Die Navigation zeigt nur an, sie ändert nichts. Und Satz 1?">2, 3, 4</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Die Navigation ist das Inhaltsverzeichnis am Bildschirm.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Klasse: Bild 2 komplett gelöst!</div>
+      </div>
+
+      <div class="fig"><svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 3" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="700" height="400" fill="#ffffff"/><rect x="14" y="14" width="324" height="372" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="30" y="74" width="104" height="290" rx="6" fill="#f4f3fa" stroke="#c9c6e0" stroke-width="1.4"/><text x="38" y="94" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="11" fill="#4f4880">Navigation</text><text x="40" y="126" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="11" fill="#4f4880">keine</text><text x="40" y="142" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="11" fill="#4f4880">Überschriften</text><rect x="142" y="74" width="180" height="290" rx="4" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.8"/><text x="154" y="106" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="900" font-size="18" fill="#211a4d">Kochbuch</text><text x="154" y="138" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="900" font-size="15" fill="#211a4d">Pfannkuchen</text><line x1="154" y1="156" x2="304" y2="156" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="154" y1="170" x2="304" y2="170" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="154" y1="184" x2="247.0" y2="184" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><text x="154" y="238" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="900" font-size="15" fill="#211a4d">Obstsalat</text><line x1="154" y1="256" x2="304" y2="256" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="154" y1="270" x2="304" y2="270" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="154" y1="284" x2="247.0" y2="284" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><circle cx="40" cy="40" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="40" y="47" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><rect x="362" y="14" width="324" height="372" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="378" y="74" width="104" height="290" rx="6" fill="#f4f3fa" stroke="#c9c6e0" stroke-width="1.4"/><text x="386" y="94" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="11" fill="#4f4880">Navigation</text><text x="388" y="120" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="11.5" fill="#211a4d">Kochbuch</text><text x="398" y="142" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="11.5" fill="#211a4d">Pfannkuchen</text><text x="408" y="164" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="11.5" fill="#211a4d">Zutaten</text><text x="398" y="186" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="11.5" fill="#211a4d">Obstsalat</text><text x="408" y="208" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="11.5" fill="#211a4d">Zutaten</text><rect x="490" y="74" width="180" height="290" rx="4" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.8"/><text x="502" y="106" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="900" font-size="20" fill="#df3a53">Kochbuch</text><text x="502" y="138" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="900" font-size="15" fill="#2f6fd6">Pfannkuchen</text><line x1="502" y1="156" x2="652" y2="156" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="502" y1="170" x2="652" y2="170" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="502" y1="184" x2="595.0" y2="184" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><text x="502" y="238" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="900" font-size="15" fill="#2f6fd6">Obstsalat</text><line x1="502" y1="256" x2="652" y2="256" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="502" y1="270" x2="652" y2="270" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="502" y1="284" x2="595.0" y2="284" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><circle cx="388" cy="40" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="388" y="47" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text></svg><div class="fig-cap">Bild 3 &middot; Zwei Kochbücher, die fast gleich aussehen</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 3</span> <b>Ordne zu:</b> Dokument 1 oder 2? a) Navigation zeigt alle Kapitel. b) Nur fett und groß gemacht. c) Verzeichnis per Knopfdruck. d) Erkennt keine Überschrift. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>a) 2</li><li>b) 1</li><li>c) 2</li><li>d) 1</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.1</span> &nbsp;<b>Ordne zu:</b> Gehört das zu Dokument 1 oder Dokument 2?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Die Navigation zeigt alle Überschriften.</span><span class="chip-i">Überschriften nur fett und groß gemacht</span><span class="chip-i">Ein Inhaltsverzeichnis entsteht per Knopfdruck.</span><span class="chip-i">Das Programm erkennt keine Überschrift.</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Dokument 1</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Dokument 2</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Die Navigation zeigt alle Überschriften. (2), Überschriften nur fett und groß gemacht (1), Ein Inhaltsverzeichnis entsteht per Knopfdruck. (2), Das Programm erkennt keine Überschrift. (1)</button>
+            <button class="opt" data-hint="Schau links in die Navigation: Wo steht „keine Überschriften“?">Die Navigation zeigt alle Überschriften. (1), Überschriften nur fett und groß gemacht (2), Ein Inhaltsverzeichnis entsteht per Knopfdruck. (2), Das Programm erkennt keine Überschrift. (1)</button>
+            <button class="opt" data-hint="Ein Inhaltsverzeichnis braucht echte Überschriften mit Formatvorlage.">Die Navigation zeigt alle Überschriften. (2), Überschriften nur fett und groß gemacht (1), Ein Inhaltsverzeichnis entsteht per Knopfdruck. (1), Das Programm erkennt keine Überschrift. (1)</button>
+            <button class="opt" data-hint="In Dokument 2 erkennt das Programm die Überschriften, sonst wären sie nicht in der Navigation.">Die Navigation zeigt alle Überschriften. (2), Überschriften nur fett und groß gemacht (1), Ein Inhaltsverzeichnis entsteht per Knopfdruck. (2), Das Programm erkennt keine Überschrift. (2)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Dokument 1 sieht nur so aus, Dokument 2 hat echte Überschriften.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.2</span> &nbsp;<b>Ergänze</b> die Sätze.</div>
+          <div class="qi"><div class="zeile">Ein Absatz ist ein <span class="lk"><span class="n" style="background:#3675d8">1</span></span> .</div><div class="zeile">Die Schriftgröße ist eine <span class="lk"><span class="n" style="background:#d16b2f">2</span></span> .</div><div class="zeile">Eine Formatvorlage speichert viele <span class="lk"><span class="n" style="background:#8e3bd2">3</span></span> .</div></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Objekt (1), Eigenschaft (2), Eigenschaften (3)</button>
+            <button class="opt" data-hint="Den Absatz kannst du anklicken: ein Ding, also ein Objekt.">Eigenschaft (1), Objekt (2), Eigenschaften (3)</button>
+            <button class="opt" data-hint="Eine Vorlage speichert keine Dateien, sondern Einstellungen wie Größe und Farbe.">Objekt (1), Eigenschaft (2), Dateien (3)</button>
+            <button class="opt" data-hint="Das Programm ist Word. Der Absatz ist ein Objekt im Dokument.">Programm (1), Eigenschaft (2), Eigenschaften (3)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Objekte haben Eigenschaften.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.3</span> &nbsp;<b>Entscheide:</b> Was bekommst du durch Formatvorlagen?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>eine Gliederung in der Navigation</span></li><li><span class="n" style="background:#d16b2f">2</span><span>ein Inhaltsverzeichnis per Knopfdruck</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>einen fertigen Text</span></li><li><span class="n" style="background:#4eab65">4</span><span>einheitliche Überschriften</span></li><li><span class="n" style="background:#dd5b59">5</span><span>ein Bild</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 2, 4</button>
+            <button class="opt" data-hint="Den Text schreibst du weiter selbst.">1, 2, 3, 4</button>
+            <button class="opt" data-hint="Und Satz 4? Alle Überschriften 1 sehen gleich aus.">1, 2</button>
+            <button class="opt" data-hint="Bilder fügst du selbst ein. Und die Gliederung?">2, 4, 5</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt: Struktur, Verzeichnis und einheitliches Aussehen.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Stark: Bild 3 komplett gelöst!</div>
+      </div>
     </section>
 
     <section class="block">
-      <h2><span class="dot"></span>Schritt f&uuml;r Schritt</h2>
-      <div class="todo">Hier kommt die Anleitung hin: die einzelnen Arbeitsschritte, gerne mit Screenshots.</div>
+      <h2><span class="dot"></span>Schritt für Schritt: Vom Rezept zum Kochbuch</h2>
+      <p><span class="task-no">Aufgabe 4</span> Mach aus deinem Rezept ein Kochbuch mit zwei Rezepten und echten Überschriften.</p>
+      <div class="fig"><svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 4" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="760" height="260" fill="#ffffff"/><rect x="14" y="10" width="732" height="240" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><path d="M15.5 50 V24 a12.5 12.5 0 0 1 12.5 -12.5 H732 a12.5 12.5 0 0 1 12.5 12.5 V50 z" fill="#ff5d73"/><text x="34" y="38" text-anchor="start" font-family="Fredoka, Open Sans, sans-serif" font-weight="800" font-size="20" fill="#ffffff">So soll es aussehen</text><text x="726" y="38" text-anchor="end" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="16" fill="#ffffff">Titel · Überschrift 1 · Überschrift 2</text><rect x="30" y="62" width="180" height="182" rx="6" fill="#f4f3fa" stroke="#c9c6e0" stroke-width="1.4"/><text x="42" y="84" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="13" fill="#4f4880">Navigation</text><text x="44" y="108" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="13" fill="#211a4d">Kochbuch der 6.1</text><text x="58" y="127" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="13" fill="#211a4d">Pfannkuchen</text><text x="72" y="146" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="13" fill="#211a4d">Zutaten</text><text x="72" y="165" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="13" fill="#211a4d">So geht’s</text><text x="58" y="184" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="13" fill="#211a4d">Obstsalat</text><text x="72" y="203" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="13" fill="#211a4d">Zutaten</text><text x="72" y="222" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="13" fill="#211a4d">So geht’s</text><text x="232" y="96" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="26" fill="#211a4d">Kochbuch der 6.1</text><text x="560" y="96" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="13" fill="#4f4880">Titel</text><text x="232" y="128" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#df3a53">Pfannkuchen</text><text x="560" y="128" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="13" fill="#4f4880">Überschrift 1</text><text x="232" y="154" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="16" fill="#2f6fd6">Zutaten</text><text x="560" y="154" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="13" fill="#4f4880">Überschrift 2</text><line x1="232" y1="172" x2="532" y2="172" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="232" y1="188" x2="418.0" y2="188" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><text x="560" y="178" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="13" fill="#4f4880">Standard</text><text x="232" y="214" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="16" fill="#2f6fd6">So geht’s</text><text x="560" y="214" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="13" fill="#4f4880">Überschrift 2</text><line x1="232" y1="232" x2="418.0" y2="232" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/></svg><div class="fig-cap">So soll dein Kochbuch aussehen: links die Navigation, rechts die Vorlagen</div></div>
+      <ol class="steps">
+        <li><b>Öffnen.</b> Dein Rezept <b>2026-12-01_ITG_Rezept_geordnet</b> aus <b>Schule › ITG</b>.</li>
+        <li><b>Neuer Name.</b> Datei › Speichern unter: <b>2026-12-08_ITG_Kochbuch</b>.</li>
+        <li><b>Titel.</b> Ganz oben <i>Kochbuch der 6.1</i> tippen, dann Start › Formatvorlage <b>Titel</b>.</li>
+        <li><b>Kapitel.</b> Klick in <i>Pfannkuchen</i>, Formatvorlage <b>Überschrift 1</b>.</li>
+        <li><b>Unterkapitel.</b> <i>Zutaten</i> und <i>So geht’s</i> bekommen <b>Überschrift 2</b>.</li>
+        <li><b>Zweites Rezept.</b> Kopiere den Obstsalat unten (<span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">C</span></span>) und füge ihn am Ende ein (<span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">V</span></span>).</li>
+        <li><b>Vorlagen.</b> Auch beim Obstsalat Überschrift 1 und Überschrift 2 setzen, Zutaten als Aufzählung, Schritte nummeriert.</li>
+        <li><b>Navigation.</b> Ansicht › <b>Navigationsbereich</b>: Stehen alle Kapitel links? Klick darauf springt hin.</li>
+        <li><b>Ändern.</b> Rechtsklick auf die Formatvorlage <b>Überschrift 1</b> › Ändern › Farbe. Alle Rezepttitel ändern sich. <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">S</span></span>.</li>
+      </ol>
+      <details class="fast-sol" open><summary>Obstsalat zum Kopieren</summary><div class="abtipp"><p>Obstsalat</p><p>Zutaten</p><p>2 Äpfel</p><p>2 Bananen</p><p>1 Orange</p><p>So geht’s</p><p>Schneide das Obst in kleine Stücke.</p><p>Mische alles in einer Schüssel.</p><p>Stell den Salat zehn Minuten kalt.</p></div></details><p class="muster"><b>In Google Docs</b> wählst du die Vorlage in der Leiste (Normaler Text, Titel, Überschrift 1 …). Die Gliederung zeigt Docs links neben dem Text. Ändern: Überschrift neu gestalten, markieren, dann im Vorlagen-Menü „Überschrift 1 an Auswahl anpassen“.</p>
+      <div class="merke-box"><b>Merke:</b> Ein <b>Absatz</b> ist ein <b>Objekt</b>. Er hat <b>Eigenschaften</b> wie Schriftart, Größe, Farbe und Ausrichtung. Eine <b>Formatvorlage</b> speichert viele Eigenschaften unter einem Namen, zum Beispiel <i>Überschrift 1</i>. So erkennt das Programm die Gliederung: <b>Navigation</b> und <b>Inhaltsverzeichnis</b> entstehen von selbst. Änderst du die Vorlage, ändern sich alle Überschriften mit.</div>
     </section>
 
     <section class="block">
-      <h2><span class="dot"></span>&Uuml;bungsaufgaben</h2>
-      <div class="todo">Hier kommen die Aufgaben hin &mdash; mit klarer Differenzierung (Basis &middot; mittel &middot; knifflig).</div>
+      <h2><span class="dot"></span>Übungsaufgaben</h2>
+      <div class="task">
+        <span class="task-no">Aufgabe 5</span> <span class="chip basis">Basis</span>
+        <p>Welche Formatvorlage passt? Wähle aus Titel, Überschrift 1, Überschrift 2 und Standard.</p><ul><li>Kochbuch der 6.1</li><li>Pfannkuchen</li><li>Zutaten</li></ul>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Kochbuch der 6.1: Titel.</li><li>Pfannkuchen: Überschrift 1 (ein Kapitel).</li><li>Zutaten: Überschrift 2 (ein Unterkapitel).</li></ul></details>
+      </div>
+      <div class="task">
+        <span class="task-no">Aufgabe 6</span> <span class="chip mittel">mittel</span>
+        <p>Alle Überschriften 1 im Kochbuch sollen blau statt rot sein. Beschreibe den schnellsten Weg.</p>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Rechtsklick auf die Formatvorlage Überschrift 1 › Ändern › Farbe Blau › OK.</li><li>Alle Überschriften 1 werden auf einmal blau, egal ob es 2 oder 200 sind.</li></ul></details>
+      </div>
+      <div class="task">
+        <span class="task-no">Aufgabe 7</span> <span class="chip knifflig">knifflig</span>
+        <p>Jemand sagt: „Ich mache Überschriften einfach fett und groß, das sieht doch genauso aus.“ Beurteile das.</p>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Es sieht gleich aus, aber das Programm erkennt keine Überschrift. Es gibt keine Navigation und kein automatisches Inhaltsverzeichnis, und jede Änderung musst du an jeder Überschrift einzeln machen.</li></ul></details>
+      </div>
     </section>
 
     <section class="block fast">
-      <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnelll&auml;ufer:innen-Mission</h2>
+      <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnellläufer:innen-Mission</h2>
       <p class="fast-text">Erzeuge aus deinen Überschriften automatisch ein Inhaltsverzeichnis.</p>
+      <ul class="fast-list">
+        <li><b>So geht es in Word:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>So geht es in Docs:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Was passiert, wenn ich ein Kapitel ergänze?</b> <span class="fill">&nbsp;</span></li>
+      </ul>
+      <p class="fast-extra"><b>Vertiefung zur Wahl:</b> Gliedere in der Vorlagen-Werkstatt, werde Objekt-Detektiv oder ändere mit einem Klick alles. <a href="13-vertiefung-ueberschriften-und-formatvorlagen.html">Zur Vertiefung</a> (auch per QR-Code unten rechts auf Seite 2 des Aufgabenblatts).</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="dot"></span>Das kann ich jetzt: kurzer Check</h2>
+      <p>Drei Fragen zum Abschluss. Wieder gilt: <b style="color:var(--ok-dk)">grün</b> = richtig, <b style="color:var(--no-dk)">rot</b> = Tipp.</p>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.1</span> &nbsp;<b>Ordne zu:</b> Was hilft dir?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Alle Überschriften sollen blau werden.</span><span class="chip-i">Du willst schnell zu Rezept 2 springen.</span><span class="chip-i">Du brauchst eine Liste aller Kapitel.</span><span class="chip-i">Eine Überschrift fehlt in der Navigation.</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Überschrift 1 zuweisen</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Formatvorlage ändern</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Inhaltsverzeichnis einfügen</span></li><li><span class="n" style="background:#4eab65">4</span><span>Navigationsbereich</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Alle Überschriften sollen blau werden. (2), Du willst schnell zu Rezept 2 springen. (4), Du brauchst eine Liste aller Kapitel. (3), Eine Überschrift fehlt in der Navigation. (1)</button>
+            <button class="opt" data-hint="Alle auf einmal ändern: Das macht die Vorlage, nicht jede Überschrift einzeln.">Alle Überschriften sollen blau werden. (1), Du willst schnell zu Rezept 2 springen. (4), Du brauchst eine Liste aller Kapitel. (3), Eine Überschrift fehlt in der Navigation. (2)</button>
+            <button class="opt" data-hint="Springen geht über die Navigation, eine Kapitel-Liste ist ein Inhaltsverzeichnis.">Alle Überschriften sollen blau werden. (2), Du willst schnell zu Rezept 2 springen. (3), Du brauchst eine Liste aller Kapitel. (4), Eine Überschrift fehlt in der Navigation. (1)</button>
+            <button class="opt" data-hint="Fehlt eine Überschrift in der Navigation, hat sie keine Vorlage.">Alle Überschriften sollen blau werden. (2), Du willst schnell zu Rezept 2 springen. (4), Du brauchst eine Liste aller Kapitel. (1), Eine Überschrift fehlt in der Navigation. (3)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Vorlage ändern, springen, Verzeichnis, Vorlage zuweisen.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.2</span> &nbsp;<b>Ergänze</b> den Merksatz.</div>
+          <div class="qi"><div class="zeile">Mit <span class="lk"><span class="n" style="background:#3675d8">1</span></span> erkennt das Programm die Gliederung.</div><div class="zeile">Änderst du die Vorlage, ändern sich <span class="lk"><span class="n" style="background:#d16b2f">2</span></span> Überschriften.</div><div class="zeile">Ein Absatz ist ein Objekt mit <span class="lk"><span class="n" style="background:#8e3bd2">3</span></span> .</div></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Formatvorlagen (1), alle (2), Eigenschaften (3)</button>
+            <button class="opt" data-hint="Fett ist nur ein Aussehen. Erkannt wird nur eine Formatvorlage.">fett (1), alle (2), Eigenschaften (3)</button>
+            <button class="opt" data-hint="Das ist ja der Trick: Alle Überschriften mit dieser Vorlage ändern sich mit.">Formatvorlagen (1), keine (2), Eigenschaften (3)</button>
+            <button class="opt" data-hint="Objekte haben Eigenschaften wie Größe und Farbe.">Formatvorlagen (1), alle (2), Dateien (3)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Formatvorlagen, alle, Eigenschaften.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.3</span> &nbsp;<b>Bring</b> die Schritte für ein Inhaltsverzeichnis in Word in die richtige Reihenfolge.</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Referenzen › Inhaltsverzeichnis wählen.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Überschriften mit Formatvorlagen versehen.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Cursor an den Anfang setzen.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Prüfen: Stehen alle Kapitel darin?</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">2 – 3 – 1 – 4</button>
+            <button class="opt" data-hint="Ohne Formatvorlagen findet Word keine Kapitel.">3 – 2 – 1 – 4</button>
+            <button class="opt" data-hint="Das Verzeichnis landet dort, wo der Cursor steht.">2 – 1 – 3 – 4</button>
+            <button class="opt" data-hint="Prüfen kannst du erst, wenn das Verzeichnis da ist.">2 – 3 – 4 – 1</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Vorlagen, Cursor, Referenzen, prüfen.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Perfekt: Dein Kochbuch hat jetzt echte Kapitel!</div>
+      </div>
     </section>
 
     <section class="block">
       <h2><span class="dot"></span>Das nehme ich mit</h2>
-      <div class="todo">Hier kommt der Merksatz / die Zusammenfassung hin.</div>
+      <div class="merk">
+        <p>Ein <b>Absatz</b> ist ein <b>Objekt</b>. Er hat <b>Eigenschaften</b> wie Schriftart, Größe, Farbe und Ausrichtung. Eine <b>Formatvorlage</b> speichert viele Eigenschaften unter einem Namen, zum Beispiel <i>Überschrift 1</i>. So erkennt das Programm die Gliederung: <b>Navigation</b> und <b>Inhaltsverzeichnis</b> entstehen von selbst. Änderst du die Vorlage, ändern sich alle Überschriften mit.</p>
+        <div class="secret">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12c.5.5 1 1.2 1 2h6c0-.8.5-1.5 1-2a7 7 0 0 0-4-12z"/></svg>
+          <span>Merk&#8209;Trick: Eine Formatvorlage ist wie ein Trikot: Alle Spieler mit Nummer 1 tragen dasselbe. Ändert der Verein die Farbe, laufen alle in der neuen Farbe auf.</span>
+        </div>
+      </div>
     </section>
 
     <div class="selfcheck-wrap">
-      <span class="sc-label">Wie sicher f&uuml;hlst du dich nach dieser Stunde?</span>
+      <span class="sc-label">Wie sicher fühlst du dich nach dieser Stunde?</span>
       <div class="sc-stars" id="stars"></div>
       <span class="sc-feedback" id="fb"></span>
     </div>
@@ -182,9 +493,67 @@
 </div>
 
 <script>
+  /* ---------- Quiz-Engine ---------- */
+  (function(){
+    var LETTERS = ['A','B','C','D','E','F'];
+    var quizzes = document.querySelectorAll('[data-quiz]');
+    quizzes.forEach(function(quiz){
+      var questions = quiz.querySelectorAll('.q');
+      var total = questions.length;
+      var solved = 0;
+      var pcount = quiz.querySelector('.pcount');
+      var pfill = quiz.querySelector('.pfill');
+      var doneBox = quiz.querySelector('.quiz-solved');
+      function updateProgress(){
+        if (pcount) pcount.textContent = solved + ' / ' + total + ' richtig';
+        if (pfill) pfill.style.width = (total ? (solved/total*100) : 0) + '%';
+        if (doneBox && solved === total) doneBox.classList.add('show');
+      }
+      questions.forEach(function(q){
+        var optsContainer = q.querySelector('.opts');
+        var opts = Array.prototype.slice.call(q.querySelectorAll('.opt'));
+        for (var i = opts.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = opts[i]; opts[i] = opts[j]; opts[j] = tmp;
+        }
+        opts.forEach(function(opt){ optsContainer.appendChild(opt); });
+        var hint = q.querySelector('.q-hint');
+        var done = q.querySelector('.q-done');
+        var answered = false;
+        opts.forEach(function(opt, i){
+          var lett = document.createElement('span');
+          lett.className = 'lett';
+          lett.textContent = LETTERS[i];
+          opt.insertBefore(lett, opt.firstChild);
+          opt.addEventListener('click', function(){
+            if (answered) return;
+            if (opt.getAttribute('data-correct') === 'true') {
+              answered = true;
+              opt.classList.add('correct');
+              opts.forEach(function(o){ o.setAttribute('disabled','disabled'); });
+              if (hint) hint.classList.remove('show');
+              if (done) done.classList.add('show');
+              solved++;
+              updateProgress();
+            } else {
+              opt.classList.add('wrong');
+              opt.setAttribute('disabled','disabled');
+              if (hint) {
+                hint.textContent = opt.getAttribute('data-hint') || 'Nicht ganz — versuch es nochmal.';
+                hint.classList.add('show');
+              }
+            }
+          });
+        });
+      });
+      updateProgress();
+    });
+  })();
+
+  /* ---------- Selbsteinschätzung (Sterne, localStorage) ---------- */
   (function(){
     var key = 'itg_lp_13';
-    var msgs = {1:'Ganz frisch \u2014 \u00dcben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf \u2014 super!'};
+    var msgs = {1:'Ganz frisch — Üben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf — super!'};
     var svg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 18.9 6.1 21l1.2-6.5L2.5 9.9l6.6-.9z"/></svg>';
     var wrap = document.getElementById('stars'); var fb = document.getElementById('fb'); var stars = [];
     for (var n = 1; n <= 4; n++) { var b = document.createElement('button'); b.className = 'sc-star'; b.type = 'button'; b.innerHTML = svg; b.setAttribute('aria-label', 'Stufe ' + n); wrap.appendChild(b); stars.push(b); }

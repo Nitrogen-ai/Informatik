@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LP 15 · Seite einrichten & als PDF ausgeben — ITG Klasse 6</title>
+<title>LP 15 · Seite einrichten &amp; als PDF ausgeben · ITG Klasse 6</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -12,6 +12,7 @@
     --key: #ff5d73; --edge: #df3a53; --tint: #ffe6ea; --ktext: #ffffff;
     --ink: #211a4d; --ink-soft: #4f4880; --bg: #f1f0fb; --card: #fff;
     --line: rgba(33,26,77,0.12); --sun: #ffc23d;
+    --ok: #39b56a; --ok-dk: #248049; --no: #e8607a; --no-dk: #b83a56;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -59,12 +60,8 @@
   .rlp .tag { display: inline-block; background: #e7e5fb; padding: 0.06rem 0.42rem; border-radius: 6px; margin: 0 0.15rem 0.25rem 0; }
   .rlp .tag.neu { background: var(--sun); color: var(--ink); }
 
-  .draft-note {
-    display: flex; align-items: center; gap: 0.6rem;
-    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 12px;
-    padding: 0.7rem 0.9rem; margin: 1.4rem 0; font-size: 0.9rem; font-weight: 700; color: #8a5a00;
-  }
-  .draft-note svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .intro { font-size: 1.05rem; margin: 1.4rem 0 1.6rem; }
+  .intro .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
 
   .block { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 1.4rem 1.5rem; margin-bottom: 1.1rem; }
   .block h2 {
@@ -72,15 +69,94 @@
     display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem;
   }
   .block h2 .dot { width: 14px; height: 14px; border-radius: 5px; background: var(--key); box-shadow: 0 2px 0 var(--edge); flex-shrink: 0; }
-  .todo {
-    border: 2px dashed var(--line); border-radius: 12px; padding: 1rem 1.1rem;
-    color: var(--ink-soft); font-style: italic; background: rgba(91,75,230,0.03);
+  .block p { margin-bottom: 0.6rem; }
+
+  /* figure */
+  .fig { background: var(--tint); border-radius: 14px; padding: 1rem; margin: 0.4rem 0 1rem; }
+  .fig svg { width: 100%; height: auto; display: block; }
+  .fig-cap { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); text-align: center; margin-top: 0.5rem; }
+
+  /* step list */
+  ol.steps { list-style: none; counter-reset: st; }
+  ol.steps li { counter-increment: st; position: relative; padding: 0.55rem 0 0.55rem 2.7rem; border-bottom: 1px dashed var(--line); }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li::before {
+    content: counter(st); position: absolute; left: 0; top: 0.5rem;
+    width: 30px; height: 30px; border-radius: 9px; background: var(--key); color: var(--ktext);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; box-shadow: 0 2px 0 var(--edge);
   }
+  ol.steps b { color: var(--edge); }
+
+  /* exercises + diff chips */
+  .task { border: 1.5px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; margin-bottom: 0.8rem; }
+  .chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.66rem;
+    letter-spacing: 0.05em; padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.5rem; }
+  .chip.basis { background: #e2f6ea; color: var(--ok-dk); border: 1.5px solid var(--ok); }
+  .chip.mittel { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+  .chip.knifflig { background: #fff3d1; color: #8a5a00; border: 1.5px solid var(--sun); }
+  .task ul { margin: 0.4rem 0 0 1.1rem; }
+  .task li { margin-bottom: 0.2rem; }
 
   .block.fast { border-color: var(--sun); background: #fff7e2; }
   .block.fast h2 { color: #8a5a00; }
   .block.fast h2 .rocket { width: 22px; height: 22px; color: #8a5a00; }
-  .fast-text { font-size: 1.02rem; font-weight: 600; }
+  .fast-text { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .fast-list { margin: 0.4rem 0 0.8rem 1.1rem; }
+  .fast-list li { margin-bottom: 0.3rem; }
+  .auftrag { border: 1.5px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0 0 0.9rem; background: #fff; }
+  .auftrag p { margin: 0; }
+  .auftrag-no, .task-no { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); background: var(--tint); border-radius: 6px; padding: 0.1rem 0.45rem; margin-right: 0.2rem; }
+  .auftrag details, .fast-sol { margin-top: 0.5rem; }
+  .auftrag summary, .fast-sol summary { cursor: pointer; font-weight: 700; color: var(--edge); font-size: 0.92rem; }
+  .auftrag ol, .fast-sol ul { margin: 0.4rem 0 0 1.3rem; }
+  .fast-sol { margin-bottom: 0.8rem; }
+  .fill { display: inline-block; min-width: 10rem; border-bottom: 1.5px dotted currentColor; }
+  .merke-box { margin-top: 0.9rem; background: var(--tint); border-left: 6px solid var(--key); border-radius: 10px; padding: 0.7rem 0.9rem; }
+  .fast-extra { font-size: 0.95rem; font-weight: 600; background: #fff; border-radius: 10px; padding: 0.7rem 0.9rem; border: 1.5px dashed var(--sun); }
+
+  /* merksatz */
+  .merk { background: var(--tint); border: 2px solid var(--key); border-left: 8px solid var(--key); border-radius: 14px; padding: 1.1rem 1.3rem; }
+  .merk .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+  .merk b { color: var(--edge); }
+  .secret { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.9rem; padding: 0.7rem 0.9rem;
+    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 10px; font-weight: 700; color: #8a5a00; font-size: 0.95rem; }
+  .secret svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  /* ---- QUIZ ENGINE ---- */
+  .quiz { margin-top: 0.4rem; }
+  .quiz-progress { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.74rem; color: var(--ink-soft); }
+  .pbar { flex: 1; height: 10px; background: #e7e5fb; border-radius: 999px; overflow: hidden; }
+  .pfill { height: 100%; width: 0; background: var(--ok); border-radius: 999px; transition: width 0.3s ease; }
+  .q { margin-bottom: 1.1rem; padding-bottom: 1.1rem; border-bottom: 1px dashed var(--line); }
+  .q:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .q-text { font-weight: 800; margin-bottom: 0.6rem; }
+  .q-text .qn { color: var(--edge); font-family: 'JetBrains Mono', monospace; }
+  .opts { display: grid; gap: 0.5rem; }
+  .opt {
+    display: flex; align-items: center; gap: 0.7rem; width: 100%; text-align: left;
+    font-family: 'Nunito', sans-serif; font-size: 0.98rem; font-weight: 700; color: var(--ink);
+    background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 0.6rem 0.8rem; cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .opt:hover:not([disabled]) { border-color: var(--key); transform: translateX(2px); }
+  .opt .lett { flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px; background: var(--tint); color: var(--edge);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; font-size: 0.85rem; }
+  .opt.correct { border-color: var(--ok); background: #e9f8ef; }
+  .opt.correct .lett { background: var(--ok); color: #fff; }
+  .opt.wrong { border-color: var(--no); background: #fdecf0; }
+  .opt.wrong .lett { background: var(--no); color: #fff; }
+  .opt[disabled] { cursor: default; opacity: 0.75; }
+  .opt.correct[disabled], .opt.wrong[disabled] { opacity: 1; }
+  .q-hint { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--no-dk);
+    background: #fdecf0; border-radius: 9px; padding: 0.5rem 0.7rem; display: none; }
+  .q-hint.show { display: block; }
+  .q-done { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--ok-dk); display: none; }
+  .q-done.show { display: block; }
+  .quiz-solved { margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 12px; background: #e9f8ef;
+    border: 2px solid var(--ok); color: var(--ok-dk); font-family: 'Fredoka', sans-serif; font-weight: 600;
+    display: none; align-items: center; gap: 0.6rem; }
+  .quiz-solved.show { display: flex; }
+  .quiz-solved svg { width: 22px; height: 22px; flex-shrink: 0; }
 
   .selfcheck-wrap {
     display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem;
@@ -113,6 +189,39 @@
   }
   @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 </style>
+<style>
+  .qi { background: var(--tint); border-radius: 12px; padding: 0.6rem 0.75rem; margin: -0.2rem 0 0.7rem; font-weight: 700; }
+  .qi .n { display: inline-flex; align-items: center; justify-content: center; width: 1.55rem; height: 1.55rem; border-radius: 50%;
+           color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; flex: none; }
+  .qi ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+  .qi li { display: flex; gap: 0.5rem; align-items: center; }
+  .qi .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.2rem 0 0.45rem; }
+  .qi .chip-i { background: #fff; border: 2px solid var(--key); border-radius: 9px; padding: 0.15rem 0.55rem; display: inline-flex; gap: 0.35rem; align-items: center; }
+  .qi .lk { display: inline-flex; vertical-align: middle; border: 2px dashed var(--ink-soft); border-radius: 8px; padding: 0.05rem 0.4rem; margin: 0 0.15rem; }
+  .qi .zeile { margin: 0.25rem 0; }
+  .qi .txt { font-weight: 600; color: var(--ink-soft); margin-bottom: 0.3rem; }
+  .qi .boxes { color: var(--ink-soft); font-style: italic; margin-bottom: 0.3rem; }
+  .block.abgabe { border-color: var(--key); }
+  .abgabe .warn { background: #fdecf0; border-left: 6px solid var(--no); border-radius: 10px; padding: 0.6rem 0.85rem; margin: 0.2rem 0 0.9rem; color: var(--no-dk); font-weight: 600; }
+  .abgabe .txt-muster { font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; background: #fff; border: 1.5px solid var(--line); border-radius: 8px; padding: 0.5rem 0.7rem; margin: 0.4rem 0; overflow-wrap: anywhere; }
+  .abgabe .name-regel { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.92rem; background: var(--tint); border-radius: 10px; padding: 0.55rem 0.7rem; margin: 0.45rem 0 0.3rem; overflow-wrap: anywhere; }
+  .abgabe .nr-teil { background: #fff; border: 1.5px solid var(--key); border-radius: 6px; padding: 0.05rem 0.35rem; }
+  .abgabe .nr-teil.neu { background: var(--sun); border-color: #c8890a; }
+  .abgabe .name-bsp { font-weight: 700; margin-bottom: 0.3rem; }
+</style>
+<style>
+  .fig svg[aria-label="Bild 2"] { max-width: 460px; margin: 0 auto; }
+  .fig svg[aria-label="Bild 3"] { max-width: 600px; margin: 0 auto; }
+  .fig svg[aria-label="Bild 4"] { max-width: 620px; margin: 0 auto; }
+  .kbd { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.82em; font-weight: 700; background: #fff;
+         border: 1.5px solid var(--ink); border-bottom-width: 3px; border-radius: 6px; padding: 0 0.35em; white-space: nowrap; }
+  .abtipp { background: #fff; border: 2px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0.6rem 0; }
+  .abtipp p { margin: 0.1rem 0; }
+</style>
+<style>
+  .fig svg[aria-label="Bild 1"] { max-width: 760px; margin: 0 auto; }
+  .muster { background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.6rem 0.9rem; margin: 0.5rem 0; }
+</style>
 </head>
 <body>
 
@@ -134,39 +243,238 @@
     <p class="rlp"><span class="tag">RLP 2.5 · F/H</span><span class="tag">2.6 · F</span></p>
   </header>
 
-  <div class="draft-note">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
-    <span>Diese Seite ist das Ger&uuml;st f&uuml;r diesen Lernpfad &mdash; Inhalte werden noch erg&auml;nzt.</span>
-  </div>
+  <p class="intro">Dein Kochbuch ist fast fertig. Heute bekommt es eine <span class="hl">Kopfzeile</span>, eine <span class="hl">Fußzeile mit Seitenzahl</span> und wird als <span class="hl">PDF</span> gespeichert, damit es auf jedem Gerät gleich aussieht. Los geht’s!</p>
 
   <main>
+
     <section class="block">
-      <h2><span class="dot"></span>Los geht es &mdash; worum geht es heute?</h2>
-      <div class="todo">Hier kommt der Einstieg hin: eine kurze, spannende Hinf&uuml;hrung zum Thema.</div>
+      <h2><span class="dot"></span>Schau genau hin: Was weißt du schon?</h2>
+      <p>Sieh dir die drei Bilder an. Zu jedem Bild gehören drei Fragen. Bei vielen Fragen ist eine ganze Kombination richtig, also lies jede Antwort bis zum Ende. Wird sie <b style="color:var(--ok-dk)">grün</b>, ist sie richtig. Bei <b style="color:var(--no-dk)">rot</b> bekommst du einen Tipp.</p>
+
+      <div class="fig"><svg viewBox="0 0 1000 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 1" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="1000" height="200" fill="#ffffff"/><rect x="8" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="44.0" y="58" width="80" height="112" rx="4" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.8"/><rect x="44.0" y="58" width="80" height="112" fill="#ffd76a" opacity="0.8"/><rect x="56.0" y="74" width="56" height="82" fill="#ffffff" stroke="#211a4d" stroke-width="1.2" stroke-dasharray="3 2"/><line x1="58.0" y1="82" x2="110.0" y2="82" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><line x1="58.0" y1="95" x2="98.56" y2="95" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><line x1="58.0" y1="108" x2="104.80000000000001" y2="108" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><line x1="58.0" y1="121" x2="89.2" y2="121" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><line x1="58.0" y1="134" x2="101.68" y2="134" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><circle cx="30" cy="34" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="30" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><rect x="174" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="194.0" y="58" width="112" height="80" rx="4" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.8"/><line x1="208.0" y1="82" x2="292.0" y2="82" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><line x1="208.0" y1="94" x2="273.52" y2="94" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><line x1="208.0" y1="106" x2="283.6" y2="106" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><circle cx="196" cy="34" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="196" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><rect x="340" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="376.0" y="58" width="80" height="112" rx="4" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.8"/><rect x="380.0" y="61" width="72" height="12" fill="#ffd76a"/><line x1="390.0" y1="82" x2="442.0" y2="82" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><line x1="390.0" y1="95" x2="430.56" y2="95" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><line x1="390.0" y1="108" x2="436.8" y2="108" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><line x1="390.0" y1="121" x2="421.2" y2="121" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><line x1="390.0" y1="134" x2="433.68" y2="134" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><circle cx="362" cy="34" r="17" fill="#8e3bd2" stroke="#ffffff" stroke-width="3"/><text x="362" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><rect x="506" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="542.0" y="58" width="80" height="112" rx="4" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.8"/><rect x="546.0" y="156" width="72" height="11" fill="#ffd76a" opacity="0"/><line x1="556.0" y1="82" x2="608.0" y2="82" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><line x1="556.0" y1="95" x2="596.56" y2="95" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><line x1="556.0" y1="108" x2="602.8" y2="108" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><line x1="556.0" y1="121" x2="587.2" y2="121" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><line x1="556.0" y1="134" x2="599.68" y2="134" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><circle cx="608.0" cy="161" r="8" fill="#ffd76a"/><text x="608.0" y="165" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="900" font-size="11" fill="#211a4d">2</text><circle cx="528" cy="34" r="17" fill="#4eab65" stroke="#ffffff" stroke-width="3"/><text x="528" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text><rect x="672" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="708.0" y="58" width="80" height="112" rx="4" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.8"/><rect x="712.0" y="156" width="72" height="11" fill="#ffd76a" opacity="1"/><line x1="722.0" y1="82" x2="774.0" y2="82" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><line x1="722.0" y1="95" x2="762.56" y2="95" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><line x1="722.0" y1="108" x2="768.8" y2="108" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><line x1="722.0" y1="121" x2="753.2" y2="121" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><line x1="722.0" y1="134" x2="765.68" y2="134" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><circle cx="694" cy="34" r="17" fill="#dd5b59" stroke="#ffffff" stroke-width="3"/><text x="694" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">5</text><rect x="838" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="874.0" y="58" width="80" height="112" rx="4" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.8"/><line x1="888.0" y1="82" x2="940.0" y2="82" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><line x1="888.0" y1="95" x2="928.56" y2="95" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><line x1="888.0" y1="108" x2="934.8" y2="108" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><line x1="888.0" y1="121" x2="919.2" y2="121" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><line x1="888.0" y1="134" x2="931.68" y2="134" stroke="#c9c6e0" stroke-width="3.5" stroke-linecap="round"/><circle cx="860" cy="34" r="17" fill="#6e6e80" stroke="#ffffff" stroke-width="3"/><text x="860" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">6</text></svg><div class="fig-cap">Bild 1 &middot; Sechs Mini-Seiten, gelb ist jeweils ein Teil der Seite</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 1</span> <b>Ordne zu:</b> K = Kopfzeile, F = Fußzeile, R = Seitenrand, S = Seitenzahl, H = Hochformat, Q = Querformat. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>1) R</li><li>2) Q</li><li>3) K</li><li>4) S</li><li>5) F</li><li>6) H</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.1</span> &nbsp;<b>Ordne zu:</b> Was ist bei den Karten gelb markiert?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Karte 1</span><span class="chip-i">Karte 3</span><span class="chip-i">Karte 4</span><span class="chip-i">Karte 5</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Kopfzeile</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Fußzeile</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Seitenrand</span></li><li><span class="n" style="background:#4eab65">4</span><span>Seitenzahl</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Karte 1 (3), Karte 3 (1), Karte 4 (4), Karte 5 (2)</button>
+            <button class="opt" data-hint="Die Kopfzeile steht oben, die Fußzeile unten auf der Seite.">Karte 1 (3), Karte 3 (2), Karte 4 (4), Karte 5 (1)</button>
+            <button class="opt" data-hint="Bei Karte 1 ist der Rahmen um den Text markiert: der Seitenrand.">Karte 1 (4), Karte 3 (1), Karte 4 (3), Karte 5 (2)</button>
+            <button class="opt" data-hint="Bei Karte 4 ist nur die kleine Zahl markiert, bei Karte 5 der ganze untere Streifen.">Karte 1 (3), Karte 3 (1), Karte 4 (2), Karte 5 (4)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Rand, Kopfzeile, Seitenzahl, Fußzeile.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.2</span> &nbsp;<b>Ordne zu:</b> Wohin gehört das?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Titel des Kochbuchs auf jeder Seite</span><span class="chip-i">Seitenzahl</span><span class="chip-i">Zutatenliste</span><span class="chip-i">Abstand zum Papierrand</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Textbereich</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Kopfzeile</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Seitenrand</span></li><li><span class="n" style="background:#4eab65">4</span><span>Fußzeile</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Titel des Kochbuchs auf jeder Seite (2), Seitenzahl (4), Zutatenliste (1), Abstand zum Papierrand (3)</button>
+            <button class="opt" data-hint="Der Titel steht oben auf jeder Seite, die Seitenzahl meist unten.">Titel des Kochbuchs auf jeder Seite (4), Seitenzahl (2), Zutatenliste (1), Abstand zum Papierrand (3)</button>
+            <button class="opt" data-hint="Die Zutaten sind Inhalt: Sie gehören in den Textbereich.">Titel des Kochbuchs auf jeder Seite (2), Seitenzahl (4), Zutatenliste (3), Abstand zum Papierrand (1)</button>
+            <button class="opt" data-hint="Was auf jeder Seite gleich ist, gehört in Kopf- oder Fußzeile.">Titel des Kochbuchs auf jeder Seite (1), Seitenzahl (4), Zutatenliste (2), Abstand zum Papierrand (3)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Kopfzeile oben, Fußzeile unten, Inhalt dazwischen.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.3</span> &nbsp;<b>Entscheide:</b> Welche Sätze stimmen?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Kopf- und Fußzeile erscheinen auf jeder Seite.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Ein Doppelklick in den oberen Rand öffnet die Kopfzeile.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Im Querformat ist die Seite breiter als hoch.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Die Seitenzahl tippst du auf jeder Seite selbst.</span></li><li><span class="n" style="background:#dd5b59">5</span><span>Seitenränder ändern die Schriftgröße.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 2, 3</button>
+            <button class="opt" data-hint="Und Satz 3? Quer wie ein Fernseher, hoch wie ein Handy.">1, 2</button>
+            <button class="opt" data-hint="Die Seitenzahl fügst du als Feld ein: Das Programm zählt selbst.">1, 2, 3, 4</button>
+            <button class="opt" data-hint="Ränder ändern nur den Platz für den Text, nicht die Schrift. Und Satz 1?">2, 3, 5</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt: jede Seite, Doppelklick, quer = breit.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Super: Bild 1 komplett gelöst!</div>
+      </div>
+
+      <div class="fig"><svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 2" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="600" height="400" fill="#ffffff"/><rect x="16" y="16" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="104" y="78" width="100" height="40" rx="6" fill="#2f6fd6" stroke="#2f6fd6" stroke-width="2"/><text x="154" y="104" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="15" fill="#ffffff">Speichern</text><text x="154" y="178" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Speichern klicken</text><rect x="308" y="16" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="360" y="60" width="172" height="30" rx="6" fill="#ffe6ea" stroke="#df3a53" stroke-width="2"/><text x="372" y="81" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="16" fill="#211a4d">Datei</text><rect x="360" y="94" width="172" height="58" rx="6" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.4"/><text x="372" y="114" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="14" fill="#4f4880">Speichern</text><text x="372" y="140" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="15" fill="#211a4d">Speichern unter</text><text x="446" y="178" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="18" fill="#211a4d">Datei › Speichern unter</text><rect x="16" y="208" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="56" y="260" width="200" height="34" rx="6" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.6"/><text x="66" y="282" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="14" fill="#211a4d">Dateityp: PDF (*.pdf)</text><path d="M238 272 l6 7 l6 -7" fill="none" stroke="#4f4880" stroke-width="2"/><path d="M139.15 305.3 h20.900000000000002 l8.8 8.8 v28.600000000000005 h-29.700000000000003 z" fill="#ffffff" stroke="#d9332b" stroke-width="2.6" stroke-linejoin="round"/><rect x="135.85" y="323.252" width="23.166000000000004" height="9.9" rx="3" fill="#d9332b"/><text x="148.95100000000002" y="330.952" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="900" font-size="7.15" fill="#ffffff">PDF</text><text x="154" y="370" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Dateityp PDF wählen</text><rect x="308" y="208" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="348" y="254" width="200" height="28" rx="6" fill="#f4f3fa" stroke="#c9c6e0" stroke-width="1.4"/><text x="358" y="273" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="14" fill="#211a4d">Schule › ITG</text><rect x="348" y="290" width="200" height="28" rx="6" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.4"/><text x="358" y="309" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="12" fill="#211a4d">2026-12-22_ITG_Kochbuch</text><text x="446" y="370" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Ordner und Name</text><circle cx="40" cy="42" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="40" y="49" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><circle cx="332" cy="42" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="332" y="49" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><circle cx="40" cy="234" r="17" fill="#8e3bd2" stroke="#ffffff" stroke-width="3"/><text x="40" y="241" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><circle cx="332" cy="234" r="17" fill="#4eab65" stroke="#ffffff" stroke-width="3"/><text x="332" y="241" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text></svg><div class="fig-cap">Bild 2 &middot; Vier Schritte zum PDF in Word, aber durcheinander</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 2</span> <b>Bring</b> die Schritte in die richtige Reihenfolge. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>Zuerst: 2 (Datei › Speichern unter)</li><li>dann 4 (Ordner und Name)</li><li>dann 3 (Dateityp PDF)</li><li>zuletzt: 1 (Speichern)</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.1</span> &nbsp;<b>Bring</b> die Schritte zum Speichern als PDF in Word in die richtige Reihenfolge.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">2 – 4 – 3 – 1</button>
+            <button class="opt" data-hint="Ordner und Name wählst du im Fenster, das „Speichern unter“ öffnet.">4 – 2 – 3 – 1</button>
+            <button class="opt" data-hint="Ordner und Name, Dateityp: Die Reihenfolge darf auch umgekehrt sein. Speichern kommt aber immer zuletzt.">2 – 3 – 4 – 1</button>
+            <button class="opt" data-hint="Klickst du zu früh auf Speichern, wird es eine .docx.">2 – 4 – 1 – 3</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Speichern unter, Ordner und Name, PDF, Speichern.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.2</span> &nbsp;<b>Ordne zu:</b> Was verrät die Endung?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">.docx</span><span class="chip-i">.pdf</span><span class="chip-i">.jpg</span><span class="chip-i">.txt</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>nur Text ohne Formatierung</span></li><li><span class="n" style="background:#d16b2f">2</span><span>ein Bild</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>sieht überall gleich aus</span></li><li><span class="n" style="background:#4eab65">4</span><span>Word-Dokument zum Weiterbearbeiten</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">.docx (4), .pdf (3), .jpg (2), .txt (1)</button>
+            <button class="opt" data-hint="Mit .docx arbeitest du in Word weiter, ein PDF sieht überall gleich aus.">.docx (3), .pdf (4), .jpg (2), .txt (1)</button>
+            <button class="opt" data-hint="Eine .txt-Datei kennst du aus Stunde 06: nur Text, keine Formatierung.">.docx (4), .pdf (3), .jpg (1), .txt (2)</button>
+            <button class="opt" data-hint=".jpg kennst du von Fotos.">.docx (4), .pdf (2), .jpg (3), .txt (1)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Die Endung verrät den Dateityp.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.3</span> &nbsp;<b>Entscheide:</b> Welche Sätze stimmen?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Ein PDF kann man auch ohne Word öffnen.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Ein PDF eignet sich gut zum Drucken und Abgeben.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Zum Weiterbearbeiten behältst du die .docx.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Speicherst du als PDF, ist die .docx gelöscht.</span></li><li><span class="n" style="background:#dd5b59">5</span><span>Ein PDF sieht auf jedem Gerät anders aus.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 2, 3</button>
+            <button class="opt" data-hint="Und Satz 3? Im PDF kannst du nicht einfach weiterschreiben.">1, 2</button>
+            <button class="opt" data-hint="Das PDF ist eine zusätzliche Datei. Die .docx bleibt.">1, 2, 3, 4</button>
+            <button class="opt" data-hint="Genau das Gegenteil: Ein PDF sieht überall gleich aus. Und Satz 1?">2, 3, 5</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: PDF zum Abgeben, .docx zum Weiterarbeiten.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Klasse: Bild 2 komplett gelöst!</div>
+      </div>
+
+      <div class="fig"><svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 3" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="700" height="400" fill="#ffffff"/><rect x="14" y="14" width="324" height="372" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><path d="M62.4 86.8 h30.400000000000002 l12.8 12.8 v41.60000000000001 h-43.2 z" fill="#ffffff" stroke="#2f6fd6" stroke-width="2.6" stroke-linejoin="round"/><path d="M92.8 86.8 v12.8 h12.8" fill="none" stroke="#2f6fd6" stroke-width="2"/><line x1="70.4" y1="110.8" x2="97.60000000000001" y2="110.8" stroke="#c9c6e0" stroke-width="3.4" stroke-linecap="round"/><line x1="70.4" y1="119.6" x2="97.60000000000001" y2="119.6" stroke="#c9c6e0" stroke-width="3.4" stroke-linecap="round"/><line x1="70.4" y1="128.4" x2="87.26400000000001" y2="128.4" stroke="#c9c6e0" stroke-width="3.4" stroke-linecap="round"/><text x="84" y="163.2" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="15" fill="#2f6fd6">.docx</text><rect x="134" y="80" width="180" height="250" rx="4" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.8"/><text x="146" y="110" text-anchor="start" font-family="Libertinus Serif, Georgia, serif" font-weight="700" font-size="17" fill="#211a4d">Pfannkuchen</text><rect x="228" y="210" width="76" height="56" rx="4" fill="#e6effc" stroke="#2f6fd6" stroke-width="2.2"/><circle cx="282.72" cy="226.8" r="6.16" fill="#ffc23d"/><path d="M231 263 L256.88 233.52 L275.12 250.32 L285.76 241.36 L301 263 z" fill="#0d8f68" opacity="0.8"/><line x1="146" y1="132" x2="302.0" y2="132" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="146" y1="145" x2="267.68" y2="145" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="146" y1="158" x2="286.4" y2="158" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="146" y1="171" x2="239.6" y2="171" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="146" y1="184" x2="277.03999999999996" y2="184" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><rect x="146" y="284" width="60" height="16" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="206" y="284" width="108" height="16" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="146" y="300" width="60" height="16" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="206" y="300" width="108" height="16" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><text x="44" y="364" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="13" fill="#4f4880">auf einem anderen Rechner</text><circle cx="40" cy="40" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="40" y="47" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><rect x="362" y="14" width="324" height="372" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><path d="M410.4 86.8 h30.400000000000002 l12.8 12.8 v41.60000000000001 h-43.2 z" fill="#ffffff" stroke="#d9332b" stroke-width="2.6" stroke-linejoin="round"/><rect x="405.59999999999997" y="112.912" width="33.696000000000005" height="14.4" rx="3" fill="#d9332b"/><text x="424.656" y="124.11200000000001" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="900" font-size="10.4" fill="#ffffff">PDF</text><rect x="482" y="80" width="180" height="250" rx="4" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.8"/><text x="494" y="110" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="17" fill="#df3a53">Pfannkuchen</text><rect x="588" y="120" width="62" height="46" rx="4" fill="#e6effc" stroke="#2f6fd6" stroke-width="2.2"/><circle cx="632.64" cy="133.8" r="5.06" fill="#ffc23d"/><path d="M591 163 L611.56 139.32 L626.44 153.12 L635.12 145.76 L647 163 z" fill="#0d8f68" opacity="0.8"/><line x1="494" y1="132" x2="580.0" y2="132" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="494" y1="145" x2="561.08" y2="145" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="494" y1="158" x2="571.4" y2="158" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="494" y1="178" x2="650.0" y2="178" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="494" y1="191" x2="615.6800000000001" y2="191" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="494" y1="204" x2="634.4" y2="204" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><rect x="494" y="228" width="96" height="16" fill="#ffe6ea" stroke="#211a4d" stroke-width="1.6"/><rect x="590" y="228" width="60" height="16" fill="#ffe6ea" stroke="#211a4d" stroke-width="1.6"/><rect x="494" y="244" width="96" height="16" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="590" y="244" width="60" height="16" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="494" y="260" width="96" height="16" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><rect x="590" y="260" width="60" height="16" fill="#ffffff" stroke="#211a4d" stroke-width="1.6"/><text x="392" y="364" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="13" fill="#4f4880">auf jedem Gerät gleich</text><circle cx="388" cy="40" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="388" y="47" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text></svg><div class="fig-cap">Bild 3 &middot; Dasselbe Kochbuch als .docx und als .pdf auf einem anderen Rechner</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 3</span> <b>Ordne zu:</b> Datei 1 (.docx) oder Datei 2 (.pdf)? a) Leicht weiterzubearbeiten. b) Sieht überall gleich aus. c) Gut zum Abgeben und Drucken. d) Schrift kann sich ändern. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>a) 1</li><li>b) 2</li><li>c) 2</li><li>d) 1</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.1</span> &nbsp;<b>Ordne zu:</b> Passt das zu Datei 1 (.docx) oder Datei 2 (.pdf)?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">leicht weiterzubearbeiten</span><span class="chip-i">sieht auf jedem Gerät gleich aus</span><span class="chip-i">gut zum Abgeben und Drucken</span><span class="chip-i">Schrift kann sich auf anderen Rechnern ändern</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Datei 1 (.docx)</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Datei 2 (.pdf)</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">leicht weiterzubearbeiten (1), sieht auf jedem Gerät gleich aus (2), gut zum Abgeben und Drucken (2), Schrift kann sich auf anderen Rechnern ändern (1)</button>
+            <button class="opt" data-hint="Weiterschreiben geht in der .docx, nicht im PDF.">leicht weiterzubearbeiten (2), sieht auf jedem Gerät gleich aus (2), gut zum Abgeben und Drucken (2), Schrift kann sich auf anderen Rechnern ändern (1)</button>
+            <button class="opt" data-hint="Schau auf Bild 3: Bei welcher Datei ist das Bild verrutscht?">leicht weiterzubearbeiten (1), sieht auf jedem Gerät gleich aus (1), gut zum Abgeben und Drucken (2), Schrift kann sich auf anderen Rechnern ändern (1)</button>
+            <button class="opt" data-hint="Beim PDF ist die Schrift eingebettet, sie ändert sich nicht.">leicht weiterzubearbeiten (1), sieht auf jedem Gerät gleich aus (2), gut zum Abgeben und Drucken (2), Schrift kann sich auf anderen Rechnern ändern (2)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: .docx zum Arbeiten, PDF zum Zeigen.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.2</span> &nbsp;<b>Ergänze</b> die Sätze.</div>
+          <div class="qi"><div class="zeile">Die Seitenzahl gehört meist in die <span class="lk"><span class="n" style="background:#3675d8">1</span></span> .</div><div class="zeile">Ein PDF sieht überall <span class="lk"><span class="n" style="background:#d16b2f">2</span></span> aus.</div><div class="zeile">Zum Weiterarbeiten behältst du die <span class="lk"><span class="n" style="background:#8e3bd2">3</span></span> .</div></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Fußzeile (1), gleich (2), .docx (3)</button>
+            <button class="opt" data-hint="Genau darum verschickt man PDFs: Sie sehen überall gleich aus.">Fußzeile (1), anders (2), .docx (3)</button>
+            <button class="opt" data-hint="Im PDF schreibst du nicht weiter. Dafür gibt es die .docx.">Fußzeile (1), gleich (2), .pdf (3)</button>
+            <button class="opt" data-hint="Die Seitenzahl steht unten in der Fußzeile, nicht mitten im Text.">Textmitte (1), gleich (2), .docx (3)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Fußzeile, gleich, .docx.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.3</span> &nbsp;<b>Entscheide:</b> Wann nimmst du ein PDF?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Bewerbung verschicken</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Referat ausdrucken lassen</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>mit der Gruppe weiterschreiben</span></li><li><span class="n" style="background:#4eab65">4</span><span>Plakat an die Druckerei schicken</span></li><li><span class="n" style="background:#dd5b59">5</span><span>Tippfehler im Text verbessern</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 2, 4</button>
+            <button class="opt" data-hint="Zum Weiterschreiben brauchst du die bearbeitbare Datei.">1, 2, 3, 4</button>
+            <button class="opt" data-hint="Und das Plakat? Die Druckerei soll genau das drucken, was du siehst.">1, 2</button>
+            <button class="opt" data-hint="Tippfehler verbesserst du in der .docx und machst dann ein neues PDF.">2, 4, 5</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt: PDF, wenn es fertig ist und gleich aussehen soll.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Stark: Bild 3 komplett gelöst!</div>
+      </div>
     </section>
 
     <section class="block">
-      <h2><span class="dot"></span>Schritt f&uuml;r Schritt</h2>
-      <div class="todo">Hier kommt die Anleitung hin: die einzelnen Arbeitsschritte, gerne mit Screenshots.</div>
+      <h2><span class="dot"></span>Schritt für Schritt: Seite fertig, PDF raus</h2>
+      <p><span class="task-no">Aufgabe 4</span> Mach dein Kochbuch druckfertig und speichere es als PDF.</p>
+      <div class="fig"><svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 4" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="760" height="260" fill="#ffffff"/><rect x="14" y="10" width="732" height="240" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><path d="M15.5 50 V24 a12.5 12.5 0 0 1 12.5 -12.5 H732 a12.5 12.5 0 0 1 12.5 12.5 V50 z" fill="#ff5d73"/><text x="34" y="38" text-anchor="start" font-family="Fredoka, Open Sans, sans-serif" font-weight="800" font-size="20" fill="#ffffff">So soll es aussehen</text><text x="726" y="38" text-anchor="end" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="16" fill="#ffffff">Kopfzeile · Fußzeile · Seitenzahl · PDF</text><rect x="240" y="62" width="280" height="186" rx="4" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.8"/><rect x="262" y="80" width="236" height="150" fill="none" stroke="#4f4880" stroke-width="1.4" stroke-dasharray="5 4"/><rect x="262" y="66" width="236" height="13" fill="#fff6e0"/><text x="380" y="76" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="11" fill="#211a4d">Kochbuch der 6.1</text><text x="272" y="104" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="15" fill="#df3a53">Pfannkuchen</text><line x1="272" y1="120" x2="482.0" y2="120" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="272" y1="134" x2="435.8" y2="134" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="272" y1="148" x2="461.0" y2="148" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="272" y1="162" x2="398.0" y2="162" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="272" y1="176" x2="448.4" y2="176" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><rect x="262" y="232" width="236" height="13" fill="#fff6e0"/><text x="272" y="242" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="10" fill="#211a4d">Vorname</text><text x="488" y="242" text-anchor="end" font-family="Nunito, Open Sans, sans-serif" font-weight="900" font-size="11" fill="#211a4d">1</text><line x1="230" y1="72" x2="150" y2="72" stroke="#df3a53" stroke-width="2"/><text x="144" y="77" text-anchor="end" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="14" fill="#df3a53">Kopfzeile: Titel</text><line x1="230" y1="238" x2="150" y2="238" stroke="#df3a53" stroke-width="2"/><text x="144" y="243" text-anchor="end" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="14" fill="#df3a53">Fußzeile: Name</text><line x1="530" y1="238" x2="560" y2="238" stroke="#df3a53" stroke-width="2"/><text x="566" y="243" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="14" fill="#df3a53">Seitenzahl als Feld</text><line x1="530" y1="140" x2="560" y2="140" stroke="#df3a53" stroke-width="2"/><text x="566" y="145" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="14" fill="#df3a53">Ränder: Normal</text><path d="M643.8 75.6 h22.799999999999997 l9.6 9.6 v31.199999999999996 h-32.4 z" fill="#ffffff" stroke="#d9332b" stroke-width="2.6" stroke-linejoin="round"/><rect x="640.1999999999999" y="95.184" width="25.272" height="10.799999999999999" rx="3" fill="#d9332b"/><text x="654.492" y="103.584" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="900" font-size="7.8" fill="#ffffff">PDF</text><text x="690" y="104" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="900" font-size="14" fill="#d9332b">.pdf</text></svg><div class="fig-cap">So soll dein Kochbuch aussehen</div></div>
+      <ol class="steps">
+        <li><b>Öffnen.</b> Dein Kochbuch <b>2026-12-15_ITG_Kochbuch_Bild</b> aus <b>Schule › ITG</b>.</li>
+        <li><b>Neuer Name.</b> Datei › Speichern unter: <b>2026-12-22_ITG_Kochbuch</b>.</li>
+        <li><b>Ränder.</b> Layout › <b>Seitenränder</b> › Normal.</li>
+        <li><b>Kopfzeile.</b> Doppelklick ganz oben auf die Seite, dann tippen: <i>Kochbuch der 6.1</i>.</li>
+        <li><b>Fußzeile.</b> Doppelklick ganz unten auf die Seite, dann deinen Vornamen tippen.</li>
+        <li><b>Seitenzahl.</b> Einfügen › <b>Seitenzahl</b> › Seitenende › Zahl rechts.</li>
+        <li><b>Schließen.</b> Doppelklick in den Text, dann <span class="kbd">Strg</span> + <span class="kbd">S</span>.</li>
+        <li><b>PDF.</b> Datei › Speichern unter, beim <b>Dateityp</b> PDF wählen, Speichern.</li>
+        <li><b>Prüfen.</b> Öffne das PDF in <b>Schule › ITG</b>: Kopfzeile, Bild, Tabelle, Seitenzahl da? Lade es in Classroom hoch.</li>
+      </ol>
+      <p class="muster"><b>In Google Docs:</b> Datei › Seiteneinrichtung (Ränder), Einfügen › Kopf- und Fußzeilen, Einfügen › Seitenzahlen, Datei › Herunterladen › <b>PDF-Dokument (.pdf)</b>. Das PDF landet im Ordner Downloads.</p>
+      <div class="merke-box"><b>Merke:</b> <b>Seitenränder</b> bestimmen den Abstand zum Papierrand. <b>Kopf- und Fußzeile</b> stehen auf jeder Seite gleich: Titel, Name, Seitenzahl. Die <b>Seitenzahl</b> fügst du als Feld ein, dann zählt das Programm selbst. Ein <b>PDF</b> sieht auf jedem Gerät gleich aus und ist gut zum Abgeben. Zum Weiterarbeiten behältst du die <b>.docx</b>.</div>
     </section>
 
     <section class="block">
-      <h2><span class="dot"></span>&Uuml;bungsaufgaben</h2>
-      <div class="todo">Hier kommen die Aufgaben hin &mdash; mit klarer Differenzierung (Basis &middot; mittel &middot; knifflig).</div>
+      <h2><span class="dot"></span>Übungsaufgaben</h2>
+      <div class="task">
+        <span class="task-no">Aufgabe 5</span> <span class="chip basis">Basis</span>
+        <p>Wohin gehört es? Wähle aus Kopfzeile, Fußzeile, Textbereich und Seitenrand.</p><ul><li>Titel des Kochbuchs</li><li>Seitenzahl</li><li>Zutatenliste</li></ul>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Titel: Kopfzeile.</li><li>Seitenzahl: Fußzeile.</li><li>Zutatenliste: Textbereich.</li></ul></details>
+      </div>
+      <div class="task">
+        <span class="task-no">Aufgabe 6</span> <span class="chip mittel">mittel</span>
+        <p>Deine Lehrperson möchte dein Kochbuch ausdrucken. Beschreibe, wie du es als PDF speicherst und abgibst.</p>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Datei › Speichern unter, Dateityp PDF, Speichern (in Docs: Datei › Herunterladen › PDF).</li><li>In Classroom die Aufgabe öffnen, Hinzufügen › Datei, das PDF wählen, Abgeben.</li></ul></details>
+      </div>
+      <div class="task">
+        <span class="task-no">Aufgabe 7</span> <span class="chip knifflig">knifflig</span>
+        <p>Jemand sagt: „Ich tippe die Seitenzahl einfach unten auf jede Seite.“ Beurteile das.</p>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Unpraktisch: Rutscht Text nach, steht die Zahl plötzlich mitten auf der Seite. Kommt eine Seite dazu, stimmen alle Zahlen nicht mehr. Ein Seitenzahl-Feld in der Fußzeile zählt immer richtig.</li></ul></details>
+      </div>
     </section>
 
     <section class="block fast">
-      <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnelll&auml;ufer:innen-Mission</h2>
+      <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnellläufer:innen-Mission</h2>
       <p class="fast-text">Erkläre, warum man Dokumente oft als PDF verschickt und nicht als .docx.</p>
+      <ul class="fast-list">
+        <li><b>Grund 1:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Grund 2:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Wann doch .docx?</b> <span class="fill">&nbsp;</span></li>
+      </ul>
+      <p class="fast-extra"><b>Vertiefung zur Wahl:</b> Baue eine Seite im Baukasten, entscheide .docx oder .pdf oder sortiere, was wohin gehört. <a href="15-vertiefung-seite-und-pdf.html">Zur Vertiefung</a> (auch per QR-Code unten rechts auf Seite 2 des Aufgabenblatts).</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="dot"></span>Das kann ich jetzt: kurzer Check</h2>
+      <p>Drei Fragen zum Abschluss. Wieder gilt: <b style="color:var(--ok-dk)">grün</b> = richtig, <b style="color:var(--no-dk)">rot</b> = Tipp.</p>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.1</span> &nbsp;<b>Ordne zu:</b> Was hilft dir?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Der Text klebt am Papierrand.</span><span class="chip-i">Jede Seite soll den Titel zeigen.</span><span class="chip-i">Die Lehrperson will es drucken.</span><span class="chip-i">Die Tabelle ist zu breit für die Seite.</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Querformat</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Seitenränder</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>als PDF speichern</span></li><li><span class="n" style="background:#4eab65">4</span><span>Kopfzeile</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Der Text klebt am Papierrand. (2), Jede Seite soll den Titel zeigen. (4), Die Lehrperson will es drucken. (3), Die Tabelle ist zu breit für die Seite. (1)</button>
+            <button class="opt" data-hint="Etwas auf jeder Seite: Kopfzeile. Mehr Abstand zum Rand: Seitenränder.">Der Text klebt am Papierrand. (4), Jede Seite soll den Titel zeigen. (2), Die Lehrperson will es drucken. (3), Die Tabelle ist zu breit für die Seite. (1)</button>
+            <button class="opt" data-hint="Zum Drucken und Abgeben nimmt man ein PDF. Mehr Breite bringt das Querformat.">Der Text klebt am Papierrand. (2), Jede Seite soll den Titel zeigen. (4), Die Lehrperson will es drucken. (1), Die Tabelle ist zu breit für die Seite. (3)</button>
+            <button class="opt" data-hint="Querformat macht die Seite breiter, Seitenränder ändern den Abstand.">Der Text klebt am Papierrand. (1), Jede Seite soll den Titel zeigen. (4), Die Lehrperson will es drucken. (3), Die Tabelle ist zu breit für die Seite. (2)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Ränder, Kopfzeile, PDF, Querformat.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.2</span> &nbsp;<b>Ergänze</b> den Merksatz.</div>
+          <div class="qi"><div class="zeile">Kopf- und Fußzeile stehen auf <span class="lk"><span class="n" style="background:#3675d8">1</span></span> Seite.</div><div class="zeile">Die Seitenzahl zählt das Programm <span class="lk"><span class="n" style="background:#d16b2f">2</span></span> .</div><div class="zeile">Zum Abgeben nimmst du ein <span class="lk"><span class="n" style="background:#8e3bd2">3</span></span> .</div></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">jeder (1), selbst (2), PDF (3)</button>
+            <button class="opt" data-hint="Das ist der Sinn der Kopfzeile: Sie wiederholt sich auf jeder Seite.">der ersten (1), selbst (2), PDF (3)</button>
+            <button class="opt" data-hint="Die Seitenzahl ist ein Feld: Sie zählt von selbst.">jeder (1), nicht (2), PDF (3)</button>
+            <button class="opt" data-hint="Abgeben und Drucken: dafür gibt es PDF.">jeder (1), selbst (2), Bild (3)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: jeder, selbst, PDF.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.3</span> &nbsp;<b>Bring</b> die Schritte für ein PDF aus Google Docs in die richtige Reihenfolge.</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>PDF-Dokument (.pdf) wählen.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Datei anklicken.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Herunterladen wählen.</span></li><li><span class="n" style="background:#4eab65">4</span><span>PDF im Ordner Downloads finden.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">2 – 3 – 1 – 4</button>
+            <button class="opt" data-hint="Das Menü Datei öffnet sich zuerst.">3 – 2 – 1 – 4</button>
+            <button class="opt" data-hint="Den Typ PDF wählst du im Untermenü Herunterladen.">2 – 1 – 3 – 4</button>
+            <button class="opt" data-hint="Finden kannst du die Datei erst nach dem Herunterladen.">2 – 3 – 4 – 1</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Datei, Herunterladen, PDF, im Ordner Downloads finden.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Perfekt: Dein Kochbuch ist druckfertig!</div>
+      </div>
     </section>
 
     <section class="block">
       <h2><span class="dot"></span>Das nehme ich mit</h2>
-      <div class="todo">Hier kommt der Merksatz / die Zusammenfassung hin.</div>
+      <div class="merk">
+        <p><b>Seitenränder</b> bestimmen den Abstand zum Papierrand. <b>Kopf- und Fußzeile</b> stehen auf jeder Seite gleich: Titel, Name, Seitenzahl. Die <b>Seitenzahl</b> fügst du als Feld ein, dann zählt das Programm selbst. Ein <b>PDF</b> sieht auf jedem Gerät gleich aus und ist gut zum Abgeben. Zum Weiterarbeiten behältst du die <b>.docx</b>.</p>
+        <div class="secret">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12c.5.5 1 1.2 1 2h6c0-.8.5-1.5 1-2a7 7 0 0 0-4-12z"/></svg>
+          <span>Merk&#8209;Trick: PDF ist wie ein Foto deines Dokuments: Es sieht überall gleich aus, aber du kannst nicht mehr hineinschreiben.</span>
+        </div>
+      </div>
     </section>
 
     <div class="selfcheck-wrap">
-      <span class="sc-label">Wie sicher f&uuml;hlst du dich nach dieser Stunde?</span>
+      <span class="sc-label">Wie sicher fühlst du dich nach dieser Stunde?</span>
       <div class="sc-stars" id="stars"></div>
       <span class="sc-feedback" id="fb"></span>
     </div>
@@ -182,9 +490,67 @@
 </div>
 
 <script>
+  /* ---------- Quiz-Engine ---------- */
+  (function(){
+    var LETTERS = ['A','B','C','D','E','F'];
+    var quizzes = document.querySelectorAll('[data-quiz]');
+    quizzes.forEach(function(quiz){
+      var questions = quiz.querySelectorAll('.q');
+      var total = questions.length;
+      var solved = 0;
+      var pcount = quiz.querySelector('.pcount');
+      var pfill = quiz.querySelector('.pfill');
+      var doneBox = quiz.querySelector('.quiz-solved');
+      function updateProgress(){
+        if (pcount) pcount.textContent = solved + ' / ' + total + ' richtig';
+        if (pfill) pfill.style.width = (total ? (solved/total*100) : 0) + '%';
+        if (doneBox && solved === total) doneBox.classList.add('show');
+      }
+      questions.forEach(function(q){
+        var optsContainer = q.querySelector('.opts');
+        var opts = Array.prototype.slice.call(q.querySelectorAll('.opt'));
+        for (var i = opts.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = opts[i]; opts[i] = opts[j]; opts[j] = tmp;
+        }
+        opts.forEach(function(opt){ optsContainer.appendChild(opt); });
+        var hint = q.querySelector('.q-hint');
+        var done = q.querySelector('.q-done');
+        var answered = false;
+        opts.forEach(function(opt, i){
+          var lett = document.createElement('span');
+          lett.className = 'lett';
+          lett.textContent = LETTERS[i];
+          opt.insertBefore(lett, opt.firstChild);
+          opt.addEventListener('click', function(){
+            if (answered) return;
+            if (opt.getAttribute('data-correct') === 'true') {
+              answered = true;
+              opt.classList.add('correct');
+              opts.forEach(function(o){ o.setAttribute('disabled','disabled'); });
+              if (hint) hint.classList.remove('show');
+              if (done) done.classList.add('show');
+              solved++;
+              updateProgress();
+            } else {
+              opt.classList.add('wrong');
+              opt.setAttribute('disabled','disabled');
+              if (hint) {
+                hint.textContent = opt.getAttribute('data-hint') || 'Nicht ganz — versuch es nochmal.';
+                hint.classList.add('show');
+              }
+            }
+          });
+        });
+      });
+      updateProgress();
+    });
+  })();
+
+  /* ---------- Selbsteinschätzung (Sterne, localStorage) ---------- */
   (function(){
     var key = 'itg_lp_15';
-    var msgs = {1:'Ganz frisch \u2014 \u00dcben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf \u2014 super!'};
+    var msgs = {1:'Ganz frisch — Üben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf — super!'};
     var svg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 18.9 6.1 21l1.2-6.5L2.5 9.9l6.6-.9z"/></svg>';
     var wrap = document.getElementById('stars'); var fb = document.getElementById('fb'); var stars = [];
     for (var n = 1; n <= 4; n++) { var b = document.createElement('button'); b.className = 'sc-star'; b.type = 'button'; b.innerHTML = svg; b.setAttribute('aria-label', 'Stufe ' + n); wrap.appendChild(b); stars.push(b); }

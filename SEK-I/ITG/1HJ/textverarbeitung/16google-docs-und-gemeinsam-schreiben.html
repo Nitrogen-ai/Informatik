@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LP 16 · Google Docs & gemeinsam schreiben — ITG Klasse 6</title>
+<title>LP 16 · Google Docs &amp; gemeinsam schreiben · ITG Klasse 6</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -12,6 +12,7 @@
     --key: #ff5d73; --edge: #df3a53; --tint: #ffe6ea; --ktext: #ffffff;
     --ink: #211a4d; --ink-soft: #4f4880; --bg: #f1f0fb; --card: #fff;
     --line: rgba(33,26,77,0.12); --sun: #ffc23d;
+    --ok: #39b56a; --ok-dk: #248049; --no: #e8607a; --no-dk: #b83a56;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -59,12 +60,8 @@
   .rlp .tag { display: inline-block; background: #e7e5fb; padding: 0.06rem 0.42rem; border-radius: 6px; margin: 0 0.15rem 0.25rem 0; }
   .rlp .tag.neu { background: var(--sun); color: var(--ink); }
 
-  .draft-note {
-    display: flex; align-items: center; gap: 0.6rem;
-    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 12px;
-    padding: 0.7rem 0.9rem; margin: 1.4rem 0; font-size: 0.9rem; font-weight: 700; color: #8a5a00;
-  }
-  .draft-note svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .intro { font-size: 1.05rem; margin: 1.4rem 0 1.6rem; }
+  .intro .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
 
   .block { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 1.4rem 1.5rem; margin-bottom: 1.1rem; }
   .block h2 {
@@ -72,15 +69,94 @@
     display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem;
   }
   .block h2 .dot { width: 14px; height: 14px; border-radius: 5px; background: var(--key); box-shadow: 0 2px 0 var(--edge); flex-shrink: 0; }
-  .todo {
-    border: 2px dashed var(--line); border-radius: 12px; padding: 1rem 1.1rem;
-    color: var(--ink-soft); font-style: italic; background: rgba(91,75,230,0.03);
+  .block p { margin-bottom: 0.6rem; }
+
+  /* figure */
+  .fig { background: var(--tint); border-radius: 14px; padding: 1rem; margin: 0.4rem 0 1rem; }
+  .fig svg { width: 100%; height: auto; display: block; }
+  .fig-cap { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); text-align: center; margin-top: 0.5rem; }
+
+  /* step list */
+  ol.steps { list-style: none; counter-reset: st; }
+  ol.steps li { counter-increment: st; position: relative; padding: 0.55rem 0 0.55rem 2.7rem; border-bottom: 1px dashed var(--line); }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li::before {
+    content: counter(st); position: absolute; left: 0; top: 0.5rem;
+    width: 30px; height: 30px; border-radius: 9px; background: var(--key); color: var(--ktext);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; box-shadow: 0 2px 0 var(--edge);
   }
+  ol.steps b { color: var(--edge); }
+
+  /* exercises + diff chips */
+  .task { border: 1.5px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; margin-bottom: 0.8rem; }
+  .chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.66rem;
+    letter-spacing: 0.05em; padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.5rem; }
+  .chip.basis { background: #e2f6ea; color: var(--ok-dk); border: 1.5px solid var(--ok); }
+  .chip.mittel { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+  .chip.knifflig { background: #fff3d1; color: #8a5a00; border: 1.5px solid var(--sun); }
+  .task ul { margin: 0.4rem 0 0 1.1rem; }
+  .task li { margin-bottom: 0.2rem; }
 
   .block.fast { border-color: var(--sun); background: #fff7e2; }
   .block.fast h2 { color: #8a5a00; }
   .block.fast h2 .rocket { width: 22px; height: 22px; color: #8a5a00; }
-  .fast-text { font-size: 1.02rem; font-weight: 600; }
+  .fast-text { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .fast-list { margin: 0.4rem 0 0.8rem 1.1rem; }
+  .fast-list li { margin-bottom: 0.3rem; }
+  .auftrag { border: 1.5px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0 0 0.9rem; background: #fff; }
+  .auftrag p { margin: 0; }
+  .auftrag-no, .task-no { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); background: var(--tint); border-radius: 6px; padding: 0.1rem 0.45rem; margin-right: 0.2rem; }
+  .auftrag details, .fast-sol { margin-top: 0.5rem; }
+  .auftrag summary, .fast-sol summary { cursor: pointer; font-weight: 700; color: var(--edge); font-size: 0.92rem; }
+  .auftrag ol, .fast-sol ul { margin: 0.4rem 0 0 1.3rem; }
+  .fast-sol { margin-bottom: 0.8rem; }
+  .fill { display: inline-block; min-width: 10rem; border-bottom: 1.5px dotted currentColor; }
+  .merke-box { margin-top: 0.9rem; background: var(--tint); border-left: 6px solid var(--key); border-radius: 10px; padding: 0.7rem 0.9rem; }
+  .fast-extra { font-size: 0.95rem; font-weight: 600; background: #fff; border-radius: 10px; padding: 0.7rem 0.9rem; border: 1.5px dashed var(--sun); }
+
+  /* merksatz */
+  .merk { background: var(--tint); border: 2px solid var(--key); border-left: 8px solid var(--key); border-radius: 14px; padding: 1.1rem 1.3rem; }
+  .merk .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+  .merk b { color: var(--edge); }
+  .secret { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.9rem; padding: 0.7rem 0.9rem;
+    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 10px; font-weight: 700; color: #8a5a00; font-size: 0.95rem; }
+  .secret svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  /* ---- QUIZ ENGINE ---- */
+  .quiz { margin-top: 0.4rem; }
+  .quiz-progress { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.74rem; color: var(--ink-soft); }
+  .pbar { flex: 1; height: 10px; background: #e7e5fb; border-radius: 999px; overflow: hidden; }
+  .pfill { height: 100%; width: 0; background: var(--ok); border-radius: 999px; transition: width 0.3s ease; }
+  .q { margin-bottom: 1.1rem; padding-bottom: 1.1rem; border-bottom: 1px dashed var(--line); }
+  .q:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .q-text { font-weight: 800; margin-bottom: 0.6rem; }
+  .q-text .qn { color: var(--edge); font-family: 'JetBrains Mono', monospace; }
+  .opts { display: grid; gap: 0.5rem; }
+  .opt {
+    display: flex; align-items: center; gap: 0.7rem; width: 100%; text-align: left;
+    font-family: 'Nunito', sans-serif; font-size: 0.98rem; font-weight: 700; color: var(--ink);
+    background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 0.6rem 0.8rem; cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .opt:hover:not([disabled]) { border-color: var(--key); transform: translateX(2px); }
+  .opt .lett { flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px; background: var(--tint); color: var(--edge);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; font-size: 0.85rem; }
+  .opt.correct { border-color: var(--ok); background: #e9f8ef; }
+  .opt.correct .lett { background: var(--ok); color: #fff; }
+  .opt.wrong { border-color: var(--no); background: #fdecf0; }
+  .opt.wrong .lett { background: var(--no); color: #fff; }
+  .opt[disabled] { cursor: default; opacity: 0.75; }
+  .opt.correct[disabled], .opt.wrong[disabled] { opacity: 1; }
+  .q-hint { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--no-dk);
+    background: #fdecf0; border-radius: 9px; padding: 0.5rem 0.7rem; display: none; }
+  .q-hint.show { display: block; }
+  .q-done { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--ok-dk); display: none; }
+  .q-done.show { display: block; }
+  .quiz-solved { margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 12px; background: #e9f8ef;
+    border: 2px solid var(--ok); color: var(--ok-dk); font-family: 'Fredoka', sans-serif; font-weight: 600;
+    display: none; align-items: center; gap: 0.6rem; }
+  .quiz-solved.show { display: flex; }
+  .quiz-solved svg { width: 22px; height: 22px; flex-shrink: 0; }
 
   .selfcheck-wrap {
     display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem;
@@ -113,6 +189,39 @@
   }
   @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 </style>
+<style>
+  .qi { background: var(--tint); border-radius: 12px; padding: 0.6rem 0.75rem; margin: -0.2rem 0 0.7rem; font-weight: 700; }
+  .qi .n { display: inline-flex; align-items: center; justify-content: center; width: 1.55rem; height: 1.55rem; border-radius: 50%;
+           color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; flex: none; }
+  .qi ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+  .qi li { display: flex; gap: 0.5rem; align-items: center; }
+  .qi .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.2rem 0 0.45rem; }
+  .qi .chip-i { background: #fff; border: 2px solid var(--key); border-radius: 9px; padding: 0.15rem 0.55rem; display: inline-flex; gap: 0.35rem; align-items: center; }
+  .qi .lk { display: inline-flex; vertical-align: middle; border: 2px dashed var(--ink-soft); border-radius: 8px; padding: 0.05rem 0.4rem; margin: 0 0.15rem; }
+  .qi .zeile { margin: 0.25rem 0; }
+  .qi .txt { font-weight: 600; color: var(--ink-soft); margin-bottom: 0.3rem; }
+  .qi .boxes { color: var(--ink-soft); font-style: italic; margin-bottom: 0.3rem; }
+  .block.abgabe { border-color: var(--key); }
+  .abgabe .warn { background: #fdecf0; border-left: 6px solid var(--no); border-radius: 10px; padding: 0.6rem 0.85rem; margin: 0.2rem 0 0.9rem; color: var(--no-dk); font-weight: 600; }
+  .abgabe .txt-muster { font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; background: #fff; border: 1.5px solid var(--line); border-radius: 8px; padding: 0.5rem 0.7rem; margin: 0.4rem 0; overflow-wrap: anywhere; }
+  .abgabe .name-regel { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.92rem; background: var(--tint); border-radius: 10px; padding: 0.55rem 0.7rem; margin: 0.45rem 0 0.3rem; overflow-wrap: anywhere; }
+  .abgabe .nr-teil { background: #fff; border: 1.5px solid var(--key); border-radius: 6px; padding: 0.05rem 0.35rem; }
+  .abgabe .nr-teil.neu { background: var(--sun); border-color: #c8890a; }
+  .abgabe .name-bsp { font-weight: 700; margin-bottom: 0.3rem; }
+</style>
+<style>
+  .fig svg[aria-label="Bild 2"] { max-width: 460px; margin: 0 auto; }
+  .fig svg[aria-label="Bild 3"] { max-width: 600px; margin: 0 auto; }
+  .fig svg[aria-label="Bild 4"] { max-width: 620px; margin: 0 auto; }
+  .kbd { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.82em; font-weight: 700; background: #fff;
+         border: 1.5px solid var(--ink); border-bottom-width: 3px; border-radius: 6px; padding: 0 0.35em; white-space: nowrap; }
+  .abtipp { background: #fff; border: 2px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0.6rem 0; }
+  .abtipp p { margin: 0.1rem 0; }
+</style>
+<style>
+  .fig svg[aria-label="Bild 1"] { max-width: 760px; margin: 0 auto; }
+  .muster { background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.6rem 0.9rem; margin: 0.5rem 0; }
+</style>
 </head>
 <body>
 
@@ -134,39 +243,238 @@
     <p class="rlp"><span class="tag">RLP 2.6 · E · Daten austauschen</span><span class="tag">2.6 · H · Team-Plattform</span><span class="tag">3.3</span></p>
   </header>
 
-  <div class="draft-note">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
-    <span>Diese Seite ist das Ger&uuml;st f&uuml;r diesen Lernpfad &mdash; Inhalte werden noch erg&auml;nzt.</span>
-  </div>
+  <p class="intro">Heute entsteht im Team ein <span class="hl">Klassenkochbuch</span>: Alle schreiben gleichzeitig in einem Dokument. Du lernst, wie man richtig <b>teilt</b>, gute <b>Kommentare</b> gibt und mit dem <b>Versionsverlauf</b> nichts verliert. Los geht’s!</p>
 
   <main>
+
     <section class="block">
-      <h2><span class="dot"></span>Los geht es &mdash; worum geht es heute?</h2>
-      <div class="todo">Hier kommt der Einstieg hin: eine kurze, spannende Hinf&uuml;hrung zum Thema.</div>
+      <h2><span class="dot"></span>Schau genau hin: Was weißt du schon?</h2>
+      <p>Sieh dir die drei Bilder an. Zu jedem Bild gehören drei Fragen. Bei vielen Fragen ist eine ganze Kombination richtig, also lies jede Antwort bis zum Ende. Wird sie <b style="color:var(--ok-dk)">grün</b>, ist sie richtig. Bei <b style="color:var(--no-dk)">rot</b> bekommst du einen Tipp.</p>
+
+      <div class="fig"><svg viewBox="0 0 1000 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 1" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="1000" height="200" fill="#ffffff"/><rect x="8" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><path d="M52 78 a8 8 0 0 1 8 -8 h48 a8 8 0 0 1 8 8 v30 a8 8 0 0 1 -8 8 h-30 l-10 12 l0 -12 h-6 a8 8 0 0 1 -8 -8 z" fill="#fff6e0" stroke="#c8890a" stroke-width="2.4" stroke-linejoin="round"/><path d="M84 80 v24 M72 92 h24" stroke="#c8890a" stroke-width="3.4" stroke-linecap="round"/><circle cx="30" cy="34" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="30" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><rect x="174" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="204" y="84" width="92" height="36" rx="18" fill="#2f6fd6" stroke="#2f6fd6" stroke-width="2"/><rect x="217.0" y="98.6" width="14.0" height="11.2" rx="3" fill="#ffffff"/><path d="M219.8 98.6 v-4.199999999999999 a4.199999999999999 4.199999999999999 0 0 1 8.399999999999999 0 v4.199999999999999" fill="none" stroke="#ffffff" stroke-width="2.6"/><text x="260" y="108" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="15" fill="#ffffff">Teilen</text><circle cx="196" cy="34" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="196" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><rect x="340" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><line x1="362" y1="78" x2="470" y2="78" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="362" y1="96" x2="470" y2="96" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="362" y1="114" x2="470" y2="114" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="362" y1="132" x2="428.96" y2="132" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="400" y1="74" x2="400" y2="96" stroke="#0d8f68" stroke-width="3"/><rect x="400" y="58" width="42" height="16" rx="3" fill="#0d8f68"/><text x="405" y="70" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="12" fill="#ffffff">Team</text><line x1="440" y1="110" x2="440" y2="132" stroke="#8e3bd2" stroke-width="3"/><rect x="440" y="94" width="34" height="16" rx="3" fill="#8e3bd2"/><text x="445" y="106" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="12" fill="#ffffff">Ich</text><circle cx="362" cy="34" r="17" fill="#8e3bd2" stroke="#ffffff" stroke-width="3"/><text x="362" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><rect x="506" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><path d="M558 104 a24 24 0 1 0 7.2 -22.8" fill="none" stroke="#211a4d" stroke-width="3" stroke-linecap="round"/><path d="M552 97 l6 8 l7 -7" fill="none" stroke="#211a4d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M582 90.8 V104 l10.8 7.2" fill="none" stroke="#211a4d" stroke-width="3" stroke-linecap="round"/><circle cx="528" cy="34" r="17" fill="#4eab65" stroke="#ffffff" stroke-width="3"/><text x="528" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text><rect x="672" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><path transform="translate(742,110)" d="M-34.1 17.6 a16.5 16.5 0 0 1 1.1 -33.0 a22.0 22.0 0 0 1 40.7 -7.7 a15.4 15.4 0 0 1 22.0 12.1 a14.3 14.3 0 0 1 4.4 28.6 z" fill="#e0f7ef" stroke="#0d8f68" stroke-width="2.6" stroke-linejoin="round"/><path d="M734 98 l6.0 6.0 l12.0 -13.0" fill="none" stroke="#0d8f68" stroke-width="4.0" stroke-linecap="round" stroke-linejoin="round"/><circle cx="694" cy="34" r="17" fill="#dd5b59" stroke="#ffffff" stroke-width="3"/><text x="694" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">5</text><rect x="838" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="862" y="70" width="104" height="64" rx="8" fill="#fff6e0" stroke="#c8890a" stroke-width="2.2"/><line x1="872" y1="92" x2="932" y2="92" stroke="#d9c08a" stroke-width="4" stroke-linecap="round"/><line x1="872" y1="106" x2="909.2" y2="106" stroke="#d9c08a" stroke-width="4" stroke-linecap="round"/><circle cx="950" cy="84" r="11" fill="#ffffff" stroke="#0d8f68" stroke-width="2.4"/><path d="M944 84 l3.3000000000000003 3.3000000000000003 l6.6000000000000005 -7.15" fill="none" stroke="#0d8f68" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="860" cy="34" r="17" fill="#6e6e80" stroke="#ffffff" stroke-width="3"/><text x="860" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">6</text></svg><div class="fig-cap">Bild 1 &middot; Sechs Karten: Werkzeuge zum gemeinsamen Schreiben</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 1</span> <b>Ordne zu:</b> T = teilen, K = kommentieren, V = Versionsverlauf, M = jemand schreibt mit, S = gespeichert, E = erledigt. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>1) K</li><li>2) T</li><li>3) M</li><li>4) V</li><li>5) S</li><li>6) E</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.1</span> &nbsp;<b>Ordne zu:</b> Was zeigen die Karten?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Karte 1</span><span class="chip-i">Karte 2</span><span class="chip-i">Karte 4</span><span class="chip-i">Karte 6</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>teilen</span></li><li><span class="n" style="background:#d16b2f">2</span><span>kommentieren</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Versionsverlauf</span></li><li><span class="n" style="background:#4eab65">4</span><span>Kommentar erledigt</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Karte 1 (2), Karte 2 (1), Karte 4 (3), Karte 6 (4)</button>
+            <button class="opt" data-hint="Die Sprechblase mit Plus ist der Kommentar, der blaue Knopf mit Schloss heißt Teilen.">Karte 1 (1), Karte 2 (2), Karte 4 (3), Karte 6 (4)</button>
+            <button class="opt" data-hint="Die Uhr mit Pfeil zurück zeigt alte Stände: der Versionsverlauf.">Karte 1 (2), Karte 2 (1), Karte 4 (4), Karte 6 (3)</button>
+            <button class="opt" data-hint="Der Haken am Kommentar heißt: erledigt.">Karte 1 (3), Karte 2 (1), Karte 4 (2), Karte 6 (4)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Kommentar, Teilen, Verlauf, erledigt.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.2</span> &nbsp;<b>Ordne zu:</b> Welche Rolle darf das?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">nur lesen</span><span class="chip-i">lesen und Kommentare schreiben</span><span class="chip-i">alles ändern</span><span class="chip-i">Dokument angelegt, darf es löschen</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Inhaber</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Bearbeiter</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Betrachter</span></li><li><span class="n" style="background:#4eab65">4</span><span>Kommentator</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">nur lesen (3), lesen und Kommentare schreiben (4), alles ändern (2), Dokument angelegt, darf es löschen (1)</button>
+            <button class="opt" data-hint="Betrachter schauen nur, Kommentatoren dürfen zusätzlich Kommentare schreiben.">nur lesen (4), lesen und Kommentare schreiben (3), alles ändern (2), Dokument angelegt, darf es löschen (1)</button>
+            <button class="opt" data-hint="Wer das Dokument angelegt hat, ist der Inhaber. Bearbeiter dürfen ändern.">nur lesen (3), lesen und Kommentare schreiben (4), alles ändern (1), Dokument angelegt, darf es löschen (2)</button>
+            <button class="opt" data-hint="Kommentatoren ändern den Text nicht, sie schreiben nur an den Rand.">nur lesen (3), lesen und Kommentare schreiben (2), alles ändern (4), Dokument angelegt, darf es löschen (1)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Jede Rolle darf ein bisschen mehr.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.3</span> &nbsp;<b>Entscheide:</b> Welche Sätze stimmen?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Mehrere Personen können gleichzeitig in einem Docs-Dokument schreiben.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Du siehst die Cursor der anderen mit ihrem Namen.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Docs speichert jede Änderung automatisch.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Ein Kommentar ändert den Text.</span></li><li><span class="n" style="background:#dd5b59">5</span><span>Wer den Link hat, darf immer alles ändern.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 2, 3</button>
+            <button class="opt" data-hint="Und Satz 3? Oben steht „Gespeichert in Drive“.">1, 2</button>
+            <button class="opt" data-hint="Ein Kommentar steht nur am Rand, der Text bleibt.">1, 2, 3, 4</button>
+            <button class="opt" data-hint="Was jemand darf, legst du beim Teilen fest. Und Satz 1?">2, 3, 5</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt: gleichzeitig, sichtbar, automatisch gespeichert.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Super: Bild 1 komplett gelöst!</div>
+      </div>
+
+      <div class="fig"><svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 2" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="600" height="400" fill="#ffffff"/><rect x="16" y="16" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="76" y="60" width="156" height="96" rx="6" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.6"/><rect x="82" y="66" width="144" height="26" rx="4" fill="#ffffff" stroke="#ffffff" stroke-width="2"/><text x="92" y="84" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="14" fill="#211a4d">Betrachter</text><rect x="82" y="96" width="144" height="26" rx="4" fill="#ffffff" stroke="#ffffff" stroke-width="2"/><text x="92" y="114" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="14" fill="#211a4d">Kommentator</text><rect x="82" y="126" width="144" height="26" rx="4" fill="#ffe6ea" stroke="#df3a53" stroke-width="2"/><text x="92" y="144" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="14" fill="#211a4d">Bearbeiter</text><text x="154" y="178" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Rolle wählen</text><rect x="308" y="16" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="396" y="80" width="104" height="40" rx="20" fill="#2f6fd6" stroke="#2f6fd6" stroke-width="2"/><rect x="410.0" y="96.4" width="16.0" height="12.8" rx="3" fill="#ffffff"/><path d="M413.2 96.4 v-4.800000000000001 a4.800000000000001 4.800000000000001 0 0 1 9.600000000000001 0 v4.800000000000001" fill="none" stroke="#ffffff" stroke-width="2.6"/><text x="460" y="107" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="16" fill="#ffffff">Teilen</text><path d="M458 112 l0 24 l6 -6 l5 10 l5 -2 l-5 -10 l8 0 z" fill="#ffffff" stroke="#211a4d" stroke-width="2.2" stroke-linejoin="round"/><text x="446" y="178" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Teilen klicken</text><rect x="16" y="208" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="112" y="272" width="90" height="38" rx="6" fill="#2f6fd6" stroke="#2f6fd6" stroke-width="2"/><text x="157" y="297" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="16" fill="#ffffff">Senden</text><text x="154" y="370" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Senden klicken</text><rect x="308" y="208" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="348" y="260" width="200" height="34" rx="6" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.6"/><text x="360" y="282" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="14" fill="#4f4880">Personen hinzufügen …</text><circle cx="378" cy="320.0" r="6.4" fill="#2f6fd6"/><path d="M366.8 340.8 a11.200000000000001 11.200000000000001 0 0 1 22.400000000000002 0 z" fill="#2f6fd6"/><circle cx="428" cy="320.0" r="6.4" fill="#0d8f68"/><path d="M416.8 340.8 a11.200000000000001 11.200000000000001 0 0 1 22.400000000000002 0 z" fill="#0d8f68"/><circle cx="478" cy="320.0" r="6.4" fill="#8e3bd2"/><path d="M466.8 340.8 a11.200000000000001 11.200000000000001 0 0 1 22.400000000000002 0 z" fill="#8e3bd2"/><text x="446" y="370" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Namen eintippen</text><circle cx="40" cy="42" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="40" y="49" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><circle cx="332" cy="42" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="332" y="49" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><circle cx="40" cy="234" r="17" fill="#8e3bd2" stroke="#ffffff" stroke-width="3"/><text x="40" y="241" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><circle cx="332" cy="234" r="17" fill="#4eab65" stroke="#ffffff" stroke-width="3"/><text x="332" y="241" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text></svg><div class="fig-cap">Bild 2 &middot; Vier Schritte zum Teilen, aber durcheinander</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 2</span> <b>Bring</b> die Schritte in die richtige Reihenfolge. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>Zuerst: 2 (Teilen klicken)</li><li>dann 4 (Namen eintippen)</li><li>dann 1 (Rolle wählen)</li><li>zuletzt: 3 (Senden)</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.1</span> &nbsp;<b>Bring</b> die Schritte zum Teilen in die richtige Reihenfolge.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">2 – 4 – 1 – 3</button>
+            <button class="opt" data-hint="Das Teilen-Fenster öffnet sich erst nach dem Klick auf Teilen.">4 – 2 – 1 – 3</button>
+            <button class="opt" data-hint="Die Rolle wählst du für die Personen, die du eingetippt hast.">2 – 1 – 4 – 3</button>
+            <button class="opt" data-hint="Senden ist immer der letzte Klick.">2 – 4 – 3 – 1</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Teilen, Namen, Rolle, Senden.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.2</span> &nbsp;<b>Ergänze</b> die Sätze.</div>
+          <div class="qi"><div class="zeile">Kommentare stehen am <span class="lk"><span class="n" style="background:#3675d8">1</span></span> .</div><div class="zeile">Ist ein Tipp umgesetzt, klickst du auf <span class="lk"><span class="n" style="background:#d16b2f">2</span></span> .</div><div class="zeile">Alte Stände zeigt der <span class="lk"><span class="n" style="background:#8e3bd2">3</span></span> .</div></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Rand (1), Erledigt (2), Versionsverlauf (3)</button>
+            <button class="opt" data-hint="Löschen entfernt den Kommentar spurlos. Erledigt zeigt: umgesetzt.">Rand (1), Löschen (2), Versionsverlauf (3)</button>
+            <button class="opt" data-hint="Im Papierkorb liegen gelöschte Dateien, keine alten Stände.">Rand (1), Erledigt (2), Papierkorb (3)</button>
+            <button class="opt" data-hint="Kommentare stehen rechts am Rand neben der Textstelle.">Anfang (1), Erledigt (2), Versionsverlauf (3)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Rand, Erledigt, Versionsverlauf.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.3</span> &nbsp;<b>Entscheide:</b> Welche Kommentare sind hilfreich?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>„Bei Schritt 2 fehlt die Menge Mehl.“</span></li><li><span class="n" style="background:#d16b2f">2</span><span>„Voll schlecht.“</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>„Mit Überschrift 1 wäre das Rezept in der Navigation.“</span></li><li><span class="n" style="background:#4eab65">4</span><span>„Schreib das lieber ganz neu.“</span></li><li><span class="n" style="background:#dd5b59">5</span><span>„Schönes Bild! Etwas kleiner, dann passt der Text daneben.“</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 3, 5</button>
+            <button class="opt" data-hint="„Voll schlecht“ sagt nicht, was besser werden soll.">1, 2, 3, 5</button>
+            <button class="opt" data-hint="Und Satz 5? Er lobt UND macht einen konkreten Vorschlag.">1, 3</button>
+            <button class="opt" data-hint="„Ganz neu“ hilft nicht: Was genau soll anders werden?">3, 4, 5</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Hilfreich ist konkret, freundlich und mit Vorschlag.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Klasse: Bild 2 komplett gelöst!</div>
+      </div>
+
+      <div class="fig"><svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 3" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="700" height="400" fill="#ffffff"/><rect x="14" y="14" width="324" height="372" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="38" y="88" width="276" height="40" rx="6" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.4"/><path d="M48 98 h26 v20 h-26 z M48 98 l13 11 l13 -11" fill="none" stroke="#2f6fd6" stroke-width="2"/><text x="84" y="114" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="14" fill="#211a4d">Kochbuch.docx</text><rect x="38" y="140" width="276" height="40" rx="6" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.4"/><path d="M48 150 h26 v20 h-26 z M48 150 l13 11 l13 -11" fill="none" stroke="#2f6fd6" stroke-width="2"/><text x="84" y="166" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="14" fill="#211a4d">Kochbuch_neu.docx</text><rect x="38" y="192" width="276" height="40" rx="6" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.4"/><path d="M48 202 h26 v20 h-26 z M48 202 l13 11 l13 -11" fill="none" stroke="#2f6fd6" stroke-width="2"/><text x="84" y="218" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="14" fill="#211a4d">Kochbuch_final.docx</text><rect x="38" y="244" width="276" height="40" rx="6" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.4"/><path d="M48 254 h26 v20 h-26 z M48 254 l13 11 l13 -11" fill="none" stroke="#2f6fd6" stroke-width="2"/><text x="84" y="270" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="14" fill="#211a4d">Kochbuch_final2.docx</text><rect x="38" y="296" width="276" height="40" rx="6" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.4"/><path d="M48 306 h26 v20 h-26 z M48 306 l13 11 l13 -11" fill="none" stroke="#2f6fd6" stroke-width="2"/><text x="84" y="322" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="14" fill="#211a4d">Kochbuch_FINAL_echt.docx</text><circle cx="40" cy="40" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="40" y="47" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><rect x="362" y="14" width="324" height="372" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="402" y="84" width="244" height="240" rx="4" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.8"/><line x1="420" y1="118" x2="620" y2="118" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="420" y1="140" x2="620" y2="140" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="420" y1="162" x2="620" y2="162" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="420" y1="184" x2="620" y2="184" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="420" y1="206" x2="620" y2="206" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="420" y1="228" x2="620" y2="228" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="420" y1="250" x2="620" y2="250" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="420" y1="272" x2="620" y2="272" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="420" y1="294" x2="544.0" y2="294" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="482" y1="114" x2="482" y2="136" stroke="#0d8f68" stroke-width="3"/><rect x="482" y="98" width="58" height="16" rx="3" fill="#0d8f68"/><text x="487" y="110" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="12" fill="#ffffff">Team A</text><line x1="562" y1="180" x2="562" y2="202" stroke="#2f6fd6" stroke-width="3"/><rect x="562" y="164" width="58" height="16" rx="3" fill="#2f6fd6"/><text x="567" y="176" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="12" fill="#ffffff">Team B</text><line x1="452" y1="246" x2="452" y2="268" stroke="#8e3bd2" stroke-width="3"/><rect x="452" y="230" width="34" height="16" rx="3" fill="#8e3bd2"/><text x="457" y="242" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="12" fill="#ffffff">Ich</text><path d="M612 74 a12 12 0 1 0 3.6 -11.4" fill="none" stroke="#211a4d" stroke-width="3" stroke-linecap="round"/><path d="M606 67 l6 8 l7 -7" fill="none" stroke="#211a4d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M624 67.4 V74 l5.4 3.6" fill="none" stroke="#211a4d" stroke-width="3" stroke-linecap="round"/><circle cx="388" cy="40" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="388" y="47" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text></svg><div class="fig-cap">Bild 3 &middot; Zwei Wege, gemeinsam ein Kochbuch zu schreiben</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 3</span> <b>Ordne zu:</b> Weg 1 (Mail) oder Weg 2 (Docs)? a) Viele Kopien. b) Alle schreiben gleichzeitig. c) Alte Stände im Verlauf. d) Welche Datei ist neu? Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>a) 1</li><li>b) 2</li><li>c) 2</li><li>d) 1</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.1</span> &nbsp;<b>Ordne zu:</b> Gehört das zu Weg 1 (Mail) oder Weg 2 (Docs)?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">viele Kopien mit verschiedenen Ständen</span><span class="chip-i">alle schreiben gleichzeitig in einer Datei</span><span class="chip-i">alte Stände im Versionsverlauf</span><span class="chip-i">Welche Datei ist die neueste?</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Weg 1 (Mail)</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Weg 2 (Docs)</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">viele Kopien mit verschiedenen Ständen (1), alle schreiben gleichzeitig in einer Datei (2), alte Stände im Versionsverlauf (2), Welche Datei ist die neueste? (1)</button>
+            <button class="opt" data-hint="Bei Weg 1 schickt jede Person ihre eigene Kopie herum.">viele Kopien mit verschiedenen Ständen (2), alle schreiben gleichzeitig in einer Datei (2), alte Stände im Versionsverlauf (2), Welche Datei ist die neueste? (1)</button>
+            <button class="opt" data-hint="Den Versionsverlauf gibt es in Docs, die Mail-Kopien haben keinen.">viele Kopien mit verschiedenen Ständen (1), alle schreiben gleichzeitig in einer Datei (2), alte Stände im Versionsverlauf (1), Welche Datei ist die neueste? (1)</button>
+            <button class="opt" data-hint="Bei Weg 2 schreiben alle in derselben Datei: Es gibt nur eine.">viele Kopien mit verschiedenen Ständen (1), alle schreiben gleichzeitig in einer Datei (1), alte Stände im Versionsverlauf (2), Welche Datei ist die neueste? (1)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Mail macht Kopien, Docs hat eine Datei für alle.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.2</span> &nbsp;<b>Ordne zu:</b> Word, Docs oder beide?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">läuft im Browser</span><span class="chip-i">Datei liegt lokal in Schule › ITG</span><span class="chip-i">Formatvorlagen und Tabellen</span><span class="chip-i">Strg + C und Strg + V</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>nur Word</span></li><li><span class="n" style="background:#d16b2f">2</span><span>nur Docs</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>beide</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">läuft im Browser (2), Datei liegt lokal in Schule › ITG (1), Formatvorlagen und Tabellen (3), Strg + C und Strg + V (3)</button>
+            <button class="opt" data-hint="Docs öffnest du im Browser, Word-Dateien liegen auf dem Rechner.">läuft im Browser (1), Datei liegt lokal in Schule › ITG (2), Formatvorlagen und Tabellen (3), Strg + C und Strg + V (3)</button>
+            <button class="opt" data-hint="Formatvorlagen und Tabellen kennst du aus beiden Programmen.">läuft im Browser (2), Datei liegt lokal in Schule › ITG (1), Formatvorlagen und Tabellen (1), Strg + C und Strg + V (3)</button>
+            <button class="opt" data-hint="Die Zaubertasten klappen überall.">läuft im Browser (2), Datei liegt lokal in Schule › ITG (1), Formatvorlagen und Tabellen (3), Strg + C und Strg + V (2)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: anderer Ort, gleiche Werkzeuge.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.3</span> &nbsp;<b>Entscheide:</b> Was ist beim Teilen richtig?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Teile nur mit Personen, die das Dokument brauchen.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Schreib keine Adresse oder Telefonnummer ins Klassenkochbuch.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Wähle die kleinste Rolle, die reicht.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Stell den Link auf „Jeder im Internet darf bearbeiten“.</span></li><li><span class="n" style="background:#dd5b59">5</span><span>Kommentare sind privat, die sieht niemand.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 2, 3</button>
+            <button class="opt" data-hint="Und Satz 3? Wer nur lesen soll, wird Betrachter.">1, 2</button>
+            <button class="opt" data-hint="Mit „Jeder im Internet“ kann jede Person dein Dokument ändern.">1, 2, 3, 4</button>
+            <button class="opt" data-hint="Kommentare sehen alle, die das Dokument öffnen dürfen. Und Satz 1?">2, 3, 5</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt: so wenig teilen wie nötig, keine privaten Daten.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Stark: Bild 3 komplett gelöst!</div>
+      </div>
     </section>
 
     <section class="block">
-      <h2><span class="dot"></span>Schritt f&uuml;r Schritt</h2>
-      <div class="todo">Hier kommt die Anleitung hin: die einzelnen Arbeitsschritte, gerne mit Screenshots.</div>
+      <h2><span class="dot"></span>Schritt für Schritt: Unser Klassenkochbuch</h2>
+      <p><span class="task-no">Aufgabe 4</span> Schreibt im Team ein Klassenkochbuch. Jede Person bringt ein eigenes Lieblingsrezept mit.</p>
+      <div class="fig"><svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 4" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="760" height="260" fill="#ffffff"/><rect x="14" y="10" width="732" height="240" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><path d="M15.5 50 V24 a12.5 12.5 0 0 1 12.5 -12.5 H732 a12.5 12.5 0 0 1 12.5 12.5 V50 z" fill="#ff5d73"/><text x="34" y="38" text-anchor="start" font-family="Fredoka, Open Sans, sans-serif" font-weight="800" font-size="20" fill="#ffffff">So sieht es aus</text><text x="726" y="38" text-anchor="end" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="16" fill="#ffffff">ein Dokument · drei Personen · Kommentar</text><rect x="30" y="62" width="470" height="182" rx="6" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.4"/><text x="46" y="92" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="20" fill="#211a4d">Klassenkochbuch Team 3</text><text x="46" y="122" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="16" fill="#df3a53">Pfannkuchen</text><line x1="46" y1="138" x2="246" y2="138" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="46" y1="152" x2="170.0" y2="152" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><text x="46" y="176" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="16" fill="#df3a53">Obstsalat</text><line x1="46" y1="192" x2="246" y2="192" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="46" y1="206" x2="170.0" y2="206" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><text x="270" y="122" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="16" fill="#df3a53">Waffeln</text><line x1="270" y1="138" x2="470" y2="138" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="270" y1="152" x2="394.0" y2="152" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><line x1="150" y1="140" x2="150" y2="162" stroke="#0d8f68" stroke-width="3"/><rect x="150" y="124" width="74" height="16" rx="3" fill="#0d8f68"/><text x="155" y="136" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="12" fill="#ffffff">Person A</text><line x1="380" y1="140" x2="380" y2="162" stroke="#2f6fd6" stroke-width="3"/><rect x="380" y="124" width="74" height="16" rx="3" fill="#2f6fd6"/><text x="385" y="136" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="12" fill="#ffffff">Person B</text><line x1="120" y1="194" x2="120" y2="216" stroke="#8e3bd2" stroke-width="3"/><rect x="120" y="178" width="34" height="16" rx="3" fill="#8e3bd2"/><text x="125" y="190" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="12" fill="#ffffff">Ich</text><rect x="104" y="184" width="70" height="14" fill="#ffd76a" opacity="0.6"/><path d="M520 158 a8 8 0 0 1 8 -8 h194 a8 8 0 0 1 8 8 v54 a8 8 0 0 1 -8 8 h-176 l-10 12 l0 -12 h-6 a8 8 0 0 1 -8 -8 z" fill="#fff6e0" stroke="#c8890a" stroke-width="2.4" stroke-linejoin="round"/><text x="534" y="176" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="13" fill="#211a4d">Person B: Menge Mehl</text><text x="534" y="196" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="13" fill="#211a4d">fehlt bei Schritt 1.</text><rect x="520" y="70" width="110" height="34" rx="17" fill="#2f6fd6" stroke="#2f6fd6" stroke-width="2"/><text x="575" y="92" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="14" fill="#ffffff">Teilen</text><path d="M657 86 a13 13 0 1 0 3.9 -12.3" fill="none" stroke="#211a4d" stroke-width="3" stroke-linecap="round"/><path d="M651 79 l6 8 l7 -7" fill="none" stroke="#211a4d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M670 78.85 V86 l5.9 3.9" fill="none" stroke="#211a4d" stroke-width="3" stroke-linecap="round"/><text x="690" y="92" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="13" fill="#4f4880">Verlauf</text></svg><div class="fig-cap">So sieht euer Klassenkochbuch aus: ein Dokument, mehrere Cursor, ein Kommentar am Rand</div></div>
+      <ol class="steps">
+        <li><b>Team.</b> Bildet Teams zu dritt. Eine Person ist Inhaberin oder Inhaber des Dokuments.</li>
+        <li><b>Anlegen.</b> <a href="https://docs.google.com" target="_blank" rel="noopener">docs.google.com</a> › Leeres Dokument. Name: <b>2027-01-05_ITG_Kochbuch_Team</b> und eure Teamnummer.</li>
+        <li><b>Teilen.</b> Oben rechts <b>Teilen</b> › Namen der Teammitglieder (Schulkonto) › Rolle <b>Bearbeiter</b> › Senden.</li>
+        <li><b>Öffnen.</b> Die anderen öffnen den Link aus der Mail oder in Drive unter <b>Für mich freigegeben</b>.</li>
+        <li><b>Schreiben.</b> Jede Person schreibt ihr Lieblingsrezept: Name mit <b>Überschrift 1</b>, Zutaten als Aufzählung, Schritte nummeriert.</li>
+        <li><b>Kommentieren.</b> Markiere eine Stelle im Rezept einer anderen Person, klicke auf das <b>Kommentar-Symbol</b> und gib einen Tipp: konkret, freundlich, mit Vorschlag.</li>
+        <li><b>Antworten.</b> Lies die Tipps zu deinem Rezept, setze sie um und klicke auf <b>Erledigt</b> (Haken).</li>
+        <li><b>Verlauf.</b> Datei › <b>Versionsverlauf</b> › Versionsverlauf ansehen. Finde den Stand von vor 10 Minuten. Nur ansehen, nicht wiederherstellen!</li>
+        <li><b>Abmelden.</b> Docs speichert von selbst. Link zum Dokument in die Classroom-Aufgabe, dann abmelden!</li>
+      </ol>
+      <p class="muster"><b>Datenschutz:</b> Teile nur mit den Schulkonten deines Teams. Keine Adressen, Telefonnummern oder Fotos von Personen ins Kochbuch.</p>
+      <div class="merke-box"><b>Merke:</b> In <b>Google Docs</b> schreiben mehrere Personen gleichzeitig in einer Datei. Beim <b>Teilen</b> legst du fest, wer lesen (<i>Betrachter</i>), kommentieren (<i>Kommentator</i>) oder ändern (<i>Bearbeiter</i>) darf. <b>Kommentare</b> sind Tipps am Rand: konkret, freundlich, mit Vorschlag. Der <b>Versionsverlauf</b> speichert alle Stände. Teile nur mit Personen, die es brauchen.</div>
     </section>
 
     <section class="block">
-      <h2><span class="dot"></span>&Uuml;bungsaufgaben</h2>
-      <div class="todo">Hier kommen die Aufgaben hin &mdash; mit klarer Differenzierung (Basis &middot; mittel &middot; knifflig).</div>
+      <h2><span class="dot"></span>Übungsaufgaben</h2>
+      <div class="task">
+        <span class="task-no">Aufgabe 5</span> <span class="chip basis">Basis</span>
+        <p>Welche Rolle passt? Wähle aus Betrachter, Kommentator, Bearbeiter oder nicht teilen.</p><ul><li>Oma soll das Kochbuch nur lesen.</li><li>Ein Teammitglied schreibt ein Rezept dazu.</li><li>Die Lehrperson gibt Tipps am Rand.</li></ul>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Oma: Betrachter.</li><li>Teammitglied: Bearbeiter.</li><li>Lehrperson: Kommentator.</li></ul></details>
+      </div>
+      <div class="task">
+        <span class="task-no">Aufgabe 6</span> <span class="chip mittel">mittel</span>
+        <p>Jemand aus deinem Team hat aus Versehen dein ganzes Rezept gelöscht. Beschreibe, wie du es zurückbekommst.</p>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Datei › Versionsverlauf › Versionsverlauf ansehen. Den Stand anklicken, in dem das Rezept noch da war, dann „Diese Version wiederherstellen“ (oder den Text daraus kopieren).</li><li>Strg + Z hilft hier nicht, weil eine andere Person gelöscht hat.</li></ul></details>
+      </div>
+      <div class="task">
+        <span class="task-no">Aufgabe 7</span> <span class="chip knifflig">knifflig</span>
+        <p>Jemand sagt: „Wir schicken uns das Kochbuch einfach als Word-Datei per Mail hin und her.“ Beurteile das.</p>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Das geht, aber es entstehen viele Kopien. Niemand weiß, welche die neueste ist, und Änderungen überschreiben sich. Immer nur eine Person kann arbeiten. In Docs schreiben alle gleichzeitig in einer Datei, und der Versionsverlauf hält alles fest.</li></ul></details>
+      </div>
     </section>
 
     <section class="block fast">
-      <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnelll&auml;ufer:innen-Mission</h2>
+      <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnellläufer:innen-Mission</h2>
       <p class="fast-text">Organisiert im Team ein Dokument mit klaren Rollen: Schreiben, Prüfen, Layout.</p>
+      <ul class="fast-list">
+        <li><b>Schreiben macht:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Prüfen macht:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Layout macht:</b> <span class="fill">&nbsp;</span></li>
+      </ul>
+      <p class="fast-extra"><b>Vertiefung zur Wahl:</b> Teste deine Rollen-Kenntnisse, finde im Verlauf den richtigen Stand oder bewerte Kommentare. <a href="16-vertiefung-gemeinsam-schreiben.html">Zur Vertiefung</a> (auch per QR-Code unten rechts auf Seite 2 des Aufgabenblatts).</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="dot"></span>Das kann ich jetzt: kurzer Check</h2>
+      <p>Drei Fragen zum Abschluss. Wieder gilt: <b style="color:var(--ok-dk)">grün</b> = richtig, <b style="color:var(--no-dk)">rot</b> = Tipp.</p>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.1</span> &nbsp;<b>Ordne zu:</b> Was hilft dir?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Text wurde aus Versehen gelöscht.</span><span class="chip-i">Du hast einen Tipp für ein Teammitglied.</span><span class="chip-i">Ein neues Teammitglied soll mitschreiben.</span><span class="chip-i">Ein Kommentar ist umgesetzt.</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Kommentar schreiben</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Erledigt klicken</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Versionsverlauf</span></li><li><span class="n" style="background:#4eab65">4</span><span>als Bearbeiter teilen</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Text wurde aus Versehen gelöscht. (3), Du hast einen Tipp für ein Teammitglied. (1), Ein neues Teammitglied soll mitschreiben. (4), Ein Kommentar ist umgesetzt. (2)</button>
+            <button class="opt" data-hint="Gelöschtes holt der Versionsverlauf zurück, Erledigt schließt nur einen Kommentar.">Text wurde aus Versehen gelöscht. (2), Du hast einen Tipp für ein Teammitglied. (1), Ein neues Teammitglied soll mitschreiben. (4), Ein Kommentar ist umgesetzt. (3)</button>
+            <button class="opt" data-hint="Einen Tipp schreibst du als Kommentar, mitschreiben darf nur ein Bearbeiter.">Text wurde aus Versehen gelöscht. (3), Du hast einen Tipp für ein Teammitglied. (4), Ein neues Teammitglied soll mitschreiben. (1), Ein Kommentar ist umgesetzt. (2)</button>
+            <button class="opt" data-hint="Mitschreiben heißt ändern dürfen: Bearbeiter.">Text wurde aus Versehen gelöscht. (3), Du hast einen Tipp für ein Teammitglied. (1), Ein neues Teammitglied soll mitschreiben. (2), Ein Kommentar ist umgesetzt. (4)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Verlauf, Kommentar, Bearbeiter, Erledigt.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.2</span> &nbsp;<b>Ergänze</b> den Merksatz.</div>
+          <div class="qi"><div class="zeile">In Docs schreiben <span class="lk"><span class="n" style="background:#3675d8">1</span></span> gleichzeitig.</div><div class="zeile">Nichts geht verloren dank <span class="lk"><span class="n" style="background:#d16b2f">2</span></span> .</div><div class="zeile">Teile nur mit Personen, die es <span class="lk"><span class="n" style="background:#8e3bd2">3</span></span> .</div></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">mehrere (1), Versionsverlauf (2), brauchen (3)</button>
+            <button class="opt" data-hint="Es können viele Personen gleichzeitig schreiben, nicht nur zwei.">nur zwei (1), Versionsverlauf (2), brauchen (3)</button>
+            <button class="opt" data-hint="Alte Stände speichert der Versionsverlauf.">mehrere (1), Papierkorb (2), brauchen (3)</button>
+            <button class="opt" data-hint="Kennen reicht nicht: Teile nur, wenn jemand das Dokument wirklich braucht.">mehrere (1), Versionsverlauf (2), kennen (3)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: mehrere, Versionsverlauf, brauchen.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.3</span> &nbsp;<b>Bring</b> die Schritte für einen Kommentar in die richtige Reihenfolge.</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Kommentar-Symbol klicken.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Textstelle markieren.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Tipp tippen und Kommentieren klicken.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Antwort lesen und Erledigt klicken.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">2 – 1 – 3 – 4</button>
+            <button class="opt" data-hint="Der Kommentar gehört zu einer Textstelle. Die markierst du zuerst.">1 – 2 – 3 – 4</button>
+            <button class="opt" data-hint="Tippen kannst du erst, wenn das Kommentarfeld offen ist.">2 – 3 – 1 – 4</button>
+            <button class="opt" data-hint="Erledigt kommt ganz zum Schluss, wenn der Tipp umgesetzt ist.">2 – 1 – 4 – 3</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: markieren, Symbol, tippen, später Erledigt.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Perfekt: Ihr seid ein echtes Schreib-Team!</div>
+      </div>
     </section>
 
     <section class="block">
       <h2><span class="dot"></span>Das nehme ich mit</h2>
-      <div class="todo">Hier kommt der Merksatz / die Zusammenfassung hin.</div>
+      <div class="merk">
+        <p>In <b>Google Docs</b> schreiben mehrere Personen gleichzeitig in einer Datei. Beim <b>Teilen</b> legst du fest, wer lesen (<i>Betrachter</i>), kommentieren (<i>Kommentator</i>) oder ändern (<i>Bearbeiter</i>) darf. <b>Kommentare</b> sind Tipps am Rand: konkret, freundlich, mit Vorschlag. Der <b>Versionsverlauf</b> speichert alle Stände. Teile nur mit Personen, die es brauchen.</p>
+        <div class="secret">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12c.5.5 1 1.2 1 2h6c0-.8.5-1.5 1-2a7 7 0 0 0-4-12z"/></svg>
+          <span>Merk&#8209;Trick: Rollen beim Teilen sind wie Schlüssel: Betrachter dürfen durchs Fenster schauen, Kommentatoren dürfen Zettel an die Tür kleben, Bearbeiter dürfen hinein und umräumen.</span>
+        </div>
+      </div>
     </section>
 
     <div class="selfcheck-wrap">
-      <span class="sc-label">Wie sicher f&uuml;hlst du dich nach dieser Stunde?</span>
+      <span class="sc-label">Wie sicher fühlst du dich nach dieser Stunde?</span>
       <div class="sc-stars" id="stars"></div>
       <span class="sc-feedback" id="fb"></span>
     </div>
@@ -182,9 +490,67 @@
 </div>
 
 <script>
+  /* ---------- Quiz-Engine ---------- */
+  (function(){
+    var LETTERS = ['A','B','C','D','E','F'];
+    var quizzes = document.querySelectorAll('[data-quiz]');
+    quizzes.forEach(function(quiz){
+      var questions = quiz.querySelectorAll('.q');
+      var total = questions.length;
+      var solved = 0;
+      var pcount = quiz.querySelector('.pcount');
+      var pfill = quiz.querySelector('.pfill');
+      var doneBox = quiz.querySelector('.quiz-solved');
+      function updateProgress(){
+        if (pcount) pcount.textContent = solved + ' / ' + total + ' richtig';
+        if (pfill) pfill.style.width = (total ? (solved/total*100) : 0) + '%';
+        if (doneBox && solved === total) doneBox.classList.add('show');
+      }
+      questions.forEach(function(q){
+        var optsContainer = q.querySelector('.opts');
+        var opts = Array.prototype.slice.call(q.querySelectorAll('.opt'));
+        for (var i = opts.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = opts[i]; opts[i] = opts[j]; opts[j] = tmp;
+        }
+        opts.forEach(function(opt){ optsContainer.appendChild(opt); });
+        var hint = q.querySelector('.q-hint');
+        var done = q.querySelector('.q-done');
+        var answered = false;
+        opts.forEach(function(opt, i){
+          var lett = document.createElement('span');
+          lett.className = 'lett';
+          lett.textContent = LETTERS[i];
+          opt.insertBefore(lett, opt.firstChild);
+          opt.addEventListener('click', function(){
+            if (answered) return;
+            if (opt.getAttribute('data-correct') === 'true') {
+              answered = true;
+              opt.classList.add('correct');
+              opts.forEach(function(o){ o.setAttribute('disabled','disabled'); });
+              if (hint) hint.classList.remove('show');
+              if (done) done.classList.add('show');
+              solved++;
+              updateProgress();
+            } else {
+              opt.classList.add('wrong');
+              opt.setAttribute('disabled','disabled');
+              if (hint) {
+                hint.textContent = opt.getAttribute('data-hint') || 'Nicht ganz — versuch es nochmal.';
+                hint.classList.add('show');
+              }
+            }
+          });
+        });
+      });
+      updateProgress();
+    });
+  })();
+
+  /* ---------- Selbsteinschätzung (Sterne, localStorage) ---------- */
   (function(){
     var key = 'itg_lp_16';
-    var msgs = {1:'Ganz frisch \u2014 \u00dcben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf \u2014 super!'};
+    var msgs = {1:'Ganz frisch — Üben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf — super!'};
     var svg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 18.9 6.1 21l1.2-6.5L2.5 9.9l6.6-.9z"/></svg>';
     var wrap = document.getElementById('stars'); var fb = document.getElementById('fb'); var stars = [];
     for (var n = 1; n <= 4; n++) { var b = document.createElement('button'); b.className = 'sc-star'; b.type = 'button'; b.innerHTML = svg; b.setAttribute('aria-label', 'Stufe ' + n); wrap.appendChild(b); stars.push(b); }

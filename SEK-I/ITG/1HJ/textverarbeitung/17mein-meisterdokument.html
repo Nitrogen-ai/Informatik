@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LP 17 · Mein Meisterdokument — ITG Klasse 6</title>
+<title>LP 17 · Mein Meisterdokument · ITG Klasse 6</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -12,6 +12,7 @@
     --key: #ff5d73; --edge: #df3a53; --tint: #ffe6ea; --ktext: #ffffff;
     --ink: #211a4d; --ink-soft: #4f4880; --bg: #f1f0fb; --card: #fff;
     --line: rgba(33,26,77,0.12); --sun: #ffc23d;
+    --ok: #39b56a; --ok-dk: #248049; --no: #e8607a; --no-dk: #b83a56;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -59,12 +60,8 @@
   .rlp .tag { display: inline-block; background: #e7e5fb; padding: 0.06rem 0.42rem; border-radius: 6px; margin: 0 0.15rem 0.25rem 0; }
   .rlp .tag.neu { background: var(--sun); color: var(--ink); }
 
-  .draft-note {
-    display: flex; align-items: center; gap: 0.6rem;
-    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 12px;
-    padding: 0.7rem 0.9rem; margin: 1.4rem 0; font-size: 0.9rem; font-weight: 700; color: #8a5a00;
-  }
-  .draft-note svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .intro { font-size: 1.05rem; margin: 1.4rem 0 1.6rem; }
+  .intro .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
 
   .block { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 1.4rem 1.5rem; margin-bottom: 1.1rem; }
   .block h2 {
@@ -72,15 +69,94 @@
     display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem;
   }
   .block h2 .dot { width: 14px; height: 14px; border-radius: 5px; background: var(--key); box-shadow: 0 2px 0 var(--edge); flex-shrink: 0; }
-  .todo {
-    border: 2px dashed var(--line); border-radius: 12px; padding: 1rem 1.1rem;
-    color: var(--ink-soft); font-style: italic; background: rgba(91,75,230,0.03);
+  .block p { margin-bottom: 0.6rem; }
+
+  /* figure */
+  .fig { background: var(--tint); border-radius: 14px; padding: 1rem; margin: 0.4rem 0 1rem; }
+  .fig svg { width: 100%; height: auto; display: block; }
+  .fig-cap { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); text-align: center; margin-top: 0.5rem; }
+
+  /* step list */
+  ol.steps { list-style: none; counter-reset: st; }
+  ol.steps li { counter-increment: st; position: relative; padding: 0.55rem 0 0.55rem 2.7rem; border-bottom: 1px dashed var(--line); }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li::before {
+    content: counter(st); position: absolute; left: 0; top: 0.5rem;
+    width: 30px; height: 30px; border-radius: 9px; background: var(--key); color: var(--ktext);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; box-shadow: 0 2px 0 var(--edge);
   }
+  ol.steps b { color: var(--edge); }
+
+  /* exercises + diff chips */
+  .task { border: 1.5px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; margin-bottom: 0.8rem; }
+  .chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.66rem;
+    letter-spacing: 0.05em; padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.5rem; }
+  .chip.basis { background: #e2f6ea; color: var(--ok-dk); border: 1.5px solid var(--ok); }
+  .chip.mittel { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+  .chip.knifflig { background: #fff3d1; color: #8a5a00; border: 1.5px solid var(--sun); }
+  .task ul { margin: 0.4rem 0 0 1.1rem; }
+  .task li { margin-bottom: 0.2rem; }
 
   .block.fast { border-color: var(--sun); background: #fff7e2; }
   .block.fast h2 { color: #8a5a00; }
   .block.fast h2 .rocket { width: 22px; height: 22px; color: #8a5a00; }
-  .fast-text { font-size: 1.02rem; font-weight: 600; }
+  .fast-text { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .fast-list { margin: 0.4rem 0 0.8rem 1.1rem; }
+  .fast-list li { margin-bottom: 0.3rem; }
+  .auftrag { border: 1.5px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0 0 0.9rem; background: #fff; }
+  .auftrag p { margin: 0; }
+  .auftrag-no, .task-no { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); background: var(--tint); border-radius: 6px; padding: 0.1rem 0.45rem; margin-right: 0.2rem; }
+  .auftrag details, .fast-sol { margin-top: 0.5rem; }
+  .auftrag summary, .fast-sol summary { cursor: pointer; font-weight: 700; color: var(--edge); font-size: 0.92rem; }
+  .auftrag ol, .fast-sol ul { margin: 0.4rem 0 0 1.3rem; }
+  .fast-sol { margin-bottom: 0.8rem; }
+  .fill { display: inline-block; min-width: 10rem; border-bottom: 1.5px dotted currentColor; }
+  .merke-box { margin-top: 0.9rem; background: var(--tint); border-left: 6px solid var(--key); border-radius: 10px; padding: 0.7rem 0.9rem; }
+  .fast-extra { font-size: 0.95rem; font-weight: 600; background: #fff; border-radius: 10px; padding: 0.7rem 0.9rem; border: 1.5px dashed var(--sun); }
+
+  /* merksatz */
+  .merk { background: var(--tint); border: 2px solid var(--key); border-left: 8px solid var(--key); border-radius: 14px; padding: 1.1rem 1.3rem; }
+  .merk .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+  .merk b { color: var(--edge); }
+  .secret { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.9rem; padding: 0.7rem 0.9rem;
+    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 10px; font-weight: 700; color: #8a5a00; font-size: 0.95rem; }
+  .secret svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  /* ---- QUIZ ENGINE ---- */
+  .quiz { margin-top: 0.4rem; }
+  .quiz-progress { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.74rem; color: var(--ink-soft); }
+  .pbar { flex: 1; height: 10px; background: #e7e5fb; border-radius: 999px; overflow: hidden; }
+  .pfill { height: 100%; width: 0; background: var(--ok); border-radius: 999px; transition: width 0.3s ease; }
+  .q { margin-bottom: 1.1rem; padding-bottom: 1.1rem; border-bottom: 1px dashed var(--line); }
+  .q:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .q-text { font-weight: 800; margin-bottom: 0.6rem; }
+  .q-text .qn { color: var(--edge); font-family: 'JetBrains Mono', monospace; }
+  .opts { display: grid; gap: 0.5rem; }
+  .opt {
+    display: flex; align-items: center; gap: 0.7rem; width: 100%; text-align: left;
+    font-family: 'Nunito', sans-serif; font-size: 0.98rem; font-weight: 700; color: var(--ink);
+    background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 0.6rem 0.8rem; cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .opt:hover:not([disabled]) { border-color: var(--key); transform: translateX(2px); }
+  .opt .lett { flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px; background: var(--tint); color: var(--edge);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; font-size: 0.85rem; }
+  .opt.correct { border-color: var(--ok); background: #e9f8ef; }
+  .opt.correct .lett { background: var(--ok); color: #fff; }
+  .opt.wrong { border-color: var(--no); background: #fdecf0; }
+  .opt.wrong .lett { background: var(--no); color: #fff; }
+  .opt[disabled] { cursor: default; opacity: 0.75; }
+  .opt.correct[disabled], .opt.wrong[disabled] { opacity: 1; }
+  .q-hint { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--no-dk);
+    background: #fdecf0; border-radius: 9px; padding: 0.5rem 0.7rem; display: none; }
+  .q-hint.show { display: block; }
+  .q-done { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--ok-dk); display: none; }
+  .q-done.show { display: block; }
+  .quiz-solved { margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 12px; background: #e9f8ef;
+    border: 2px solid var(--ok); color: var(--ok-dk); font-family: 'Fredoka', sans-serif; font-weight: 600;
+    display: none; align-items: center; gap: 0.6rem; }
+  .quiz-solved.show { display: flex; }
+  .quiz-solved svg { width: 22px; height: 22px; flex-shrink: 0; }
 
   .selfcheck-wrap {
     display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem;
@@ -113,6 +189,57 @@
   }
   @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 </style>
+<style>
+  .qi { background: var(--tint); border-radius: 12px; padding: 0.6rem 0.75rem; margin: -0.2rem 0 0.7rem; font-weight: 700; }
+  .qi .n { display: inline-flex; align-items: center; justify-content: center; width: 1.55rem; height: 1.55rem; border-radius: 50%;
+           color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; flex: none; }
+  .qi ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+  .qi li { display: flex; gap: 0.5rem; align-items: center; }
+  .qi .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.2rem 0 0.45rem; }
+  .qi .chip-i { background: #fff; border: 2px solid var(--key); border-radius: 9px; padding: 0.15rem 0.55rem; display: inline-flex; gap: 0.35rem; align-items: center; }
+  .qi .lk { display: inline-flex; vertical-align: middle; border: 2px dashed var(--ink-soft); border-radius: 8px; padding: 0.05rem 0.4rem; margin: 0 0.15rem; }
+  .qi .zeile { margin: 0.25rem 0; }
+  .qi .txt { font-weight: 600; color: var(--ink-soft); margin-bottom: 0.3rem; }
+  .qi .boxes { color: var(--ink-soft); font-style: italic; margin-bottom: 0.3rem; }
+  .block.abgabe { border-color: var(--key); }
+  .abgabe .warn { background: #fdecf0; border-left: 6px solid var(--no); border-radius: 10px; padding: 0.6rem 0.85rem; margin: 0.2rem 0 0.9rem; color: var(--no-dk); font-weight: 600; }
+  .abgabe .txt-muster { font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; background: #fff; border: 1.5px solid var(--line); border-radius: 8px; padding: 0.5rem 0.7rem; margin: 0.4rem 0; overflow-wrap: anywhere; }
+  .abgabe .name-regel { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.92rem; background: var(--tint); border-radius: 10px; padding: 0.55rem 0.7rem; margin: 0.45rem 0 0.3rem; overflow-wrap: anywhere; }
+  .abgabe .nr-teil { background: #fff; border: 1.5px solid var(--key); border-radius: 6px; padding: 0.05rem 0.35rem; }
+  .abgabe .nr-teil.neu { background: var(--sun); border-color: #c8890a; }
+  .abgabe .name-bsp { font-weight: 700; margin-bottom: 0.3rem; }
+</style>
+<style>
+  .fig svg[aria-label="Bild 2"] { max-width: 460px; margin: 0 auto; }
+  .fig svg[aria-label="Bild 3"] { max-width: 600px; margin: 0 auto; }
+  .fig svg[aria-label="Bild 4"] { max-width: 620px; margin: 0 auto; }
+  .kbd { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.82em; font-weight: 700; background: #fff;
+         border: 1.5px solid var(--ink); border-bottom-width: 3px; border-radius: 6px; padding: 0 0.35em; white-space: nowrap; }
+  .abtipp { background: #fff; border: 2px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0.6rem 0; }
+  .abtipp p { margin: 0.1rem 0; }
+</style>
+<style>
+  .fig svg[aria-label="Bild 1"] { max-width: 760px; margin: 0 auto; }
+  .muster { background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.6rem 0.9rem; margin: 0.5rem 0; }
+</style>
+<style>
+  .wahlgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 0.7rem; margin: 0.6rem 0 1rem; }
+  .pk, .roh, .zeit span { overflow-wrap: anywhere; min-width: 0; }
+  .pk { background: #fff; border: 2px solid var(--tint); border-radius: 14px; padding: 0.7rem 0.8rem; }
+  .pk img { width: 100%; max-height: 140px; object-fit: cover; border-radius: 10px; }
+  .pk h3 { margin: 0.4rem 0 0.2rem; font-size: 1.05rem; }
+  .pk small { color: var(--ink-soft); font-weight: 700; }
+  .pk details { margin-top: 0.5rem; }
+  .roh { background: #fff; border: 2px dashed var(--key); border-radius: 12px; padding: 0.6rem 0.8rem; margin: 0.4rem 0; font-family: Arial, Helvetica, sans-serif; font-size: 0.95rem; }
+  .roh p { margin: 0.1rem 0; }
+  .knopf { padding: 0.35rem 0.7rem; border-radius: 8px; border: 2px solid var(--key); background: #fff; color: var(--edge); font: inherit; font-weight: 800; cursor: pointer; margin: 0.2rem 0.3rem 0.2rem 0; }
+  .ck { list-style: none; padding: 0; }
+  .ck li { display: flex; gap: 0.6rem; align-items: flex-start; background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.55rem 0.7rem; margin-bottom: 0.45rem; font-weight: 600; }
+  .ck input { width: 1.2rem; height: 1.2rem; margin-top: 0.15rem; accent-color: var(--edge); }
+  .ck .st { display: inline-block; background: var(--key); color: #fff; font-weight: 800; border-radius: 6px; padding: 0 0.35rem; font-size: 0.8rem; margin-right: 0.3rem; }
+  .zeit { display: grid; grid-template-columns: 4.5rem 1fr; gap: 0.3rem 0.7rem; }
+  .zeit b { color: var(--edge); }
+</style>
 </head>
 <body>
 
@@ -130,43 +257,136 @@
       <div class="keycap">17</div>
       <h1>Mein Meisterdokument</h1>
     </div>
-    <p class="goal"><b>Das lernst du:</b> Ein richtiges Dokument erstellen (normgerechter Brief oder Steckbrief) und dabei alle Werkzeuge kombinieren.</p>
+    <p class="goal"><b>Das lernst du:</b> Ein richtiges Dokument erstellen und dabei alle Werkzeuge kombinieren.</p>
     <p class="rlp"><span class="tag">RLP 2.5 · H</span><span class="tag">2.6 · F</span><span class="tag">3.1</span></p>
   </header>
 
-  <div class="draft-note">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
-    <span>Diese Seite ist das Ger&uuml;st f&uuml;r diesen Lernpfad &mdash; Inhalte werden noch erg&auml;nzt.</span>
-  </div>
+  <p class="intro">Heute zeigst du, was du in den Stunden 10 bis 16 gelernt hast. Du erstellst in 60 Minuten <span class="hl">allein</span> ein echtes Dokument in Google Docs. Wähle ein Textprodukt, kopiere den Rohtext und mach daraus ein Meisterdokument. Achtung: In jedem Rohtext steht <b>ein Absatz an der falschen Stelle</b>. Das ist die Leistungsanerkennung dieser Reihe (30 Punkte).</p>
 
   <main>
     <section class="block">
-      <h2><span class="dot"></span>Los geht es &mdash; worum geht es heute?</h2>
-      <div class="todo">Hier kommt der Einstieg hin: eine kurze, spannende Hinf&uuml;hrung zum Thema.</div>
+      <h2><span class="dot"></span>1 · Wähle dein Textprodukt</h2>
+      <p>Öffne die Karte, kopiere den Rohtext mit dem Knopf und füge ihn in dein leeres Dokument aus Classroom ein (<span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">V</span></span>). Lade auch das Bild herunter.</p>
+      <div class="wahlgrid">
+      <div class="pk">
+        <img src="bilder/17-fest.png" alt="Zeichnung zum Textprodukt Einladung">
+        <h3>A · Einladung zum Frühlingsfest</h3>
+        <small>Für: Familien der Klasse 6.1</small>
+        <p>Lade alle Familien zu einem Fest ein, auf das sie Lust bekommen.</p>
+        <details><summary><b>Rohtext und Bild</b></summary>
+          <div class="roh" id="roh-A"><p>Einladung zum Frühlingsfest der Klasse 6.1</p><p>Wir freuen uns auf euch! Eure Klasse 6.1</p><p>Liebe Familien,</p><p>am Freitag, 19. März 2027, feiern wir in der Aula unser Frühlingsfest. Es gibt Musik, ein kleines Theaterstück und ein Buffet.</p><p>Programm</p><p>16:00 Uhr Begrüßung durch die Klasse</p><p>16:15 Uhr Theaterstück „Der verschwundene Schlüssel“</p><p>16:45 Uhr Buffet</p><p>17:30 Uhr Spiele auf dem Schulhof</p><p>18:30 Uhr Ende</p><p>Was ihr mitbringen könnt</p><p>einen Salat oder Kuchen für das Buffet</p><p>eigenes Geschirr und Besteck</p><p>gute Laune</p><p>So meldet ihr euch an</p><p>Schreibt auf einen Zettel, wie viele Personen kommen.</p><p>Schreibt dazu, was ihr für das Buffet mitbringt.</p><p>Gebt den Zettel bis zum 12. März bei der Klassenleitung ab.</p><p>Warum sich der Besuch lohnt</p><p>[Hier schreibst du mindestens drei eigene Sätze: Warum lohnt sich der Besuch?]</p></div>
+          <button class="knopf" type="button" data-kopie="roh-A">Rohtext kopieren</button>
+          <a class="knopf" href="bilder/17-fest.png" download>Bild herunterladen</a>
+          <p><small>Bildunterschrift: <i>Bild: eigene Zeichnung der Lehrperson, frei nutzbar</i></small></p>
+        </details>
+      </div>
+      <div class="pk">
+        <img src="bilder/17-fuchs.png" alt="Zeichnung zum Textprodukt Lexikonartikel">
+        <h3>B · Lexikonartikel: Der Rotfuchs</h3>
+        <small>Für: Kinder in deinem Alter (Kinderlexikon)</small>
+        <p>Schreib eine Lexikonseite, die man gern liest und in der man schnell etwas findet.</p>
+        <details><summary><b>Rohtext und Bild</b></summary>
+          <div class="roh" id="roh-B"><p>Der Rotfuchs</p><p>Steckbrief</p><p>Größe: 60 bis 90 cm, dazu ein Schwanz von etwa 40 cm</p><p>Gewicht: 5 bis 8 kg</p><p>Nahrung: Mäuse, Insekten, Beeren, Abfälle</p><p>Lebensraum: Wald, Feld und Stadt</p><p>So lebt der Fuchs</p><p>Füchse wohnen in einem Bau unter der Erde. Im Frühling kommen dort die Jungen zur Welt, meist vier bis sechs.</p><p>Das frisst der Fuchs</p><p>Mäuse</p><p>Regenwürmer und Käfer</p><p>Beeren und Obst</p><p>Reste aus Mülltonnen</p><p>So beobachtest du Füchse</p><p>Such dir einen ruhigen Platz am Waldrand.</p><p>Komm in der Dämmerung, dann sind Füchse unterwegs.</p><p>Sei leise und bleib auf Abstand.</p><p>Füttere Füchse nie, sonst verlieren sie ihre Scheu.</p><p>Das finde ich am Fuchs besonders spannend</p><p>[Hier schreibst du mindestens drei eigene Sätze: Was findest du am Fuchs besonders spannend?]</p><p>Der Rotfuchs lebt fast überall in Europa, sogar mitten in Berlin. Er ist ein schlauer Jäger und kommt mit vielen Lebensräumen zurecht.</p></div>
+          <button class="knopf" type="button" data-kopie="roh-B">Rohtext kopieren</button>
+          <a class="knopf" href="bilder/17-fuchs.png" download>Bild herunterladen</a>
+          <p><small>Bildunterschrift: <i>Bild: eigene Zeichnung der Lehrperson, frei nutzbar</i></small></p>
+        </details>
+      </div>
+      <div class="pk">
+        <img src="bilder/17-wrap.png" alt="Zeichnung zum Textprodukt Rezept">
+        <h3>C · Rezept: Bunte Gemüse-Wraps</h3>
+        <small>Für: das Klassenkochbuch</small>
+        <p>Ein Rezept, das andere sofort nachkochen wollen.</p>
+        <details><summary><b>Rohtext und Bild</b></summary>
+          <div class="roh" id="roh-C"><p>Bunte Gemüse-Wraps</p><p>Wraps sind schnell gemacht und schmecken warm und kalt. Dieses Rezept reicht für vier Personen.</p><p>Zutaten</p><p>4 Weizen-Tortillas</p><p>1 Paprika</p><p>1 Gurke</p><p>2 Karotten</p><p>1 Dose Kichererbsen</p><p>4 Esslöffel Joghurt oder Hummus</p><p>So geht’s</p><p>Schneide Paprika und Gurke in Streifen und raspel die Karotten.</p><p>Gieß die Kichererbsen ab.</p><p>Bestreiche die Tortillas mit Joghurt oder Hummus.</p><p>Leg das Gemüse darauf und roll die Tortillas fest auf.</p><p>Wasch das Gemüse gründlich.</p><p>Einkaufsliste</p><p>Tortillas, 1 Packung, 1,50 €</p><p>Paprika, 1 Stück, 0,80 €</p><p>Gurke, 1 Stück, 0,70 €</p><p>Karotten, 2 Stück, 0,40 €</p><p>Kichererbsen, 1 Dose, 0,90 €</p><p>Mein Tipp</p><p>[Hier schreibst du mindestens drei eigene Sätze: Wie kann man das Rezept abwandeln?]</p></div>
+          <button class="knopf" type="button" data-kopie="roh-C">Rohtext kopieren</button>
+          <a class="knopf" href="bilder/17-wrap.png" download>Bild herunterladen</a>
+          <p><small>Bildunterschrift: <i>Bild: eigene Zeichnung der Lehrperson, frei nutzbar</i></small></p>
+        </details>
+      </div>
+      <div class="pk">
+        <img src="bilder/17-spielfeld.png" alt="Zeichnung zum Textprodukt Spielanleitung">
+        <h3>D · Spielanleitung: Farbenjagd</h3>
+        <small>Für: Kinder der 5. Klassen, die das Spiel in der Pause spielen sollen</small>
+        <p>Eine Anleitung so klar, dass alle sofort losspielen können.</p>
+        <details><summary><b>Rohtext und Bild</b></summary>
+          <div class="roh" id="roh-D"><p>Farbenjagd: ein Pausenspiel</p><p>Wer am Ende die meisten Punkte hat, gewinnt.</p><p>Farbenjagd ist ein schnelles Laufspiel für 6 bis 20 Kinder. Ihr braucht etwa 15 Minuten und einen freien Schulhof.</p><p>Material</p><p>4 Hütchen oder Rucksäcke als Ecken</p><p>Kreide</p><p>eine Pfeife</p><p>Spielregeln</p><p>Markiert mit den Hütchen ein großes Viereck.</p><p>Gebt jeder Ecke eine Farbe: Rot, Blau, Gelb und Grün.</p><p>Eine Person steht in der Mitte und ruft eine Farbe.</p><p>Alle laufen so schnell wie möglich zu dieser Ecke.</p><p>Nach jeder Runde ruft eine andere Person.</p><p>Punkte</p><p>als Erste oder Erster in der Ecke: 2 Punkte</p><p>in der richtigen Ecke: 1 Punkt</p><p>in der falschen Ecke: 0 Punkte</p><p>jemanden geschubst: 2 Punkte Abzug</p><p>Meine Zusatzregel</p><p>[Hier schreibst du mindestens drei eigene Sätze: Erfinde eine Zusatzregel und erkläre sie.]</p></div>
+          <button class="knopf" type="button" data-kopie="roh-D">Rohtext kopieren</button>
+          <a class="knopf" href="bilder/17-spielfeld.png" download>Bild herunterladen</a>
+          <p><small>Bildunterschrift: <i>Bild: eigene Zeichnung der Lehrperson, frei nutzbar</i></small></p>
+        </details>
+      </div>
+      <div class="pk">
+        <img src="bilder/17-waldsee.png" alt="Zeichnung zum Textprodukt Infoblatt">
+        <h3>E · Infoblatt: Klassenfahrt an den Waldsee</h3>
+        <small>Für: Eltern und Kinder der Klasse 6.1</small>
+        <p>Ein Infoblatt, nach dem niemand mehr nachfragen muss.</p>
+        <details><summary><b>Rohtext und Bild</b></summary>
+          <div class="roh" id="roh-E"><p>Klassenfahrt an den Waldsee</p><p>Bei Fragen meldet euch bei der Klassenleitung.</p><p>Vom 7. bis 9. Juni 2027 fährt die Klasse 6.1 in die Jugendherberge am Waldsee. Hier steht alles, was ihr wissen müsst.</p><p>Packliste</p><p>Schlafsack oder Bettwäsche</p><p>Regenjacke und feste Schuhe</p><p>Badesachen</p><p>Taschenlampe</p><p>Trinkflasche</p><p>So läuft die Anreise</p><p>Treffpunkt ist um 8:00 Uhr vor der Schule.</p><p>Wir fahren mit dem Zug bis zum Bahnhof Waldsee.</p><p>Von dort laufen wir 20 Minuten bis zur Herberge.</p><p>Nach der Ankunft beziehen wir die Zimmer.</p><p>Tagesplan</p><p>Montag: Anreise und Waldrallye</p><p>Dienstag: Kanutour und Grillabend</p><p>Mittwoch: Aufräumen und Rückfahrt</p><p>Darauf freue ich mich</p><p>[Hier schreibst du mindestens drei eigene Sätze: Worauf freust du dich am meisten und warum?]</p></div>
+          <button class="knopf" type="button" data-kopie="roh-E">Rohtext kopieren</button>
+          <a class="knopf" href="bilder/17-waldsee.png" download>Bild herunterladen</a>
+          <p><small>Bildunterschrift: <i>Bild: eigene Zeichnung der Lehrperson, frei nutzbar</i></small></p>
+        </details>
+      </div>
+      <div class="pk" style="border-color:#c8890a;background:#fff6e0">
+        <h3>F · Eigenes Thema (nur nach Absprache)</h3>
+        <p>Du hast eine eigene Idee? Sprich sie vor Stundenbeginn mit der Lehrperson ab. Es gelten dieselben Pflichtbausteine, den ganzen Text schreibst du selbst (mindestens 150 Wörter).</p>
+      </div>
+      </div>
     </section>
 
     <section class="block">
-      <h2><span class="dot"></span>Schritt f&uuml;r Schritt</h2>
-      <div class="todo">Hier kommt die Anleitung hin: die einzelnen Arbeitsschritte, gerne mit Screenshots.</div>
+      <h2><span class="dot"></span>2 · Checkliste: Diese Bausteine braucht jedes Dokument</h2>
+      <p>Hake ab, was fertig ist. Die Zahl zeigt die Stunde, in der du es gelernt hast. Dort kannst du nachschauen.</p>
+      <ul class="ck">
+        <li><input type="checkbox" id="ck0"><label for="ck0"><span class="st">10</span><b>Rohtext:</b> Ich habe den Rohtext eingefügt und den falsch platzierten Absatz an die richtige Stelle verschoben.</label></li>
+        <li><input type="checkbox" id="ck1"><label for="ck1"><span class="st">10</span><b>Eigene Sätze:</b> Ich habe mindestens drei eigene Sätze geschrieben (statt der eckigen Klammer).</label></li>
+        <li><input type="checkbox" id="ck2"><label for="ck2"><span class="st">11</span><b>Schrift:</b> Der Text hat eine gut lesbare Schrift in Größe 11 oder 12. Wichtige Wörter sind fett, höchstens zwei Farben.</label></li>
+        <li><input type="checkbox" id="ck3"><label for="ck3"><span class="st">12</span><b>Absätze:</b> Es gibt eine Aufzählung und eine nummerierte Liste. Keine leeren Zeilen und keine Leertasten-Tricks.</label></li>
+        <li><input type="checkbox" id="ck4"><label for="ck4"><span class="st">13</span><b>Vorlagen:</b> Der Titel hat die Vorlage Titel, mindestens drei Überschriften haben Überschrift 1 oder 2.</label></li>
+        <li><input type="checkbox" id="ck5"><label for="ck5"><span class="st">14</span><b>Bild:</b> Ein Bild ist unverzerrt, passend groß, mit Textumbruch und Bildunterschrift mit Quelle.</label></li>
+        <li><input type="checkbox" id="ck6"><label for="ck6"><span class="st">14</span><b>Tabelle:</b> Eine Tabelle mit hervorgehobener Überschriftenzeile.</label></li>
+        <li><input type="checkbox" id="ck7"><label for="ck7"><span class="st">15</span><b>Seite:</b> Kopfzeile mit dem Titel, Fußzeile mit Vorname und Seitenzahl (als Feld).</label></li>
+        <li><input type="checkbox" id="ck8"><label for="ck8"><span class="st">15</span><b>PDF:</b> Das Dokument heißt 2027-01-12_ITG_Meisterdokument_Vorname-N. Das PDF ist in Classroom hochgeladen.</label></li>
+        <li><input type="checkbox" id="ck9"><label for="ck9"><span class="st">16</span><b>Kommentar:</b> Ich habe meiner Partnerin oder meinem Partner einen hilfreichen Kommentar gegeben und auf den Kommentar in meinem Dokument geantwortet.</label></li>
+      </ul>
+      <p class="muster" id="ck-stand"></p>
     </section>
 
     <section class="block">
-      <h2><span class="dot"></span>&Uuml;bungsaufgaben</h2>
-      <div class="todo">Hier kommen die Aufgaben hin &mdash; mit klarer Differenzierung (Basis &middot; mittel &middot; knifflig).</div>
-    </section>
-
-    <section class="block fast">
-      <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnelll&auml;ufer:innen-Mission</h2>
-      <p class="fast-text">Baue zusätzlich eine Design-Variante für ein anderes Publikum (z. B. Einladung für Kinder vs. für Erwachsene).</p>
+      <h2><span class="dot"></span>3 · Zeitplan für 60 Minuten</h2>
+      <div class="zeit">
+        <b>0–5′</b><span><b style="color:var(--ink)">Start.</b> Classroom-Aufgabe öffnen, dein leeres Dokument öffnen, Textprodukt wählen, Rohtext aus dem Lernpfad kopieren und einfügen.</span>
+        <b>5–25′</b><span><b style="color:var(--ink)">Text und Struktur.</b> Falschen Absatz verschieben, drei eigene Sätze schreiben, Titel und Überschriften mit Vorlagen, Aufzählung und nummerierte Liste.</span>
+        <b>25–38′</b><span><b style="color:var(--ink)">Bild und Tabelle.</b> Bild aus dem Lernpfad einfügen (Ecke, Textumbruch, Bildunterschrift mit Quelle), Tabelle mit Überschriftenzeile, Schrift sparsam gestalten.</span>
+        <b>38–43′</b><span><b style="color:var(--ink)">Kommentar-Tausch.</b> Dokument mit der Sitznachbarin oder dem Sitznachbarn als Kommentator teilen. Einen hilfreichen Kommentar geben.</span>
+        <b>43–52′</b><span><b style="color:var(--ink)">Seite fertig.</b> Kopfzeile, Fußzeile mit Vorname und Seitenzahl, auf den Kommentar antworten (nicht auf Erledigt klicken!), Tipp umsetzen.</span>
+        <b>52–57′</b><span><b style="color:var(--ink)">Abgabe.</b> Dokument umbenennen in 2027-01-12_ITG_Meisterdokument_Vorname-N, Datei › Herunterladen › PDF, PDF in Classroom hinzufügen, Abgeben.</span>
+        <b>57–60′</b><span><b style="color:var(--ink)">Puffer.</b> Checkliste durchgehen. Abmelden.</span>
+      </div>
     </section>
 
     <section class="block">
-      <h2><span class="dot"></span>Das nehme ich mit</h2>
-      <div class="todo">Hier kommt der Merksatz / die Zusammenfassung hin.</div>
+      <h2><span class="dot"></span>4 · Kommentar-Tausch und Abgabe</h2>
+      <ol class="steps">
+        <li><b>Teilen.</b> Teile dein Dokument mit deiner Sitznachbarin oder deinem Sitznachbarn als <b>Kommentator</b>.</li>
+        <li><b>Kommentieren.</b> Gib im Dokument der anderen Person einen Kommentar: konkret, freundlich, mit Vorschlag.</li>
+        <li><b>Antworten.</b> Antworte auf den Kommentar in deinem Dokument. <b>Nicht auf Erledigt klicken!</b></li>
+        <li><b>Umbenennen.</b> Klick oben links auf den Namen: <b>2027-01-12_ITG_Meisterdokument_Vorname-N</b> (N = erster Buchstabe deines Nachnamens).</li>
+        <li><b>PDF.</b> Datei › Herunterladen › <b>PDF-Dokument (.pdf)</b>.</li>
+        <li><b>Abgeben.</b> In der Classroom-Aufgabe: Hinzufügen › Datei › PDF wählen › <b>Abgeben</b>.</li>
+      </ol>
+      <div class="merke-box"><b>Erlaubt:</b> deine Lernpfade 10–16 und Unterlagen. <b>Nicht erlaubt:</b> fremde Texte und KI. Die Lehrperson sieht im Versionsverlauf, wie dein Dokument entstanden ist.</div>
+    </section>
+
+    <section class="block">
+      <h2><span class="dot"></span>5 · So wird bewertet</h2>
+      <p>30 Punkte: Text eingeben und bewegen (4), Schrift (4), Absätze (4), Formatvorlagen (4), Bild und Tabelle (5), Seite und Abgabe (4), Zusammenarbeit (3), Gesamtwirkung (2). Das genaue Raster bekommst du auf Papier.</p>
+      <p class="fast-extra"><b>Schon fertig?</b> Baue eine zweite Fassung für ein anderes Publikum, zum Beispiel die Einladung für Kinder statt für Erwachsene. Sie zählt nicht mit, macht aber Spaß.</p>
     </section>
 
     <div class="selfcheck-wrap">
-      <span class="sc-label">Wie sicher f&uuml;hlst du dich nach dieser Stunde?</span>
+      <span class="sc-label">Wie sicher fühlst du dich nach dieser Stunde?</span>
       <div class="sc-stars" id="stars"></div>
       <span class="sc-feedback" id="fb"></span>
     </div>
@@ -182,9 +402,90 @@
 </div>
 
 <script>
+(function () {
+  document.querySelectorAll('[data-kopie]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var el = document.getElementById(b.dataset.kopie);
+      var text = [].map.call(el.querySelectorAll('p'), function (p) { return p.textContent; }).join('\n');
+      function ok() { b.textContent = 'Kopiert! Jetzt in Docs Strg + V'; }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, function () { markiere(el); });
+      else markiere(el);
+      function markiere(e) { var r = document.createRange(); r.selectNodeContents(e); var s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Markiert: jetzt Strg + C'; }
+    });
+  });
+  var boxen = document.querySelectorAll('.ck input'), KEY = 'itg_lp_17_check';
+  function stand() {
+    var n = [].filter.call(boxen, function (c) { return c.checked; }).length;
+    document.getElementById('ck-stand').textContent = n + ' von ' + boxen.length + ' Bausteinen erledigt.' + (n === boxen.length ? ' Stark! Jetzt PDF und Abgabe prüfen.' : '');
+    try { localStorage.setItem(KEY, JSON.stringify([].map.call(boxen, function (c) { return c.checked; }))); } catch (e) {}
+  }
+  try { var alt = JSON.parse(localStorage.getItem(KEY) || '[]'); alt.forEach(function (v, i) { if (boxen[i]) boxen[i].checked = v; }); } catch (e) {}
+  boxen.forEach(function (c) { c.addEventListener('change', stand); });
+  stand();
+})();
+</script>
+<script>
+  /* ---------- Quiz-Engine ---------- */
+  (function(){
+    var LETTERS = ['A','B','C','D','E','F'];
+    var quizzes = document.querySelectorAll('[data-quiz]');
+    quizzes.forEach(function(quiz){
+      var questions = quiz.querySelectorAll('.q');
+      var total = questions.length;
+      var solved = 0;
+      var pcount = quiz.querySelector('.pcount');
+      var pfill = quiz.querySelector('.pfill');
+      var doneBox = quiz.querySelector('.quiz-solved');
+      function updateProgress(){
+        if (pcount) pcount.textContent = solved + ' / ' + total + ' richtig';
+        if (pfill) pfill.style.width = (total ? (solved/total*100) : 0) + '%';
+        if (doneBox && solved === total) doneBox.classList.add('show');
+      }
+      questions.forEach(function(q){
+        var optsContainer = q.querySelector('.opts');
+        var opts = Array.prototype.slice.call(q.querySelectorAll('.opt'));
+        for (var i = opts.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = opts[i]; opts[i] = opts[j]; opts[j] = tmp;
+        }
+        opts.forEach(function(opt){ optsContainer.appendChild(opt); });
+        var hint = q.querySelector('.q-hint');
+        var done = q.querySelector('.q-done');
+        var answered = false;
+        opts.forEach(function(opt, i){
+          var lett = document.createElement('span');
+          lett.className = 'lett';
+          lett.textContent = LETTERS[i];
+          opt.insertBefore(lett, opt.firstChild);
+          opt.addEventListener('click', function(){
+            if (answered) return;
+            if (opt.getAttribute('data-correct') === 'true') {
+              answered = true;
+              opt.classList.add('correct');
+              opts.forEach(function(o){ o.setAttribute('disabled','disabled'); });
+              if (hint) hint.classList.remove('show');
+              if (done) done.classList.add('show');
+              solved++;
+              updateProgress();
+            } else {
+              opt.classList.add('wrong');
+              opt.setAttribute('disabled','disabled');
+              if (hint) {
+                hint.textContent = opt.getAttribute('data-hint') || 'Nicht ganz — versuch es nochmal.';
+                hint.classList.add('show');
+              }
+            }
+          });
+        });
+      });
+      updateProgress();
+    });
+  })();
+
+  /* ---------- Selbsteinschätzung (Sterne, localStorage) ---------- */
   (function(){
     var key = 'itg_lp_17';
-    var msgs = {1:'Ganz frisch \u2014 \u00dcben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf \u2014 super!'};
+    var msgs = {1:'Ganz frisch — Üben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf — super!'};
     var svg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 18.9 6.1 21l1.2-6.5L2.5 9.9l6.6-.9z"/></svg>';
     var wrap = document.getElementById('stars'); var fb = document.getElementById('fb'); var stars = [];
     for (var n = 1; n <= 4; n++) { var b = document.createElement('button'); b.className = 'sc-star'; b.type = 'button'; b.innerHTML = svg; b.setAttribute('aria-label', 'Stufe ' + n); wrap.appendChild(b); stars.push(b); }

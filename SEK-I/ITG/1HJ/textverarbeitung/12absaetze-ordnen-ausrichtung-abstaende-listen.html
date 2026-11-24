@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LP 12 · Absätze ordnen — Ausrichtung, Abstände, Listen — ITG Klasse 6</title>
+<title>LP 12 · Absätze ordnen · ITG Klasse 6</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -12,6 +12,7 @@
     --key: #ff5d73; --edge: #df3a53; --tint: #ffe6ea; --ktext: #ffffff;
     --ink: #211a4d; --ink-soft: #4f4880; --bg: #f1f0fb; --card: #fff;
     --line: rgba(33,26,77,0.12); --sun: #ffc23d;
+    --ok: #39b56a; --ok-dk: #248049; --no: #e8607a; --no-dk: #b83a56;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -59,12 +60,8 @@
   .rlp .tag { display: inline-block; background: #e7e5fb; padding: 0.06rem 0.42rem; border-radius: 6px; margin: 0 0.15rem 0.25rem 0; }
   .rlp .tag.neu { background: var(--sun); color: var(--ink); }
 
-  .draft-note {
-    display: flex; align-items: center; gap: 0.6rem;
-    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 12px;
-    padding: 0.7rem 0.9rem; margin: 1.4rem 0; font-size: 0.9rem; font-weight: 700; color: #8a5a00;
-  }
-  .draft-note svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .intro { font-size: 1.05rem; margin: 1.4rem 0 1.6rem; }
+  .intro .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
 
   .block { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 1.4rem 1.5rem; margin-bottom: 1.1rem; }
   .block h2 {
@@ -72,15 +69,94 @@
     display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem;
   }
   .block h2 .dot { width: 14px; height: 14px; border-radius: 5px; background: var(--key); box-shadow: 0 2px 0 var(--edge); flex-shrink: 0; }
-  .todo {
-    border: 2px dashed var(--line); border-radius: 12px; padding: 1rem 1.1rem;
-    color: var(--ink-soft); font-style: italic; background: rgba(91,75,230,0.03);
+  .block p { margin-bottom: 0.6rem; }
+
+  /* figure */
+  .fig { background: var(--tint); border-radius: 14px; padding: 1rem; margin: 0.4rem 0 1rem; }
+  .fig svg { width: 100%; height: auto; display: block; }
+  .fig-cap { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); text-align: center; margin-top: 0.5rem; }
+
+  /* step list */
+  ol.steps { list-style: none; counter-reset: st; }
+  ol.steps li { counter-increment: st; position: relative; padding: 0.55rem 0 0.55rem 2.7rem; border-bottom: 1px dashed var(--line); }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li::before {
+    content: counter(st); position: absolute; left: 0; top: 0.5rem;
+    width: 30px; height: 30px; border-radius: 9px; background: var(--key); color: var(--ktext);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; box-shadow: 0 2px 0 var(--edge);
   }
+  ol.steps b { color: var(--edge); }
+
+  /* exercises + diff chips */
+  .task { border: 1.5px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; margin-bottom: 0.8rem; }
+  .chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.66rem;
+    letter-spacing: 0.05em; padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.5rem; }
+  .chip.basis { background: #e2f6ea; color: var(--ok-dk); border: 1.5px solid var(--ok); }
+  .chip.mittel { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+  .chip.knifflig { background: #fff3d1; color: #8a5a00; border: 1.5px solid var(--sun); }
+  .task ul { margin: 0.4rem 0 0 1.1rem; }
+  .task li { margin-bottom: 0.2rem; }
 
   .block.fast { border-color: var(--sun); background: #fff7e2; }
   .block.fast h2 { color: #8a5a00; }
   .block.fast h2 .rocket { width: 22px; height: 22px; color: #8a5a00; }
-  .fast-text { font-size: 1.02rem; font-weight: 600; }
+  .fast-text { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .fast-list { margin: 0.4rem 0 0.8rem 1.1rem; }
+  .fast-list li { margin-bottom: 0.3rem; }
+  .auftrag { border: 1.5px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0 0 0.9rem; background: #fff; }
+  .auftrag p { margin: 0; }
+  .auftrag-no, .task-no { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); background: var(--tint); border-radius: 6px; padding: 0.1rem 0.45rem; margin-right: 0.2rem; }
+  .auftrag details, .fast-sol { margin-top: 0.5rem; }
+  .auftrag summary, .fast-sol summary { cursor: pointer; font-weight: 700; color: var(--edge); font-size: 0.92rem; }
+  .auftrag ol, .fast-sol ul { margin: 0.4rem 0 0 1.3rem; }
+  .fast-sol { margin-bottom: 0.8rem; }
+  .fill { display: inline-block; min-width: 10rem; border-bottom: 1.5px dotted currentColor; }
+  .merke-box { margin-top: 0.9rem; background: var(--tint); border-left: 6px solid var(--key); border-radius: 10px; padding: 0.7rem 0.9rem; }
+  .fast-extra { font-size: 0.95rem; font-weight: 600; background: #fff; border-radius: 10px; padding: 0.7rem 0.9rem; border: 1.5px dashed var(--sun); }
+
+  /* merksatz */
+  .merk { background: var(--tint); border: 2px solid var(--key); border-left: 8px solid var(--key); border-radius: 14px; padding: 1.1rem 1.3rem; }
+  .merk .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+  .merk b { color: var(--edge); }
+  .secret { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.9rem; padding: 0.7rem 0.9rem;
+    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 10px; font-weight: 700; color: #8a5a00; font-size: 0.95rem; }
+  .secret svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  /* ---- QUIZ ENGINE ---- */
+  .quiz { margin-top: 0.4rem; }
+  .quiz-progress { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.74rem; color: var(--ink-soft); }
+  .pbar { flex: 1; height: 10px; background: #e7e5fb; border-radius: 999px; overflow: hidden; }
+  .pfill { height: 100%; width: 0; background: var(--ok); border-radius: 999px; transition: width 0.3s ease; }
+  .q { margin-bottom: 1.1rem; padding-bottom: 1.1rem; border-bottom: 1px dashed var(--line); }
+  .q:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .q-text { font-weight: 800; margin-bottom: 0.6rem; }
+  .q-text .qn { color: var(--edge); font-family: 'JetBrains Mono', monospace; }
+  .opts { display: grid; gap: 0.5rem; }
+  .opt {
+    display: flex; align-items: center; gap: 0.7rem; width: 100%; text-align: left;
+    font-family: 'Nunito', sans-serif; font-size: 0.98rem; font-weight: 700; color: var(--ink);
+    background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 0.6rem 0.8rem; cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .opt:hover:not([disabled]) { border-color: var(--key); transform: translateX(2px); }
+  .opt .lett { flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px; background: var(--tint); color: var(--edge);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; font-size: 0.85rem; }
+  .opt.correct { border-color: var(--ok); background: #e9f8ef; }
+  .opt.correct .lett { background: var(--ok); color: #fff; }
+  .opt.wrong { border-color: var(--no); background: #fdecf0; }
+  .opt.wrong .lett { background: var(--no); color: #fff; }
+  .opt[disabled] { cursor: default; opacity: 0.75; }
+  .opt.correct[disabled], .opt.wrong[disabled] { opacity: 1; }
+  .q-hint { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--no-dk);
+    background: #fdecf0; border-radius: 9px; padding: 0.5rem 0.7rem; display: none; }
+  .q-hint.show { display: block; }
+  .q-done { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--ok-dk); display: none; }
+  .q-done.show { display: block; }
+  .quiz-solved { margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 12px; background: #e9f8ef;
+    border: 2px solid var(--ok); color: var(--ok-dk); font-family: 'Fredoka', sans-serif; font-weight: 600;
+    display: none; align-items: center; gap: 0.6rem; }
+  .quiz-solved.show { display: flex; }
+  .quiz-solved svg { width: 22px; height: 22px; flex-shrink: 0; }
 
   .selfcheck-wrap {
     display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem;
@@ -113,6 +189,39 @@
   }
   @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 </style>
+<style>
+  .qi { background: var(--tint); border-radius: 12px; padding: 0.6rem 0.75rem; margin: -0.2rem 0 0.7rem; font-weight: 700; }
+  .qi .n { display: inline-flex; align-items: center; justify-content: center; width: 1.55rem; height: 1.55rem; border-radius: 50%;
+           color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; flex: none; }
+  .qi ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+  .qi li { display: flex; gap: 0.5rem; align-items: center; }
+  .qi .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.2rem 0 0.45rem; }
+  .qi .chip-i { background: #fff; border: 2px solid var(--key); border-radius: 9px; padding: 0.15rem 0.55rem; display: inline-flex; gap: 0.35rem; align-items: center; }
+  .qi .lk { display: inline-flex; vertical-align: middle; border: 2px dashed var(--ink-soft); border-radius: 8px; padding: 0.05rem 0.4rem; margin: 0 0.15rem; }
+  .qi .zeile { margin: 0.25rem 0; }
+  .qi .txt { font-weight: 600; color: var(--ink-soft); margin-bottom: 0.3rem; }
+  .qi .boxes { color: var(--ink-soft); font-style: italic; margin-bottom: 0.3rem; }
+  .block.abgabe { border-color: var(--key); }
+  .abgabe .warn { background: #fdecf0; border-left: 6px solid var(--no); border-radius: 10px; padding: 0.6rem 0.85rem; margin: 0.2rem 0 0.9rem; color: var(--no-dk); font-weight: 600; }
+  .abgabe .txt-muster { font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; background: #fff; border: 1.5px solid var(--line); border-radius: 8px; padding: 0.5rem 0.7rem; margin: 0.4rem 0; overflow-wrap: anywhere; }
+  .abgabe .name-regel { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.92rem; background: var(--tint); border-radius: 10px; padding: 0.55rem 0.7rem; margin: 0.45rem 0 0.3rem; overflow-wrap: anywhere; }
+  .abgabe .nr-teil { background: #fff; border: 1.5px solid var(--key); border-radius: 6px; padding: 0.05rem 0.35rem; }
+  .abgabe .nr-teil.neu { background: var(--sun); border-color: #c8890a; }
+  .abgabe .name-bsp { font-weight: 700; margin-bottom: 0.3rem; }
+</style>
+<style>
+  .fig svg[aria-label="Bild 2"] { max-width: 460px; margin: 0 auto; }
+  .fig svg[aria-label="Bild 3"] { max-width: 600px; margin: 0 auto; }
+  .fig svg[aria-label="Bild 4"] { max-width: 620px; margin: 0 auto; }
+  .kbd { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.82em; font-weight: 700; background: #fff;
+         border: 1.5px solid var(--ink); border-bottom-width: 3px; border-radius: 6px; padding: 0 0.35em; white-space: nowrap; }
+  .abtipp { background: #fff; border: 2px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0.6rem 0; }
+  .abtipp p { margin: 0.1rem 0; }
+</style>
+<style>
+  .fig svg[aria-label="Bild 1"] { max-width: 760px; margin: 0 auto; }
+  .muster { background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.6rem 0.9rem; margin: 0.5rem 0; }
+</style>
 </head>
 <body>
 
@@ -128,45 +237,244 @@
     </div>
     <div class="hero-row">
       <div class="keycap">12</div>
-      <h1>Absätze ordnen — Ausrichtung, Abstände, Listen</h1>
+      <h1>Absätze ordnen</h1>
     </div>
     <p class="goal"><b>Das lernst du:</b> Text ausrichten, Zeilenabstände ändern und Aufzählungen sowie nummerierte Listen bauen.</p>
     <p class="rlp"><span class="tag">RLP 2.5 · E/G</span><span class="tag">2.6 · F</span></p>
   </header>
 
-  <div class="draft-note">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
-    <span>Diese Seite ist das Ger&uuml;st f&uuml;r diesen Lernpfad &mdash; Inhalte werden noch erg&auml;nzt.</span>
-  </div>
+  <p class="intro">In Stunde 11 ist dein Rezept schön geworden. Heute bringst du Ordnung in die <span class="hl">Absätze</span>: Zutaten als Liste, Schritte mit Nummern, die Überschrift in die Mitte. Und du gewöhnst dir zwei Tricks ab, die später alles verrutschen lassen: Leertasten zum Verschieben und leere Zeilen als Abstand. Los geht’s!</p>
 
   <main>
+
     <section class="block">
-      <h2><span class="dot"></span>Los geht es &mdash; worum geht es heute?</h2>
-      <div class="todo">Hier kommt der Einstieg hin: eine kurze, spannende Hinf&uuml;hrung zum Thema.</div>
+      <h2><span class="dot"></span>Schau genau hin: Was weißt du schon?</h2>
+      <p>Sieh dir die drei Bilder an. Zu jedem Bild gehören drei Fragen. Bei vielen Fragen ist eine ganze Kombination richtig, also lies jede Antwort bis zum Ende. Wird sie <b style="color:var(--ok-dk)">grün</b>, ist sie richtig. Bei <b style="color:var(--no-dk)">rot</b> bekommst du einen Tipp.</p>
+
+      <div class="fig"><svg viewBox="0 0 1000 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 1" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="1000" height="200" fill="#ffffff"/><rect x="8" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="30" y="58" width="108" height="112" rx="4" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.8"/><line x1="42.0" y1="82" x2="126.0" y2="82" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="51.24" y1="97" x2="116.75999999999999" y2="97" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="46.199999999999996" y1="112" x2="121.80000000000001" y2="112" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="58.8" y1="127" x2="109.19999999999999" y2="127" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="48.72" y1="142" x2="119.28" y2="142" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="54.6" y1="157" x2="113.4" y2="157" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><circle cx="30" cy="34" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="30" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><rect x="174" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="196" y="58" width="108" height="112" rx="4" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.8"/><circle cx="212" cy="84" r="4" fill="#211a4d"/><line x1="230" y1="84" x2="285.8" y2="84" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><circle cx="212" cy="106" r="4" fill="#211a4d"/><line x1="230" y1="106" x2="273.4" y2="106" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><circle cx="212" cy="128" r="4" fill="#211a4d"/><line x1="230" y1="128" x2="279.6" y2="128" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><circle cx="212" cy="150" r="4" fill="#211a4d"/><line x1="230" y1="150" x2="267.2" y2="150" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><circle cx="196" cy="34" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="196" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><rect x="340" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="362" y="58" width="108" height="112" rx="4" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.8"/><line x1="374.0" y1="82" x2="458.0" y2="82" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="392.48" y1="97" x2="458.0" y2="97" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="382.4" y1="112" x2="458.0" y2="112" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="407.6" y1="127" x2="458.0" y2="127" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="387.44" y1="142" x2="458.0" y2="142" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="399.2" y1="157" x2="458.0" y2="157" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><circle cx="362" cy="34" r="17" fill="#8e3bd2" stroke="#ffffff" stroke-width="3"/><text x="362" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><rect x="506" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="528" y="58" width="108" height="112" rx="4" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.8"/><text x="540" y="89" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="14" fill="#211a4d">1.</text><line x1="562" y1="84" x2="617.8" y2="84" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><text x="540" y="111" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="14" fill="#211a4d">2.</text><line x1="562" y1="106" x2="605.4" y2="106" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><text x="540" y="133" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="14" fill="#211a4d">3.</text><line x1="562" y1="128" x2="611.6" y2="128" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><text x="540" y="155" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="14" fill="#211a4d">4.</text><line x1="562" y1="150" x2="599.2" y2="150" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><circle cx="528" cy="34" r="17" fill="#4eab65" stroke="#ffffff" stroke-width="3"/><text x="528" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text><rect x="672" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="694" y="58" width="108" height="112" rx="4" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.8"/><line x1="706" y1="82" x2="790" y2="82" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="706" y1="97" x2="790" y2="97" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="706" y1="112" x2="790" y2="112" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="706" y1="127" x2="790" y2="127" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="706" y1="142" x2="790" y2="142" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="706" y1="157" x2="752.2" y2="157" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><circle cx="694" cy="34" r="17" fill="#dd5b59" stroke="#ffffff" stroke-width="3"/><text x="694" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">5</text><rect x="838" y="12" width="152" height="176" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="860" y="58" width="108" height="112" rx="4" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.8"/><line x1="872" y1="82" x2="956.0" y2="82" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="872" y1="97" x2="937.52" y2="97" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="872" y1="112" x2="947.6" y2="112" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="872" y1="127" x2="922.4" y2="127" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="872" y1="142" x2="942.56" y2="142" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="872" y1="157" x2="930.8" y2="157" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><circle cx="860" cy="34" r="17" fill="#6e6e80" stroke="#ffffff" stroke-width="3"/><text x="860" y="41" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">6</text></svg><div class="fig-cap">Bild 1 &middot; Sechs Mini-Seiten, sechs Arten, Absätze zu ordnen</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 1</span> <b>Ordne zu:</b> L = linksbündig, Z = zentriert, R = rechtsbündig, B = Blocksatz, A = Aufzählung, N = nummerierte Liste. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>1) Z</li><li>2) A</li><li>3) R</li><li>4) N</li><li>5) B</li><li>6) L</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.1</span> &nbsp;<b>Ordne zu:</b> Wie sind die Karten ausgerichtet?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Karte 1</span><span class="chip-i">Karte 3</span><span class="chip-i">Karte 5</span><span class="chip-i">Karte 6</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>linksbündig</span></li><li><span class="n" style="background:#d16b2f">2</span><span>zentriert</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>rechtsbündig</span></li><li><span class="n" style="background:#4eab65">4</span><span>Blocksatz</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Karte 1 (2), Karte 3 (3), Karte 5 (4), Karte 6 (1)</button>
+            <button class="opt" data-hint="Bei Karte 3 beginnen die Zeilen unterschiedlich, enden aber alle rechts gleich.">Karte 1 (2), Karte 3 (1), Karte 5 (4), Karte 6 (3)</button>
+            <button class="opt" data-hint="Zentriert: Die Zeilen stehen in der Mitte. Blocksatz: Die Zeilen sind gleich lang.">Karte 1 (4), Karte 3 (3), Karte 5 (2), Karte 6 (1)</button>
+            <button class="opt" data-hint="Beim Blocksatz enden alle Zeilen links UND rechts gleich, nur die letzte ist kürzer.">Karte 1 (2), Karte 3 (3), Karte 5 (1), Karte 6 (4)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: 1 zentriert, 3 rechtsbündig, 5 Blocksatz, 6 linksbündig.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.2</span> &nbsp;<b>Ordne zu:</b> Was passt am besten?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Einkaufsliste</span><span class="chip-i">Kuchen backen in 5 Schritten</span><span class="chip-i">Überschrift eines Plakats</span><span class="chip-i">Zeitungsspalte</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Blocksatz</span></li><li><span class="n" style="background:#d16b2f">2</span><span>nummerierte Liste</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>zentriert</span></li><li><span class="n" style="background:#4eab65">4</span><span>Aufzählung</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Einkaufsliste (4), Kuchen backen in 5 Schritten (2), Überschrift eines Plakats (3), Zeitungsspalte (1)</button>
+            <button class="opt" data-hint="Bei der Einkaufsliste ist die Reihenfolge egal, beim Backen nicht.">Einkaufsliste (2), Kuchen backen in 5 Schritten (4), Überschrift eines Plakats (3), Zeitungsspalte (1)</button>
+            <button class="opt" data-hint="Zeitungen setzen ihre schmalen Spalten im Blocksatz.">Einkaufsliste (4), Kuchen backen in 5 Schritten (2), Überschrift eines Plakats (1), Zeitungsspalte (3)</button>
+            <button class="opt" data-hint="Eine Plakat-Überschrift steht meist in der Mitte.">Einkaufsliste (3), Kuchen backen in 5 Schritten (2), Überschrift eines Plakats (4), Zeitungsspalte (1)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Reihenfolge egal = Aufzählung, Reihenfolge wichtig = Nummern.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">1.3</span> &nbsp;<b>Entscheide:</b> Welche Sätze stimmen?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Für die Ausrichtung reicht ein Klick in den Absatz.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Linksbündig ist die normale Ausrichtung für Text.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Im Blocksatz sind die Zeilen gleich lang.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Zentrierter Text ist für lange Texte am besten.</span></li><li><span class="n" style="background:#dd5b59">5</span><span>Eine Aufzählung hat immer Zahlen.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 2, 3</button>
+            <button class="opt" data-hint="Und Satz 3? Schau dir Karte 5 an.">1, 2</button>
+            <button class="opt" data-hint="Lange zentrierte Texte sind schwer zu lesen: Jede Zeile beginnt woanders.">1, 2, 3, 4</button>
+            <button class="opt" data-hint="Eine Aufzählung hat Punkte. Zahlen hat die nummerierte Liste. Und Satz 1?">2, 3, 5</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt: Ausrichtung gilt für den ganzen Absatz.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Super: Bild 1 komplett gelöst!</div>
+      </div>
+
+      <div class="fig"><svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 2" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="600" height="400" fill="#ffffff"/><rect x="16" y="16" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="78" y="60" width="110" height="90" rx="4" fill="#bcd3fb"/><text x="86" y="76" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="17" fill="#211a4d">Mehl</text><text x="86" y="98" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="17" fill="#211a4d">Eier</text><text x="86" y="120" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="17" fill="#211a4d">Hafermilch</text><text x="86" y="142" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="17" fill="#211a4d">Salz</text><text x="154" y="178" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Zutaten markieren</text><rect x="308" y="16" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><circle cx="368" cy="74" r="4" fill="#211a4d"/><line x1="386" y1="74" x2="519.2" y2="74" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><circle cx="368" cy="94" r="4" fill="#211a4d"/><line x1="386" y1="94" x2="489.6" y2="94" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><circle cx="368" cy="114" r="4" fill="#211a4d"/><line x1="386" y1="114" x2="504.4" y2="114" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><circle cx="368" cy="134" r="4" fill="#211a4d"/><line x1="386" y1="134" x2="474.8" y2="134" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><path d="M522 56 l7.199999999999999 7.199999999999999 l14.399999999999999 -15.6" fill="none" stroke="#0d8f68" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round"/><text x="446" y="178" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Prüfen</text><rect x="16" y="208" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><text x="86" y="268" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="17" fill="#211a4d">Mehl</text><text x="86" y="290" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="17" fill="#211a4d">Eier</text><text x="86" y="312" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="17" fill="#211a4d">Hafermilch</text><text x="86" y="334" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="600" font-size="17" fill="#211a4d">Salz</text><line x1="136" y1="320" x2="136" y2="340" stroke="#df3a53" stroke-width="3"/><line x1="131" y1="320" x2="141" y2="320" stroke="#df3a53" stroke-width="2"/><line x1="131" y1="340" x2="141" y2="340" stroke="#df3a53" stroke-width="2"/><text x="154" y="370" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Zutaten tippen</text><rect x="308" y="208" width="276" height="176" rx="16" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><rect x="400" y="260" width="46" height="40" rx="6" fill="#ffe6ea" stroke="#df3a53" stroke-width="2.4"/><circle cx="412" cy="272" r="4" fill="#211a4d"/><line x1="430" y1="272" x2="442.6" y2="272" stroke="#c9c6e0" stroke-width="3" stroke-linecap="round"/><circle cx="412" cy="286" r="4" fill="#211a4d"/><line x1="430" y1="286" x2="439.8" y2="286" stroke="#c9c6e0" stroke-width="3" stroke-linecap="round"/><rect x="454" y="260" width="46" height="40" rx="6" fill="#ffffff" stroke="#c9c6e0" stroke-width="1.6"/><text x="458" y="277" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="14" fill="#211a4d">1.</text><line x1="480" y1="272" x2="496.2" y2="272" stroke="#c9c6e0" stroke-width="3" stroke-linecap="round"/><text x="458" y="291" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="14" fill="#211a4d">2.</text><line x1="480" y1="286" x2="492.6" y2="286" stroke="#c9c6e0" stroke-width="3" stroke-linecap="round"/><path d="M428 288 l0 24 l6 -6 l5 10 l5 -2 l-5 -10 l8 0 z" fill="#ffffff" stroke="#211a4d" stroke-width="2.2" stroke-linejoin="round"/><text x="446" y="370" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="21" fill="#211a4d">Knopf klicken</text><circle cx="40" cy="42" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="40" y="49" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><circle cx="332" cy="42" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="332" y="49" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text><circle cx="40" cy="234" r="17" fill="#8e3bd2" stroke="#ffffff" stroke-width="3"/><text x="40" y="241" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">3</text><circle cx="332" cy="234" r="17" fill="#4eab65" stroke="#ffffff" stroke-width="3"/><text x="332" y="241" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">4</text></svg><div class="fig-cap">Bild 2 &middot; Vier Schritte zur Aufzählung, aber durcheinander</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 2</span> <b>Bring</b> die Schritte in die richtige Reihenfolge. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>Zuerst: 3 (Zutaten untereinander tippen)</li><li>dann 1 (Zutaten markieren)</li><li>dann 4 (Knopf klicken)</li><li>zuletzt: 2 (prüfen)</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.1</span> &nbsp;<b>Bring</b> die Schritte für eine Aufzählung in die richtige Reihenfolge.</div>
+          <div class="opts">
+            <button class="opt" data-correct="true">3 – 1 – 4 – 2</button>
+            <button class="opt" data-hint="Markieren kannst du erst, wenn die Zutaten schon dastehen.">1 – 3 – 4 – 2</button>
+            <button class="opt" data-hint="Der Knopf weiß erst, was zur Liste wird, wenn du markiert hast.">3 – 4 – 1 – 2</button>
+            <button class="opt" data-hint="Prüfen kommt ganz zum Schluss.">3 – 1 – 2 – 4</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: tippen, markieren, Knopf, prüfen.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.2</span> &nbsp;<b>Ergänze</b> die Sätze.</div>
+          <div class="qi"><div class="zeile">Ist die Reihenfolge egal, nimm eine <span class="lk"><span class="n" style="background:#3675d8">1</span></span> .</div><div class="zeile">Zählt die Reihenfolge, nimm eine <span class="lk"><span class="n" style="background:#d16b2f">2</span></span> .</div><div class="zeile">Zweimal Enter beendet die <span class="lk"><span class="n" style="background:#8e3bd2">3</span></span> .</div></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Aufzählung (1), nummerierte Liste (2), Liste (3)</button>
+            <button class="opt" data-hint="Bei Zutaten ist die Reihenfolge egal: Dafür reichen Punkte.">nummerierte Liste (1), Aufzählung (2), Liste (3)</button>
+            <button class="opt" data-hint="Zweimal Enter in einer leeren Listenzeile beendet nur die Liste.">Aufzählung (1), nummerierte Liste (2), Seite (3)</button>
+            <button class="opt" data-hint="Eine Tabelle hat Zeilen und Spalten. Für Schritte reicht eine nummerierte Liste.">Aufzählung (1), Tabelle (2), Liste (3)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Punkte für egal, Nummern für wichtig.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">2.3</span> &nbsp;<b>Entscheide:</b> Welche Sätze stimmen?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>In einer Liste beginnt jeder Punkt mit Enter.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Zweimal Enter beendet die Liste.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Aus markiertem Text kannst du nachträglich eine Liste machen.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Die Punkte tippst du selbst mit Bindestrich und Leertaste.</span></li><li><span class="n" style="background:#dd5b59">5</span><span>Nummerierte Listen zählen nicht von selbst weiter.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 2, 3</button>
+            <button class="opt" data-hint="Und Satz 3? Markieren, Knopf drücken, fertig.">1, 2</button>
+            <button class="opt" data-hint="Selbst getippte Striche sind keine echte Liste: Der Knopf macht das besser.">1, 2, 3, 4</button>
+            <button class="opt" data-hint="Die Nummern zählen von selbst weiter. Und Satz 1?">2, 3, 5</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Der Knopf macht die Liste, Enter macht den nächsten Punkt.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Klasse: Bild 2 komplett gelöst!</div>
+      </div>
+
+      <div class="fig"><svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 3" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="700" height="400" fill="#ffffff"/><rect x="14" y="14" width="324" height="372" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><text x="54" y="98" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="26" fill="#df3a53">Pfannkuchen</text><path d="M44 90 h8" stroke="#4f4880" stroke-width="0"/><circle cx="32" cy="92" r="1.6" fill="#4f4880"/><circle cx="36" cy="92" r="1.6" fill="#4f4880"/><circle cx="40" cy="92" r="1.6" fill="#4f4880"/><circle cx="44" cy="92" r="1.6" fill="#4f4880"/><circle cx="48" cy="92" r="1.6" fill="#4f4880"/><line x1="40" y1="132" x2="312.0" y2="132" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="40" y1="146" x2="252.16" y2="146" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><text x="40" y="166" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="14" fill="#4f4880">¶</text><text x="40" y="182" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="14" fill="#4f4880">¶</text><line x1="40" y1="202" x2="312.0" y2="202" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="40" y1="216" x2="252.16" y2="216" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><text x="40" y="236" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="14" fill="#4f4880">¶</text><text x="40" y="252" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="14" fill="#4f4880">¶</text><line x1="40" y1="272" x2="312.0" y2="272" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><line x1="40" y1="286" x2="252.16" y2="286" stroke="#c9c6e0" stroke-width="5" stroke-linecap="round"/><text x="40" y="306" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="14" fill="#4f4880">¶</text><text x="40" y="322" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="14" fill="#4f4880">¶</text><circle cx="40" cy="40" r="17" fill="#3675d8" stroke="#ffffff" stroke-width="3"/><text x="40" y="47" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">1</text><rect x="362" y="14" width="324" height="372" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><text x="524.0" y="98" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="26" fill="#df3a53">Pfannkuchen</text><text x="388" y="138" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="16" fill="#211a4d">Zutaten</text><circle cx="396" cy="160" r="4" fill="#211a4d"/><line x1="414" y1="160" x2="622.8" y2="160" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><circle cx="396" cy="178" r="4" fill="#211a4d"/><line x1="414" y1="178" x2="576.4" y2="178" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><circle cx="396" cy="196" r="4" fill="#211a4d"/><line x1="414" y1="196" x2="599.6" y2="196" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><text x="388" y="236" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="800" font-size="16" fill="#211a4d">So geht’s</text><text x="388" y="263" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="14" fill="#211a4d">1.</text><line x1="410" y1="258" x2="618.8" y2="258" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><text x="388" y="283" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="14" fill="#211a4d">2.</text><line x1="410" y1="278" x2="572.4" y2="278" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><text x="388" y="303" text-anchor="start" font-family="JetBrains Mono, Menlo, monospace" font-weight="800" font-size="14" fill="#211a4d">3.</text><line x1="410" y1="298" x2="595.6" y2="298" stroke="#c9c6e0" stroke-width="4" stroke-linecap="round"/><circle cx="388" cy="40" r="17" fill="#d16b2f" stroke="#ffffff" stroke-width="3"/><text x="388" y="47" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-weight="700" font-size="20" fill="#ffffff">2</text></svg><div class="fig-cap">Bild 3 &middot; Zweimal dasselbe Rezept (¶ = Absatzmarke, · = Leerzeichen)</div></div>
+      <div class="auftrag"><p><span class="auftrag-no">Aufgabe 3</span> <b>Ordne zu:</b> Dokument 1 oder 2? a) Überschrift mit Leertasten verschoben. b) Fester Abstand zwischen Absätzen. c) Leere Zeilen als Trenner. d) Nummerierte Schritte. Schreib sie zuerst auf (Heft oder Miniwhiteboard), dann vergleiche.</p><details><summary>Lösung zeigen</summary><ol><li>a) 1</li><li>b) 2</li><li>c) 1</li><li>d) 2</li></ol></details></div>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.1</span> &nbsp;<b>Ordne zu:</b> Gehört das zu Dokument 1 oder Dokument 2?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Überschrift mit Leertasten verschoben</span><span class="chip-i">fester Abstand zwischen Absätzen</span><span class="chip-i">leere Zeilen als Trenner</span><span class="chip-i">nummerierte Schritte</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Dokument 1</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Dokument 2</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Überschrift mit Leertasten verschoben (1), fester Abstand zwischen Absätzen (2), leere Zeilen als Trenner (1), nummerierte Schritte (2)</button>
+            <button class="opt" data-hint="Die Pünktchen vor der Überschrift in Dokument 1 sind Leerzeichen.">Überschrift mit Leertasten verschoben (2), fester Abstand zwischen Absätzen (1), leere Zeilen als Trenner (1), nummerierte Schritte (2)</button>
+            <button class="opt" data-hint="Die ¶-Zeichen in Dokument 1 sind leere Zeilen.">Überschrift mit Leertasten verschoben (1), fester Abstand zwischen Absätzen (2), leere Zeilen als Trenner (2), nummerierte Schritte (2)</button>
+            <button class="opt" data-hint="In Dokument 2 sind die Abstände gleichmäßig, ohne leere Zeilen.">Überschrift mit Leertasten verschoben (1), fester Abstand zwischen Absätzen (1), leere Zeilen als Trenner (1), nummerierte Schritte (2)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Dokument 1 trickst, Dokument 2 nutzt Ausrichtung und Abstand.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.2</span> &nbsp;<b>Ergänze</b> die Sätze.</div>
+          <div class="qi"><div class="zeile">Statt Leertasten nutzt du die <span class="lk"><span class="n" style="background:#3675d8">1</span></span> .</div><div class="zeile">Statt leerer Zeilen stellst du den <span class="lk"><span class="n" style="background:#d16b2f">2</span></span> ein.</div><div class="zeile">Zeilenabstand 1,5 macht Text <span class="lk"><span class="n" style="background:#8e3bd2">3</span></span> .</div></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Ausrichtung (1), Abstand (2), luftiger (3)</button>
+            <button class="opt" data-hint="Die Rücktaste löscht. In die Mitte bringt dich der Knopf Zentriert.">Rücktaste (1), Abstand (2), luftiger (3)</button>
+            <button class="opt" data-hint="Der Rand ist der Abstand zum Papierrand. Zwischen Absätzen hilft der Absatzabstand.">Ausrichtung (1), Rand (2), luftiger (3)</button>
+            <button class="opt" data-hint="Mehr Zeilenabstand macht die Schrift nicht kleiner, sondern den Text luftiger.">Ausrichtung (1), Abstand (2), kleiner (3)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Ausrichtung und Abstand statt Tricks.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">3.3</span> &nbsp;<b>Entscheide:</b> Was macht eine Anleitung übersichtlich?</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Zwischenüberschriften</span></li><li><span class="n" style="background:#d16b2f">2</span><span>nummerierte Schritte</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>zehn leere Zeilen zwischen den Schritten</span></li><li><span class="n" style="background:#4eab65">4</span><span>alles zentriert</span></li><li><span class="n" style="background:#dd5b59">5</span><span>das Material als Aufzählung</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">1, 2, 5</button>
+            <button class="opt" data-hint="Leere Zeilen machen die Anleitung nur länger, nicht klarer.">1, 2, 3, 5</button>
+            <button class="opt" data-hint="Und das Material? Als Aufzählung sieht man sofort, was man braucht.">1, 2</button>
+            <button class="opt" data-hint="Zentrierte Schritte beginnen jede Zeile woanders. Das liest sich schwer.">2, 4, 5</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Stimmt: Überschriften, Nummern für Schritte, Punkte für Material.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Stark: Bild 3 komplett gelöst!</div>
+      </div>
     </section>
 
     <section class="block">
-      <h2><span class="dot"></span>Schritt f&uuml;r Schritt</h2>
-      <div class="todo">Hier kommt die Anleitung hin: die einzelnen Arbeitsschritte, gerne mit Screenshots.</div>
+      <h2><span class="dot"></span>Schritt für Schritt: Ordnung im Rezept</h2>
+      <p><span class="task-no">Aufgabe 4</span> Bring Ordnung in dein Rezept aus Stunde 11. Rezept nicht da? Tippe es nach dem Bild ab.</p>
+      <div class="fig"><svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bild 4" font-family="Nunito, Open Sans, sans-serif"><rect x="0" y="0" width="760" height="260" fill="#ffffff"/><rect x="14" y="10" width="732" height="240" rx="14" fill="#ffffff" stroke="#df3a53" stroke-width="2.6"/><path d="M15.5 50 V24 a12.5 12.5 0 0 1 12.5 -12.5 H732 a12.5 12.5 0 0 1 12.5 12.5 V50 z" fill="#ff5d73"/><text x="34" y="38" text-anchor="start" font-family="Fredoka, Open Sans, sans-serif" font-weight="800" font-size="20" fill="#ffffff">So soll es aussehen</text><text x="726" y="38" text-anchor="end" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="16" fill="#ffffff">zentriert · Liste · Nummern · rechts</text><text x="380" y="88" text-anchor="middle" font-family="Nunito, Open Sans, sans-serif" font-weight="900" font-size="30" fill="#df3a53">Pfannkuchen</text><text x="44" y="118" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="900" font-size="18" fill="#211a4d">Zutaten</text><circle cx="54" cy="136" r="4" fill="#211a4d"/><text x="66" y="142" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="16" fill="#211a4d">200 g Mehl</text><circle cx="54" cy="160" r="4" fill="#211a4d"/><text x="66" y="166" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="16" fill="#211a4d">2 Eier</text><circle cx="54" cy="184" r="4" fill="#211a4d"/><text x="66" y="190" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="16" fill="#211a4d">300 ml Hafermilch</text><text x="330" y="118" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="900" font-size="18" fill="#211a4d">So geht’s</text><text x="330" y="142" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="16" fill="#211a4d">1.</text><text x="352" y="142" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="16" fill="#211a4d">Verrühre alles zu einem Teig.</text><text x="330" y="166" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="16" fill="#211a4d">2.</text><text x="352" y="166" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="16" fill="#211a4d">Lass den Teig ruhen.</text><text x="330" y="190" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="700" font-size="16" fill="#211a4d">3.</text><text x="352" y="190" text-anchor="start" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="16" fill="#211a4d">Brate ihn goldbraun.</text><text x="716" y="232" text-anchor="end" font-family="Nunito, Open Sans, sans-serif" font-weight="500" font-size="16" fill="#211a4d" font-style="italic">Guten Appetit!</text></svg><div class="fig-cap">So soll dein Rezept am Ende aussehen</div></div>
+      <ol class="steps">
+        <li><b>Öffnen.</b> Dein Rezept <b>2026-11-24_ITG_Rezept_schoen</b> aus <b>Schule › ITG</b>.</li>
+        <li><b>Neuer Name.</b> Datei › Speichern unter: <b>2026-12-01_ITG_Rezept_geordnet</b>.</li>
+        <li><b>Zentrieren.</b> Klick in die Überschrift, dann Knopf <b>Zentriert</b> (Start › Absatz).</li>
+        <li><b>Zutaten tippen.</b> Unter die Überschrift: <i>Zutaten</i>, dann 200 g Mehl, 2 Eier, 300 ml Hafermilch, jede Zutat in eine eigene Zeile.</li>
+        <li><b>Aufzählung.</b> Zutaten markieren, Knopf <b>Aufzählungszeichen</b>.</li>
+        <li><b>Nummern.</b> Schreibe <i>So geht’s</i> über die drei Schritte. Schritte markieren, Knopf <b>Nummerierung</b>.</li>
+        <li><b>Leerzeilen weg.</b> Knopf ¶ zeigt die Absatzmarken. Lösche leere Zeilen mit der Rücktaste.</li>
+        <li><b>Abstand.</b> <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">A</span></span>, Knopf <b>Zeilen- und Absatzabstand</b>: 1,15.</li>
+        <li><b>Rechts.</b> „Guten Appetit!“ rechtsbündig. Dann <span style="white-space:nowrap"><span class="kbd">Strg</span> + <span class="kbd">S</span></span>.</li>
+      </ol>
+      <p class="muster"><b>In Google Docs</b> findest du dieselben Knöpfe in der Leiste: Ausrichtung, Zeilenabstand, Aufzählung und nummerierte Liste.</p>
+      <div class="merke-box"><b>Merke:</b> Die <b>Ausrichtung</b> gilt für den ganzen Absatz: Ein Klick hinein reicht. <b>Linksbündig</b> ist normal, <b>zentriert</b> passt für Überschriften, <b>Blocksatz</b> für Zeitungsspalten. Ist die Reihenfolge egal, nimm eine <b>Aufzählung</b>, zählt sie, eine <b>nummerierte Liste</b>. <b>Abstände</b> stellst du ein, statt leere Zeilen oder Leertasten zu tippen.</div>
     </section>
 
     <section class="block">
-      <h2><span class="dot"></span>&Uuml;bungsaufgaben</h2>
-      <div class="todo">Hier kommen die Aufgaben hin &mdash; mit klarer Differenzierung (Basis &middot; mittel &middot; knifflig).</div>
+      <h2><span class="dot"></span>Übungsaufgaben</h2>
+      <div class="task">
+        <span class="task-no">Aufgabe 5</span> <span class="chip basis">Basis</span>
+        <p>Welcher Knopf hilft? Wähle aus linksbündig, zentriert, Aufzählung und Nummerierung.</p><ul><li>Überschrift in die Mitte.</li><li>Einkaufsliste.</li><li>Bastelanleitung in Schritten.</li></ul>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Überschrift: zentriert.</li><li>Einkaufsliste: Aufzählung.</li><li>Bastelanleitung: Nummerierung.</li></ul></details>
+      </div>
+      <div class="task">
+        <span class="task-no">Aufgabe 6</span> <span class="chip mittel">mittel</span>
+        <p>Jemand drückt 12-mal die Leertaste, damit die Überschrift in der Mitte steht. Beschreibe, wie es besser geht, und begründe.</p>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>In die Überschrift klicken, Knopf Zentriert.</li><li>Leerzeichen verrutschen, sobald sich die Schrift, die Größe oder der Text ändert. Zentriert bleibt immer genau in der Mitte.</li></ul></details>
+      </div>
+      <div class="task">
+        <span class="task-no">Aufgabe 7</span> <span class="chip knifflig">knifflig</span>
+        <p>Jemand sagt: „Für eine Spielanleitung ist eine Aufzählung genauso gut wie eine nummerierte Liste.“ Beurteile das.</p>
+        <details class="fast-sol"><summary>Lösung zeigen</summary><ul><li>Das stimmt nicht. Bei Spielregeln zählt die Reihenfolge. Nummern zeigen sie, und man kann sagen: „Lies noch einmal Schritt 3.“ Für Material ist eine Aufzählung richtig.</li></ul></details>
+      </div>
     </section>
 
     <section class="block fast">
-      <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnelll&auml;ufer:innen-Mission</h2>
+      <h2><span class="rocket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14c-1.5 2-2 5-2 5s3-.5 5-2M8.5 15.5C7 12 9 6.5 15 4c3 0 5 2 5 5-2.5 6-8 8-11.5 6.5z"/><circle cx="14.5" cy="9.5" r="1.2"/></svg></span>Schnellläufer:innen-Mission</h2>
       <p class="fast-text">Verwandle einen Textblock in eine klar gegliederte Anleitung mit Listen und Zwischenüberschriften.</p>
+      <ul class="fast-list">
+        <li><b>Zwischenüberschriften:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Als Aufzählung:</b> <span class="fill">&nbsp;</span></li>
+        <li><b>Als nummerierte Liste:</b> <span class="fill">&nbsp;</span></li>
+      </ul>
+      <p class="fast-extra"><b>Vertiefung zur Wahl:</b> Ordne Absätze in der Werkstatt, entscheide Punkt oder Nummer oder jage Leerzeilen. <a href="12-vertiefung-absaetze-ordnen.html">Zur Vertiefung</a> (auch per QR-Code unten rechts auf Seite 2 des Aufgabenblatts).</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="dot"></span>Das kann ich jetzt: kurzer Check</h2>
+      <p>Drei Fragen zum Abschluss. Wieder gilt: <b style="color:var(--ok-dk)">grün</b> = richtig, <b style="color:var(--no-dk)">rot</b> = Tipp.</p>
+      <div class="quiz" data-quiz>
+        <div class="quiz-progress"><span class="pcount">0 / 3 richtig</span><span class="pbar"><span class="pfill"></span></span></div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.1</span> &nbsp;<b>Ordne zu:</b> Was hilft dir?</div>
+          <div class="qi"><div class="chips"><span class="chip-i">Die Überschrift soll in die Mitte.</span><span class="chip-i">Packliste für die Klassenfahrt</span><span class="chip-i">Der Text wirkt gequetscht.</span><span class="chip-i">Spielregeln Schritt für Schritt</span></div><ol><li><span class="n" style="background:#3675d8">1</span><span>Zeilenabstand</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Nummerierung</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Zentriert</span></li><li><span class="n" style="background:#4eab65">4</span><span>Aufzählung</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Die Überschrift soll in die Mitte. (3), Packliste für die Klassenfahrt (4), Der Text wirkt gequetscht. (1), Spielregeln Schritt für Schritt (2)</button>
+            <button class="opt" data-hint="Bei der Packliste ist die Reihenfolge egal, bei Spielregeln nicht.">Die Überschrift soll in die Mitte. (3), Packliste für die Klassenfahrt (2), Der Text wirkt gequetscht. (1), Spielregeln Schritt für Schritt (4)</button>
+            <button class="opt" data-hint="Der Zeilenabstand bringt Luft, Zentriert bringt Text in die Mitte.">Die Überschrift soll in die Mitte. (1), Packliste für die Klassenfahrt (4), Der Text wirkt gequetscht. (3), Spielregeln Schritt für Schritt (2)</button>
+            <button class="opt" data-hint="Gequetschter Text braucht mehr Abstand, keine Nummern.">Die Überschrift soll in die Mitte. (3), Packliste für die Klassenfahrt (4), Der Text wirkt gequetscht. (2), Spielregeln Schritt für Schritt (1)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Genau: Für jedes Problem gibt es das passende Werkzeug.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.2</span> &nbsp;<b>Ergänze</b> den Merksatz.</div>
+          <div class="qi"><div class="zeile">Die Ausrichtung gilt für den ganzen <span class="lk"><span class="n" style="background:#3675d8">1</span></span> .</div><div class="zeile">Reihenfolge egal: <span class="lk"><span class="n" style="background:#d16b2f">2</span></span> .</div><div class="zeile">Abstand statt <span class="lk"><span class="n" style="background:#8e3bd2">3</span></span> Zeilen.</div></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">Absatz (1), Aufzählung (2), leerer (3)</button>
+            <button class="opt" data-hint="Ein Klick irgendwo in den Absatz reicht: Es gilt für den ganzen Absatz.">Satz (1), Aufzählung (2), leerer (3)</button>
+            <button class="opt" data-hint="Nummern brauchst du, wenn die Reihenfolge zählt.">Absatz (1), Nummerierung (2), leerer (3)</button>
+            <button class="opt" data-hint="Leere Zeilen sind der Trick, den du dir abgewöhnst.">Absatz (1), Aufzählung (2), voller (3)</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: Absatz, Aufzählung, leerer.</div>
+        </div>
+        <div class="q">
+          <div class="q-text"><span class="qn">4.3</span> &nbsp;<b>Bring</b> die Schritte für eine nummerierte Liste in Docs in die richtige Reihenfolge.</div>
+          <div class="qi"><ol><li><span class="n" style="background:#3675d8">1</span><span>Knopf „Nummerierte Liste“ klicken.</span></li><li><span class="n" style="background:#d16b2f">2</span><span>Schritte untereinander tippen.</span></li><li><span class="n" style="background:#8e3bd2">3</span><span>Schritte markieren.</span></li><li><span class="n" style="background:#4eab65">4</span><span>Prüfen: 1., 2., 3. stehen davor.</span></li></ol></div>
+          <div class="opts">
+            <button class="opt" data-correct="true">2 – 3 – 1 – 4</button>
+            <button class="opt" data-hint="Markieren geht erst, wenn die Schritte dastehen.">3 – 2 – 1 – 4</button>
+            <button class="opt" data-hint="Der Knopf braucht vorher eine Markierung.">2 – 1 – 3 – 4</button>
+            <button class="opt" data-hint="Prüfen kommt zum Schluss.">2 – 3 – 4 – 1</button>
+          </div>
+          <div class="q-hint"></div><div class="q-done">Richtig: In Docs geht es wie in Word.</div>
+        </div>
+        <div class="quiz-solved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Perfekt: Deine Absätze stehen in Reih und Glied!</div>
+      </div>
     </section>
 
     <section class="block">
       <h2><span class="dot"></span>Das nehme ich mit</h2>
-      <div class="todo">Hier kommt der Merksatz / die Zusammenfassung hin.</div>
+      <div class="merk">
+        <p>Die <b>Ausrichtung</b> gilt für den ganzen Absatz: Ein Klick hinein reicht. <b>Linksbündig</b> ist normal, <b>zentriert</b> passt für Überschriften, <b>Blocksatz</b> für Zeitungsspalten. Ist die Reihenfolge egal, nimm eine <b>Aufzählung</b>, zählt sie, eine <b>nummerierte Liste</b>. <b>Abstände</b> stellst du ein, statt leere Zeilen oder Leertasten zu tippen.</p>
+        <div class="secret">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12c.5.5 1 1.2 1 2h6c0-.8.5-1.5 1-2a7 7 0 0 0-4-12z"/></svg>
+          <span>Merk&#8209;Trick: Leertasten und leere Zeilen sind wie Klebeband: Es hält kurz, aber beim ersten Wackeln fällt alles runter.</span>
+        </div>
+      </div>
     </section>
 
     <div class="selfcheck-wrap">
-      <span class="sc-label">Wie sicher f&uuml;hlst du dich nach dieser Stunde?</span>
+      <span class="sc-label">Wie sicher fühlst du dich nach dieser Stunde?</span>
       <div class="sc-stars" id="stars"></div>
       <span class="sc-feedback" id="fb"></span>
     </div>
@@ -182,9 +490,67 @@
 </div>
 
 <script>
+  /* ---------- Quiz-Engine ---------- */
+  (function(){
+    var LETTERS = ['A','B','C','D','E','F'];
+    var quizzes = document.querySelectorAll('[data-quiz]');
+    quizzes.forEach(function(quiz){
+      var questions = quiz.querySelectorAll('.q');
+      var total = questions.length;
+      var solved = 0;
+      var pcount = quiz.querySelector('.pcount');
+      var pfill = quiz.querySelector('.pfill');
+      var doneBox = quiz.querySelector('.quiz-solved');
+      function updateProgress(){
+        if (pcount) pcount.textContent = solved + ' / ' + total + ' richtig';
+        if (pfill) pfill.style.width = (total ? (solved/total*100) : 0) + '%';
+        if (doneBox && solved === total) doneBox.classList.add('show');
+      }
+      questions.forEach(function(q){
+        var optsContainer = q.querySelector('.opts');
+        var opts = Array.prototype.slice.call(q.querySelectorAll('.opt'));
+        for (var i = opts.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = opts[i]; opts[i] = opts[j]; opts[j] = tmp;
+        }
+        opts.forEach(function(opt){ optsContainer.appendChild(opt); });
+        var hint = q.querySelector('.q-hint');
+        var done = q.querySelector('.q-done');
+        var answered = false;
+        opts.forEach(function(opt, i){
+          var lett = document.createElement('span');
+          lett.className = 'lett';
+          lett.textContent = LETTERS[i];
+          opt.insertBefore(lett, opt.firstChild);
+          opt.addEventListener('click', function(){
+            if (answered) return;
+            if (opt.getAttribute('data-correct') === 'true') {
+              answered = true;
+              opt.classList.add('correct');
+              opts.forEach(function(o){ o.setAttribute('disabled','disabled'); });
+              if (hint) hint.classList.remove('show');
+              if (done) done.classList.add('show');
+              solved++;
+              updateProgress();
+            } else {
+              opt.classList.add('wrong');
+              opt.setAttribute('disabled','disabled');
+              if (hint) {
+                hint.textContent = opt.getAttribute('data-hint') || 'Nicht ganz — versuch es nochmal.';
+                hint.classList.add('show');
+              }
+            }
+          });
+        });
+      });
+      updateProgress();
+    });
+  })();
+
+  /* ---------- Selbsteinschätzung (Sterne, localStorage) ---------- */
   (function(){
     var key = 'itg_lp_12';
-    var msgs = {1:'Ganz frisch \u2014 \u00dcben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf \u2014 super!'};
+    var msgs = {1:'Ganz frisch — Üben hilft!',2:'Wird schon sicherer.',3:'Sitzt gut!',4:'Voll drauf — super!'};
     var svg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 18.9 6.1 21l1.2-6.5L2.5 9.9l6.6-.9z"/></svg>';
     var wrap = document.getElementById('stars'); var fb = document.getElementById('fb'); var stars = [];
     for (var n = 1; n <= 4; n++) { var b = document.createElement('button'); b.className = 'sc-star'; b.type = 'button'; b.innerHTML = svg; b.setAttribute('aria-label', 'Stufe ' + n); wrap.appendChild(b); stars.push(b); }

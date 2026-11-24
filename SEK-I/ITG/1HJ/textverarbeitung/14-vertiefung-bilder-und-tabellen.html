@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vertiefung · Bilder &amp; Tabellen einfügen · ITG Klasse 6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --key: #ff5d73; --edge: #df3a53; --tint: #ffe6ea; --ktext: #ffffff;
+    --ink: #211a4d; --ink-soft: #4f4880; --bg: #f1f0fb; --card: #fff;
+    --line: rgba(33,26,77,0.12); --sun: #ffc23d;
+    --ok: #39b56a; --ok-dk: #248049; --no: #e8607a; --no-dk: #b83a56;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--ink);
+    line-height: 1.65; padding-bottom: 2rem;
+    background-image:
+      linear-gradient(rgba(91,75,230,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(91,75,230,0.05) 1px, transparent 1px);
+    background-size: 26px 26px, 26px 26px;
+  }
+  ::selection { background: var(--sun); color: var(--ink); }
+  :focus-visible { outline: 3px solid var(--key); outline-offset: 3px; border-radius: 6px; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 5vw; }
+
+  .topbar { background: var(--key); }
+  .back {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    max-width: 860px; margin: 0 auto; padding: 0.7rem 5vw;
+    color: var(--ktext); text-decoration: none; font-weight: 700;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; letter-spacing: 0.06em;
+  }
+  .back:hover { text-decoration: underline; }
+
+  .lp-hero { padding: 2.4rem 0 1.8rem; }
+  .badges { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  .b-sjw, .b-unit {
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.68rem;
+    letter-spacing: 0.08em; padding: 0.28rem 0.65rem; border-radius: 999px;
+  }
+  .b-sjw { background: var(--key); color: var(--ktext); box-shadow: 0 3px 0 var(--edge); }
+  .b-unit { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+
+  .hero-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.1rem; }
+  .keycap {
+    font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 1.8rem;
+    color: var(--ktext); background: var(--key); box-shadow: 0 5px 0 var(--edge);
+    width: 62px; height: 62px; border-radius: 16px; display: grid; place-items: center; flex-shrink: 0;
+  }
+  h1 { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(1.5rem, 4.5vw, 2.3rem); line-height: 1.1; }
+
+  .goal { font-size: 1.06rem; margin-bottom: 0.9rem; }
+  .goal b { color: var(--key); }
+  .rlp { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); font-weight: 700; }
+  .rlp .tag { display: inline-block; background: #e7e5fb; padding: 0.06rem 0.42rem; border-radius: 6px; margin: 0 0.15rem 0.25rem 0; }
+  .rlp .tag.neu { background: var(--sun); color: var(--ink); }
+
+  .intro { font-size: 1.05rem; margin: 1.4rem 0 1.6rem; }
+  .intro .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+
+  .block { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 1.4rem 1.5rem; margin-bottom: 1.1rem; }
+  .block h2 {
+    font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 1.25rem;
+    display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem;
+  }
+  .block h2 .dot { width: 14px; height: 14px; border-radius: 5px; background: var(--key); box-shadow: 0 2px 0 var(--edge); flex-shrink: 0; }
+  .block p { margin-bottom: 0.6rem; }
+
+  /* figure */
+  .fig { background: var(--tint); border-radius: 14px; padding: 1rem; margin: 0.4rem 0 1rem; }
+  .fig svg { width: 100%; height: auto; display: block; }
+  .fig-cap { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); text-align: center; margin-top: 0.5rem; }
+
+  /* step list */
+  ol.steps { list-style: none; counter-reset: st; }
+  ol.steps li { counter-increment: st; position: relative; padding: 0.55rem 0 0.55rem 2.7rem; border-bottom: 1px dashed var(--line); }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li::before {
+    content: counter(st); position: absolute; left: 0; top: 0.5rem;
+    width: 30px; height: 30px; border-radius: 9px; background: var(--key); color: var(--ktext);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; box-shadow: 0 2px 0 var(--edge);
+  }
+  ol.steps b { color: var(--edge); }
+
+  /* exercises + diff chips */
+  .task { border: 1.5px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; margin-bottom: 0.8rem; }
+  .chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.66rem;
+    letter-spacing: 0.05em; padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.5rem; }
+  .chip.basis { background: #e2f6ea; color: var(--ok-dk); border: 1.5px solid var(--ok); }
+  .chip.mittel { background: var(--tint); color: var(--edge); border: 1.5px solid var(--key); }
+  .chip.knifflig { background: #fff3d1; color: #8a5a00; border: 1.5px solid var(--sun); }
+  .task ul { margin: 0.4rem 0 0 1.1rem; }
+  .task li { margin-bottom: 0.2rem; }
+
+  .block.fast { border-color: var(--sun); background: #fff7e2; }
+  .block.fast h2 { color: #8a5a00; }
+  .block.fast h2 .rocket { width: 22px; height: 22px; color: #8a5a00; }
+  .fast-text { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .fast-list { margin: 0.4rem 0 0.8rem 1.1rem; }
+  .fast-list li { margin-bottom: 0.3rem; }
+  .auftrag { border: 1.5px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0 0 0.9rem; background: #fff; }
+  .auftrag p { margin: 0; }
+  .auftrag-no, .task-no { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--edge); background: var(--tint); border-radius: 6px; padding: 0.1rem 0.45rem; margin-right: 0.2rem; }
+  .auftrag details, .fast-sol { margin-top: 0.5rem; }
+  .auftrag summary, .fast-sol summary { cursor: pointer; font-weight: 700; color: var(--edge); font-size: 0.92rem; }
+  .auftrag ol, .fast-sol ul { margin: 0.4rem 0 0 1.3rem; }
+  .fast-sol { margin-bottom: 0.8rem; }
+  .fill { display: inline-block; min-width: 10rem; border-bottom: 1.5px dotted currentColor; }
+  .merke-box { margin-top: 0.9rem; background: var(--tint); border-left: 6px solid var(--key); border-radius: 10px; padding: 0.7rem 0.9rem; }
+  .fast-extra { font-size: 0.95rem; font-weight: 600; background: #fff; border-radius: 10px; padding: 0.7rem 0.9rem; border: 1.5px dashed var(--sun); }
+
+  /* merksatz */
+  .merk { background: var(--tint); border: 2px solid var(--key); border-left: 8px solid var(--key); border-radius: 14px; padding: 1.1rem 1.3rem; }
+  .merk .hl { font-family: 'Fredoka', sans-serif; font-weight: 700; color: var(--edge); }
+  .merk b { color: var(--edge); }
+  .secret { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.9rem; padding: 0.7rem 0.9rem;
+    background: #fff7e2; border: 1.5px dashed var(--sun); border-radius: 10px; font-weight: 700; color: #8a5a00; font-size: 0.95rem; }
+  .secret svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  /* ---- QUIZ ENGINE ---- */
+  .quiz { margin-top: 0.4rem; }
+  .quiz-progress { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.74rem; color: var(--ink-soft); }
+  .pbar { flex: 1; height: 10px; background: #e7e5fb; border-radius: 999px; overflow: hidden; }
+  .pfill { height: 100%; width: 0; background: var(--ok); border-radius: 999px; transition: width 0.3s ease; }
+  .q { margin-bottom: 1.1rem; padding-bottom: 1.1rem; border-bottom: 1px dashed var(--line); }
+  .q:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .q-text { font-weight: 800; margin-bottom: 0.6rem; }
+  .q-text .qn { color: var(--edge); font-family: 'JetBrains Mono', monospace; }
+  .opts { display: grid; gap: 0.5rem; }
+  .opt {
+    display: flex; align-items: center; gap: 0.7rem; width: 100%; text-align: left;
+    font-family: 'Nunito', sans-serif; font-size: 0.98rem; font-weight: 700; color: var(--ink);
+    background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 0.6rem 0.8rem; cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .opt:hover:not([disabled]) { border-color: var(--key); transform: translateX(2px); }
+  .opt .lett { flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px; background: var(--tint); color: var(--edge);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; display: grid; place-items: center; font-size: 0.85rem; }
+  .opt.correct { border-color: var(--ok); background: #e9f8ef; }
+  .opt.correct .lett { background: var(--ok); color: #fff; }
+  .opt.wrong { border-color: var(--no); background: #fdecf0; }
+  .opt.wrong .lett { background: var(--no); color: #fff; }
+  .opt[disabled] { cursor: default; opacity: 0.75; }
+  .opt.correct[disabled], .opt.wrong[disabled] { opacity: 1; }
+  .q-hint { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--no-dk);
+    background: #fdecf0; border-radius: 9px; padding: 0.5rem 0.7rem; display: none; }
+  .q-hint.show { display: block; }
+  .q-done { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--ok-dk); display: none; }
+  .q-done.show { display: block; }
+  .quiz-solved { margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 12px; background: #e9f8ef;
+    border: 2px solid var(--ok); color: var(--ok-dk); font-family: 'Fredoka', sans-serif; font-weight: 600;
+    display: none; align-items: center; gap: 0.6rem; }
+  .quiz-solved.show { display: flex; }
+  .quiz-solved svg { width: 22px; height: 22px; flex-shrink: 0; }
+
+  .selfcheck-wrap {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem;
+    background: var(--tint); border-radius: 14px; padding: 1rem 1.2rem; margin: 1.4rem 0;
+  }
+  .sc-label { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 0.98rem; }
+  .sc-stars { display: flex; gap: 0.3rem; }
+  .sc-star { width: 30px; height: 30px; background: none; border: none; padding: 0; cursor: pointer; color: rgba(33,26,77,0.22); transition: transform 0.12s ease, color 0.12s ease; }
+  .sc-star svg { width: 100%; height: 100%; display: block; }
+  .sc-star:hover { transform: scale(1.18) rotate(-6deg); }
+  .sc-star.on { color: var(--sun); }
+  .sc-feedback { font-family: 'Fredoka', sans-serif; font-weight: 600; color: var(--edge); opacity: 0; transition: opacity 0.2s ease; }
+  .sc-feedback.show { opacity: 1; }
+
+  .lp-nav { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; margin-top: 1.6rem; flex-wrap: wrap; }
+  .lp-nav a, .lp-nav span.nav-empty {
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.78rem;
+    text-decoration: none; padding: 0.6rem 0.9rem; border-radius: 10px;
+  }
+  .nav-prev, .nav-next { background: var(--card); border: 2px solid var(--key); color: var(--edge); box-shadow: 0 3px 0 var(--edge); transition: transform 0.12s ease, box-shadow 0.12s ease; }
+  .nav-prev:hover, .nav-next:hover { transform: translateY(2px); box-shadow: 0 1px 0 var(--edge); }
+  .nav-over { background: var(--key); color: var(--ktext); box-shadow: 0 3px 0 var(--edge); }
+  .nav-empty { color: rgba(33,26,77,0.28); border: 2px dashed var(--line); }
+  .nav-next.locked { color: rgba(33,26,77,0.28); border: 2px dashed var(--line); background: transparent; box-shadow: none; cursor: default; pointer-events: none; }
+  .nav-next.locked:hover { transform: none; box-shadow: none; }
+
+  footer {
+    text-align: center; margin-top: 2rem; padding: 1.4rem 5vw 0;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); font-weight: 700;
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+</style>
+<style>
+  .qi { background: var(--tint); border-radius: 12px; padding: 0.6rem 0.75rem; margin: -0.2rem 0 0.7rem; font-weight: 700; }
+  .qi .n { display: inline-flex; align-items: center; justify-content: center; width: 1.55rem; height: 1.55rem; border-radius: 50%;
+           color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; flex: none; }
+  .qi ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+  .qi li { display: flex; gap: 0.5rem; align-items: center; }
+  .qi .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.2rem 0 0.45rem; }
+  .qi .chip-i { background: #fff; border: 2px solid var(--key); border-radius: 9px; padding: 0.15rem 0.55rem; display: inline-flex; gap: 0.35rem; align-items: center; }
+  .qi .lk { display: inline-flex; vertical-align: middle; border: 2px dashed var(--ink-soft); border-radius: 8px; padding: 0.05rem 0.4rem; margin: 0 0.15rem; }
+  .qi .zeile { margin: 0.25rem 0; }
+  .qi .txt { font-weight: 600; color: var(--ink-soft); margin-bottom: 0.3rem; }
+  .qi .boxes { color: var(--ink-soft); font-style: italic; margin-bottom: 0.3rem; }
+  .block.abgabe { border-color: var(--key); }
+  .abgabe .warn { background: #fdecf0; border-left: 6px solid var(--no); border-radius: 10px; padding: 0.6rem 0.85rem; margin: 0.2rem 0 0.9rem; color: var(--no-dk); font-weight: 600; }
+  .abgabe .txt-muster { font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; background: #fff; border: 1.5px solid var(--line); border-radius: 8px; padding: 0.5rem 0.7rem; margin: 0.4rem 0; overflow-wrap: anywhere; }
+  .abgabe .name-regel { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.92rem; background: var(--tint); border-radius: 10px; padding: 0.55rem 0.7rem; margin: 0.45rem 0 0.3rem; overflow-wrap: anywhere; }
+  .abgabe .nr-teil { background: #fff; border: 1.5px solid var(--key); border-radius: 6px; padding: 0.05rem 0.35rem; }
+  .abgabe .nr-teil.neu { background: var(--sun); border-color: #c8890a; }
+  .abgabe .name-bsp { font-weight: 700; margin-bottom: 0.3rem; }
+</style>
+<style>
+  .fig svg[aria-label="Bild 2"] { max-width: 460px; margin: 0 auto; }
+  .fig svg[aria-label="Bild 3"] { max-width: 600px; margin: 0 auto; }
+  .fig svg[aria-label="Bild 4"] { max-width: 620px; margin: 0 auto; }
+  .kbd { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.82em; font-weight: 700; background: #fff;
+         border: 1.5px solid var(--ink); border-bottom-width: 3px; border-radius: 6px; padding: 0 0.35em; white-space: nowrap; }
+  .abtipp { background: #fff; border: 2px dashed var(--key); border-radius: 12px; padding: 0.7rem 0.9rem; margin: 0.6rem 0; }
+  .abtipp p { margin: 0.1rem 0; }
+</style>
+<style>
+  .fig svg[aria-label="Bild 1"] { max-width: 760px; margin: 0 auto; }
+  .muster { background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.6rem 0.9rem; margin: 0.5rem 0; }
+</style>
+<style>
+  .wahl { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.6rem; margin: 0 0 1.2rem; }
+  .wahl a { display: block; background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.65rem 0.8rem; color: var(--ink); text-decoration: none; font-weight: 700; line-height: 1.25; }
+  .wahl a:hover, .wahl a:focus-visible { border-color: var(--key); }
+  .wahl small { display: block; font-weight: 600; color: var(--ink-soft); margin-top: 0.15rem; }
+  .vk { display: inline-block; font-family: 'JetBrains Mono', Menlo, monospace; font-weight: 700; background: var(--key); color: #fff; border-radius: 8px; padding: 0.05rem 0.45rem; margin-right: 0.35rem; }
+  .hinweis { background: #fff6e0; border-left: 4px solid #c8890a; border-radius: 0 10px 10px 0; padding: 0.55rem 0.8rem; color: #8a5a00; font-weight: 700; margin: 0.6rem 0; }
+  .auftragzeile { background: var(--tint); border-radius: 12px; padding: 0.6rem 0.85rem; font-weight: 800; margin: 0.5rem 0; }
+  .meldung { font-weight: 700; min-height: 1.6em; margin: 0.3rem 0; }
+  .meldung.ok { color: var(--ok-dk); }
+  .meldung.no { color: var(--no-dk); }
+  .knopf { padding: 0.4rem 0.8rem; border-radius: 8px; border: 2px solid var(--key); background: #fff; color: var(--edge); font: inherit; font-weight: 800; cursor: pointer; margin: 0.2rem 0.3rem 0.2rem 0; }
+  .kbd { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.85em; font-weight: 700; background: #fff; border: 1.5px solid var(--ink); border-bottom-width: 3px; border-radius: 6px; padding: 0 0.35em; white-space: nowrap; }
+  .sort { list-style: none; padding: 0; margin: 0.7rem 0 0; }
+  .sort li { background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.65rem 0.8rem; margin-bottom: 0.5rem; font-weight: 700; }
+  .sort .wk { display: flex; gap: 0.45rem; flex-wrap: wrap; margin-top: 0.4rem; }
+  .sort button { padding: 0.35rem 0.7rem; border-radius: 8px; border: 2px solid var(--tint); background: #fff; color: var(--ink); font: inherit; font-size: 0.92rem; font-weight: 700; cursor: pointer; }
+  .sort li.ok { border-color: var(--ok); }
+  .sort li.no { border-color: var(--no); }
+  .sort p { margin: 0.4rem 0 0; font-weight: 600; font-size: 0.93rem; }
+  .werkstatt { background: #fff; border: 2px solid var(--tint); border-radius: 12px; overflow: hidden; margin: 0.5rem 0; }
+  .leiste { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; background: #f4f3fa; border-bottom: 2px solid var(--tint); padding: 0.45rem 0.6rem; }
+  .leiste button, .leiste select { font: inherit; font-weight: 800; min-width: 2.3rem; height: 2.2rem; border-radius: 7px; border: 1.5px solid #c9c6e0; background: #fff; color: var(--ink); cursor: pointer; }
+  .leiste .trenn { width: 1px; height: 1.6rem; background: #c9c6e0; margin: 0 0.2rem; }
+  .blatt { padding: 0.9rem 1.1rem; font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 1.55; color: #222; outline: none; min-height: 9rem; }
+  .blatt p { margin: 0.2rem 0; }
+  .check { list-style: none; padding: 0; margin: 0.6rem 0 0; }
+  .check li { padding: 0.3rem 0 0.3rem 1.8rem; position: relative; font-weight: 700; }
+  .check li::before { content: ""; position: absolute; left: 0.2rem; top: 0.45rem; width: 1rem; height: 1rem; border-radius: 4px; border: 2px solid #c9c6e0; background: #fff; }
+  .check li.ok { color: var(--ok-dk); }
+  .check li.ok::before { background: var(--ok); border-color: var(--ok); }
+
+  .gitter { border-collapse: collapse; margin: 0.5rem auto; }
+  .gitter td, .gitter th { width: 3rem; height: 2.2rem; border: 2px solid var(--ink); text-align: center; font-weight: 800; }
+  .gitter th { background: var(--tint); }
+  .gitter td { background: #fff; cursor: pointer; }
+  .gitter td.ok { background: #c9f0dc; }
+  .gitter td.no { background: #ffd6dc; }
+  .labor { background: #fff; border: 2px solid var(--tint); border-radius: 12px; padding: 0.8rem; font-family: Arial, Helvetica, sans-serif; line-height: 1.5; min-height: 12rem; position: relative; overflow: hidden; }
+  .labor img { width: 120px; height: 90px; border-radius: 6px; }
+  .bildbox { background: #fff6e0; border: 2px solid var(--tint); border-radius: 12px; height: 220px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .regler { display: grid; grid-template-columns: 6rem 1fr 3rem; gap: 0.4rem; align-items: center; margin: 0.3rem 0; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="back" href="14bilder-und-tabellen-einfuegen.html">&#8592; Zur&uuml;ck zum Lernpfad 14</a>
+</div>
+
+<div class="wrap">
+  <header class="lp-hero">
+    <div class="badges">
+      <span class="b-sjw">Vertiefung zur Wahl</span>
+      <span class="b-unit">Einheit 03 · Textverarbeitung</span>
+    </div>
+    <div class="hero-row">
+      <div class="keycap">14</div>
+      <h1>Bilder &amp; Tabellen einfügen: Weiterüben</h1>
+    </div>
+    <p class="goal"><b>So geht’s:</b> Du hast dein Aufgabenblatt fertig? Such dir aus, was dich interessiert. Du musst nicht alles machen.</p>
+  </header>
+
+  <main>
+    <nav class="wahl" aria-label="Angebote">
+      <a href="#v1">V1 · Zellen-Finder<small>Zeile und Spalte treffen</small></a>
+      <a href="#v2">V2 · Umbruch-Labor<small>Bild und Text ausprobieren</small></a>
+      <a href="#v3">V3 · Verzerrt oder nicht?<small>Ecke oder Seite</small></a>
+    </nav>
+
+    <section class="block" id="v1">
+      <h2><span class="vk">V1</span>Zellen-Finder</h2>
+      <p>Klicke auf die Zelle, die gesucht wird. Zeilen zählst du von oben, Spalten von links. Acht Runden!</p>
+      <div class="auftragzeile" id="g-auftrag" aria-live="polite"></div>
+      <table class="gitter" id="g-tab"></table>
+      <p class="meldung" id="g-meldung" aria-live="polite"></p>
+    </section>
+
+    <section class="block" id="v2">
+      <h2><span class="vk">V2</span>Umbruch-Labor</h2>
+      <p>Probiere die Textumbrüche aus. Dann entscheide unten, welcher Umbruch passt.</p>
+      <div class="leiste" role="toolbar" aria-label="Textumbruch" style="border-radius:12px 12px 0 0;border:2px solid var(--tint);border-bottom:0">
+        <button type="button" data-u="zeile">Mit Text in Zeile</button>
+        <button type="button" data-u="quadrat">Quadratisch</button>
+        <button type="button" data-u="obenunten">Oben und unten</button>
+        <button type="button" data-u="hinter">Hinter den Text</button>
+      </div>
+      <div class="labor" id="u-labor"><img id="u-bild" src="bilder/14-pfannkuchen.png" alt="Pfannkuchen">Verrühre Mehl, Eier und Hafermilch zu einem glatten Teig. Lass den Teig zehn Minuten ruhen. Erhitze etwas Öl in der Pfanne und brate die Pfannkuchen von beiden Seiten goldbraun. Mit Beeren oder Apfelmus schmecken sie besonders gut. Guten Appetit!</div>
+      <ul class="sort" id="s-liste"></ul>
+      <p class="meldung ok" id="s-fertig" aria-live="polite"></p>
+    </section>
+
+    <section class="block" id="v3">
+      <h2><span class="vk">V3</span>Verzerrt oder nicht?</h2>
+      <p>Mach das Bild genau halb so breit (150 px), ohne dass es verzerrt. Tipp: An der Ecke ziehen heißt Seitenverhältnis sperren.</p>
+      <label><input type="checkbox" id="v-ecke"> an der Ecke ziehen (Seitenverhältnis sperren)</label>
+      <div class="regler"><span>Breite</span><input type="range" id="v-b" min="60" max="300" value="300"><span id="v-bw">300</span></div>
+      <div class="regler"><span>Höhe</span><input type="range" id="v-h" min="45" max="225" value="225"><span id="v-hw">225</span></div>
+      <div class="bildbox"><img id="v-bild" src="bilder/14-pfannkuchen.png" alt="Pfannkuchen" style="width:300px;height:225px"></div>
+      <p class="meldung" id="v-meldung" aria-live="polite"></p>
+    </section>
+
+    <nav class="lp-nav">
+      <a class="nav-prev" href="14bilder-und-tabellen-einfuegen.html">&#8592; Lernpfad 14</a>
+      <a class="nav-over" href="../../itg-kursuebersicht.html">&#8801; Kurs&uuml;bersicht</a>
+    </nav>
+  </main>
+
+  <footer>ITG &middot; Klasse 6 &middot; Schuljahr 2026/27 &middot; Einheit 03 · Textverarbeitung</footer>
+</div>
+
+<script>
+(function () {
+
+  function sortierSpiel(listeId, fertigId, saetze, knoepfe, fazit) {
+    var wl = document.getElementById(listeId), fertig = 0;
+    saetze.forEach(function (d) {
+      var li = document.createElement('li');
+      li.appendChild(document.createTextNode(d[0]));
+      var wk = document.createElement('div'); wk.className = 'wk';
+      var antwort = document.createElement('p');
+      knoepfe.forEach(function (w) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.textContent = w[0];
+        b.addEventListener('click', function () {
+          var richtig = w[1] === d[1];
+          if (!li.dataset.fertig) { li.dataset.fertig = '1'; fertig++; }
+          li.classList.toggle('ok', richtig); li.classList.toggle('no', !richtig);
+          antwort.textContent = (richtig ? 'Richtig. ' : 'Schau noch einmal. ') + d[2];
+          if (fertig === saetze.length) document.getElementById(fertigId).textContent = fazit;
+        });
+        wk.appendChild(b);
+      });
+      li.appendChild(wk); li.appendChild(antwort); wl.appendChild(li);
+    });
+  }
+
+
+  /* ---------- V1 Zellen-Finder ---------- */
+  var tab = document.getElementById('g-tab'), Z = 5, S = 4, ziel = null, runde = 0, treffer = 0;
+  var kopf = '<tr><th></th>'; for (var j = 1; j <= S; j++) kopf += '<th>Sp. ' + j + '</th>'; tab.innerHTML = kopf + '</tr>';
+  for (var i = 1; i <= Z; i++) {
+    var tr = document.createElement('tr'); tr.innerHTML = '<th>Z. ' + i + '</th>';
+    for (var j2 = 1; j2 <= S; j2++) {
+      (function (zi, sp) {
+        var td = document.createElement('td'); td.setAttribute('aria-label', 'Zeile ' + zi + ', Spalte ' + sp);
+        td.addEventListener('click', function () { klick(zi, sp, td); }); tr.appendChild(td);
+      })(i, j2);
+    }
+    tab.appendChild(tr);
+  }
+  function neu() {
+    tab.querySelectorAll('td').forEach(function (t) { t.className = ''; });
+    if (runde >= 8) { document.getElementById('g-auftrag').textContent = treffer + ' von 8 richtig. Klicke eine Zelle für eine neue Runde.'; runde = 0; treffer = 0; ziel = null; return; }
+    ziel = [1 + Math.floor(Math.random() * Z), 1 + Math.floor(Math.random() * S)];
+    document.getElementById('g-auftrag').textContent = 'Runde ' + (runde + 1) + ': Klicke die Zelle in Zeile ' + ziel[0] + ', Spalte ' + ziel[1] + '.';
+  }
+  function klick(zi, sp, td) {
+    var gm = document.getElementById('g-meldung');
+    if (!ziel) { gm.textContent = ''; neu(); return; }
+    runde++;
+    if (zi === ziel[0] && sp === ziel[1]) { treffer++; td.className = 'ok'; gm.className = 'meldung ok'; gm.textContent = 'Treffer!'; }
+    else { td.className = 'no'; gm.className = 'meldung no'; gm.textContent = 'Das war Zeile ' + zi + ', Spalte ' + sp + '. Zeilen gehen waagerecht, Spalten senkrecht.'; }
+    setTimeout(neu, 700);
+  }
+  neu();
+
+  /* ---------- V2 Umbruch-Labor ---------- */
+  var bild = document.getElementById('u-bild');
+  var STIL = {
+    zeile: 'float:none;display:inline;vertical-align:baseline;position:static;opacity:1;margin:0 0.3rem',
+    quadrat: 'float:right;display:block;position:static;opacity:1;margin:0 0 0.4rem 0.8rem',
+    obenunten: 'float:none;display:block;position:static;opacity:1;margin:0.4rem auto',
+    hinter: 'float:none;display:block;position:absolute;right:1rem;top:1.5rem;opacity:0.35;margin:0;z-index:0'
+  };
+  document.querySelectorAll('[data-u]').forEach(function (b) {
+    b.addEventListener('click', function () { bild.style.cssText = 'width:120px;height:90px;border-radius:6px;' + STIL[b.dataset.u]; });
+  });
+  bild.style.cssText = 'width:120px;height:90px;border-radius:6px;' + STIL.zeile;
+  sortierSpiel('s-liste', 's-fertig', [
+    ['Ein Foto neben dem Rezepttext', 'q', 'Quadratisch: Der Text fließt am Bild entlang.'],
+    ['Ein Wasserzeichen „Entwurf“ unter dem Text', 'h', 'Hinter den Text: Das Bild liegt blass dahinter.'],
+    ['Ein breites Panoramabild über die ganze Seite', 'o', 'Oben und unten: Daneben wäre ohnehin kein Platz.'],
+    ['Ein kleines Symbol mitten im Satz', 'z', 'Mit Text in Zeile: Es steht wie ein Buchstabe im Satz.']
+  ], [['Mit Text in Zeile', 'z'], ['Quadratisch', 'q'], ['Oben und unten', 'o'], ['Hinter den Text', 'h']], 'Geschafft: Für jede Lage gibt es den passenden Umbruch.');
+
+  /* ---------- V3 Verzerrt oder nicht? ---------- */
+  var vb = document.getElementById('v-b'), vh = document.getElementById('v-h'), ecke = document.getElementById('v-ecke'), vi = document.getElementById('v-bild');
+  function zeig(von) {
+    if (ecke.checked) { if (von === 'b') vh.value = Math.round(vb.value * 0.75); else vb.value = Math.round(vh.value / 0.75); }
+    vi.style.width = vb.value + 'px'; vi.style.height = vh.value + 'px';
+    document.getElementById('v-bw').textContent = vb.value; document.getElementById('v-hw').textContent = vh.value;
+    var verh = vh.value / vb.value, vm = document.getElementById('v-meldung'), unverzerrt = Math.abs(verh - 0.75) < 0.02;
+    if (+vb.value === 150 && unverzerrt) { vm.className = 'meldung ok'; vm.textContent = 'Perfekt: halb so groß und nicht verzerrt.'; }
+    else if (!unverzerrt) { vm.className = 'meldung no'; vm.textContent = 'Das Bild ist verzerrt! Ziehe an der Ecke, dann passt die Höhe von selbst.'; }
+    else { vm.className = 'meldung'; vm.textContent = 'Nicht verzerrt. Breite jetzt: ' + vb.value + ' px.'; }
+  }
+  vb.addEventListener('input', function () { zeig('b'); }); vh.addEventListener('input', function () { zeig('h'); });
+  zeig('b');
+
+})();
+</script>
+</body>
+</html>
